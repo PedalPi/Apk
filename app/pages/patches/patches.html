@@ -1,0 +1,19 @@
+<ion-navbar *navbar>
+  <ion-title>
+    Bank name
+  </ion-title>
+  <ion-buttons start>
+    <button royal (click)="createPatch()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-navbar>
+
+<ion-content class="patches">
+  <ion-list no-lines>
+    <ion-item *ngFor="let item of items" (click)="itemSelected(item)">
+      <ion-icon item-left><img src="img/patch.svg" /></ion-icon>
+      {{item.title}}
+    </ion-item>
+  </ion-list>
+</ion-content>

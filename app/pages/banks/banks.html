@@ -1,0 +1,27 @@
+<ion-navbar *navbar>
+  <ion-title>
+    Banks
+  </ion-title>
+  <ion-buttons start>
+    <button royal (click)="createBank()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-navbar>
+
+<ion-content class="banks">
+  <ion-list no-lines>
+    <ion-item (click)="itemSelected(item)">
+      <ion-icon name="folder" item-left></ion-icon>
+       Shows
+    </ion-item>
+    <ion-item (click)="itemSelected(item)">
+      <ion-icon name="folder" item-left></ion-icon>
+      Church
+    </ion-item>
+    <ion-item (click)="itemSelected(item)">
+      <ion-icon name="folder" item-left></ion-icon>
+      Rock n'roll
+    </ion-item>
+  </ion-list>
+</ion-content>

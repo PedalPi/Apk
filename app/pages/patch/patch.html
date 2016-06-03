@@ -1,0 +1,23 @@
+<ion-navbar *navbar>
+  <ion-title>
+    {{patch.title}}
+  </ion-title>
+</ion-navbar>
+
+<ion-content class="patch">
+  ads
+  <!--<effect-tabs></effect-tabs>-->
+  <my-component></my-component>
+  asd
+  <progress min="0" max="100" value="25"></progress>
+
+  <ion-label>Gaming</ion-label>
+    <ion-select [(ngModel)]="gaming">
+      <ion-option value="nes">NES</ion-option>
+      <ion-option value="n64">Nintendo64</ion-option>
+      <ion-option checked="true" value="ps">PlayStation</ion-option>
+      <ion-option value="genesis">Sega Genesis</ion-option>
+      <ion-option value="saturn">Sega Saturn</ion-option>
+      <ion-option value="snes">SNES</ion-option>
+    </ion-select>
+</ion-content>

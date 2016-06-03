@@ -1,0 +1,26 @@
+<ion-navbar *navbar>
+  <ion-title>
+    Início
+  </ion-title>
+</ion-navbar>
+
+<ion-content class="home">
+  <ion-list no-lines>
+    <ion-item id="PedalPi" (click)="goToPedalPi(repo)">
+      <ion-icon item-left><img src="img/raspberry_pi.png" /></ion-icon>
+       PedalPi
+    </ion-item>
+    <ion-item  id="Local">
+      <ion-icon item-left><img src="img/local-folder.svg" /></ion-icon>
+      Local
+    </ion-item>
+    <ion-item id="CurrentPatch">
+      <ion-icon item-left><img src="img/patch.svg" /></ion-icon>
+      Current Patch
+    </ion-item>
+    <ion-item  id="Configurations">
+      <ion-icon item-left><img src="img/configurations.svg" /></ion-icon>
+      Configurations
+    </ion-item>
+  </ion-list>
+</ion-content>
