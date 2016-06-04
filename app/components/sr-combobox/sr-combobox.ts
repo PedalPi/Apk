@@ -7,8 +7,11 @@ import {Component} from '@angular/core';
   directives: [IONIC_DIRECTIVES]
 })
 export class SrCombobox {
+  public selected : String;
+  public parameter : Object;
+
   constructor() {
-    this.option = 'asd';
+    this.selected = 'asd';
     this.parameter = {
       name: 'Parameter name',
       options: [{

@@ -6,17 +6,13 @@ import {JsonService} from './service/json'
 
 @App({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
-  config: {}, // http://ionicframework.com/docs/v2/api/config/Config/,
+  config: {}, // http://ionicframework.com/docs/v2/api/config/Config/
   providers: [JsonService]
 })
 export class MyApp {
-  static get parameters() {
-    return [[Platform]];
-  }
+  rootPage: any = HomePage;
 
-  constructor(platform) {
-    this.rootPage = HomePage;
-
+  constructor(platform: Platform) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

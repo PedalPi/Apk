@@ -6,11 +6,10 @@ import {BanksPage} from '../banks/banks';
   templateUrl: 'build/pages/home/home.html'
 })
 export class HomePage {
-  static get parameters() {
-    return [[NavController], [NavParams]];
-  }
+  nav : NavController;
+  navParams : NavParams;
 
-  constructor(nav, navParams) {
+  constructor(nav : NavController, navParams : NavParams) {
     this.nav = nav;
     this.navParams = navParams;
   }

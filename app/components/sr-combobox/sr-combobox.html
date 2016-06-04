@@ -4,7 +4,7 @@
   <ion-grid>
     <ion-row>
       <ion-col width-75>
-        <ion-select id="select" [(ngModel)]="option">
+        <ion-select id="select" [(ngModel)]="selected">
           <ion-option *ngFor="let option of parameter.options" [value]="option.value">{{option.name}}</ion-option>
         </ion-select>
       </ion-col>

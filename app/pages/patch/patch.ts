@@ -1,8 +1,6 @@
 import {Page, NavController, NavParams, Alert, IONIC_DIRECTIVES} from 'ionic-angular';
 import {Component} from '@angular/core';
 
-import {EffectTab} from '../effect/effect';
-import {HomePage} from '../home/home';
 import {SrSlider} from '../../components/sr-slider/sr-slider';
 import {SrCombobox} from '../../components/sr-combobox/sr-combobox';
 
@@ -11,11 +9,12 @@ import {SrCombobox} from '../../components/sr-combobox/sr-combobox';
   directives: [SrSlider, SrCombobox]
 })
 export class PatchPage {
-  static get parameters() {
-    return [[NavController], [NavParams]];
-  }
+  private nav : NavController;
+  private params : NavParams;
+  public patch : Object;
+  public parameter : Object;
 
-  constructor(nav, params) {
+  constructor(nav : NavController, params : NavParams) {
     this.nav = nav;
     this.patch = params.get('patch');
 
@@ -25,8 +24,6 @@ export class PatchPage {
       max: 100,
       current: 55
     };
-
-    this.tab1Root = PatchPage;
   }
 
   chat() {

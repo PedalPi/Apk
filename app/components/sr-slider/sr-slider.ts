@@ -1,11 +1,12 @@
-import {Component} from '@angular/core';
+import {Input, Component} from '@angular/core';
 
 @Component({
   selector: 'sr-slider',
-  inputs: ['parameter'],
   templateUrl: 'build/components/sr-slider/sr-slider.html'
 })
 export class SrSlider {
+  @Input() parameter : Object;
+
   constructor() {
     this.parameter = {
       name: 'Name',

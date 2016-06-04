@@ -7,11 +7,11 @@ import {AlertCommon} from '../../common/alert';
   templateUrl: 'build/pages/patches/patches.html'
 })
 export class PatchesPage {
-  static get parameters() {
-    return [[NavController], [NavParams]];
-  }
+  private nav : NavController;
+  private params : NavParams;
+  public bank : Object;
 
-  constructor(nav, params) {
+  constructor(nav : NavController, params : NavParams) {
     this.nav = nav;
     //this.bank = params.get('bank');
     this.bank = {
