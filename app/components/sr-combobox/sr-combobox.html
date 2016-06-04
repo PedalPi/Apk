@@ -1,0 +1,23 @@
+<div id="sr-combobox">
+  <ion-label id="name">{{parameter.name}}</ion-label>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col width-75>
+        <ion-select id="select" [(ngModel)]="option">
+          <ion-option *ngFor="let option of parameter.options" [value]="option.value">{{option.name}}</ion-option>
+        </ion-select>
+      </ion-col>
+
+      <ion-col width-25>
+        <button class="button">
+          <ion-icon name="arrow-back"></ion-icon>
+        </button>
+
+        <button class="button">
+          <ion-icon name="arrow-forward"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>

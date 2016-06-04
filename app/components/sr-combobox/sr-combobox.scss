@@ -1,0 +1,42 @@
+sr-combobox {
+  font-weight: 100;
+  padding: 20px 20px 0px;
+  display: block;
+  color: #808080;
+
+  #name {
+    font-size: 20px;
+    display: block;
+    padding-bottom: 12px;
+  }
+
+  ion-grid, ion-row {
+    padding: 0;
+  }
+
+  ion-select {
+    max-width: initial;
+    font-size: 1.2em;
+    color: #808080;
+    border-bottom: 1px solid #ddd;
+  }
+
+  /* fix */
+  ion-select button {
+    display: none;
+  }
+
+  ion-select .button-inner {
+    width: 0;
+  }
+
+  .button {
+    background-color: #efefef;
+    color: #808080;
+    height: 4rem;
+  }
+
+  .button:hover {
+    background-color: #dedede !important;
+  }
+}

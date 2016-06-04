@@ -1,3 +1,43 @@
 .patch {
-  
+
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+
+  background-color: #fafafa;
+  column-rule: #434343;
+
+  ion-col {
+    text-align: center;
+  }
+
+  ion-icon {
+    padding: 10px 0;
+    font-size: 4rem;
+    width: 5rem;
+    text-align: center;
+  }
+
+  .label {
+    display: block;
+    padding-bottom: 5px;
+    color: #808080;
+  }
+
+  #connections {
+    background-color: rgba(0, 0, 0, .04);
+    color: #a0a0a0;
+  }
+
+  #connections ion-icon {
+    color: #a0a0a0 !important;
+    padding: 5px 0 0;
+  }
+}
+
+ion-grid, ion-col {
+  margin: 0;
+  padding: 0;
 }

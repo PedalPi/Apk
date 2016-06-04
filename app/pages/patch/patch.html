@@ -1,23 +1,31 @@
 <ion-navbar *navbar>
   <ion-title>
-    {{patch.title}}
+    2 - {{patch.name}}
   </ion-title>
 </ion-navbar>
 
 <ion-content class="patch">
-  ads
-  <!--<effect-tabs></effect-tabs>-->
-  <my-component></my-component>
-  asd
-  <progress min="0" max="100" value="25"></progress>
+  <sr-slider [parameter]="parameter" *ngFor="let parameter of patch.effects[0].params"></sr-slider>
+  <sr-combobox></sr-combobox>
 
-  <ion-label>Gaming</ion-label>
-    <ion-select [(ngModel)]="gaming">
-      <ion-option value="nes">NES</ion-option>
-      <ion-option value="n64">Nintendo64</ion-option>
-      <ion-option checked="true" value="ps">PlayStation</ion-option>
-      <ion-option value="genesis">Sega Genesis</ion-option>
-      <ion-option value="saturn">Sega Saturn</ion-option>
-      <ion-option value="snes">SNES</ion-option>
-    </ion-select>
+  <ion-grid id="footer">
+    <ion-row>
+      <ion-col width-25>
+        <ion-icon name="arrow-back"></ion-icon>
+        <span class="label">1 - Igreja</span>
+      </ion-col>
+
+      <ion-col width-50 id="connections">
+        <ion-icon center>
+          <img src="img/conection-plug.svg" />
+        </ion-icon>
+        <span class="label">Connections</span>
+      </ion-col>
+
+      <ion-col width-25>
+        <ion-icon name="arrow-forward"></ion-icon>
+        <span class="label">3 - Geral</span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

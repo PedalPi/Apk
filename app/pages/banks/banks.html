@@ -11,17 +11,9 @@
 
 <ion-content class="banks">
   <ion-list no-lines>
-    <ion-item (click)="itemSelected(item)">
+    <ion-item *ngFor="let bank of banks" (click)="itemSelected(bank)">
       <ion-icon name="folder" item-left></ion-icon>
-       Shows
-    </ion-item>
-    <ion-item (click)="itemSelected(item)">
-      <ion-icon name="folder" item-left></ion-icon>
-      Church
-    </ion-item>
-    <ion-item (click)="itemSelected(item)">
-      <ion-icon name="folder" item-left></ion-icon>
-      Rock n'roll
+       {{bank.name}}
     </ion-item>
   </ion-list>
 </ion-content>
