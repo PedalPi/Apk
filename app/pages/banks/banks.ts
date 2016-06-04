@@ -38,7 +38,6 @@ export class BanksPage {
   onContextBank(event, bank) {
     const contextMenu = ActionSheet.create({
       title: bank.name,
-      subTitle: 'Macarronada',
       cssClass: 'context',
       buttons: [{
           text: 'Remove',
