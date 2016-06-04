@@ -5,9 +5,9 @@
     min="{{parameter.min}}" max="{{parameter.max}}" value="{{parameter.current}}"
     step="1" [(ngModel)]="parameter.current" />
 
-  <output id="current" for="volume">{{parameter.current}}</output>
+  <output id="current" for="volume">{{parameter.current}}{{parameter.unit}}</output>
   <div id="interval">
-    <output id="max" for="volume">{{parameter.max}}</output> -
-    <output id="min" for="volume">{{parameter.min}}</output>
+    <output id="min" for="volume">{{parameter.min}}</output> -
+    <output id="max" for="volume">{{parameter.max}}{{parameter.unit}}</output>
   </div>
 </div>

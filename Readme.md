@@ -6,6 +6,6 @@ It's a work in progress project to manager the patch and effects
 
 ![Banks page](www/img/pages/Banks.png)
 
-![Patches page](www/img/pages/Pathes.png)
+![Patches page](www/img/pages/Patches.png)
 
 ![Patch page](www/img/pages/Patch.png)

@@ -1,0 +1,23 @@
+sr-tabs {
+  display: block;
+  margin-top: -1px;
+
+  ul {
+    background-color: $toolbar-background;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: inline-block;
+  }
+
+  li.active {
+    border-bottom: 3px solid white;
+    height: 44px;
+  }
+
+  li button {
+    color: white !important;
+  }
+}

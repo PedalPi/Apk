@@ -12,7 +12,8 @@ export class SrSlider {
       name: 'Name',
       min: 0,
       max: 0,
-      current: 0
+      current: 0,
+      unit: ''
     };
   }
 }

@@ -46,17 +46,24 @@ export class PatchesPage {
                         "company": "Guitarix",
                         "params": [
                             {
-                                "name": "ratio",
-                                "min": 0,
+                                "name": "speed",
+                                "min": 5,
                                 "max": 10,
-                                "current": 5
+                                "current": 7
                             },
                             {
-                                "name": "volume",
-                                "min": 0,
+                                "name": "drive",
+                                "min": 50,
                                 "max": 100,
-                                "current": 5,
+                                "current": 57,
                                 "unit": "%"
+                            },
+                            {
+                                "name": "gain",
+                                "min": -50,
+                                "max": 50,
+                                "current": 0,
+                                "unit": "db"
                             }
                         ],
                         "active" : true

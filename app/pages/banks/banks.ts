@@ -3,11 +3,9 @@ import {PatchesPage} from '../patches/patches';
 
 import {JsonService} from '../../service/json';
 import {AlertCommon} from '../../common/alert';
-import {LongPressDirective} from '../../directives/longPress.directive';
 
 @Page({
-  templateUrl: 'build/pages/banks/banks.html',
-  directives: [LongPressDirective]
+  templateUrl: 'build/pages/banks/banks.html'
 })
 export class BanksPage {
   nav : NavController;
@@ -35,15 +33,22 @@ export class BanksPage {
     this.nav.present(alert);
   }
 
-  onContextBank(event, bank) {
+  onContextBank(bank) {
     const contextMenu = ActionSheet.create({
       title: bank.name,
       cssClass: 'context',
       buttons: [{
+          text: 'Reorder',
+          handler: () => {
+            console.log('Beta 2.10 https://github.com/driftyco/ionic/issues/5595');
+            console.log('http://codepen.io/leoz/pen/MwYxmj');
+          }
+        }, {
           text: 'Remove',
           role: 'destructive',
           handler: () => {
             console.log('Destructive clicked');
+            console.log('https://github.com/driftyco/ionic/issues/5073');
           }
         }, {
           text: 'Rename',

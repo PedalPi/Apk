@@ -11,7 +11,7 @@
 
 <ion-content class="banks">
   <ion-list no-lines>
-    <ion-item *ngFor="let bank of banks" (click)="itemSelected(bank)" longPress (onLongPress)="onContextBank($event, bank)">
+    <ion-item *ngFor="let bank of banks" (click)="itemSelected(bank)" (press)="onContextBank(bank)">
       <ion-icon name="folder" item-left></ion-icon>
        {{bank.name}}
     </ion-item>

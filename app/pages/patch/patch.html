@@ -5,8 +5,12 @@
 </ion-navbar>
 
 <ion-content class="patch">
-  <sr-slider [parameter]="parameter" *ngFor="let parameter of patch.effects[0].params"></sr-slider>
-  <sr-combobox></sr-combobox>
+  <sr-tabs>
+    <sr-tab *ngFor="let effect of patch.effects" title="{{effect.name}}">
+      <sr-slider [parameter]="parameter" *ngFor="let parameter of effect.params"></sr-slider>
+      <sr-combobox></sr-combobox>
+    </sr-tab>
+  </sr-tabs>
 
   <ion-grid id="footer">
     <ion-row>

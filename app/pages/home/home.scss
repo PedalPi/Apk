@@ -1,13 +1,29 @@
 .home {
-  ion-list .item {
+  ion-list ion-item {
     padding-top: 10px;
     padding-bottom: 10px;
 
-    font-size: 2em;
+    font-size: 3rem;
     font-weight: lighter;
   }
 
   ion-list ion-icon img {
       width: 80px;
+  }
+
+  ion-card {
+    box-shadow: none;
+  }
+
+  ion-card button {
+    margin: 0;
+  }
+
+  ion-item {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  ion-card .item-inner {
+    margin: 0;
   }
 }
