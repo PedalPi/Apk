@@ -11,7 +11,7 @@
 
 <ion-content class="patches">
   <ion-list no-lines>
-    <ion-card *ngFor="let patch of bank.patches" (click)="itemSelected(bank)" class="ion-card-clicable no-shadow ion-card-item">
+    <ion-card *ngFor="let patch of bank.patches" (click)="itemSelected(bank, patch)" (press)="onContextPatch(patch)" class="ion-card-clicable no-shadow ion-card-item">
       <button ion-item>
         <ion-icon item-left><img src="img/patch.svg" /></ion-icon>
         <ion-item>{{patch.name}}</ion-item>

@@ -2,6 +2,7 @@ import {Page, NavController, NavParams, Alert} from 'ionic-angular';
 import {PatchPage} from '../patch/patch';
 
 import {AlertCommon} from '../../common/alert';
+import {ContextMenu} from '../../common/contextMenu';
 
 @Page({
   templateUrl: 'build/pages/patches/patches.html'
@@ -207,11 +208,34 @@ export class PatchesPage {
   }
 
   createPatch() {
-    let alert = AlertCommon.generate('New patch', data => console.log(data));
+    let alert = AlertCommon.generate('New patch', data => this.bank["patches"].push({'name':data.name}));
     this.nav.present(alert);
   }
 
-  itemSelected(patch) {
-    this.nav.push(PatchPage, {'patch': patch});
+  itemSelected(bank, patch) {
+    this.nav.push(PatchPage, {'bank': bank, 'patch': patch});
+  }
+
+  onContextPatch(patch) {
+    const contextMenu = new ContextMenu(patch.name, 'context');
+
+    contextMenu.addItem('Reorder', () => {
+      console.log('Beta 2.10 https://github.com/driftyco/ionic/issues/5595');
+      console.log('http://codepen.io/leoz/pen/MwYxmj');
+    });
+
+    contextMenu.addItem('Remove', () => {
+      console.log('Destructive clicked');
+      console.log('https://github.com/driftyco/ionic/issues/5073');
+    });
+
+    contextMenu.addItem('Rename', () => {
+      let alert = AlertCommon.generate('Rename patch', data => patch.name = data.name, patch.name);
+      this.nav.present(alert);
+    });
+
+    //contextMenu.addItem('Copy to local', () => console.log('Cancel clicked'));
+
+    this.nav.present(contextMenu.generate());
   }
 }

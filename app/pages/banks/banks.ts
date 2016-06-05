@@ -1,8 +1,9 @@
-import {Page, NavController, ActionSheet} from 'ionic-angular';
+import {Page, NavController} from 'ionic-angular';
 import {PatchesPage} from '../patches/patches';
 
 import {JsonService} from '../../service/json';
 import {AlertCommon} from '../../common/alert';
+import {ContextMenu} from '../../common/contextMenu';
 
 @Page({
   templateUrl: 'build/pages/banks/banks.html'
@@ -29,41 +30,30 @@ export class BanksPage {
   }
 
   createBank() {
-    let alert = AlertCommon.generate('New bank', data => console.log(data));
+    let alert = AlertCommon.generate('New bank', data => this.banks.push({'name':data.name}));
     this.nav.present(alert);
   }
 
   onContextBank(bank) {
-    const contextMenu = ActionSheet.create({
-      title: bank.name,
-      cssClass: 'context',
-      buttons: [{
-          text: 'Reorder',
-          handler: () => {
-            console.log('Beta 2.10 https://github.com/driftyco/ionic/issues/5595');
-            console.log('http://codepen.io/leoz/pen/MwYxmj');
-          }
-        }, {
-          text: 'Remove',
-          role: 'destructive',
-          handler: () => {
-            console.log('Destructive clicked');
-            console.log('https://github.com/driftyco/ionic/issues/5073');
-          }
-        }, {
-          text: 'Rename',
-          handler: () => {
-            console.log('Rename clicked');
-          }
-        }, {
-          text: 'Copy to local',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
+    const contextMenu = new ContextMenu(bank.name, 'context');
+
+    contextMenu.addItem('Reorder', () => {
+      console.log('Beta 2.10 https://github.com/driftyco/ionic/issues/5595');
+      console.log('http://codepen.io/leoz/pen/MwYxmj');
     });
 
-    this.nav.present(contextMenu);
+    contextMenu.addItem('Remove', () => {
+      console.log('Destructive clicked');
+      console.log('https://github.com/driftyco/ionic/issues/5073');
+    });
+
+    contextMenu.addItem('Rename', () => {
+      let alert = AlertCommon.generate('Rename bank', data => bank.name = data.name, bank.name);
+      this.nav.present(alert);
+    });
+
+    //contextMenu.addItem('Copy to local', () => console.log('Cancel clicked'));
+
+    this.nav.present(contextMenu.generate());
   }
 }

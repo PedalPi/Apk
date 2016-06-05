@@ -1,7 +1,7 @@
 import {Alert} from 'ionic-angular';
 
 export class AlertCommon {
-  static generate(title, saveCallback) {
+  static generate(title : string, saveCallback : Function, value? : string) {
     return Alert.create({
       'title': title,
       buttons: ['Cancel', {
@@ -10,7 +10,8 @@ export class AlertCommon {
       }],
       inputs: [{
         name: 'name',
-        placeholder: 'Name'
+        placeholder: 'Name',
+        value: value
       }]
     });
   }
