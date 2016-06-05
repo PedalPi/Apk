@@ -1,0 +1,28 @@
+.ion-card-clicable {
+  ion-item {
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+.ion-card-clicable.no-shadow {
+  box-shadow: none;
+}
+
+
+ion-card.ion-card-item {
+  width: 100%;
+  margin: 0;
+
+  ion-item {
+    color: $text-color-light;
+
+    font-size: 1.35em;
+    font-weight: 100;
+
+    padding-left: 0;
+  }
+
+  ion-icon {
+    color: $text-color;
+  }
+}

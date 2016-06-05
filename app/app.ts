@@ -6,7 +6,13 @@ import {JsonService} from './service/json'
 
 @App({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
-  config: {}, // http://ionicframework.com/docs/v2/api/config/Config/
+  config: {
+    platforms: {
+      android: {
+        activator: 'ripple'
+      }
+    }
+  }, // http://ionicframework.com/docs/v2/api/config/Config/
   providers: [JsonService]
 })
 export class MyApp {

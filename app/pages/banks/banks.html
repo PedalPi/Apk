@@ -11,9 +11,11 @@
 
 <ion-content class="banks">
   <ion-list no-lines>
-    <ion-item *ngFor="let bank of banks" (click)="itemSelected(bank)" (press)="onContextBank(bank)">
-      <ion-icon name="folder" item-left></ion-icon>
-       {{bank.name}}
-    </ion-item>
+    <ion-card *ngFor="let bank of banks" (click)="itemSelected(bank)" (press)="onContextBank(bank)" class="ion-card-clicable no-shadow ion-card-item">
+      <button ion-item>
+        <ion-icon name="folder" item-left></ion-icon>
+        <ion-item>{{bank.name}}</ion-item>
+      </button>
+    </ion-card>
   </ion-list>
 </ion-content>

@@ -15,7 +15,7 @@ export class BanksPage {
   constructor(nav : NavController, jsonService : JsonService) {
     this.nav = nav;
     this.jsonService = jsonService;
-    this.banks = [{'name':'test'}];
+    this.banks = [{'name':'Test'}, {name: 'Bola'}];
   }
 
   ngOnInit() {

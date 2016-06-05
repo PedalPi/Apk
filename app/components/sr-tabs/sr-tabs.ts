@@ -17,6 +17,9 @@ export class SrTabs implements AfterContentInit {
   @ContentChildren(SrTab) tabs: QueryList<SrTab>;
 
   ngAfterContentInit() {
+    if (this.tabs.length == 0)
+      return;
+
     let activeTabs = this.tabs.filter(tab => tab.active);
 
     const tab = activeTabs.length === 0 ? this.tabs.first : activeTabs[0];

@@ -6,6 +6,9 @@
 // These are the imports which make up the design of this app.
 // By default each design mode includes these shared imports.
 // App Shared Sass variables belong in app.variables.scss.
+
+@import "./app.common.scss";
+
 @import "../components/sr-slider/sr-slider";
 @import "../components/sr-combobox/sr-combobox";
 @import "../components/sr-tabs/sr-tabs";
@@ -15,4 +18,3 @@
 @import "../pages/patches/patches";
 
 @import "../pages/patch/patch";
-@import "../pages/effect/effect";
