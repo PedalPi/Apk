@@ -1,10 +1,11 @@
 <ion-navbar *navbar>
   <ion-title>
-    2 - {{patch.name}}
+    {{patch.name}}
   </ion-title>
 </ion-navbar>
 
 <ion-content class="patch">
+  <button id="effects" clear><ion-icon name="md-shuffle"></ion-icon></button>
   <sr-tabs>
     <sr-tab *ngFor="let effect of patch.effects" title="{{effect.name}}">
       <sr-slider [parameter]="parameter" *ngFor="let parameter of effect.params"></sr-slider>
@@ -16,9 +17,9 @@
     <ion-row>
       <ion-col width-25>
         <ion-card class="ion-card-clicable no-shadow ion-card-item">
-          <button ion-item (click)="beforePatch()">
+          <button ion-item (click)="toBeforePatch()">
             <ion-icon name="arrow-back"></ion-icon>
-            <span class="label">1 - Igreja</span>
+            <span class="label">{{beforePatch.name}}</span>
           </button>
         </ion-card>
       </ion-col>
@@ -32,9 +33,9 @@
 
       <ion-col width-25>
         <ion-card class="ion-card-clicable no-shadow ion-card-item">
-          <button ion-item (click)="nextPatch()">
+          <button ion-item (click)="toNextPatch()">
             <ion-icon name="arrow-forward"></ion-icon>
-            <span class="label">3 - Geral</span>
+            <span class="label">{{nextPatch.name}}</span>
           </button>
         </ion-card>
       </ion-col>

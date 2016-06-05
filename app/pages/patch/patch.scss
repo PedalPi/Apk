@@ -3,6 +3,30 @@
     height: calc(100% - 80px);
     overflow-y: auto;
   }
+
+  #effects {
+    position: fixed;
+    right: 0;
+    color: $text-color-light;
+    background-color: #fafafa;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+  }
+}
+
+sr-tabs ul {
+  position: fixed;
+  width: calc(100% - 44px);
+  list-style-type: none;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+sr-tabs sr-tab {
+  display: block;
+  margin-top: 44px;
 }
 
 #footer {

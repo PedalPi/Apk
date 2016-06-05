@@ -21,21 +21,42 @@ export class PatchPage {
     this.bank = params.get('bank');
   }
 
-  public beforePatch() {
-    this.toPatch(this.getIndex(this.patch) - 1);
+  public toBeforePatch() {
+    this.toPatch(this.beforePatch);
   }
 
-  public nextPatch() {
-    this.toPatch(this.getIndex(this.patch) + 1);
+  public get beforePatch() : Object {
+    return this.getBeforePatch();
   }
 
-  private toPatch(index : number) {
+  private getBeforePatch() : Object {
+    let index = this.getIndex(this.patch) - 1;
     if (index == -1)
       index = this.bank["patches"].length-1;
-    else if (index == this.bank["patches"].length)
+
+    return this.bank["patches"][index];
+  }
+
+
+  public toNextPatch() {
+    this.toPatch(this.nextPatch);
+  }
+
+  public get nextPatch() : Object {
+    return this.getNextPatch();
+  }
+
+  private getNextPatch() : Object {
+    let index = this.getIndex(this.patch) + 1;
+    if (index == this.bank["patches"].length)
       index = 0;
 
-    this.patch = this.bank["patches"][index];
+    return this.bank["patches"][index];
+  }
+
+
+  private toPatch(patch : Object) {
+    this.patch = patch;
     this.tabs.ngAfterContentInit();
   }
 

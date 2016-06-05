@@ -13,7 +13,7 @@
   <ion-list no-lines>
     <ion-card *ngFor="let bank of banks" (click)="itemSelected(bank)" (press)="onContextBank(bank)" class="ion-card-clicable no-shadow ion-card-item">
       <button ion-item>
-        <ion-icon name="folder" item-left></ion-icon>
+        <ion-icon name="ios-folder-outline" item-left></ion-icon>
         <ion-item>{{bank.name}}</ion-item>
       </button>
     </ion-card>

@@ -86,7 +86,7 @@ export class PatchesPage {
                 "name": "01 - Patch rock",
                 "effects" : [
                     {
-                        "name": "Distortion drive",
+                        "name": "Tangerine",
                         "company": "MOD",
                         "params": [
                             {
@@ -106,7 +106,7 @@ export class PatchesPage {
                         "active" : false
                     },
                     {
-                        "name": "Test drive",
+                        "name": "Orange Juice",
                         "company": "Guitarix",
                         "params": [
                             {
@@ -163,26 +163,6 @@ export class PatchesPage {
                             }
                         ],
                         "active" : false
-                    },
-                    {
-                        "name": "Test drive",
-                        "company": "Guitarix",
-                        "params": [
-                            {
-                                "name": "ratio",
-                                "min": 0,
-                                "max": 10,
-                                "current": 5
-                            },
-                            {
-                                "name": "volume",
-                                "min": 0,
-                                "max": 100,
-                                "current": 5,
-                                "unit": "%"
-                            }
-                        ],
-                        "active" : true
                     }
                 ],
                 "connections" : [
@@ -222,8 +202,11 @@ export class PatchesPage {
     });
 
     contextMenu.addItem('Remove', () => {
-      console.log('Destructive clicked');
-      console.log('https://github.com/driftyco/ionic/issues/5073');
+      const alert = AlertCommon.alert('R u sure?', () => {
+        const index = this.bank["patches"].indexOf(patch);
+        this.bank["patches"].splice(index);
+      });
+      this.nav.present(alert);
     });
 
     contextMenu.addItem('Rename', () => {

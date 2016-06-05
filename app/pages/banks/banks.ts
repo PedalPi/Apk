@@ -33,14 +33,17 @@ export class BanksPage {
   onContextBank(bank) {
     const contextMenu = new ContextMenu(bank.name, 'context');
 
+    /*
     contextMenu.addItem('Reorder', () => {
       console.log('Beta 2.10 https://github.com/driftyco/ionic/issues/5595');
       console.log('http://codepen.io/leoz/pen/MwYxmj');
     });
+    */
 
     contextMenu.addItem('Remove', () => {
-      console.log('Destructive clicked');
-      console.log('https://github.com/driftyco/ionic/issues/5073');
+      //https://github.com/driftyco/ionic/issues/5073
+      const alert = AlertCommon.alert('R u sure?', () => this.banks.splice(this.banks.indexOf(bank)));
+      this.nav.present(alert);
     });
 
     contextMenu.addItem('Rename', () => {
