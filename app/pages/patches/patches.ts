@@ -8,19 +8,16 @@ import {ContextMenu} from '../../common/contextMenu';
   templateUrl: 'build/pages/patches/patches.html'
 })
 export class PatchesPage {
-  private nav : NavController;
-  private params : NavParams;
   public bank : Object;
 
-  constructor(nav : NavController, params : NavParams) {
-    this.nav = nav;
+  constructor(private nav : NavController, params : NavParams) {
     //this.bank = params.get('bank');
     this.bank = {
         "index": 1,
         "name": "Shows",
         "patches": [
             {
-                "name": "Shows",
+                "name": "00 - Patch 1",
                 "effects" : [
                     {
                         "name": "Distortion drive",
@@ -86,7 +83,7 @@ export class PatchesPage {
                 ]
             },
             {
-                "name": "Shows2",
+                "name": "01 - Patch rock",
                 "effects" : [
                     {
                         "name": "Distortion drive",
@@ -145,7 +142,7 @@ export class PatchesPage {
                 ]
             },
             {
-                "name": "Shows3",
+                "name": "02 - Reggae town",
                 "effects" : [
                     {
                         "name": "Distortion drive",
@@ -212,8 +209,8 @@ export class PatchesPage {
     this.nav.present(alert);
   }
 
-  itemSelected(bank, patch) {
-    this.nav.push(PatchPage, {'bank': bank, 'patch': patch});
+  itemSelected(patch) {
+    this.nav.push(PatchPage, {'bank': this.bank, 'patch': patch});
   }
 
   onContextPatch(patch) {

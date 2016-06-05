@@ -16,7 +16,7 @@
     <ion-row>
       <ion-col width-25>
         <ion-card class="ion-card-clicable no-shadow ion-card-item">
-          <button ion-item>
+          <button ion-item (click)="beforePatch()">
             <ion-icon name="arrow-back"></ion-icon>
             <span class="label">1 - Igreja</span>
           </button>
@@ -32,7 +32,7 @@
 
       <ion-col width-25>
         <ion-card class="ion-card-clicable no-shadow ion-card-item">
-          <button ion-item>
+          <button ion-item (click)="nextPatch()">
             <ion-icon name="arrow-forward"></ion-icon>
             <span class="label">3 - Geral</span>
           </button>

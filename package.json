@@ -34,7 +34,9 @@
     "cordova-plugin-splashscreen",
     "ionic-plugin-keyboard"
   ],
-  "cordovaPlatforms": [],
+  "cordovaPlatforms": [
+    "android"
+  ],
   "name": "app",
   "description": "App: An Ionic project"
 }

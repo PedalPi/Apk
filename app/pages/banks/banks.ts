@@ -9,13 +9,9 @@ import {ContextMenu} from '../../common/contextMenu';
   templateUrl: 'build/pages/banks/banks.html'
 })
 export class BanksPage {
-  nav : NavController;
-  jsonService : JsonService;
-  banks;
+  public banks;
 
-  constructor(nav : NavController, jsonService : JsonService) {
-    this.nav = nav;
-    this.jsonService = jsonService;
+  constructor(private nav : NavController, private jsonService : JsonService) {
     this.banks = [{'name':'Test'}, {name: 'Bola'}];
   }
 
