@@ -20,9 +20,6 @@
 sr-tabs ul {
   position: fixed;
   width: calc(100% - 44px);
-  list-style-type: none;
-  white-space: nowrap;
-  overflow-x: auto;
 }
 sr-tabs sr-tab {
   display: block;
@@ -33,21 +30,23 @@ sr-tabs sr-tab {
   padding: 0;
   height: 80px;
 
-  background-color: #fafafa;
-  /*column-rule: #434343;*/
-
-  ion-col {
-    text-align: center;
+  .toolbar-background {
+    background-color: #fafafa !important;
+    /*column-rule: #434343;*/
   }
 
   ion-icon {
-    padding: 10px 0;
     font-size: 4rem;
     width: 5rem;
     text-align: center;
   }
 
+  .toolbar-content {
+    display: flex;
+  }
   ion-card {
+    flex: 1 auto;
+
     .item-inner {
       padding: 0;
     }
@@ -71,6 +70,7 @@ sr-tabs sr-tab {
   }
 
   #connections {
+    flex: 2 auto;
     background-color: rgba(0, 0, 0, .04);
     color: #a0a0a0;
   }
@@ -79,9 +79,4 @@ sr-tabs sr-tab {
     color: #a0a0a0 !important;
     padding: 5px 0 0;
   }
-}
-
-ion-grid, ion-col {
-  margin: 0;
-  padding: 0;
 }

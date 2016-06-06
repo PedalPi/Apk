@@ -6,6 +6,9 @@ sr-tabs {
     background-color: $toolbar-background;
     margin: 0;
     padding: 0;
+    list-style-type: none;
+    white-space: nowrap;
+    overflow-x: auto;
   }
 
   li {

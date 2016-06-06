@@ -10,12 +10,14 @@ sr-combobox {
     padding-bottom: 12px;
   }
 
-  ion-grid, ion-row {
-    padding: 0;
+  #select-container {
+    width: calc(100% - 9rem);
+    display: inline-block;
+    padding-right: 0.5rem;
   }
 
   ion-select {
-    max-width: initial;
+    max-width: 100%;
     font-size: 1.2em;
     color: #808080;
     border-bottom: 1px solid #ddd;
@@ -25,12 +27,12 @@ sr-combobox {
   ion-select button {
     display: none;
   }
-
   ion-select .button-inner {
     width: 0;
   }
 
   .button {
+    display: inline-block;
     background-color: #efefef;
     color: #808080;
     height: 4rem;

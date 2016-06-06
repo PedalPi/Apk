@@ -15,29 +15,26 @@
 </ion-content>
 
 <ion-toolbar position="bottom" id="footer">
-  <ion-buttons start>
-    <ion-card class="ion-card-clicable no-shadow ion-card-item">
-      <button ion-item (click)="toBeforePatch()">
-        <ion-icon name="arrow-back"></ion-icon>
-        <span class="label">{{beforePatch.name}}</span>
-      </button>
-    </ion-card>
-  </ion-buttons>
+  <ion-card class="ion-card-clicable no-shadow ion-card-item">
+    <button ion-item (click)="toBeforePatch()">
+      <ion-icon name="arrow-back"></ion-icon>
+      <span class="label">{{beforePatch.name}}</span>
+    </button>
+  </ion-card>
 
-  <ion-title id="connections">
+  <!--
+  <div id="connections">
     <ion-icon center>
       <img src="img/conection-plug.svg" />
     </ion-icon>
     <span class="label">Connections</span>
-  </ion-title>
+  </div>
+  -->
 
-
-  <ion-buttons end>
-    <ion-card class="ion-card-clicable no-shadow ion-card-item">
-      <button ion-item (click)="toNextPatch()">
-        <ion-icon name="arrow-forward"></ion-icon>
-        <span class="label">{{nextPatch.name}}</span>
-      </button>
-    </ion-card>
-  </ion-buttons>
+  <ion-card class="ion-card-clicable no-shadow ion-card-item">
+    <button ion-item (click)="toNextPatch()">
+      <ion-icon name="arrow-forward"></ion-icon>
+      <span class="label">{{nextPatch.name}}</span>
+    </button>
+  </ion-card>
 </ion-toolbar>
