@@ -42,7 +42,7 @@ export class BanksPage {
 
     contextMenu.addItem('Remove', () => {
       //https://github.com/driftyco/ionic/issues/5073
-      const alert = AlertCommon.alert('R u sure?', () => this.banks.splice(this.banks.indexOf(bank)));
+      const alert = AlertCommon.alert('R u sure?', () => this.banks.splice(this.banks.indexOf(bank), 1));
       this.nav.present(alert);
     });
 

@@ -1,6 +1,6 @@
 .patch {
   sr-tabs {
-    height: calc(100% - 80px);
+    /*height: calc(100% - 80px);*/
     overflow-y: auto;
   }
 
@@ -30,13 +30,11 @@ sr-tabs sr-tab {
 }
 
 #footer {
-  position: fixed;
-  bottom: 0;
-
+  padding: 0;
   height: 80px;
 
   background-color: #fafafa;
-  column-rule: #434343;
+  /*column-rule: #434343;*/
 
   ion-col {
     text-align: center;

@@ -1,0 +1,22 @@
+<ion-toolbar>
+  <!--<ion-buttons start>
+    Close
+  </ion-buttons>-->
+
+  <ion-title>Effects of {{patch.name}}</ion-title>
+
+  <ion-buttons end>
+    <button clear (click)="newEffect()"><ion-icon name="add"></ion-icon></button>
+    <!--<button clear><ion-icon name="remove"></ion-icon></button>-->
+  </ion-buttons>
+</ion-toolbar>
+
+<ion-content padding>
+  <button (click)="close()">Close</button>
+  <ion-list>
+    <ion-item *ngFor="let effect of patch.effects">
+      {{effect.name}}
+      <ion-icon name="menu" item-right></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>

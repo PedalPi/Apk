@@ -204,7 +204,7 @@ export class PatchesPage {
     contextMenu.addItem('Remove', () => {
       const alert = AlertCommon.alert('R u sure?', () => {
         const index = this.bank["patches"].indexOf(patch);
-        this.bank["patches"].splice(index);
+        this.bank["patches"].splice(index, 1);
       });
       this.nav.present(alert);
     });

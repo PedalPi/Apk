@@ -1,8 +1,10 @@
+import {IONIC_DIRECTIVES} from 'ionic-angular';
 import {Input, Component} from '@angular/core';
 
 @Component({
   selector: 'sr-slider',
-  templateUrl: 'build/components/sr-slider/sr-slider.html'
+  templateUrl: 'build/components/sr-slider/sr-slider.html',
+  directives: [IONIC_DIRECTIVES]
 })
 export class SrSlider {
   @Input() parameter : Object;

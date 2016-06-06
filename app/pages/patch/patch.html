@@ -5,40 +5,39 @@
 </ion-navbar>
 
 <ion-content class="patch">
-  <button id="effects" clear><ion-icon name="md-shuffle"></ion-icon></button>
+  <button id="effects" clear (click)="manageEffects()"><ion-icon name="md-shuffle"></ion-icon></button>
   <sr-tabs>
     <sr-tab *ngFor="let effect of patch.effects" title="{{effect.name}}">
       <sr-slider [parameter]="parameter" *ngFor="let parameter of effect.params"></sr-slider>
       <sr-combobox></sr-combobox>
     </sr-tab>
   </sr-tabs>
-
-  <ion-grid id="footer">
-    <ion-row>
-      <ion-col width-25>
-        <ion-card class="ion-card-clicable no-shadow ion-card-item">
-          <button ion-item (click)="toBeforePatch()">
-            <ion-icon name="arrow-back"></ion-icon>
-            <span class="label">{{beforePatch.name}}</span>
-          </button>
-        </ion-card>
-      </ion-col>
-
-      <ion-col width-50 id="connections">
-        <ion-icon center>
-          <img src="img/conection-plug.svg" />
-        </ion-icon>
-        <span class="label">Connections</span>
-      </ion-col>
-
-      <ion-col width-25>
-        <ion-card class="ion-card-clicable no-shadow ion-card-item">
-          <button ion-item (click)="toNextPatch()">
-            <ion-icon name="arrow-forward"></ion-icon>
-            <span class="label">{{nextPatch.name}}</span>
-          </button>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
 </ion-content>
+
+<ion-toolbar position="bottom" id="footer">
+  <ion-buttons start>
+    <ion-card class="ion-card-clicable no-shadow ion-card-item">
+      <button ion-item (click)="toBeforePatch()">
+        <ion-icon name="arrow-back"></ion-icon>
+        <span class="label">{{beforePatch.name}}</span>
+      </button>
+    </ion-card>
+  </ion-buttons>
+
+  <ion-title id="connections">
+    <ion-icon center>
+      <img src="img/conection-plug.svg" />
+    </ion-icon>
+    <span class="label">Connections</span>
+  </ion-title>
+
+
+  <ion-buttons end>
+    <ion-card class="ion-card-clicable no-shadow ion-card-item">
+      <button ion-item (click)="toNextPatch()">
+        <ion-icon name="arrow-forward"></ion-icon>
+        <span class="label">{{nextPatch.name}}</span>
+      </button>
+    </ion-card>
+  </ion-buttons>
+</ion-toolbar>

@@ -1,10 +1,12 @@
-import {Page, NavController, NavParams, Alert, IONIC_DIRECTIVES} from 'ionic-angular';
+import {Page, ViewController, Modal, NavController, NavParams, Alert, IONIC_DIRECTIVES} from 'ionic-angular';
 import {Component, QueryList, ViewChild, NgZone} from '@angular/core';
 
 import {SrSlider} from '../../components/sr-slider/sr-slider';
 import {SrCombobox} from '../../components/sr-combobox/sr-combobox';
 import {SrTabs} from '../../components/sr-tabs/sr-tabs';
 import {SrTab} from '../../components/sr-tabs/sr-tab';
+
+import {AlertCommon} from '../../common/alert';
 
 @Page({
   templateUrl: 'build/pages/patch/patch.html',
@@ -70,5 +72,30 @@ export class PatchPage {
     }
 
     return -1;
+  }
+
+  public manageEffects() {
+    const modal = Modal.create(EffectsManagement, { patch: this.patch });
+    this.nav.present(modal);
+  }
+}
+
+@Page({
+  templateUrl: 'build/pages/patch/effects.html'
+})
+class EffectsManagement {
+  public patch : Object;
+
+  constructor(private nav : NavController, params: NavParams, private controller: ViewController) {
+    this.patch = params.get('patch');
+  }
+
+  close() {
+    this.controller.dismiss();
+  }
+
+  newEffect() {
+    const modal = Modal.create(EffectsManagement, { patch: this.patch });
+    this.nav.present(modal);
   }
 }
