@@ -85,6 +85,7 @@ export class PatchPage {
 })
 class EffectsManagement {
   public patch : Object;
+  public mode : string = 'normal';
 
   constructor(private nav : NavController, params: NavParams, private controller: ViewController) {
     this.patch = params.get('patch');
@@ -95,7 +96,25 @@ class EffectsManagement {
   }
 
   newEffect() {
-    const modal = Modal.create(EffectsManagement, { patch: this.patch });
-    this.nav.present(modal);
+    //const modal = Modal.create(EffectsManagement, { patch: this.patch });
+    //this.nav.present(modal);
+    this.patch["effects"].push(this.patch['effects'][0]);
+  }
+
+  get removeMode() {
+    return this.mode == 'remove';
+  }
+
+  toRemoveMode() {
+    this.mode = 'remove';
+  }
+
+  toNormalMode() {
+    this.mode = 'normal';
+  }
+
+  remove(index : number) {
+    console.log(index);
+    this.patch["effects"].splice(index, 1);
   }
 }
