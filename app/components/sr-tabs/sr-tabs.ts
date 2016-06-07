@@ -4,30 +4,27 @@ import { SrTab } from './sr-tab';
 
 @Component({
   selector: 'sr-tabs',
-  template:`
-    <ul class="nav nav-tabs">
-      <li *ngFor="let tab of tabs" (click)="selectTab(tab)" [class.active]="tab.active">
-        <button clear>{{tab.title}}</button>
-      </li>
-    </ul>
-    <ng-content></ng-content>
-  `
+  templateUrl: 'build/components/sr-tabs/sr-tabs.html'
 })
 export class SrTabs implements AfterContentInit {
   @ContentChildren(SrTab) tabs: QueryList<SrTab>;
+  private currentTab : SrTab;
 
   ngAfterContentInit() {
-    if (this.tabs.length == 0)
-      return;
+    this.currentTab = null;
+    this.selectTab(0);
 
-    let activeTabs = this.tabs.filter(tab => tab.active);
-
-    const tab = activeTabs.length === 0 ? this.tabs.first : activeTabs[0];
-    this.selectTab(tab);
+    console.log("Changed:", this.tabs.toArray());
   }
 
-  selectTab(tab : SrTab) {
-    this.tabs.toArray().forEach(tab => tab.active = false);
-    tab.active = true;
+  selectTab(index) {
+    if (index >= this.tabs.length || this.tabs.length == 0)
+      return;
+
+    if (this.currentTab)
+      this.currentTab.active = false;
+
+    this.currentTab = this.tabs.toArray()[index];
+    this.currentTab.active = true;
   }
 }

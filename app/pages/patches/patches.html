@@ -13,7 +13,7 @@
   <ion-list no-lines>
     <ion-card *ngFor="let patch of bank.patches" (click)="itemSelected(patch)" (press)="onContextPatch(patch)" class="ion-card-clicable no-shadow ion-card-item">
       <button ion-item>
-        <ion-icon item-left><img src="img/patch.svg" /></ion-icon>
+        <ion-icon item-left><sr-icon icon="icons.svg#icon-patch"></sr-icon></ion-icon>
         <ion-item>{{patch.name}}</ion-item>
       </button>
     </ion-card>

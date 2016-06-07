@@ -7,8 +7,10 @@
     font-weight: lighter;
   }
 
-  ion-list ion-icon img {
+  ion-list ion-icon img,
+  ion-list ion-icon sr-icon {
       width: 80px;
+      height: 80px;
   }
 
   ion-card button {

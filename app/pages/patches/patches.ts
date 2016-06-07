@@ -3,9 +3,11 @@ import {PatchPage} from '../patch/patch';
 
 import {AlertCommon} from '../../common/alert';
 import {ContextMenu} from '../../common/contextMenu';
+import {SrIcon} from '../../components/sr-icon/sr-icon';
 
 @Page({
-  templateUrl: 'build/pages/patches/patches.html'
+  templateUrl: 'build/pages/patches/patches.html',
+  directives: [SrIcon]
 })
 export class PatchesPage {
   public bank : Object;
