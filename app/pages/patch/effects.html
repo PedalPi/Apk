@@ -15,7 +15,7 @@
 <ion-content padding>
   <ion-list>
     <ion-item *ngFor="let effect of patch.effects; let i = index">
-      {{i}} - {{effect.name}}
+      {{i+1}} - {{effect.name}}
       <ion-icon name="menu" item-right [hidden]="removeMode"></ion-icon>
       <button  item-right clear (click)="remove(i)" [hidden]="!removeMode"><ion-icon name="close"></ion-icon></button>
     </ion-item>

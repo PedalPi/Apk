@@ -6,9 +6,14 @@
 
 <ion-content class="patch">
   <button id="effects" clear (click)="manageEffects()"><ion-icon name="md-shuffle"></ion-icon></button>
-  <sr-tabs>
+  <sr-tabs id="tabs">
+
     <sr-tab *ngFor="let effect of patch.effects" title="{{effect.name}}">
-      <sr-slider [parameter]="parameter" *ngFor="let parameter of effect.params"></sr-slider>
+
+      <div *ngFor="let parameter of effect.ports.control.input">
+        <sr-slider *ngIf="parameter.enumeration == null" [parameter]="parameter"></sr-slider>
+      </div>
+
       <sr-combobox></sr-combobox>
     </sr-tab>
   </sr-tabs>

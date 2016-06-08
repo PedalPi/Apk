@@ -32,6 +32,10 @@ export class JsonService {
     return this.get(this.router.banks);
   }
 
+  requestEffects() {
+    return this.get(this.router.effects);
+  }
+
   handleError(error) {
     console.error(error);
     return {subscribe: () => {}};

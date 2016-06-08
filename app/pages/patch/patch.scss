@@ -17,11 +17,11 @@
   }
 }
 
-sr-tabs ul {
+#tabs ul {
   position: fixed;
   width: calc(100% - 44px);
 }
-sr-tabs sr-tab {
+#tabs sr-tab {
   display: block;
   margin-top: 44px;
 }

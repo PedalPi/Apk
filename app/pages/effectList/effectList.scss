@@ -1,0 +1,16 @@
+#effectList {
+  ion-label {
+    margin: 0;
+  }
+
+  sr-tab {
+    button {
+      padding: 0;
+    }
+
+    button > .item-inner {
+      border: 0;
+      padding: 0;
+    }
+  }
+}

@@ -1,0 +1,24 @@
+<ion-toolbar>
+  <ion-buttons start>
+    <button royal (click)="close()"><ion-icon name="close"></ion-icon> Cancel</button>
+  </ion-buttons>
+
+  <ion-searchbar [(ngModel)]="searchQuery" (input)="getItems($event)"></ion-searchbar>
+</ion-toolbar>
+
+<ion-content id="effectList">
+  <sr-tabs>
+    <sr-tab title="All" padding>
+      <ion-list>
+        <ion-card *ngFor="let effect of items" class="ion-card-clicable no-shadow ion-card-item" (click)="itemSelected(effect)">
+          <button ion-item>
+            <ion-item>{{effect.name}}</ion-item>
+          </button>
+        </ion-card>
+      </ion-list>
+    </sr-tab>
+
+    <sr-tab title="Chorus"></sr-tab>
+    <sr-tab title="Assemble"></sr-tab>
+  </sr-tabs>
+</ion-content>

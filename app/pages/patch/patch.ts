@@ -1,12 +1,12 @@
-import {Page, ViewController, Modal, NavController, NavParams, Alert, IONIC_DIRECTIVES} from 'ionic-angular';
-import {Component, QueryList, ViewChild, NgZone} from '@angular/core';
+import {Page, Modal, NavController, NavParams} from 'ionic-angular';
+import {Component, QueryList, ViewChild} from '@angular/core';
+
+import {EffectsPage} from './effects';
 
 import {SrSlider} from '../../components/sr-slider/sr-slider';
 import {SrCombobox} from '../../components/sr-combobox/sr-combobox';
 import {SrTabs} from '../../components/sr-tabs/sr-tabs';
 import {SrTab} from '../../components/sr-tabs/sr-tab';
-
-import {AlertCommon} from '../../common/alert';
 
 @Page({
   templateUrl: 'build/pages/patch/patch.html',
@@ -75,46 +75,7 @@ export class PatchPage {
   }
 
   public manageEffects() {
-    const modal = Modal.create(EffectsManagement, { patch: this.patch });
+    const modal = Modal.create(EffectsPage, { patch: this.patch });
     this.nav.present(modal);
-  }
-}
-
-@Page({
-  templateUrl: 'build/pages/patch/effects.html'
-})
-class EffectsManagement {
-  public patch : Object;
-  public mode : string = 'normal';
-
-  constructor(private nav : NavController, params: NavParams, private controller: ViewController) {
-    this.patch = params.get('patch');
-  }
-
-  close() {
-    this.controller.dismiss();
-  }
-
-  newEffect() {
-    //const modal = Modal.create(EffectsManagement, { patch: this.patch });
-    //this.nav.present(modal);
-    this.patch["effects"].push(this.patch['effects'][0]);
-  }
-
-  get removeMode() {
-    return this.mode == 'remove';
-  }
-
-  toRemoveMode() {
-    this.mode = 'remove';
-  }
-
-  toNormalMode() {
-    this.mode = 'normal';
-  }
-
-  remove(index : number) {
-    console.log(index);
-    this.patch["effects"].splice(index, 1);
   }
 }
