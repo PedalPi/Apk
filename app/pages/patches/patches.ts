@@ -617,7 +617,10 @@ export class PatchesPage {
   }
 
   createPatch() {
-    let alert = AlertCommon.generate('New patch', data => this.bank["patches"].push({'name':data.name}));
+    let alert = AlertCommon.generate('New patch', data => this.bank["patches"].push({
+      'name':data.name,
+      'effects': []
+    }));
     this.nav.present(alert);
   }
 

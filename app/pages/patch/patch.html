@@ -12,9 +12,10 @@
 
       <div *ngFor="let parameter of effect.ports.control.input">
         <sr-slider *ngIf="parameter.enumeration == null" [parameter]="parameter"></sr-slider>
+
+        <sr-combobox *ngIf="parameter.enumeration"></sr-combobox>
       </div>
 
-      <sr-combobox></sr-combobox>
     </sr-tab>
   </sr-tabs>
 </ion-content>
