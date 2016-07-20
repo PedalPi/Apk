@@ -2,7 +2,7 @@ import {App, Platform} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {HomePage} from './pages/home/home';
 
-import {JsonService} from './service/json'
+import {JsonService} from './service/jsonService';
 
 @App({
   template: '<ion-nav [root]="rootPage"></ion-nav>',

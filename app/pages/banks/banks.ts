@@ -1,22 +1,25 @@
 import {Page, NavController} from 'ionic-angular';
 import {PatchesPage} from '../patches/patches';
 
-import {JsonService} from '../../service/json';
+import {JsonService} from '../../service/jsonService';
 import {AlertCommon} from '../../common/alert';
 import {ContextMenu} from '../../common/contextMenu';
+
 
 @Page({
   templateUrl: 'build/pages/banks/banks.html'
 })
 export class BanksPage {
   public banks;
+  public reordering;
 
   constructor(private nav : NavController, private jsonService : JsonService) {
     this.banks = [{'name':'Test'}, {name: 'Bola'}];
+    this.reordering = false;
   }
 
   ngOnInit() {
-    this.jsonService.requestBanks().subscribe(
+    this.jsonService.banks.getBanks().subscribe(
       data => this.banks = data.banks
     );
   }
@@ -26,19 +29,23 @@ export class BanksPage {
   }
 
   createBank() {
-    let alert = AlertCommon.generate('New bank', data => this.banks.push({'name':data.name}));
+    let alert = AlertCommon.generate('New bank', data => {
+      const bank = {'name':data.name};
+      this.jsonService.banks.saveBank(bank).subscribe(
+        status => this.banks.push(bank)
+      );
+    });
+
     this.nav.present(alert);
   }
 
   onContextBank(bank) {
     const contextMenu = new ContextMenu(bank.name, 'context');
 
-    /*
     contextMenu.addItem('Reorder', () => {
       console.log('Beta 2.10 https://github.com/driftyco/ionic/issues/5595');
-      console.log('http://codepen.io/leoz/pen/MwYxmj');
+      this.reordering = !this.reordering;
     });
-    */
 
     contextMenu.addItem('Remove', () => {
       //https://github.com/driftyco/ionic/issues/5073
@@ -54,5 +61,13 @@ export class BanksPage {
     //contextMenu.addItem('Copy to local', () => console.log('Cancel clicked'));
 
     this.nav.present(contextMenu.generate());
+  }
+
+  reorderItems($event) {
+    console.log($event);
+  }
+
+  save() {
+    this.reordering = false;
   }
 }
