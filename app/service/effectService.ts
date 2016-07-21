@@ -31,6 +31,6 @@ export class EffectService {
 
   deleteBank(bank : any, patch : any, effect : any) {
     let url = this.effectUrl(bank, patch, effect);
-    return this.rest.delete(url, effect);
+    return this.rest.delete(url);
   }
 }

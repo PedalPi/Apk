@@ -9,7 +9,10 @@ export class RestService {
   }
 
   get(url : string) {
-    return this.http.get(url)
+    const headers = new Headers({ 'Access-Control-Allow-Origin': '*' });
+    const options = new RequestOptions({ headers: headers });
+
+    return this.http.get(url, options)
       .map(res => res.json());
       //.catch(this.handleError);
   }
@@ -36,13 +39,11 @@ export class RestService {
       //.catch(this.handleError);
   }
 
-  delete(url : string, data : any) {
+  delete(url : string) {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers });
 
-    const body = JSON.stringify(data);
-
-    return this.http.delete(url, body, options)
+    return this.http.delete(url, options)
       .map(res => res.json());
       //.catch(this.handleError);
   }

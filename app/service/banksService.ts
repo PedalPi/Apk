@@ -35,6 +35,6 @@ export class BanksService {
 
   deleteBank(bank) {
     let url = this.bankUrl(bank);
-    return this.rest.delete(url, bank);
+    return this.rest.delete(url);
   }
 }

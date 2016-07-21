@@ -726,9 +726,13 @@ export class EffectListPage {
     this.effects = afe.effects;
   }
 
+  private get service() {
+      return this.jsonService.plugin;
+  }
+
   ngOnInit() {
     //https://github.com/mozilla/localForage
-    this.jsonService.requestEffects().subscribe(
+    this.service.getPlugins().subscribe(
       data => {
         this.effects = data.plugins.sort((a, b) => a.name.localeCompare(b.name));
         this.items = this.effects;

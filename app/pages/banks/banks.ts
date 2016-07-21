@@ -14,16 +14,19 @@ export class BanksPage {
   public reordering;
 
   constructor(private nav : NavController, private jsonService : JsonService) {
-    this.banks = [{'name':'Test'}, {name: 'Bola'}];
+    this.banks = [];
     this.reordering = false;
   }
 
   ngOnInit() {
-    this.jsonService.banks.getBanks().subscribe(
-      data => this.banks = data.banks
+    this.service.getBanks().subscribe(
+      data => {
+        console.log(data);
+        this.banks = data.banks
+      }
     );
   }
-    
+
   private get service() {
       return this.jsonService.banks;
   }
@@ -59,7 +62,7 @@ export class BanksPage {
       const requestDeleteBank = () => this.service.deleteBank(bank).subscribe(deleteBank);
 
       const alert = AlertCommon.alert('R u sure?', requestDeleteBank);
-      
+
       this.nav.present(alert);
     });
 

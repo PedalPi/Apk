@@ -27,8 +27,6 @@ export class PatchService {
   saveNewPatch(bank : any, patch : any) {
     let url = this.patchUrl(bank);
     return this.rest.post(url, patch);
-
-    return this.rest.post(this.bankUrl(), bank);
   }
 
   updatePatch(bank : any, patch : any) {
@@ -38,6 +36,6 @@ export class PatchService {
 
   deletePatch(bank : any, patch : any) {
     let url = this.patchUrl(bank, patch);
-    return this.rest.delete(url, patch);
+    return this.rest.delete(url);
   }
 }

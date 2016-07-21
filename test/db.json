@@ -1,0 +1,455 @@
+{
+  "banks": {
+    "banks": [
+      {
+        "index": 0,
+        "name": "Shows",
+        "patches": [
+          {
+            "name": "Rock",
+            "effects": [
+              {
+                "uri": "http://guitarix.sourceforge.net/plugins/gxts9#ts9sim",
+                "name": "Distortion drive",
+                "company": "MOD",
+                "params": [
+                  {
+                    "name": "ratio",
+                    "min": 0,
+                    "max": 10,
+                    "current": 5
+                  },
+                  {
+                    "name": "volume",
+                    "min": 0,
+                    "max": 100,
+                    "current": 5,
+                    "unit": "%"
+                  }
+                ],
+                "status": false
+              },
+              {
+                "uri": "http://guitarix.sourceforge.net/plugins/gx_tremolo#_tremolo",
+                "name": "Test drive",
+                "company": "Guitarix",
+                "params": [
+                  {
+                    "name": "ratio",
+                    "min": 0,
+                    "max": 10,
+                    "current": 5
+                  },
+                  {
+                    "name": "volume",
+                    "min": 0,
+                    "max": 100,
+                    "current": 5,
+                    "unit": "%"
+                  }
+                ],
+                "status": true
+              }
+            ],
+            "connections": [
+              {
+                "out": "system:capture_1",
+                "in": "effect_1:bass_l"
+              },
+              {
+                "out": "effect_1:out1",
+                "in": "effect_2:input"
+              },
+              {
+                "out": "effect_2:out",
+                "in": "system:playback_1"
+              }
+            ]
+          },
+          {
+            "name": "Shows2",
+            "effects": [
+              {
+                "uri": "http://guitarix.sourceforge.net/plugins/gx_tremolo#_tremolo",
+                "name": "Distortion drive",
+                "company": "MOD",
+                "params": [
+                  {
+                    "name": "ratio",
+                    "min": 0,
+                    "max": 10,
+                    "current": 5
+                  },
+                  {
+                    "name": "volume",
+                    "min": 0,
+                    "max": 100,
+                    "current": 5,
+                    "unit": "%"
+                  }
+                ],
+                "status": false
+              },
+              {
+                "uri": "http://guitarix.sourceforge.net/plugins/gxts9#ts9sim",
+                "name": "Test drive",
+                "company": "Guitarix",
+                "params": [
+                  {
+                    "name": "ratio",
+                    "min": 0,
+                    "max": 10,
+                    "current": 5
+                  },
+                  {
+                    "name": "volume",
+                    "min": 0,
+                    "max": 100,
+                    "current": 5,
+                    "unit": "%"
+                  }
+                ],
+                "status": true
+              }
+            ],
+            "connections": [
+              {
+                "out": "system:capture_1",
+                "in": "effect_1:bass_l"
+              },
+              {
+                "out": "effect_1:out1",
+                "in": "effect_2:input"
+              },
+              {
+                "out": "effect_2:out",
+                "in": "system:playback_1"
+              }
+            ]
+          },
+          {
+            "name": "Punk Rock",
+            "effects": [
+              {
+                "uri": "http://guitarix.sourceforge.net/plugins/gxts9#ts9sim",
+                "name": "Distortion drive",
+                "company": "MOD",
+                "params": [
+                  {
+                    "name": "ratio",
+                    "min": 0,
+                    "max": 10,
+                    "current": 5
+                  },
+                  {
+                    "name": "volume",
+                    "min": 0,
+                    "max": 100,
+                    "current": 5,
+                    "unit": "%"
+                  }
+                ],
+                "status": false
+              },
+              {
+                "name": "Test drive",
+                "company": "Guitarix",
+                "uri": "http://guitarix.sourceforge.net/plugins/gxts9#ts9sim",
+                "params": [
+                  {
+                    "name": "ratio",
+                    "min": 0,
+                    "max": 10,
+                    "current": 5
+                  },
+                  {
+                    "name": "volume",
+                    "min": 0,
+                    "max": 100,
+                    "current": 5,
+                    "unit": "%"
+                  }
+                ],
+                "status": true
+              }
+            ],
+            "connections": [
+              {
+                "out": "system:capture_1",
+                "in": "effect_1:bass_l"
+              },
+              {
+                "out": "effect_1:out1",
+                "in": "effect_2:input"
+              },
+              {
+                "out": "effect_2:out",
+                "in": "system:playback_1"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+
+
+  "bank/0": {
+    "index": 0,
+    "name": "Shows",
+    "patches": [
+      {
+        "name": "Rock",
+        "effects": [
+          {
+            "uri": "http://guitarix.sourceforge.net/plugins/gxts9#ts9sim",
+            "name": "Distortion drive",
+            "company": "MOD",
+            "params": [
+              {
+                "name": "ratio",
+                "min": 0,
+                "max": 10,
+                "current": 5
+              },
+              {
+                "name": "volume",
+                "min": 0,
+                "max": 100,
+                "current": 5,
+                "unit": "%"
+              }
+            ],
+            "status": false
+          },
+          {
+            "uri": "http://guitarix.sourceforge.net/plugins/gx_tremolo#_tremolo",
+            "name": "Test drive",
+            "company": "Guitarix",
+            "params": [
+              {
+                "name": "ratio",
+                "min": 0,
+                "max": 10,
+                "current": 5
+              },
+              {
+                "name": "volume",
+                "min": 0,
+                "max": 100,
+                "current": 5,
+                "unit": "%"
+              }
+            ],
+            "status": true
+          }
+        ],
+        "connections": [
+          {
+            "out": "system:capture_1",
+            "in": "effect_1:bass_l"
+          },
+          {
+            "out": "effect_1:out1",
+            "in": "effect_2:input"
+          },
+          {
+            "out": "effect_2:out",
+            "in": "system:playback_1"
+          }
+        ]
+      },
+      {
+        "name": "Shows2",
+        "effects": [
+          {
+            "uri": "http://guitarix.sourceforge.net/plugins/gx_tremolo#_tremolo",
+            "name": "Distortion drive",
+            "company": "MOD",
+            "params": [
+              {
+                "name": "ratio",
+                "min": 0,
+                "max": 10,
+                "current": 5
+              },
+              {
+                "name": "volume",
+                "min": 0,
+                "max": 100,
+                "current": 5,
+                "unit": "%"
+              }
+            ],
+            "status": false
+          },
+          {
+            "uri": "http://guitarix.sourceforge.net/plugins/gxts9#ts9sim",
+            "name": "Test drive",
+            "company": "Guitarix",
+            "params": [
+              {
+                "name": "ratio",
+                "min": 0,
+                "max": 10,
+                "current": 5
+              },
+              {
+                "name": "volume",
+                "min": 0,
+                "max": 100,
+                "current": 5,
+                "unit": "%"
+              }
+            ],
+            "status": true
+          }
+        ],
+        "connections": [
+          {
+            "out": "system:capture_1",
+            "in": "effect_1:bass_l"
+          },
+          {
+            "out": "effect_1:out1",
+            "in": "effect_2:input"
+          },
+          {
+            "out": "effect_2:out",
+            "in": "system:playback_1"
+          }
+        ]
+      },
+      {
+        "name": "Punk Rock",
+        "effects": [
+          {
+            "uri": "http://guitarix.sourceforge.net/plugins/gxts9#ts9sim",
+            "name": "Distortion drive",
+            "company": "MOD",
+            "params": [
+              {
+                "name": "ratio",
+                "min": 0,
+                "max": 10,
+                "current": 5
+              },
+              {
+                "name": "volume",
+                "min": 0,
+                "max": 100,
+                "current": 5,
+                "unit": "%"
+              }
+            ],
+            "status": false
+          },
+          {
+            "name": "Test drive",
+            "company": "Guitarix",
+            "uri": "http://guitarix.sourceforge.net/plugins/gxts9#ts9sim",
+            "params": [
+              {
+                "name": "ratio",
+                "min": 0,
+                "max": 10,
+                "current": 5
+              },
+              {
+                "name": "volume",
+                "min": 0,
+                "max": 100,
+                "current": 5,
+                "unit": "%"
+              }
+            ],
+            "status": true
+          }
+        ],
+        "connections": [
+          {
+            "out": "system:capture_1",
+            "in": "effect_1:bass_l"
+          },
+          {
+            "out": "effect_1:out1",
+            "in": "effect_2:input"
+          },
+          {
+            "out": "effect_2:out",
+            "in": "system:playback_1"
+          }
+        ]
+      }
+    ]
+  },
+
+
+
+
+
+
+  "bank/0/patch/0": {
+    "index": 0,
+    "name": "Rock",
+    "effects": [
+      {
+        "uri": "http://guitarix.sourceforge.net/plugins/gxts9#ts9sim",
+        "name": "Distortion drive",
+        "company": "MOD",
+        "params": [
+          {
+            "name": "ratio",
+            "min": 0,
+            "max": 10,
+            "current": 5
+          },
+          {
+            "name": "volume",
+            "min": 0,
+            "max": 100,
+            "current": 5,
+            "unit": "%"
+          }
+        ],
+        "status": false
+      },
+      {
+        "uri": "http://guitarix.sourceforge.net/plugins/gx_tremolo#_tremolo",
+        "name": "Test drive",
+        "company": "Guitarix",
+        "params": [
+          {
+            "name": "ratio",
+            "min": 0,
+            "max": 10,
+            "current": 5
+          },
+          {
+            "name": "volume",
+            "min": 0,
+            "max": 100,
+            "current": 5,
+            "unit": "%"
+          }
+        ],
+        "status": true
+      }
+    ],
+    "connections": [
+      {
+        "out": "system:capture_1",
+        "in": "effect_1:bass_l"
+      },
+      {
+        "out": "effect_1:out1",
+        "in": "effect_2:input"
+      },
+      {
+        "out": "effect_2:out",
+        "in": "system:playback_1"
+      }
+    ]
+  }
+}
