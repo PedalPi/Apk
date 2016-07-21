@@ -23,6 +23,10 @@ export class BanksPage {
       data => this.banks = data.banks
     );
   }
+    
+  private get service() {
+      return this.jsonService.banks;
+  }
 
   itemSelected(bank) {
     this.nav.push(PatchesPage, {'bank': bank});
@@ -30,10 +34,10 @@ export class BanksPage {
 
   createBank() {
     let alert = AlertCommon.generate('New bank', data => {
-      const bank = {'name':data.name};
-      this.jsonService.banks.saveBank(bank).subscribe(
-        status => this.banks.push(bank)
-      );
+      const bank = {'name': data.name};
+      const saveBank = status => this.banks.push(bank);
+
+      this.service.saveNewBank(bank).subscribe(saveBank);
     });
 
     this.nav.present(alert);
@@ -42,19 +46,31 @@ export class BanksPage {
   onContextBank(bank) {
     const contextMenu = new ContextMenu(bank.name, 'context');
 
+    /*
     contextMenu.addItem('Reorder', () => {
       console.log('Beta 2.10 https://github.com/driftyco/ionic/issues/5595');
       this.reordering = !this.reordering;
     });
+    */
 
     contextMenu.addItem('Remove', () => {
       //https://github.com/driftyco/ionic/issues/5073
-      const alert = AlertCommon.alert('R u sure?', () => this.banks.splice(this.banks.indexOf(bank), 1));
+      const deleteBank = () => this.banks.splice(this.banks.indexOf(bank), 1);
+      const requestDeleteBank = () => this.service.deleteBank(bank).subscribe(deleteBank);
+
+      const alert = AlertCommon.alert('R u sure?', requestDeleteBank);
+      
       this.nav.present(alert);
     });
 
     contextMenu.addItem('Rename', () => {
-      let alert = AlertCommon.generate('Rename bank', data => bank.name = data.name, bank.name);
+      const requestRenameBank = data => {
+          bank.name = data.name;
+          this.service.updateBank(bank);
+      };
+
+      let alert = AlertCommon.generate('Rename bank', requestRenameBank, bank.name);
+
       this.nav.present(alert);
     });
 

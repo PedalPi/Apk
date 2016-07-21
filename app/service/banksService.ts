@@ -11,27 +11,30 @@ export class BanksService {
     this.router = router;
   }
 
-  get banks() : String {
+  private banksUrl() : string {
     return this.router.route('/banks');
   }
 
-  get bank() : String {
-    return this.router.route('/bank');
+  private bankUrl(bank? : any) : string {
+    let url = bank ? `/bank/${bank.index}` : '/bank';
+    return this.router.route(url);
   }
 
   getBanks() {
-    return this.rest.get(this.banks);
+    return this.rest.get(this.banksUrl());
   }
 
-  saveBank(bankJson) {
-    return this.rest.post(this.bank, bankJson);
+  saveNewBank(bank) {
+    return this.rest.post(this.bankUrl(), bank);
   }
 
-  editBank(bankJson) {
-    return this.rest.put(this.bank, bankJson);
+  updateBank(bank) {
+    let url = this.bankUrl(bank);
+    return this.rest.put(url, bank);
   }
 
-  deleteBank(bankJson) {
-    return this.rest.delete(this.bank, bankJson);
+  deleteBank(bank) {
+    let url = this.bankUrl(bank);
+    return this.rest.delete(url, bank);
   }
 }

@@ -20,15 +20,4 @@ export class JsonService {
 
     this.banks = new BanksService(this.rest, this.router);
   }
-
-  requestEffects() {
-    return this.rest.get(this.router.effects);
-  }
-
-  handleError(error) {
-    console.error(error);
-    return {subscribe: () => {}};
-
-    //return Observable.throw(error.json().error || 'Server error');
-  }
 }

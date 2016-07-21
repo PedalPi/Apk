@@ -1,4 +1,4 @@
-import {Http} from '@angular/http';
+import {Http, Headers, RequestOptions} from '@angular/http';
 
 
 export class RestService {
@@ -8,27 +8,49 @@ export class RestService {
     this.http = http;
   }
 
-  get(url) {
+  get(url : string) {
     return this.http.get(url)
       .map(res => res.json());
       //.catch(this.handleError);
   }
 
-  post(url, data) {
-    return this.http.post(url, data)
+  post(url : string, data : any) {
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+
+    const body = JSON.stringify(data);
+
+    return this.http.post(url, body, options)
       .map(res => res.json());
       //.catch(this.handleError);
   }
 
-  put(url, data) {
-    return this.http.put(url, data)
+  put(url : string, data : any) {
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+
+    const body = JSON.stringify(data);
+
+    return this.http.put(url, body, options)
       .map(res => res.json());
       //.catch(this.handleError);
   }
 
-  delete(url, data) {
-    return this.http.delete(url, data)
+  delete(url : string, data : any) {
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+
+    const body = JSON.stringify(data);
+
+    return this.http.delete(url, body, options)
       .map(res => res.json());
       //.catch(this.handleError);
+  }
+
+  private handleError(error) {
+    console.error(error);
+    return {subscribe: () => {}};
+
+    //return Observable.throw(error.json().error || 'Server error');
   }
 }
