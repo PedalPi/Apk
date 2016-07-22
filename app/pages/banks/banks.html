@@ -4,7 +4,7 @@
   </ion-title>
 
   <ion-buttons start>
-    <button royal (click)="createBank()" [hidden]="reordering">
+    <button id="add-bank" royal (click)="createBank()" [hidden]="reordering">
       <ion-icon name="add"></ion-icon>
     </button>
     <button royal [hidden]="!reordering" (click)="save()">Ok</button>
