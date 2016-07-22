@@ -4,6 +4,7 @@ import {Http, Headers, RequestOptions} from '@angular/http';
 import {RestService} from './restService';
 import {Router} from './router';
 import {BanksService} from './banksService';
+import {PatchService} from './patchService';
 import {PluginService} from './pluginService';
 
 //const server = 'http://trick-group-3000.codio.io';
@@ -15,6 +16,7 @@ export class JsonService {
   private router : Router;
 
   public banks : BanksService;
+  public patch : PatchService;
   public plugin : PluginService;
 
   constructor(http : Http) {
@@ -22,6 +24,7 @@ export class JsonService {
     this.router = new Router(server);
 
     this.banks = new BanksService(this.rest, this.router);
+    this.patch = new PatchService(this.rest, this.router);
     this.plugin = new PluginService(this.rest, this.router);
   }
 }

@@ -12,9 +12,9 @@ export class PatchService {
   }
 
   private patchUrl(bank : any, patch? : any) : string {
-    let url = `/bank/${bank.index}`;
+    let url = `/bank/${bank.index}/patch`;
     if (patch)
-      url += `/patch/${patch.index}`;
+      url += `/${bank.patches.indexOf(patch)}`;
 
     return this.router.route(url);
   }

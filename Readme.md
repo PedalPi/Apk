@@ -12,14 +12,6 @@ sudo npm install -g ionic@beta
 ionic serve -p 3000 -a
 ```
 
-## Tests
-
-```
-npm install -g json-server
-cd test
-json-server --watch db.json
-#json-server --watch db.json --routes routes.json
-```
 
 ### Reference Links
 

@@ -1,5 +1,0 @@
-{
-  "/bank/:id": "/banks?index=:id",
-  "/bank/:id/patch": "/patch",
-  "/bank/0/patch/:index": "/patch?name=:index"
-}

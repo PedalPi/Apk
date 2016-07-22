@@ -1,10 +1,13 @@
 import {Page, NavController, NavParams, Alert} from 'ionic-angular';
 import {PatchPage} from '../patch/patch';
 
+import {JsonService} from '../../service/jsonService';
+
 import {AlertCommon} from '../../common/alert';
 import {ContextMenu} from '../../common/contextMenu';
 import {SrIcon} from '../../components/sr-icon/sr-icon';
 
+import {PatchGenerator} from '../../generator/modelGenerator';
 
 const effects = [
   {
@@ -568,60 +571,24 @@ const effects = [
   directives: [SrIcon]
 })
 export class PatchesPage {
-  public bank : Object;
+  public bank : any;
 
-  constructor(private nav : NavController, params : NavParams) {
-    //this.bank = params.get('bank');
-    this.bank = {
-        "index": 1,
-        "name": "Shows",
-        "patches": [
-            {
-                "name": "00 - Patch 1",
-                "effects" : effects,
-                "connections" : [
-                    {
-                        "out": "system:capture_1",
-                        "in": "effect_1:bass_l"
-                    },
-                    {
-                        "out": "effect_1:out1",
-                        "in": "effect_2:input"
-                    },
-                    {
-                        "out": "effect_2:out",
-                        "in": "system:playback_1"
-                    }
-                ]
-            },
-            {
-                "name": "02 - Reggae town",
-                "effects" : effects,
-                "connections" : [
-                    {
-                        "out": "system:capture_1",
-                        "in": "effect_1:bass_l"
-                    },
-                    {
-                        "out": "effect_1:out1",
-                        "in": "effect_2:input"
-                    },
-                    {
-                        "out": "effect_2:out",
-                        "in": "system:playback_1"
-                    }
-                ]
-            }
-        ]
-    };
+  constructor(private nav : NavController, params : NavParams, private jsonService : JsonService) {
+    this.bank = params.get('bank');
   }
 
   createPatch() {
-    let alert = AlertCommon.generate('New patch', data => this.bank["patches"].push({
-      'name':data.name,
-      'effects': []
-    }));
+    let alert = AlertCommon.generate('New patch', data => {
+      const patch = PatchGenerator.generate(data.name);
+      const savePatch = status => this.bank.patches.push(patch);
+
+      this.service.saveNewPatch(this.bank, patch).subscribe(savePatch);
+    });
     this.nav.present(alert);
+  }
+
+  private get service() {
+    return this.jsonService.patch;
   }
 
   itemSelected(patch) {
@@ -631,21 +598,33 @@ export class PatchesPage {
   onContextPatch(patch) {
     const contextMenu = new ContextMenu(patch.name, 'context');
 
+    /*
     contextMenu.addItem('Reorder', () => {
       console.log('Beta 2.10 https://github.com/driftyco/ionic/issues/5595');
       console.log('http://codepen.io/leoz/pen/MwYxmj');
     });
+    */
 
     contextMenu.addItem('Remove', () => {
-      const alert = AlertCommon.alert('R u sure?', () => {
-        const index = this.bank["patches"].indexOf(patch);
-        this.bank["patches"].splice(index, 1);
-      });
+      const deletePatch = () => {
+        const patchIndex = this.bank.patches.indexOf(patch);
+        this.bank.patches.splice(patchIndex, 1);
+      };
+      const requestDeletePatch = () => this.service.deletePatch(this.bank, patch).subscribe(deletePatch);
+
+      const alert = AlertCommon.alert('R u sure?', requestDeletePatch);
+
       this.nav.present(alert);
     });
 
     contextMenu.addItem('Rename', () => {
-      let alert = AlertCommon.generate('Rename patch', data => patch.name = data.name, patch.name);
+      const requestRenamePatch = data => {
+          patch.name = data.name;
+          this.service.updatePatch(this.bank, patch).subscribe(() => {});
+      };
+
+      let alert = AlertCommon.generate('Rename patch', requestRenamePatch, patch.name);
+
       this.nav.present(alert);
     });
 

@@ -5,6 +5,8 @@ import {JsonService} from '../../service/jsonService';
 import {AlertCommon} from '../../common/alert';
 import {ContextMenu} from '../../common/contextMenu';
 
+import {BankGenerator} from '../../generator/modelGenerator';
+
 
 @Page({
   templateUrl: 'build/pages/banks/banks.html'
@@ -19,16 +21,11 @@ export class BanksPage {
   }
 
   ngOnInit() {
-    this.service.getBanks().subscribe(
-      data => {
-        console.log(data);
-        this.banks = data.banks
-      }
-    );
+    this.service.getBanks().subscribe(data => this.banks = data.banks);
   }
 
   private get service() {
-      return this.jsonService.banks;
+    return this.jsonService.banks;
   }
 
   itemSelected(bank) {
@@ -37,8 +34,11 @@ export class BanksPage {
 
   createBank() {
     let alert = AlertCommon.generate('New bank', data => {
-      const bank = {'name': data.name};
-      const saveBank = status => this.banks.push(bank);
+      const bank = BankGenerator.generate(data.name);
+      const saveBank = status => {
+        bank.index = status.index;
+        this.banks.push(bank);
+      }
 
       this.service.saveNewBank(bank).subscribe(saveBank);
     });
@@ -69,7 +69,7 @@ export class BanksPage {
     contextMenu.addItem('Rename', () => {
       const requestRenameBank = data => {
           bank.name = data.name;
-          this.service.updateBank(bank);
+          this.service.updateBank(bank).subscribe(() => {});
       };
 
       let alert = AlertCommon.generate('Rename bank', requestRenameBank, bank.name);
