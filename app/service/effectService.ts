@@ -11,10 +11,14 @@ export class EffectService {
     this.router = router;
   }
 
-  private effectUrl(bank : any, patch : any, effect : any) : string {
-    let url = `/bank/${bank.index}/patch/${patch.index}`;
-    if (patch)
-      url += `/effect/${effect.index}`;
+  private effectUrl(bank : any, patch : any, effect? : any) : string {
+    const patchIndex = bank.patches.indexOf(patch);
+    let url = `/bank/${bank.index}/patch/${patchIndex}/effect`;
+
+    if (effect) {
+      const effectIndex = patch.effects.indexOf(effect);
+      url += `/${effectIndex}`;
+    }
 
     return this.router.route(url);
   }
@@ -25,11 +29,11 @@ export class EffectService {
   }
 
   saveNewEffect(bank : any, patch : any, effect : any) {
-    let url = this.effectUrl(bank, patch, effect);
+    let url = this.effectUrl(bank, patch);
     return this.rest.post(url, effect);
   }
 
-  deleteBank(bank : any, patch : any, effect : any) {
+  deleteEffect(bank : any, patch : any, effect : any) {
     let url = this.effectUrl(bank, patch, effect);
     return this.rest.delete(url);
   }

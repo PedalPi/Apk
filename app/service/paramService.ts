@@ -14,8 +14,9 @@ export class ParamService {
   private paramUrl(bank : any, patch : any, effect : any, param : any) : string {
     let patchIndex = bank.patches.indexOf(patch);
     let effectIndex = patch.effects.indexOf(effect);
+    let paramIndex = effect.ports.control.input.indexOf(param);
 
-    let url = `/bank/${bank.index}/patch/${patchIndex}/effect/${effectIndex}/param/${param.index}`;
+    let url = `/bank/${bank.index}/patch/${patchIndex}/effect/${effectIndex}/param/${paramIndex}`;
     return this.router.route(url);
   }
 

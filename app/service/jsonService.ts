@@ -5,6 +5,7 @@ import {Rest} from './rest';
 import {Router} from './router';
 import {BanksService} from './banksService';
 import {PatchService} from './patchService';
+import {EffectService} from './effectService';
 import {ParamService} from './paramService';
 import {PluginService} from './pluginService';
 
@@ -18,6 +19,7 @@ export class JsonService {
 
   public banks : BanksService;
   public patch : PatchService;
+  public effect : EffectService;
   public param : ParamService;
   public plugin : PluginService;
 
@@ -28,6 +30,7 @@ export class JsonService {
     this.banks = new BanksService(this.rest, this.router);
     this.patch = new PatchService(this.rest, this.router);
     this.param = new ParamService(this.rest, this.router);
+    this.effect = new EffectService(this.rest, this.router);
     this.plugin = new PluginService(this.rest, this.router);
   }
 }

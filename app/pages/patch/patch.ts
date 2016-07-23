@@ -81,7 +81,11 @@ export class PatchPage {
   }
 
   public manageEffects() {
-    const modal = Modal.create(EffectsPage, { patch: this.patch });
+    const params = {
+      bank: this.bank,
+      patch: this.patch
+    };
+    const modal = Modal.create(EffectsPage, params);
     this.nav.present(modal);
   }
 

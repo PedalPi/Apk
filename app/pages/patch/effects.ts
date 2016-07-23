@@ -2,15 +2,23 @@ import {Page, ViewController, Modal, NavController, NavParams, Alert, IONIC_DIRE
 
 import {EffectListPage} from '../effectList/effectList';
 
+import {JsonService} from '../../service/jsonService';
+
 @Page({
   templateUrl: 'build/pages/patch/effects.html'
 })
 export class EffectsPage {
-  public patch : Object;
+  public bank : any;
+  public patch : any;
   public mode : string = 'normal';
 
-  constructor(private nav : NavController, params: NavParams, private controller: ViewController) {
+  constructor(private nav : NavController, params: NavParams, private controller: ViewController, private jsonService : JsonService) {
+    this.bank = params.get('bank');
     this.patch = params.get('patch');
+  }
+
+  private get service() {
+    return this.jsonService.effect;
   }
 
   close() {
@@ -20,10 +28,11 @@ export class EffectsPage {
   newEffect() {
     const modal = Modal.create(EffectListPage, { patch: this.patch });
     modal.onDismiss(effect => {
-      if (effect)
-        this.patch["effects"].push(effect)
-
-      console.log(effect);
+      if (effect) {
+        console.log(effect);
+        this.service.saveNewEffect(this.bank, this.patch, effect.uri)
+            .subscribe(data => this.patch["effects"].push(data["effect"]));
+      }
     });
 
     this.nav.present(modal);
@@ -42,6 +51,7 @@ export class EffectsPage {
   }
 
   remove(index : number) {
-    this.patch["effects"].splice(index, 1);
+    this.service.deleteEffect(this.bank, this.patch, this.patch.effects[index])
+        .subscribe(() => this.patch["effects"].splice(index, 1))
   }
 }
