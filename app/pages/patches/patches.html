@@ -1,20 +1,23 @@
-<ion-navbar *navbar>
-  <ion-title>
-    {{bank.name}}
-  </ion-title>
-  <ion-buttons start>
-    <button id="add-patch" royal (click)="createPatch()">
-      <ion-icon name="add"></ion-icon>
-    </button>
-  </ion-buttons>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      {{bank.name}}
+    </ion-title>
+
+    <ion-buttons start>
+      <button id="add-patch" royal (click)="createPatch()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="patches">
   <ion-list no-lines>
     <ion-card *ngFor="let patch of bank.patches" (click)="itemSelected(patch)" (press)="onContextPatch(patch)" class="ion-card-clicable no-shadow ion-card-item">
       <button ion-item>
         <ion-icon item-left><sr-icon icon="icons.svg#icon-patch"></sr-icon></ion-icon>
-        <ion-item>{{patch.name}}</ion-item>
+        <span class="ion-item">{{patch.name}}</span>
       </button>
     </ion-card>
   </ion-list>

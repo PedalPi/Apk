@@ -13,7 +13,12 @@ ion-card.ion-card-item {
   width: 100%;
   margin: 0;
 
-  ion-item {
+  button {
+    padding-top: 13px;
+    padding-bottom: 13px;
+  }
+
+  .ion-item {
     color: $text-color-light;
 
     font-size: 1em;

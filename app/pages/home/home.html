@@ -1,37 +1,38 @@
-<ion-navbar *navbar>
-  <ion-title>
-    PedalPi - Home
-  </ion-title>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      PedalPi - Home
+    </ion-title>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="home">
   <ion-list no-lines>
-
     <ion-card (click)="goToPedalPi(repo)" class="ion-card-clicable no-shadow">
       <button id="pedalpi" ion-item>
         <ion-icon item-left><img src="img/raspberry_pi.png" /></ion-icon>
-        <ion-item>PedalPi</ion-item>
+        <span class="ion-item">PedalPi</span>
       </button>
     </ion-card>
 
     <ion-card class="ion-card-clicable no-shadow">
       <button ion-item>
         <ion-icon item-left><sr-icon icon="icons.svg#icon-local-folder"></sr-icon></ion-icon>
-        <ion-item>Local</ion-item>
+        <span class="ion-item">Local</span>
       </button>
     </ion-card>
 
     <ion-card class="ion-card-clicable no-shadow">
       <button ion-item>
         <ion-icon item-left><sr-icon icon="icons.svg#icon-patch"></sr-icon></ion-icon>
-        <ion-item>Current Patch</ion-item>
+        <span class="ion-item">Current Patch</span>
       </button>
     </ion-card>
 
     <ion-card class="ion-card-clicable no-shadow">
       <button ion-item>
         <ion-icon item-left><sr-icon icon="icons.svg#icon-configurations"></sr-icon></ion-icon>
-        <ion-item>Configurations</ion-item>
+        <span class="ion-item">Configurations</span>
       </button>
     </ion-card>
 

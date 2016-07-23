@@ -8,8 +8,7 @@ import {SrIcon} from '../../components/sr-icon/sr-icon';
   directives: [SrIcon]
 })
 export class HomePage {
-  constructor(private nav : NavController) {
-  }
+  constructor(private nav : NavController) {}
 
   goToPedalPi() {
     this.nav.push(BanksPage);

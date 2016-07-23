@@ -1,49 +1,51 @@
-<ion-navbar *navbar>
-  <ion-title>
-    {{patch.name}}
-  </ion-title>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      {{patch.name}}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="patch">
   <button id="effects" clear (click)="manageEffects()"><ion-icon name="md-shuffle"></ion-icon></button>
   <sr-tabs id="tabs">
 
     <sr-tab *ngFor="let effect of patch.effects" title="{{effect.name}}">
-
       <div *ngFor="let parameter of effect.ports.control.input">
         <sr-slider (onChange)="onParamUpdated(effect, $event)" *ngIf="parameter.enumeration == null" [parameter]="parameter"></sr-slider>
-
         <sr-combobox *ngIf="parameter.enumeration"></sr-combobox>
       </div>
     </sr-tab>
+
     <div id="info" *ngIf="patch.effects.length == 0">
       <ion-icon name="md-shuffle"></ion-icon>
       Add effects in the patch
     </div>
   </sr-tabs>
+
+  <ion-toolbar position="bottom" id="footer">
+    <ion-card class="ion-card-clicable no-shadow ion-card-item">
+      <button ion-item (click)="toBeforePatch()">
+        <ion-icon name="arrow-back"></ion-icon>
+        <span class="label">{{beforePatch.name}}</span>
+      </button>
+    </ion-card>
+
+    <!--
+    <div id="connections">
+      <ion-icon center>
+        <img src="img/conection-plug.svg" />
+      </ion-icon>
+      <span class="label">Connections</span>
+    </div>
+    -->
+
+    <ion-card class="ion-card-clicable no-shadow ion-card-item">
+      <button ion-item (click)="toNextPatch()">
+        <ion-icon name="arrow-forward"></ion-icon>
+        <span class="label">{{nextPatch.name}}</span>
+      </button>
+    </ion-card>
+  </ion-toolbar>
+
 </ion-content>
-
-<ion-toolbar position="bottom" id="footer">
-  <ion-card class="ion-card-clicable no-shadow ion-card-item">
-    <button ion-item (click)="toBeforePatch()">
-      <ion-icon name="arrow-back"></ion-icon>
-      <span class="label">{{beforePatch.name}}</span>
-    </button>
-  </ion-card>
-
-  <!--
-  <div id="connections">
-    <ion-icon center>
-      <img src="img/conection-plug.svg" />
-    </ion-icon>
-    <span class="label">Connections</span>
-  </div>
-  -->
-
-  <ion-card class="ion-card-clicable no-shadow ion-card-item">
-    <button ion-item (click)="toNextPatch()">
-      <ion-icon name="arrow-forward"></ion-icon>
-      <span class="label">{{nextPatch.name}}</span>
-    </button>
-  </ion-card>
-</ion-toolbar>

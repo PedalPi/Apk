@@ -1,23 +1,25 @@
-<ion-toolbar>
-  <ion-buttons start>
-    <button royal (click)="close()"><ion-icon name="close"></ion-icon> Close</button>
-  </ion-buttons>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons start>
+      <button royal (click)="close()"><ion-icon name="close"></ion-icon> Close</button>
+    </ion-buttons>
 
-  <ion-title>Effects of {{patch.name}}</ion-title>
+    <ion-title>Effects of {{patch.name}}</ion-title>
 
-  <ion-buttons end>
-    <button royal (click)="newEffect()" [hidden]="removeMode"><ion-icon name="add"></ion-icon></button>
-    <button royal (click)="toRemoveMode()" [hidden]="removeMode"><ion-icon name="remove"></ion-icon></button>
-    <button royal (click)="toNormalMode()" [hidden]="!removeMode">Ok</button>
-  </ion-buttons>
-</ion-toolbar>
+    <ion-buttons end>
+      <button royal (click)="newEffect()" [hidden]="removeMode"><ion-icon name="add"></ion-icon></button>
+      <button royal (click)="toRemoveMode()" [hidden]="removeMode"><ion-icon name="remove"></ion-icon></button>
+      <button royal (click)="toNormalMode()" [hidden]="!removeMode">Ok</button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content padding>
   <ion-list>
     <ion-item *ngFor="let effect of patch.effects; let i = index">
       {{i+1}} - {{effect.name}}
       <ion-icon name="menu" item-right [hidden]="removeMode"></ion-icon>
-      <button  item-right clear (click)="remove(i)" [hidden]="!removeMode"><ion-icon name="close"></ion-icon></button>
+      <button item-right clear (click)="remove(i)" [hidden]="!removeMode"><ion-icon name="close"></ion-icon></button>
     </ion-item>
   </ion-list>
 </ion-content>
