@@ -11,7 +11,7 @@
     <sr-tab *ngFor="let effect of patch.effects" title="{{effect.name}}">
 
       <div *ngFor="let parameter of effect.ports.control.input">
-        <sr-slider (onChange)="onParamUpdated($event)" *ngIf="parameter.enumeration == null" [parameter]="parameter"></sr-slider>
+        <sr-slider (onChange)="onParamUpdated(effect, $event)" *ngIf="parameter.enumeration == null" [parameter]="parameter"></sr-slider>
 
         <sr-combobox *ngIf="parameter.enumeration"></sr-combobox>
       </div>

@@ -1,6 +1,8 @@
 import {Page, Modal, NavController, NavParams} from 'ionic-angular';
 import {Component, QueryList, ViewChild} from '@angular/core';
 
+import {JsonService} from '../../service/jsonService';
+
 import {EffectsPage} from './effects';
 
 import {SrSlider} from '../../components/sr-slider/sr-slider';
@@ -15,12 +17,16 @@ import {SrTab} from '../../components/sr-tabs/sr-tab';
 export class PatchPage {
   @ViewChild(SrTabs) tabs: SrTabs;
 
-  public patch : Object;
-  public bank : Object;
+  public patch : any;
+  public bank : any;
 
-  constructor(private nav : NavController, params : NavParams) {
+  constructor(private nav : NavController, params : NavParams, private jsonService : JsonService) {
     this.patch = params.get('patch');
     this.bank = params.get('bank');
+  }
+
+  private get service() {
+    return this.jsonService.param;
   }
 
   public toBeforePatch() {
@@ -79,7 +85,8 @@ export class PatchPage {
     this.nav.present(modal);
   }
 
-  public onParamUpdated($event) {
-    console.log(`Param ${$event.name}: ${$event.value}`);
+  public onParamUpdated(effect, param) {
+    this.service.updateParam(this.bank, this.patch, effect, param).subscribe(() => {});
+    console.log(`Param ${param.name}: ${param.value}`);
   }
 }

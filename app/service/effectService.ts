@@ -1,12 +1,12 @@
-import {RestService} from './restService';
+import {Rest} from './rest';
 import {Router} from './router';
 
 
 export class EffectService {
-  private rest : RestService;
+  private rest : Rest;
   private router : Router;
 
-  constructor(rest : RestService, router : Router) {
+  constructor(rest : Rest, router : Router) {
     this.rest = rest;
     this.router = router;
   }

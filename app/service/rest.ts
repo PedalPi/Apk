@@ -1,7 +1,7 @@
 import {Http, Headers, RequestOptions} from '@angular/http';
 
 
-export class RestService {
+export class Rest {
   private http : Http;
 
   constructor(http : Http) {
