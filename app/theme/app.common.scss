@@ -8,6 +8,10 @@
   box-shadow: none;
 }
 
+.ion-item-light {
+  color: $text-color-light;
+  font-weight: 300;
+}
 
 ion-card.ion-card-item {
   width: 100%;

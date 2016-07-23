@@ -1,4 +1,5 @@
-import {Page, NavController} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController} from 'ionic-angular';
 import {PatchesPage} from '../patches/patches';
 
 import {JsonService} from '../../service/jsonService';
@@ -8,7 +9,7 @@ import {ContextMenu} from '../../common/contextMenu';
 import {BankGenerator} from '../../generator/modelGenerator';
 
 
-@Page({
+@Component({
   templateUrl: 'build/pages/banks/banks.html'
 })
 export class BanksPage {
@@ -49,12 +50,10 @@ export class BanksPage {
   onContextBank(bank) {
     const contextMenu = new ContextMenu(bank.name, 'context');
 
-    /*
     contextMenu.addItem('Reorder', () => {
       console.log('Beta 2.10 https://github.com/driftyco/ionic/issues/5595');
       this.reordering = !this.reordering;
     });
-    */
 
     contextMenu.addItem('Remove', () => {
       //https://github.com/driftyco/ionic/issues/5073

@@ -1,5 +1,5 @@
-import {Page, Modal, NavController, NavParams} from 'ionic-angular';
 import {Component, QueryList, ViewChild} from '@angular/core';
+import {Modal, NavController, NavParams} from 'ionic-angular';
 
 import {JsonService} from '../../service/jsonService';
 
@@ -10,7 +10,7 @@ import {SrCombobox} from '../../components/sr-combobox/sr-combobox';
 import {SrTabs} from '../../components/sr-tabs/sr-tabs';
 import {SrTab} from '../../components/sr-tabs/sr-tab';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/patch/patch.html',
   directives: [SrSlider, SrCombobox, SrTabs, SrTab]
 })
@@ -66,11 +66,13 @@ export class PatchPage {
   }
 
   private toPatch(patch : Object) {
+    this.patch = patch;
+
     this.currentService.setPatch(this.bank, patch)
         .subscribe(() => {});
 
-    this.patch = patch;
-    //this.tabs.ngAfterContentInit();
+    if (this.tabs)
+      this.tabs.selectTab(0);
   }
 
   private getIndex(patch) : number {
@@ -83,6 +85,13 @@ export class PatchPage {
       patch: this.patch
     };
     const modal = Modal.create(EffectsPage, params);
+    modal.onDismiss(data => {
+      if (!data) return;
+
+      this.tabs.selectTab(data.index);
+      this.tabs.focusTab(data.index);
+    });
+
     this.nav.present(modal);
   }
 

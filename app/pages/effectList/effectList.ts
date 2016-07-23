@@ -1,4 +1,5 @@
-import {Page, ViewController, NavController, NavParams} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {ViewController, NavController, NavParams} from 'ionic-angular';
 
 import {SrTabs} from '../../components/sr-tabs/sr-tabs';
 import {SrTab} from '../../components/sr-tabs/sr-tab';
@@ -713,7 +714,7 @@ const afe = {effects :
   }
 ]};
 
-@Page({
+@Component({
   templateUrl: 'build/pages/effectList/effectList.html',
   directives: [SrTabs, SrTab]
 })

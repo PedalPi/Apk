@@ -1,4 +1,4 @@
-import {Component, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
+import {ElementRef, Directive, Component, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
 
 import { SrTab } from './sr-tab';
 
@@ -7,14 +7,22 @@ import { SrTab } from './sr-tab';
   templateUrl: 'build/components/sr-tabs/sr-tabs.html'
 })
 export class SrTabs implements AfterContentInit {
+  private element : Element;
+  private tabsHeader : Element;
+
   @ContentChildren(SrTab) tabs: QueryList<SrTab>;
+
   private currentTab : SrTab;
+
+  constructor(element: ElementRef) {
+    this.element = element.nativeElement;
+  }
 
   ngAfterContentInit() {
     this.currentTab = null;
     this.selectTab(0);
 
-    console.log("Changed:", this.tabs.toArray());
+    this.tabsHeader = this.element.querySelector("ul");
   }
 
   selectTab(index) {
@@ -26,5 +34,13 @@ export class SrTabs implements AfterContentInit {
 
     this.currentTab = this.tabs.toArray()[index];
     this.currentTab.active = true;
+  }
+
+  focusTab(index) {
+    if (!this.tabsHeader)
+      return;
+
+    let tabsHeaderItems = this.tabsHeader.querySelectorAll("li");
+    this.tabsHeader.scrollLeft = (<HTMLElement> tabsHeaderItems[index]).offsetLeft;
   }
 }

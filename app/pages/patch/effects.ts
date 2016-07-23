@@ -1,28 +1,34 @@
-import {Page, ViewController, Modal, NavController, NavParams, Alert, IONIC_DIRECTIVES} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {ViewController, Modal, NavController, NavParams, Alert, IONIC_DIRECTIVES} from 'ionic-angular';
 
 import {EffectListPage} from '../effectList/effectList';
 
 import {JsonService} from '../../service/jsonService';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/patch/effects.html'
 })
 export class EffectsPage {
   public bank : any;
   public patch : any;
-  public mode : string = 'normal';
+  public mode : string;
 
   constructor(private nav : NavController, params: NavParams, private controller: ViewController, private jsonService : JsonService) {
     this.bank = params.get('bank');
     this.patch = params.get('patch');
+
+    this.toReorderMode();
   }
 
   private get service() {
     return this.jsonService.effect;
   }
 
-  close() {
-    this.controller.dismiss();
+  close(effectIndex? : number) {
+    if (effectIndex !== undefined)
+      this.controller.dismiss({'index' : effectIndex});
+    else
+      this.controller.dismiss();
   }
 
   newEffect() {
@@ -37,6 +43,10 @@ export class EffectsPage {
     this.nav.present(modal);
   }
 
+  get reorderMode() {
+    return !this.removeMode;
+  }
+
   get removeMode() {
     return this.mode == 'remove';
   }
@@ -45,12 +55,24 @@ export class EffectsPage {
     this.mode = 'remove';
   }
 
-  toNormalMode() {
-    this.mode = 'normal';
+  toReorderMode() {
+    this.mode = 'reorder';
+  }
+
+  select(index : number) {
+    if (this.reorderMode)
+      this.close(index);
   }
 
   remove(index : number) {
     this.service.deleteEffect(this.bank, this.patch, this.patch.effects[index])
         .subscribe(() => this.patch["effects"].splice(index, 1))
+  }
+
+  reorderItems(indexes) {
+    let effect = this.patch.effects[indexes.from];
+
+    this.patch.effects.splice(indexes.from, 1);
+    this.patch.effects.splice(indexes.to, 0, effect);
   }
 }
