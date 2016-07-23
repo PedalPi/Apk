@@ -21,12 +21,16 @@ export class PatchPage {
   public bank : any;
 
   constructor(private nav : NavController, params : NavParams, private jsonService : JsonService) {
-    this.patch = params.get('patch');
     this.bank = params.get('bank');
+    this.toPatch(params.get('patch'));
   }
 
   private get service() {
     return this.jsonService.param;
+  }
+
+  private get currentService() {
+    return this.jsonService.current;
   }
 
   public toBeforePatch() {
@@ -40,11 +44,10 @@ export class PatchPage {
   private getBeforePatch() : Object {
     let index = this.getIndex(this.patch) - 1;
     if (index == -1)
-      index = this.bank["patches"].length-1;
+      index = this.bank.patches.length-1;
 
-    return this.bank["patches"][index];
+    return this.bank.patches[index];
   }
-
 
   public toNextPatch() {
     this.toPatch(this.nextPatch);
@@ -56,28 +59,22 @@ export class PatchPage {
 
   private getNextPatch() : Object {
     let index = this.getIndex(this.patch) + 1;
-    if (index == this.bank["patches"].length)
+    if (index == this.bank.patches.length)
       index = 0;
 
-    return this.bank["patches"][index];
+    return this.bank.patches[index];
   }
 
-
   private toPatch(patch : Object) {
+    this.currentService.setPatch(this.bank, patch)
+        .subscribe(() => {});
+
     this.patch = patch;
-    this.tabs.ngAfterContentInit();
+    //this.tabs.ngAfterContentInit();
   }
 
   private getIndex(patch) : number {
-    let index : number = 0;
-
-    for (let patch of this.bank["patches"]) {
-      if (patch === this.patch)
-        return index;
-      index++;
-    }
-
-    return -1;
+    return this.bank.patches.indexOf(patch);
   }
 
   public manageEffects() {

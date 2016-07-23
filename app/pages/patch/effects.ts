@@ -29,7 +29,6 @@ export class EffectsPage {
     const modal = Modal.create(EffectListPage, { patch: this.patch });
     modal.onDismiss(effect => {
       if (effect) {
-        console.log(effect);
         this.service.saveNewEffect(this.bank, this.patch, effect.uri)
             .subscribe(data => this.patch["effects"].push(data["effect"]));
       }

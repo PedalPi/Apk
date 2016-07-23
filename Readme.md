@@ -12,6 +12,24 @@ sudo npm install -g ionic@beta
 ionic serve -p 3000 -a
 ```
 
+## Test
+
+```
+npm install -g codeceptjs
+npm install -g webdriverio
+
+# Download chromeDriver
+wget http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.1.jar
+wget http://chromedriver.storage.googleapis.com/2.22/chromedriver_linux64.zip
+
+#sudo apt-get install unzip -y
+unzip chromedriver_linux64.zip
+
+java -jar selenium-server-standalone-2.53.1.jar &
+
+cd test
+codeceptjs run --steps
+```
 
 ### Reference Links
 

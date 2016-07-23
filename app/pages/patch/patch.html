@@ -15,8 +15,11 @@
 
         <sr-combobox *ngIf="parameter.enumeration"></sr-combobox>
       </div>
-
     </sr-tab>
+    <div id="info" *ngIf="patch.effects.length == 0">
+      <ion-icon name="md-shuffle"></ion-icon>
+      Add effects in the patch
+    </div>
   </sr-tabs>
 </ion-content>
 

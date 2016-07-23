@@ -7,7 +7,9 @@ import {BanksService} from './banksService';
 import {PatchService} from './patchService';
 import {EffectService} from './effectService';
 import {ParamService} from './paramService';
+
 import {PluginService} from './pluginService';
+import {CurrentService} from './currentService';
 
 //const server = 'http://trick-group-3000.codio.io';
 const server = 'http://localhost:3000';
@@ -21,7 +23,9 @@ export class JsonService {
   public patch : PatchService;
   public effect : EffectService;
   public param : ParamService;
+
   public plugin : PluginService;
+  public current : CurrentService;
 
   constructor(http : Http) {
     this.rest = new Rest(http);
@@ -31,6 +35,8 @@ export class JsonService {
     this.patch = new PatchService(this.rest, this.router);
     this.param = new ParamService(this.rest, this.router);
     this.effect = new EffectService(this.rest, this.router);
+
     this.plugin = new PluginService(this.rest, this.router);
+    this.current = new CurrentService(this.rest, this.router);
   }
 }

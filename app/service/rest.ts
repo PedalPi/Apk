@@ -28,11 +28,11 @@ export class Rest {
 
     return this.http.post(url, body, this.headers)
       .map(this.processResponse);
-      //.catch(this.handleError);
   }
+  //.catch(this.handleError);
 
-  put(url : string, data : any) {
-    const body = JSON.stringify(data);
+  put(url : string, data? : any) {
+    const body = data? JSON.stringify(data) : null;
 
     return this.http.put(url, body, this.headers)
       .map(this.processResponse);
