@@ -1,5 +1,7 @@
 import {IONIC_DIRECTIVES} from 'ionic-angular';
-import {Input, Component} from '@angular/core';
+import {Input, Output, Component, EventEmitter} from '@angular/core';
+
+declare var sprintf: any;
 
 @Component({
   selector: 'sr-slider',
@@ -7,15 +9,41 @@ import {Input, Component} from '@angular/core';
   directives: [IONIC_DIRECTIVES]
 })
 export class SrSlider {
-  @Input() parameter : Object;
+  @Input() parameter : any;
+  @Output('onChange') onChange = new EventEmitter();
 
   constructor() {
     this.parameter = {
       name: 'Name',
-      minimum: 0,
-      maximum: 0,
-      current: 0,
-      unit: ''
+      value: 0,
+      ranges: {
+        minimum: 0,
+        maximum: 0,
+        default: 0
+      },
+      units: {}
     };
+  }
+
+  get value() {
+    if (this.parameter.units.hasOwnProperty('render'))
+      return this.concatUnit(this.parameter.value);
+
+    return this.parameter.value;
+  }
+
+  get maximum() {
+    if (this.parameter.units.hasOwnProperty('render'))
+      return this.concatUnit(this.parameter.ranges.maximum);
+
+    return this.parameter.ranges.maximum;
+  }
+
+  private concatUnit(value) {
+    return sprintf(this.parameter.units.render, value);
+  }
+
+  public update() {
+    this.onChange.emit(this.parameter);
   }
 }

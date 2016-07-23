@@ -4,12 +4,13 @@
   <!--<ion-range min="0" max="10"></ion-range>-->
 
   <input id="range" type="range"
-    min="{{parameter.minimum}}" max="{{parameter.maximum}}" value="{{parameter.current}}"
-    step="0.001" [(ngModel)]="parameter.current" />
+    min="{{parameter.minimum}}" max="{{parameter.ranges.maximum}}" value="{{parameter.value}}"
+    step="0.001" [(ngModel)]="parameter.value"
+    (change)="update()" />
 
-  <output id="current" for="volume">{{parameter.current}}{{parameter.unit}}</output>
+  <output id="current" for="volume">{{value}}</output>
   <div id="interval">
-    <output id="min" for="volume">{{parameter.minimum}}</output> -
-    <output id="max" for="volume">{{parameter.maximum}}{{parameter.unit}}</output>
+    <output id="min" for="volume">{{parameter.ranges.minimum}}</output> -
+    <output id="max" for="volume">{{maximum}}</output>
   </div>
 </div>

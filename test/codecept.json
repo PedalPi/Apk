@@ -9,7 +9,9 @@
     }
   },
   "include": {
-    "I": "./steps_file.js"
+    "I": "./steps_file.js",
+    "banksPage": "./pages/banks.js",
+    "patchesPage": "./pages/patches.js"
   },
   "bootstrap": false,
   "mocha": {},

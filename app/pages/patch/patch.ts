@@ -78,4 +78,8 @@ export class PatchPage {
     const modal = Modal.create(EffectsPage, { patch: this.patch });
     this.nav.present(modal);
   }
+
+  public onParamUpdated($event) {
+    console.log(`Param ${$event.name}: ${$event.value}`);
+  }
 }
