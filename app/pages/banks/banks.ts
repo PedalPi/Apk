@@ -14,7 +14,7 @@ import {BankGenerator} from '../../generator/modelGenerator';
 })
 export class BanksPage {
   public banks;
-  public reordering;
+  public reordering : boolean;
 
   constructor(private nav : NavController, private jsonService : JsonService) {
     this.banks = [];
@@ -48,14 +48,15 @@ export class BanksPage {
   }
 
   onContextBank(bank) {
+    if (this.reordering)
+      return;
+
     const contextMenu = new ContextMenu(bank.name, 'context');
 
-    contextMenu.addItem('Reorder', () => {
-      console.log('Beta 2.10 https://github.com/driftyco/ionic/issues/5595');
-      this.reordering = !this.reordering;
-    });
+    contextMenu.addItem('Reorder', () => this.reordering = !this.reordering);
 
     contextMenu.addItem('Remove', () => {
+      contextMenu.addItem
       //https://github.com/driftyco/ionic/issues/5073
       const deleteBank = () => this.banks.splice(this.banks.indexOf(bank), 1);
       const requestDeleteBank = () => this.service.deleteBank(bank).subscribe(deleteBank);
@@ -81,11 +82,28 @@ export class BanksPage {
     this.nav.present(contextMenu.generate());
   }
 
-  reorderItems($event) {
-    console.log($event);
+  reorderItems(indexes) {
+    if (indexes.to == -100)
+      indexes.to = 0;
+
+    console.log(indexes);
+    let bank = this.banks[indexes.from];
+
+    this.banks.splice(indexes.from, 1);
+    this.banks.splice(indexes.to, 0, bank);
+
+    const bankA = this.banks[indexes.from];
+    const bankB = this.banks[indexes.to];
+
+    this.service.swapBanks(bankA.index, bankB.index)
+        .subscribe(() => {
+          const indexA = bankA.index
+          bankA.index = bankB.index
+          bankB.index = indexA
+        });
   }
 
-  save() {
+  disableReorder() {
     this.reordering = false;
   }
 }

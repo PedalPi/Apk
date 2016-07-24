@@ -10,19 +10,49 @@
 
 .ion-item-light {
   color: $text-color-light;
-  font-weight: 300;
+  font-weight: 100;
+}
+
+.list-card {
+  ion-item {
+    padding: 0;
+  }
+  ion-item .item-inner{
+    padding: 0;
+  }
+  ion-label {
+    margin: 0
+  }
+
+  ion-card button {
+    font-weight: 300;
+    font-size: 1.2em;
+    width: 100%;
+    margin: 0px;
+    height: 77px;
+  }
+
+  ion-card button .button-inner {
+    justify-content: inherit;
+  }
+  ion-card ion-icon {
+    font-size: 1.5em;
+    padding-left: 10px;
+    padding-right: 20px;
+  }
 }
 
 ion-card.ion-card-item {
   width: 100%;
   margin: 0;
 
-  button {
+  button[ion-item] {
     padding-top: 13px;
     padding-bottom: 13px;
   }
 
   .ion-item {
+    text-transform: none;
     color: $text-color-light;
 
     font-size: 1em;

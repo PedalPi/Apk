@@ -16,9 +16,11 @@ import {PatchGenerator} from '../../generator/modelGenerator';
 })
 export class PatchesPage {
   public bank : any;
+  public reordering : boolean;
 
   constructor(private nav : NavController, params : NavParams, private jsonService : JsonService) {
     this.bank = params.get('bank');
+    this.reordering = false;
   }
 
   createPatch() {
@@ -35,6 +37,10 @@ export class PatchesPage {
     return this.jsonService.patch;
   }
 
+  private get banksService() {
+    return this.jsonService.banks;
+  }
+
   itemSelected(patch) {
     this.nav.push(PatchPage, {'bank': this.bank, 'patch': patch});
   }
@@ -42,12 +48,7 @@ export class PatchesPage {
   onContextPatch(patch) {
     const contextMenu = new ContextMenu(patch.name, 'context');
 
-    /*
-    contextMenu.addItem('Reorder', () => {
-      console.log('Beta 2.10 https://github.com/driftyco/ionic/issues/5595');
-      console.log('http://codepen.io/leoz/pen/MwYxmj');
-    });
-    */
+    contextMenu.addItem('Reorder', () => this.reordering = !this.reordering);
 
     contextMenu.addItem('Remove', () => {
       const deletePatch = () => {
@@ -75,5 +76,22 @@ export class PatchesPage {
     //contextMenu.addItem('Copy to local', () => console.log('Cancel clicked'));
 
     this.nav.present(contextMenu.generate());
+  }
+
+  reorderItems(indexes) {
+    if (indexes.to == -100)
+      indexes.to = 0;
+
+    let patch = this.bank.patches[indexes.from];
+
+    this.bank.patches.splice(indexes.from, 1);
+    this.bank.patches.splice(indexes.to, 0, patch);
+
+    this.banksService.swapPatches(this.bank, indexes.from, indexes.to)
+        .subscribe(() => {});
+  }
+
+  disableReorder() {
+    this.reordering = false;
   }
 }

@@ -37,4 +37,26 @@ export class BanksService {
     let url = this.bankUrl(bank);
     return this.rest.delete(url);
   }
+
+  swapPatches(bank : any, patchA : number, patchB : number) {
+    let url = this.swapPatchesUrl(bank, patchA, patchB);
+    return this.rest.put(url, {});
+  }
+
+  private swapPatchesUrl(bank : any, patchA : number, patchB : number) : string {
+    let url = `/swap/patch/bank/${bank.index}/patch-a/${patchA}/patch-b/${patchB}`;
+
+    return this.router.route(url);
+  }
+
+  swapBanks(bankA : number, bankB : number) {
+    let url = this.swapBanksUrl(bankA, bankB);
+    return this.rest.put(url, {});
+  }
+
+  private swapBanksUrl(bankA : number, bankB : number) : string {
+    let url = `/swap/bank-a/${bankA}/bank-b/${bankB}`;
+
+    return this.router.route(url);
+  }
 }

@@ -8,21 +8,21 @@
       <button id="add-bank" royal (click)="createBank()" [hidden]="reordering">
         <ion-icon name="add"></ion-icon>
       </button>
-      <button royal [hidden]="!reordering" (click)="save()">Ok</button>
+      <button royal [hidden]="!reordering" (click)="disableReorder()">Ok</button>
     </ion-buttons>
 
   </ion-navbar>
 </ion-header>
 
 <ion-content class="banks">
-  <ion-list no-lines>
-    <ion-item-group [reorder]="reordering" (ionItemReorder)="reorderItems($event)">
-      <ion-card *ngFor="let bank of banks" (click)="itemSelected(bank)" (press)="onContextBank(bank)" class="ion-card-clicable no-shadow ion-card-item">
-        <button ion-item>
+  <ion-list no-lines [reorder]="reordering" (ionItemReorder)="reorderItems($event)" class="list-card">
+    <ion-item *ngFor="let bank of banks">
+      <ion-card class="ion-card-clicable no-shadow ion-card-item" (click)="itemSelected(bank)" (press)="onContextBank(bank)">
+        <button clear>
           <ion-icon name="ios-folder-outline" item-left></ion-icon>
           <span class="ion-item">{{bank.name}}</span>
         </button>
       </ion-card>
-    </ion-item-group>
+    </ion-item>
   </ion-list>
 </ion-content>
