@@ -24,6 +24,10 @@ export class EffectsPage {
     return this.jsonService.effect;
   }
 
+  private get patchService() {
+    return this.jsonService.patch;
+  }
+
   close(effectIndex? : number) {
     if (effectIndex !== undefined)
       this.controller.dismiss({'index' : effectIndex});
@@ -70,9 +74,15 @@ export class EffectsPage {
   }
 
   reorderItems(indexes) {
+    if (indexes.to == -100)
+      indexes.to = 0;
+
     let effect = this.patch.effects[indexes.from];
 
     this.patch.effects.splice(indexes.from, 1);
     this.patch.effects.splice(indexes.to, 0, effect);
+
+    this.patchService.swapEffects(this.bank, this.patch, indexes.from, indexes.to)
+        .subscribe(() => {});
   }
 }

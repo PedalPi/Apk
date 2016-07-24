@@ -38,4 +38,17 @@ export class PatchService {
     let url = this.patchUrl(bank, patch);
     return this.rest.delete(url);
   }
+
+  swapEffects(bank : any, patch : any, effecA : number, effectB : number) {
+    let url = this.swapEffectsUrl(bank, patch, effecA, effectB);
+    return this.rest.put(url, {});
+  }
+
+  private swapEffectsUrl(bank : any, patch : any, effectA : number, effectB : number) : string {
+    let patchIndex = bank.patches.indexOf(patch);
+
+    let url = `/swap/effect/bank/${bank.index}/patch/${patchIndex}/effect-a/${effectA}/effect-b/${effectB}`;
+
+    return this.router.route(url);
+  }
 }
