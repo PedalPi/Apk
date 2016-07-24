@@ -1,5 +1,5 @@
 import {IONIC_DIRECTIVES} from 'ionic-angular';
-import {Component} from '@angular/core';
+import {Input, Output, EventEmitter, Component} from '@angular/core';
 
 @Component({
   selector: 'sr-combobox',
@@ -7,46 +7,60 @@ import {Component} from '@angular/core';
   directives: [IONIC_DIRECTIVES]
 })
 export class SrCombobox {
-  public selected : string;
-  public parameter : Object;
+  @Input() parameter : any;
+  @Input() selected : any;
+  @Output('onChange') onChange = new EventEmitter();
 
   constructor() {
-    this.selected = '1x15';
     this.parameter = {
       name: 'Combo',
-      options: [
-        { value: '4x12', name: '4x12' },
-        { value: '2x10', name: '2x10' },
-        { value: '1x15', name: '1x15' },
-        { value: '4x8', name: '4x8' }
+      scalePoints: [
+        { value: '4x12', label: '4x12' },
+        { value: '2x10', label: '2x10' },
+        { value: '1x15', label: '1x15' },
+        { value: '4x8', label: '4x8' }
       ]
+    };
+    this.selected = '1x15';
+  }
+
+  public get options() {
+    return {
+      title: this.parameter.name,
     };
   }
 
   public before() {
     let index = this.indexOf(this.selected) - 1;
     if (index == -1)
-      index = this.parameter["options"].length - 1;
+      index = this.parameter.scalePoints.length - 1;
 
-    this.selected = this.parameter["options"][index].value;
+    this.selected = this.parameter.scalePoints[index].value;
+    this.update();
   }
 
   public next() {
     let index = this.indexOf(this.selected) + 1;
-    if (index == this.parameter["options"].length)
+    if (index == this.parameter.scalePoints.length)
       index = 0;
 
-    this.selected = this.parameter["options"][index].value;
+    this.selected = this.parameter.scalePoints[index].value;
+    this.update();
   }
 
   private indexOf(value : string) : number {
     let index = 0;
-    for (let option of this.parameter["options"]) {
+    for (let option of this.parameter.scalePoints) {
       if (option["value"] == value)
         return index;
       index++;
     }
 
     return -1;
+  }
+
+  update() {
+    this.parameter.value = this.selected;
+    this.onChange.emit(this.parameter);
   }
 }

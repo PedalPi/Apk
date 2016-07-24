@@ -12,12 +12,26 @@
 
     <sr-tab *ngFor="let effect of patch.effects" title="{{effect.name}}">
       <div *ngFor="let parameter of effect.ports.control.input">
-        <sr-slider (onChange)="onParamUpdated(effect, $event)" *ngIf="parameter.enumeration == null" [parameter]="parameter"></sr-slider>
-        <sr-combobox *ngIf="parameter.enumeration"></sr-combobox>
+        <sr-slider
+          *ngIf="
+             parameter.properties.indexOf('enumeration') == -1
+          && parameter.properties.indexOf('toggled') == -1
+          "
+          (onChange)="onParamUpdated(effect, $event)"
+          [parameter]="parameter"></sr-slider>
+        <sr-combobox
+        *ngIf="parameter.properties.indexOf('enumeration') != -1"
+          (onChange)="onParamUpdated(effect, $event)"
+          [parameter]="parameter"
+          [selected]="parameter.value"></sr-combobox>
+        <sr-toggle
+          *ngIf="parameter.properties.indexOf('toggled') != -1"
+          (onChange)="onParamUpdated(effect, $event)"
+          [parameter]="parameter"></sr-toggle>
       </div>
     </sr-tab>
 
-    <div id="info" *ngIf="patch.effects.length == 0">
+    <div id="info" *ngIf="patch.effects.length === 0">
       <ion-icon name="md-shuffle"></ion-icon>
       Add effects in the patch
     </div>

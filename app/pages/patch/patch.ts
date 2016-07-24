@@ -9,10 +9,11 @@ import {SrSlider} from '../../components/sr-slider/sr-slider';
 import {SrCombobox} from '../../components/sr-combobox/sr-combobox';
 import {SrTabs} from '../../components/sr-tabs/sr-tabs';
 import {SrTab} from '../../components/sr-tabs/sr-tab';
+import {SrToggle} from '../../components/sr-toggle/sr-toggle';
 
 @Component({
   templateUrl: 'build/pages/patch/patch.html',
-  directives: [SrSlider, SrCombobox, SrTabs, SrTab]
+  directives: [SrSlider, SrCombobox, SrTabs, SrTab, SrToggle]
 })
 export class PatchPage {
   @ViewChild(SrTabs) tabs: SrTabs;
@@ -98,5 +99,10 @@ export class PatchPage {
   public onParamUpdated(effect, param) {
     this.service.updateParam(this.bank, this.patch, effect, param).subscribe(() => {});
     console.log(`Param ${param.name}: ${param.value}`);
+  }
+
+  public isEnumaration(param) {
+    console.log(param.properties.indexOf('enumeration') != -1);
+    return param.properties.indexOf('enumeration') != -1;
   }
 }

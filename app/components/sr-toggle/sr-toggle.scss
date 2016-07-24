@@ -1,0 +1,19 @@
+#sr-toggle {
+  font-weight: 100;
+  padding: 20px 20px 0px;
+  display: block;
+  color: #808080;
+
+  display: flex;
+  width: 100%;
+
+  #name {
+    font-size: 20px;
+    display: block;
+  }
+
+  ion-toggle {
+    margin-top: 20px;
+    margin-right: 10px;
+  }
+}

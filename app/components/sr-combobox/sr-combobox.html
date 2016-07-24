@@ -3,8 +3,10 @@
 
   <div class="container">
     <span id="select-container">
-      <ion-select id="select" [(ngModel)]="selected">
-        <ion-option *ngFor="let option of parameter.options" [value]="option.value">{{option.name}}</ion-option>
+      <ion-select id="select" [(ngModel)]="selected" (ionChange)="update()" [alertOptions]="options">
+        <ion-option
+          *ngFor="let option of parameter.scalePoints"
+          [value]="option.value">{{option.label}}</ion-option>
       </ion-select>
     </span>
 
