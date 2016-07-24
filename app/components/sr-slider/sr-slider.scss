@@ -18,7 +18,8 @@ sr-slider {
     display: block;
     width: 100%;
 
-    margin-top: -36px;
+    margin-top: -72px;
+    margin-bottom: 36px;
     padding-bottom: 5px;
     padding-right: 8px;
 
@@ -58,4 +59,22 @@ sr-slider {
   input[type=range]:focus::-webkit-slider-runnable-track {
       background: #ddd;
   }
+
+  ion-range {
+    padding:0;
+
+    .range-bar {
+      top: 0;
+      height: 35px;
+      background: #efefef;
+    }
+    .range-bar-active {
+      background-color: #4CAF50;
+    }
+    .range-knob-handle {
+      display: none;
+    }
+  }
+
+
 }

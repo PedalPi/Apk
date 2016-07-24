@@ -86,7 +86,6 @@ export class BanksPage {
     if (indexes.to == -100)
       indexes.to = 0;
 
-    console.log(indexes);
     let bank = this.banks[indexes.from];
 
     this.banks.splice(indexes.from, 1);

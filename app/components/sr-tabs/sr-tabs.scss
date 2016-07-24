@@ -1,5 +1,6 @@
 sr-tabs {
   display: block;
+  height: 100%;
 
   ul {
     background-color: $toolbar-background;
@@ -8,6 +9,7 @@ sr-tabs {
     list-style-type: none;
     white-space: nowrap;
     overflow-x: auto;
+    z-index: 1;
   }
 
   li {

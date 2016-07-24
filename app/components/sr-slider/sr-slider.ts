@@ -44,6 +44,7 @@ export class SrSlider {
   }
 
   public update() {
+    console.log(this.parameter)
     this.onChange.emit(this.parameter);
   }
 }
