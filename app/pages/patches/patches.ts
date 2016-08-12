@@ -24,6 +24,7 @@ export class PatchesPage {
   }
 
   createPatch() {
+    /*
     let alert = AlertCommon.generate('New patch', data => {
       const patch = PatchGenerator.generate(data.name);
       const savePatch = status => this.bank.patches.push(patch);
@@ -31,6 +32,7 @@ export class PatchesPage {
       this.service.saveNewPatch(this.bank, patch).subscribe(savePatch);
     });
     this.nav.present(alert);
+    */
   }
 
   private get service() {
@@ -46,6 +48,7 @@ export class PatchesPage {
   }
 
   onContextPatch(patch) {
+    /*
     const contextMenu = new ContextMenu(patch.name, 'context');
 
     contextMenu.addItem('Reorder', () => this.reordering = !this.reordering);
@@ -76,6 +79,7 @@ export class PatchesPage {
     //contextMenu.addItem('Copy to local', () => console.log('Cancel clicked'));
 
     this.nav.present(contextMenu.generate());
+    */
   }
 
   reorderItems(indexes) {

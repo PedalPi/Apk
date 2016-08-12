@@ -1,4 +1,4 @@
-import {ActionSheet} from 'ionic-angular';
+import {ActionSheetController, ActionSheet} from 'ionic-angular';
 
 export class ContextMenu {
   private json : Object = {};
@@ -15,7 +15,7 @@ export class ContextMenu {
     this.json['buttons'].push(item);
   }
 
-  public generate() : ActionSheet {
-    return ActionSheet.create(this.json);
+  public generate(controller : ActionSheetController) : ActionSheet {
+    return controller.create(this.json);
   }
 }

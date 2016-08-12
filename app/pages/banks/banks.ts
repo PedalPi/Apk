@@ -1,32 +1,38 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {NavController, AlertController, ActionSheetController} from 'ionic-angular';
 import {PatchesPage} from '../patches/patches';
 
 import {JsonService} from '../../service/jsonService';
-import {AlertCommon} from '../../common/alert';
+import {AlertCommon, AlertBuilder} from '../../common/alert';
 import {ContextMenu} from '../../common/contextMenu';
 
 import {BankGenerator} from '../../generator/modelGenerator';
+import {BanksPresenter} from './banks-presenter';
 
 
 @Component({
   templateUrl: 'build/pages/banks/banks.html'
 })
 export class BanksPage {
-  public banks;
   public reordering : boolean;
+  private presenter : BanksPresenter;
 
-  constructor(private nav : NavController, private jsonService : JsonService) {
-    this.banks = [];
+  constructor(
+      private nav : NavController,
+      private alert : AlertController,
+      private actionSheet : ActionSheetController,
+      jsonService : JsonService
+    ) {
+    this.presenter = new BanksPresenter(this, jsonService);
     this.reordering = false;
   }
 
-  ngOnInit() {
-    this.service.getBanks().subscribe(data => this.banks = data.banks);
+  get banks() {
+    return this.presenter.banks;
   }
 
-  private get service() {
-    return this.jsonService.banks;
+  ngOnInit() {
+    this.presenter.requestBanks();
   }
 
   itemSelected(bank) {
@@ -34,17 +40,12 @@ export class BanksPage {
   }
 
   createBank() {
-    let alert = AlertCommon.generate('New bank', data => {
-      const bank = BankGenerator.generate(data.name);
-      const saveBank = status => {
-        bank.index = status.index;
-        this.banks.push(bank);
-      }
+    let alert = new AlertBuilder(this.alert)
+      .title('New bank')
+      .callback((data) => this.presenter.requestSaveBank(data))
+      .generateSaveAlert();
 
-      this.service.saveNewBank(bank).subscribe(saveBank);
-    });
-
-    this.nav.present(alert);
+    alert.present();
   }
 
   onContextBank(bank) {
@@ -56,50 +57,42 @@ export class BanksPage {
     contextMenu.addItem('Reorder', () => this.reordering = !this.reordering);
 
     contextMenu.addItem('Remove', () => {
-      contextMenu.addItem
-      //https://github.com/driftyco/ionic/issues/5073
-      const deleteBank = () => this.banks.splice(this.banks.indexOf(bank), 1);
-      const requestDeleteBank = () => this.service.deleteBank(bank).subscribe(deleteBank);
+      let alert = new AlertBuilder(this.alert)
+        .title('R u sure?')
+        .callback(data => this.presenter.requestDeleteBank(bank))
+        .generationConfirmAlert();
 
-      const alert = AlertCommon.alert('R u sure?', requestDeleteBank);
-
-      this.nav.present(alert);
+      alert.present();
     });
 
     contextMenu.addItem('Rename', () => {
-      const requestRenameBank = data => {
-          bank.name = data.name;
-          this.service.updateBank(bank).subscribe(() => {});
-      };
+      let alert = new AlertBuilder(this.alert)
+        .title('Rename bank')
+        .defaultValue(bank.name)
+        .callback(data => this.presenter.requestRenameBank(bank, data))
+        .generateSaveAlert();
 
-      let alert = AlertCommon.generate('Rename bank', requestRenameBank, bank.name);
-
-      this.nav.present(alert);
+      alert.present();
     });
 
     //contextMenu.addItem('Copy to local', () => console.log('Cancel clicked'));
 
-    this.nav.present(contextMenu.generate());
+    //contextMenu.generate(this.actionSheet).present();
+    window.setTimeout(() => {
+      const alert = new AlertBuilder(this.alert)
+        .title('')
+        .callback(data => console.log("test"))
+        .generationConfirmAlert();
+
+      alert.present();
+    }, 3000);
   }
 
   reorderItems(indexes) {
     if (indexes.to == -100)
       indexes.to = 0;
 
-    let bank = this.banks[indexes.from];
-
-    this.banks.splice(indexes.from, 1);
-    this.banks.splice(indexes.to, 0, bank);
-
-    const bankA = this.banks[indexes.from];
-    const bankB = this.banks[indexes.to];
-
-    this.service.swapBanks(bankA.index, bankB.index)
-        .subscribe(() => {
-          const indexA = bankA.index
-          bankA.index = bankB.index
-          bankB.index = indexA
-        });
+    this.presenter.reorderItems(indexes.from, indexes.to);
   }
 
   disableReorder() {

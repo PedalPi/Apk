@@ -36,6 +36,7 @@ export class EffectsPage {
   }
 
   newEffect() {
+    /*
     const modal = Modal.create(EffectListPage, { patch: this.patch });
     modal.onDismiss(effect => {
       if (effect) {
@@ -45,6 +46,7 @@ export class EffectsPage {
     });
 
     this.nav.present(modal);
+    */
   }
 
   get reorderMode() {

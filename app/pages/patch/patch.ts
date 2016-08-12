@@ -81,6 +81,7 @@ export class PatchPage {
   }
 
   public manageEffects() {
+    /*
     const params = {
       bank: this.bank,
       patch: this.patch
@@ -94,6 +95,7 @@ export class PatchPage {
     });
 
     this.nav.present(modal);
+    */
   }
 
   public onParamUpdated(effect, param) {
