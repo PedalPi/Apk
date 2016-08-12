@@ -53,6 +53,7 @@ export class BanksPage {
       return;
 
     const contextMenu = new ContextMenu(bank.name, 'context');
+    let contextInstance = null;
 
     contextMenu.addItem('Reorder', () => this.reordering = !this.reordering);
 
@@ -62,7 +63,7 @@ export class BanksPage {
         .callback(data => this.presenter.requestDeleteBank(bank))
         .generationConfirmAlert();
 
-      alert.present();
+      contextInstance.onDidDismiss(() => alert.present());
     });
 
     contextMenu.addItem('Rename', () => {
@@ -72,20 +73,13 @@ export class BanksPage {
         .callback(data => this.presenter.requestRenameBank(bank, data))
         .generateSaveAlert();
 
-      alert.present();
+      contextInstance.onDidDismiss(() => alert.present());
     });
 
     //contextMenu.addItem('Copy to local', () => console.log('Cancel clicked'));
 
-    //contextMenu.generate(this.actionSheet).present();
-    window.setTimeout(() => {
-      const alert = new AlertBuilder(this.alert)
-        .title('')
-        .callback(data => console.log("test"))
-        .generationConfirmAlert();
-
-      alert.present();
-    }, 3000);
+    contextInstance = contextMenu.generate(this.actionSheet);
+    contextInstance.present();
   }
 
   reorderItems(indexes) {
