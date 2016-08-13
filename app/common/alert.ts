@@ -1,5 +1,4 @@
-import {Alert} from 'ionic-angular';
-import {AlertController} from 'ionic-angular';
+import {AlertController, Alert, AlertOptions, AlertInputOptions} from 'ionic-angular';
 
 export class AlertCommon {
   static generate(title : string, callback : Function, value? : any) : Alert {
@@ -19,17 +18,32 @@ export class AlertCommon {
 }
 
 export class AlertBuilder {
+  private json : AlertOptions;
   private controller : AlertController;
-  private titleText : string = '';
   private callbackFunction : Function;
   private defaultValueText : string;
 
   constructor(controller : AlertController) {
     this.controller = controller;
+    this.json = {
+      'title' : '',
+      buttons: [],
+      inputs: []
+    };
   }
 
   title(title : string) : AlertBuilder {
-    this.titleText = title;
+    this.json.title = title;
+    return this;
+  }
+
+  subTitle(subTitle : string) : AlertBuilder {
+    this.json.subTitle = subTitle;
+    return this;
+  }
+
+  message(message : string) : AlertBuilder {
+    this.json.message = message;
     return this;
   }
 
@@ -43,33 +57,36 @@ export class AlertBuilder {
     return this;
   }
 
+  addButton(button : any) {
+    this.json.buttons.push(button);
+  }
+
+  addInput(input : AlertInputOptions) {
+    this.json.inputs.push(input);
+  }
+
   generateSaveAlert() : Alert {
-    return this.controller.create({
-      'title': this.titleText,
-      buttons: [
-        'Cancel',
-        {
-          text: 'Save',
-          handler: data => this.callbackFunction(data)
-        }
-      ],
-      inputs: [{
-        name: 'name',
-        placeholder: 'Name',
-        value: this.defaultValueText
-      }]
+    this.addButton('Cancel');
+    this.addButton({
+      text: 'Save',
+      handler: data => this.callbackFunction(data)
     });
+    this.addInput({
+      name: 'name',
+      placeholder: 'Name',
+      value: this.defaultValueText
+    });
+
+    return this.controller.create(this.json);
   }
 
   generationConfirmAlert() : Alert {
-    return this.controller.create({
-      'title': this.titleText,
-      buttons: [
-        'Cancel',
-        {
-          text: 'Ok',
-          handler: data => this.callbackFunction(data)
-      }]
+    this.addButton('Cancel');
+    this.addButton({
+      text: 'Ok',
+      handler: data => this.callbackFunction(data)
     });
+
+    return this.controller.create(this.json);
   }
 }

@@ -4,7 +4,7 @@ import {StatusBar} from 'ionic-native';
 
 import {HomePage} from './pages/home/home';
 
-import {JsonService} from './service/jsonService';
+import {JsonService} from './service/json-service';
 
 // Add operators
 import 'rxjs/add/operator/map';

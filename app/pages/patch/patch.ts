@@ -1,7 +1,7 @@
 import {Component, QueryList, ViewChild} from '@angular/core';
 import {Modal, NavController, NavParams} from 'ionic-angular';
 
-import {JsonService} from '../../service/jsonService';
+import {JsonService} from '../../service/json-service';
 
 import {EffectsPage} from './effects';
 

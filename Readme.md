@@ -1,12 +1,12 @@
-# PedalPi App
+# PedalPi Apk
 
 It's a work in progress project to manager the patch and effects
 
 ## Usign
 
 ```
-git clone https://github.com/PedalPi/App App
-cd App
+git clone https://github.com/PedalPi/Apk Apk
+cd Apk
 npm install
 sudo npm install -g ionic@beta
 ionic serve -p 3000 -a

@@ -3,7 +3,7 @@ import {ViewController, Modal, NavController, NavParams, Alert, IONIC_DIRECTIVES
 
 import {EffectListPage} from '../effectList/effectList';
 
-import {JsonService} from '../../service/jsonService';
+import {JsonService} from '../../service/json-service';
 
 @Component({
   templateUrl: 'build/pages/patch/effects.html'

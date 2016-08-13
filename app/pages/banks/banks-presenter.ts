@@ -1,5 +1,7 @@
 import {BankGenerator} from '../../generator/modelGenerator';
-import {JsonService} from '../../service/jsonService';
+import {JsonService} from '../../service/json-service';
+
+import {BanksService} from '../../service/banks-service';
 
 import {BanksPage} from './banks';
 
@@ -15,16 +17,16 @@ export class BanksPresenter {
     this.banks = [];
   }
 
-  private get service() {
+  private get service() : BanksService {
     return this.jsonService.banks;
   }
 
-  requestBanks() {
+  requestBanks() : void {
     this.service.getBanks()
         .subscribe(data => this.banks = data.banks);
   }
 
-  requestSaveBank(data: any) {
+  requestSaveBank(data: any) : void {
     const bank = BankGenerator.generate(data.name);
     const saveBank = status => {
       bank.index = status.index;
@@ -34,18 +36,18 @@ export class BanksPresenter {
     this.service.saveNewBank(bank).subscribe(saveBank);
   }
 
-  requestRenameBank(bank : any, data: any) {
+  requestRenameBank(bank : any, data: any) : void {
     bank.name = data.name;
     this.service.updateBank(bank).subscribe(() => {});
   }
 
-  requestDeleteBank(bank : any) {
+  requestDeleteBank(bank : any) : void {
     const deleteBank = () => this.banks.splice(this.banks.indexOf(bank), 1);
 
     this.service.deleteBank(bank).subscribe(deleteBank);
   }
 
-  reorderItems(from, to) {
+  reorderItems(from, to) : void {
     let bank = this.banks[from];
 
     this.banks.splice(from, 1);

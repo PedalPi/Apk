@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, AlertController, ActionSheetController} from 'ionic-angular';
 import {PatchesPage} from '../patches/patches';
 
-import {JsonService} from '../../service/jsonService';
+import {JsonService} from '../../service/json-service';
 import {AlertCommon, AlertBuilder} from '../../common/alert';
 import {ContextMenu} from '../../common/contextMenu';
 
@@ -59,7 +59,8 @@ export class BanksPage {
 
     contextMenu.addItem('Remove', () => {
       let alert = new AlertBuilder(this.alert)
-        .title('R u sure?')
+        .title(`Delete ${bank.name}`)
+        .message('R u sure?')
         .callback(data => this.presenter.requestDeleteBank(bank))
         .generationConfirmAlert();
 

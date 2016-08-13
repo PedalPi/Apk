@@ -3,13 +3,13 @@ import {Http, Headers, RequestOptions} from '@angular/http';
 
 import {Rest} from './rest';
 import {Router} from './router';
-import {BanksService} from './banksService';
-import {PatchService} from './patchService';
-import {EffectService} from './effectService';
-import {ParamService} from './paramService';
+import {BanksService} from './banks-service';
+import {PatchService} from './patch-service';
+import {EffectService} from './effect-service';
+import {ParamService} from './param-service';
 
-import {PluginService} from './pluginService';
-import {CurrentService} from './currentService';
+import {PluginService} from './plugin-service';
+import {CurrentService} from './current-service';
 
 //const server = 'http://trick-group-3000.codio.io';
 const server = 'http://localhost:3000';
