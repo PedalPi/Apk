@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {ViewController, NavController, NavParams} from 'ionic-angular';
 
 import {SrTabs} from '../../components/sr-tabs/sr-tabs';
@@ -8,36 +8,22 @@ import {JsonService} from '../../service/json-service';
 
 import {AlertCommon} from '../../common/alert';
 
-import {effects} from './effects-list';
-
 @Component({
   templateUrl: 'build/pages/effects-list/effects-list-modal.html',
   directives: [SrTabs, SrTab]
 })
 export class EffectsListModal {
+  @ViewChild(SrTabs) tabs: SrTabs;
+
   public items : any;
-  public effects : any;
+  public effects : any = [];
   public effectsByCategory : any = {};
 
   public categories = [];
   private jsonService : JsonService;
 
   constructor(private nav : NavController, params : NavParams, private controller: ViewController) {
-    this.effects = effects;
     this.jsonService = params.get('jsonService');
-
-    this.categories = [
-      'All',
-      'Utility', 'Mixer', 'Filter', 'Spatial', 'Generator',
-      'Instrument', 'Modulator', 'Simulator',
-      'Distortion', 'Reverb', 'Delay',
-      'Spectral', 'Pitch Shifter', 'Dynamics',
-      'Limiter', 'Equaliser', 'Parametric',
-      'Multiband', 'Compressor', 'Chorus',
-      'Phaser', 'Expander', 'Flanger',
-      'Oscillator', 'Lowpass', 'Highpass',
-      'Analyser', 'Amplifier', 'Waveshaper',
-      'Gate'];
   }
 
   private get service() {
@@ -51,18 +37,28 @@ export class EffectsListModal {
         this.effects = data.plugins.sort((a, b) => a.name.localeCompare(b.name));
         this.items = this.effects;
 
-        for (let plugin of data.plugins) {
-          for (let category of plugin.category) {
-            if (this.effectsByCategory['category'] === undefined)
-              this.effectsByCategory['category'] = []
+        this.effectsByCategory = this.separatePluginsByCategory(this.effects);
 
-            this.effectsByCategory['category'].push(plugin);
-          }
-        };
-
-        this.categories = Object.keys(this.effectsByCategory);
+        this.categories = Object.keys(this.effectsByCategory).sort(
+          (a, b) => a.localeCompare(b)
+        );
       }
     );
+  }
+
+  private separatePluginsByCategory(plugins : any[]) : any {
+    let effectsByCategory = {};
+
+    for (let plugin of plugins) {
+      for (let category of plugin.category) {
+        if (effectsByCategory[category] === undefined)
+          effectsByCategory[category] = []
+
+        effectsByCategory[category].push(plugin);
+      }
+    }
+
+    return effectsByCategory;
   }
 
   close() {
@@ -87,5 +83,11 @@ export class EffectsListModal {
     }
 
     this.controller.dismiss(effect);
+  }
+
+  categorySelected(category) {
+    const index = this.categories.indexOf(category);
+    this.tabs.selectTab(index+2);
+    this.tabs.focusTab(index+2);
   }
 }

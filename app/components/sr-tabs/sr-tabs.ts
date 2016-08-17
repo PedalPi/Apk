@@ -25,7 +25,7 @@ export class SrTabs implements AfterContentInit {
     this.tabsHeader = this.element.querySelector("ul");
   }
 
-  selectTab(index) {
+  selectTab(index : number) {
     if (index >= this.tabs.length || this.tabs.length == 0)
       return;
 
@@ -36,7 +36,7 @@ export class SrTabs implements AfterContentInit {
     this.currentTab.active = true;
   }
 
-  focusTab(index) {
+  focusTab(index : number) {
     if (!this.tabsHeader)
       return;
 
