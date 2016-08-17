@@ -1,21 +1,28 @@
 import {Component} from '@angular/core';
-import {ViewController, Modal, NavController, NavParams, Alert, IONIC_DIRECTIVES} from 'ionic-angular';
+import {ViewController, ModalController, NavController, NavParams, Alert, IONIC_DIRECTIVES} from 'ionic-angular';
 
-import {EffectListPage} from '../effectList/effectList';
+import {EffectsListModal} from '../effects-list/effects-list-modal';
 
 import {JsonService} from '../../service/json-service';
 
 @Component({
-  templateUrl: 'build/pages/patch/effects.html'
+  templateUrl: 'build/pages/patch-effects/patch-effects-modal.html'
 })
-export class EffectsPage {
+export class PatchEffectsModal {
   public bank : any;
   public patch : any;
   public mode : string;
+  private jsonService : JsonService;
 
-  constructor(private nav : NavController, params: NavParams, private controller: ViewController, private jsonService : JsonService) {
+  constructor(
+      private nav : NavController,
+      private modal : ModalController,
+      params: NavParams,
+      private controller: ViewController
+    ) {
     this.bank = params.get('bank');
     this.patch = params.get('patch');
+    this.jsonService = params.get('jsonService');
 
     this.toReorderMode();
   }
@@ -36,17 +43,20 @@ export class EffectsPage {
   }
 
   newEffect() {
-    /*
-    const modal = Modal.create(EffectListPage, { patch: this.patch });
-    modal.onDismiss(effect => {
+    const data = {
+      patch: this.patch,
+      jsonService : this.jsonService
+    };
+
+    const modal = this.modal.create(EffectsListModal, data);
+    modal.onDidDismiss(effect => {
       if (effect) {
         this.service.saveNewEffect(this.bank, this.patch, effect.uri)
             .subscribe(data => this.patch["effects"].push(data["effect"]));
       }
     });
 
-    this.nav.present(modal);
-    */
+    modal.present();
   }
 
   get reorderMode() {

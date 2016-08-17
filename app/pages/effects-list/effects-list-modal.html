@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons start>
+      <button royal (click)="close()"><ion-icon name="close"></ion-icon> Cancel</button>
+    </ion-buttons>
+
+    <ion-searchbar (input)="getItems($event)"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="effectList">
+  <sr-tabs>
+    <sr-tab title="Categories">
+      <ion-list padding>
+        <ion-card *ngFor="let category of categories" class="ion-card-clicable no-shadow ion-card-item" (click)="categorySelected(category)">
+          <button class="ion-item" ion-item>{{category}}</button>
+        </ion-card>
+      </ion-list>
+    </sr-tab>
+
+    <sr-tab title="All">
+      <ion-list padding>
+        <ion-card *ngFor="let effect of items" class="ion-card-clicable no-shadow ion-card-item" (click)="itemSelected(effect)">
+          <button class="ion-item" ion-item>{{effect.name}}</button>
+        </ion-card>
+      </ion-list>
+    </sr-tab>
+
+    <sr-tab *ngFor="let category of categories" title="{{category}}">
+      <ion-list padding>
+        <ion-card *ngFor="let effect of effectsByCategory[category]" class="ion-card-clicable no-shadow ion-card-item" (click)="itemSelected(effect)">
+          <button class="ion-item" ion-item>{{effect.name}}</button>
+        </ion-card>
+      </ion-list>
+    </sr-tab>
+  </sr-tabs>
+</ion-content>

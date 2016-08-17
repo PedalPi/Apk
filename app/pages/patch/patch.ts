@@ -1,9 +1,9 @@
 import {Component, QueryList, ViewChild} from '@angular/core';
-import {Modal, NavController, NavParams} from 'ionic-angular';
+import {ModalController, NavController, NavParams} from 'ionic-angular';
 
 import {JsonService} from '../../service/json-service';
 
-import {EffectsPage} from './effects';
+import {PatchEffectsModal} from '../patch-effects/patch-effects-modal';
 
 import {SrSlider} from '../../components/sr-slider/sr-slider';
 import {SrCombobox} from '../../components/sr-combobox/sr-combobox';
@@ -21,7 +21,12 @@ export class PatchPage {
   public patch : any;
   public bank : any;
 
-  constructor(private nav : NavController, params : NavParams, private jsonService : JsonService) {
+  constructor(
+      private nav : NavController,
+      private modal : ModalController,
+      params : NavParams,
+      private jsonService : JsonService
+    ) {
     this.bank = params.get('bank');
     this.toPatch(params.get('patch'));
   }
@@ -81,21 +86,20 @@ export class PatchPage {
   }
 
   public manageEffects() {
-    /*
     const params = {
       bank: this.bank,
-      patch: this.patch
+      patch: this.patch,
+      jsonService: this.jsonService
     };
-    const modal = Modal.create(EffectsPage, params);
-    modal.onDismiss(data => {
+    const modal = this.modal.create(PatchEffectsModal, params);
+    modal.onDidDismiss(data => {
       if (!data) return;
 
       this.tabs.selectTab(data.index);
       this.tabs.focusTab(data.index);
     });
 
-    this.nav.present(modal);
-    */
+    modal.present();
   }
 
   public onParamUpdated(effect, param) {

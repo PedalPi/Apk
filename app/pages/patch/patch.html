@@ -12,7 +12,6 @@
 
     <sr-tab *ngFor="let effect of patch.effects" title="{{effect.name}}">
       <div *ngFor="let parameter of effect.ports.control.input">
-        <!--
         <sr-slider
           *ngIf="
              parameter.properties.indexOf('enumeration') == -1
@@ -24,8 +23,8 @@
           *ngIf="parameter.properties.indexOf('enumeration') != -1"
           (onChange)="onParamUpdated(effect, $event)"
           [parameter]="parameter"
-          [selected]="parameter.value"></sr-combobox>
-          -->
+          [selected]="parameter.value"
+          ></sr-combobox>
         <sr-toggle
           *ngIf="parameter.properties.indexOf('toggled') != -1"
           (onChange)="onParamUpdated(effect, $event)"
