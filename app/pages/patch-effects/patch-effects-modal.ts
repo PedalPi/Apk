@@ -44,7 +44,6 @@ export class PatchEffectsModal {
 
   newEffect() {
     const data = {
-      patch: this.patch,
       jsonService : this.jsonService
     };
 

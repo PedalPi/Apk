@@ -43,4 +43,8 @@ export class SrTabs implements AfterContentInit {
     let tabsHeaderItems = this.tabsHeader.querySelectorAll("li");
     this.tabsHeader.scrollLeft = (<HTMLElement> tabsHeaderItems[index]).offsetLeft;
   }
+
+  get current() {
+    return this.tabs.toArray().indexOf(this.currentTab);
+  }
 }

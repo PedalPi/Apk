@@ -11,6 +11,9 @@ import {SrTabs} from '../../components/sr-tabs/sr-tabs';
 import {SrTab} from '../../components/sr-tabs/sr-tab';
 import {SrToggle} from '../../components/sr-toggle/sr-toggle';
 
+import {EffectsListModal} from '../effects-list/effects-list-modal';
+
+
 @Component({
   templateUrl: 'build/pages/patch/patch.html',
   directives: [SrSlider, SrCombobox, SrTabs, SrTab, SrToggle]
@@ -108,7 +111,28 @@ export class PatchPage {
   }
 
   public isEnumaration(param) {
-    console.log(param.properties.indexOf('enumeration') != -1);
     return param.properties.indexOf('enumeration') != -1;
+  }
+
+  setEffect() {
+    const data = {
+      jsonService : this.jsonService
+    };
+
+    const modal = this.modal.create(EffectsListModal, data);
+    modal.onDidDismiss(newEffect => {
+      if (newEffect) {
+        let oldEffect = this.patch.effects[this.tabs.current];
+
+        console.log("Effect selected");
+        console.log(newEffect);
+
+        console.log("Old effect");
+        console.log(oldEffect);
+      }
+    });
+
+    modal.present();
+    console.log();
   }
 }
