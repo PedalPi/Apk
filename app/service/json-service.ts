@@ -11,11 +11,11 @@ import {ParamService} from './param-service';
 import {PluginService} from './plugin-service';
 import {CurrentService} from './current-service';
 
-//const server = 'http://trick-group-3000.codio.io';
-const server = 'http://localhost:3000';
 
 @Injectable()
 export class JsonService {
+  public static server = 'http://localhost:3000';
+
   private rest : Rest;
   private router : Router;
 
@@ -29,7 +29,7 @@ export class JsonService {
 
   constructor(http : Http) {
     this.rest = new Rest(http);
-    this.router = new Router(server);
+    this.router = new Router(JsonService.server);
 
     this.banks = new BanksService(this.rest, this.router);
     this.patch = new PatchService(this.rest, this.router);

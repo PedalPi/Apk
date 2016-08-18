@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
-import {NavController , NavParams} from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
+
 import {BanksPage} from '../banks/banks';
 import {PatchesPage} from '../patches/patches';
 import {PatchPage} from '../patch/patch';
+import {ConfigurationsPage} from '../configurations/configurations';
 
 import {SrIcon} from '../../components/sr-icon/sr-icon';
 
@@ -47,5 +49,9 @@ export class HomePage {
     }).then(() => {
       return this.nav.push(PatchPage, data);
     });
+  }
+
+  goToConfigurations() {
+    this.nav.push(ConfigurationsPage);
   }
 }

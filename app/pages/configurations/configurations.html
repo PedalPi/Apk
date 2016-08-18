@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Configurations
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="configurations">
+  <ion-item>
+    <ion-label stacked primary>Device ip</ion-label>
+    <ion-input placeholder="192.168.0.1" [value]="ip" (input)='setIp($event.target.value)'></ion-input>
+  </ion-item>
+</ion-content>
