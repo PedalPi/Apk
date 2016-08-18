@@ -31,8 +31,8 @@ export class CurrentService {
   private toggleStatusEffectUrl(bank : any, patch : any, effect : any) : string {
     let patchIndex = bank.patches.indexOf(patch);
     let effectIndex = patch.effects.indexOf(effect);
-
-    let url = `/current/effect/${effectIndex}>`;
+    
+    let url = `/current/effect/${effectIndex}`;
     return this.router.route(url);
   }
 

@@ -17,6 +17,11 @@
   <sr-tabs id="tabs">
 
     <sr-tab *ngFor="let effect of patch.effects" title="{{effect.name}}">
+      <div id="sr-toggle">
+        <ion-label id="name">Actived</ion-label>
+        <ion-toggle [checked]="effect.status" (ionChange)=toggleEffectStatus(effect)></ion-toggle>
+      </div>
+
       <div *ngFor="let parameter of effect.ports.control.input">
         <sr-slider
           *ngIf="

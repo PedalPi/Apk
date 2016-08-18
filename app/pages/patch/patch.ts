@@ -134,4 +134,10 @@ export class PatchPage {
 
     modal.present();
   }
+
+  toggleEffectStatus(effect) {
+    const update = () => effect.status = !effect.status;
+    this.currentService.toggleStatusEffect(this.bank, this.patch, effect)
+        .subscribe(update);
+  }
 }
