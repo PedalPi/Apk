@@ -133,6 +133,5 @@ export class PatchPage {
     });
 
     modal.present();
-    console.log();
   }
 }

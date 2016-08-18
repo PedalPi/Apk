@@ -35,4 +35,14 @@ export class CurrentService {
     let url = `/current/effect/${effectIndex}>`;
     return this.router.route(url);
   }
+
+  current() {
+    let url = this.currentUrl();
+    return this.rest.get(url);
+  }
+
+  private currentUrl() : string {
+    let url = `/current/data`;
+    return this.router.route(url);
+  }
 }
