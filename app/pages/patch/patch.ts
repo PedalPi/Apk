@@ -5,10 +5,11 @@ import {JsonService} from '../../service/json-service';
 
 import {PatchEffectsModal} from '../patch-effects/patch-effects-modal';
 
-import {SrSlider} from '../../components/sr-slider/sr-slider';
 import {SrCombobox} from '../../components/sr-combobox/sr-combobox';
-import {SrTabs} from '../../components/sr-tabs/sr-tabs';
+import {SrKnob} from '../../components/sr-knob/sr-knob';
+import {SrSlider} from '../../components/sr-slider/sr-slider';
 import {SrTab} from '../../components/sr-tabs/sr-tab';
+import {SrTabs} from '../../components/sr-tabs/sr-tabs';
 import {SrToggle} from '../../components/sr-toggle/sr-toggle';
 
 import {EffectsListModal} from '../effects-list/effects-list-modal';
@@ -16,7 +17,7 @@ import {EffectsListModal} from '../effects-list/effects-list-modal';
 
 @Component({
   templateUrl: 'build/pages/patch/patch.html',
-  directives: [SrSlider, SrCombobox, SrTabs, SrTab, SrToggle]
+  directives: [SrCombobox, SrKnob, SrSlider, SrTab, SrTabs, SrToggle]
 })
 export class PatchPage {
   @ViewChild(SrTabs) tabs: SrTabs;
@@ -105,7 +106,9 @@ export class PatchPage {
     modal.present();
   }
 
-  public onParamUpdated(effect, param) {
+  public onParamUpdated(effect, param, newValue) {
+    param.value = newValue;
+    
     this.service.updateParam(this.bank, this.patch, effect, param).subscribe(() => {});
     console.log(`Param ${param.name}: ${param.value}`);
   }
