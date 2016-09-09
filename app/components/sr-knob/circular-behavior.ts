@@ -32,7 +32,9 @@ export class CircularBehavior implements Behavior {
     const changeAngle = mouseAngle - this.clickedMouseAngle;
 
     this.lastMouseAngle = mouseAngle;
-    return initialAngle + changeAngle + 360*this.lap;
+
+    let angle = initialAngle + changeAngle + 360*this.lap
+    return angle < 0 ? angle + 360 : angle;
   }
 
   mouseAngle(event) {
@@ -47,6 +49,7 @@ export class CircularBehavior implements Behavior {
     const deltaY = event.clientY - centerY;
 
     const angle = (Math.atan2(deltaY, deltaX) * 180 / Math.PI);
+
     return angle < 0 ? 360 + angle : angle;
   }
 }

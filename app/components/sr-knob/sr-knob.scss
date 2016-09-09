@@ -12,5 +12,8 @@ sr-knob {
     -webkit-user-drag: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    background-size: cover !important;
+    border: 0 !important;
+    background-color: transparent;
   }
 }
