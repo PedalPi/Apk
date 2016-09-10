@@ -66,8 +66,15 @@ export class SrKnob implements ControlValueAccessor {
     this.functions = {
       'rotate': (event) => this.rotate(event),
       'pressed': (event) => this.pressed(event),
-      'drop': () => this.drop()
+      'drop': () => this.drop(),
+      'wheel': (event) => this.updateByWheel(event)
     };
+  }
+
+  private updateByWheel(event) {
+    const factor = event.wheelDelta > 0 ? 1 : -1;
+    this.update(this.currentAngle + factor*10);
+    event.preventDefault();
   }
 
   ngOnInit() {
@@ -75,6 +82,8 @@ export class SrKnob implements ControlValueAccessor {
 
     this.clickedValue = this.value;
     this.addEvent(this.image, 'mousedown', this.functions.pressed);
+    this.addEvent(this.image, 'touchstart', this.functions.pressed);
+    this.addEvent(this.image, 'wheel', this.functions.wheel);
 
     //this.behavior = new VerticalBehavior(this);
     this.behavior = new CircularBehavior(this);
@@ -100,24 +109,38 @@ export class SrKnob implements ControlValueAccessor {
     this.clickedValue = this.value;
 
     this.addEvent(document, 'mousemove', this.functions.rotate);
+    this.addEvent(document, 'touchmove', this.functions.rotate);
+
+    this.addEvent(document, 'touchend', this.functions.drop);
     this.addEvent(document, 'mouseup', this.functions.drop);
   }
 
   private rotate(event) {
+    event.preventDefault();
     this.update(this.behavior.calculateAngle(event));
   }
 
   private drop() {
     this.removeEvent(document, 'mousemove', this.functions.rotate);
+    this.removeEvent(document, 'touchmove', this.functions.rotate);
     this.removeEvent(document, 'mouseup', this.functions.drop);
+    this.removeEvent(document, 'touchend', this.functions.drop);
+  }
+
+  private get currentAngle() : number {
+    return this.angleByValue(this.value);
   }
 
   public angleByValue(value) : number {
-    return value * 360 / (this.max - this.min);
+    return (value - this.min) * 360 / this.range;
   }
 
   public valueByAngle(angle) : number {
-    return (angle * (this.max - this.min)/360) + this.min;
+    return (angle * this.range/360) + this.min;
+  }
+
+  private get range() {
+    return this.max - this.min;
   }
 
   private update(angle : number) {

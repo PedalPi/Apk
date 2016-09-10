@@ -1,4 +1,13 @@
-import {ElementRef, Directive, Component, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
+import {
+  ElementRef,
+  Directive,
+  Component,
+  ContentChildren,
+  QueryList,
+  AfterContentInit,
+  Output,
+  EventEmitter
+} from '@angular/core';
 
 import { SrTab } from './sr-tab';
 
@@ -11,6 +20,7 @@ export class SrTabs implements AfterContentInit {
   private tabsHeader : Element;
 
   @ContentChildren(SrTab) tabs: QueryList<SrTab>;
+  @Output('onSelect') onSelect = new EventEmitter();
 
   private currentTab : SrTab;
 
@@ -34,6 +44,8 @@ export class SrTabs implements AfterContentInit {
 
     this.currentTab = this.tabs.toArray()[index];
     this.currentTab.active = true;
+
+    this.onSelect.emit(index);
   }
 
   focusTab(index : number) {

@@ -8,36 +8,40 @@ export class CircularBehavior implements Behavior {
   private lastMouseAngle : number = 0;
 
   constructor(private knob : SrKnob) {
-    knob.addEvent(
-      knob.image,
-      'mousedown',
-      (event) => {
-        this.clickedMouseAngle = this.mouseAngle(event);
-        this.lap = 0;
-      }
-    );
+    const event = (event) => {
+      this.clickedMouseAngle = this.pointerAngle(event);
+      this.lap = 0;
+    };
+
+    knob.addEvent(knob.image, 'mousedown', event);
+    knob.addEvent(knob.image, 'touchstart', event);
   }
 
   calculateAngle(event) : number {
     const initialAngle = this.knob.angleByValue(this.knob.clickedValue);
-    const mouseAngle = this.mouseAngle(event);
+    const pointerAngle = this.pointerAngle(event);
 
     const HIGH_CHANGE = 200; // deg
-    if ((this.lastMouseAngle - mouseAngle) > HIGH_CHANGE && this.lap < 1)
+    if ((this.lastMouseAngle - pointerAngle) > HIGH_CHANGE && this.lap < 1)
       this.lap += 1;
 
-    else if ((this.lastMouseAngle - mouseAngle) < -HIGH_CHANGE && this.lap > -1)
+    else if ((this.lastMouseAngle - pointerAngle) < -HIGH_CHANGE && this.lap > -1)
       this.lap -= 1;
 
-    const changeAngle = mouseAngle - this.clickedMouseAngle;
+    const changeAngle = pointerAngle - this.clickedMouseAngle;
 
-    this.lastMouseAngle = mouseAngle;
+    this.lastMouseAngle = pointerAngle;
 
     let angle = initialAngle + changeAngle + 360*this.lap
     return angle < 0 ? angle + 360 : angle;
   }
 
-  mouseAngle(event) {
+  pointerAngle(event) {
+    const isMouse = event.clientX !== undefined;
+    const eventClientPosition = isMouse ?
+      this.mouseClientPosition(event)
+    : this.touchClientPosition(event);
+
     const element = this.knob.image;
 
     const offset = element.getBoundingClientRect();
@@ -45,11 +49,25 @@ export class CircularBehavior implements Behavior {
     const centerX = (offset.left + offset.right) / 2;
     const centerY = (offset.top + offset.bottom) / 2;
 
-    const deltaX = event.clientX - centerX;
-    const deltaY = event.clientY - centerY;
+    const deltaX = eventClientPosition.x - centerX;
+    const deltaY = eventClientPosition.y - centerY;
 
     const angle = (Math.atan2(deltaY, deltaX) * 180 / Math.PI);
 
     return angle < 0 ? 360 + angle : angle;
+  }
+
+  mouseClientPosition(event) {
+    return {
+      x: event.clientX,
+      y: event.clientY
+    };
+  }
+
+  touchClientPosition(event) {
+    return {
+      x: event.touches[0].clientX,
+      y: event.touches[0].clientY
+    };
   }
 }

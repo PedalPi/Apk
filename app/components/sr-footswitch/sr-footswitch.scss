@@ -1,0 +1,49 @@
+sr-footswitch {
+  display: block;
+  --size: 10px;
+
+  img {
+    background-image: url('https://raw.githubusercontent.com/moddevices/mod-sdk/master/html/resources/pedals/footswitch.png');
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    margin-top: calc(-1 * var(--size));
+  }
+
+  img.on {
+    background-position-y: 100%;
+  }
+
+
+  output {
+    float: right;
+
+    border-radius: 50%;
+    width: var(--size);
+    height: var(--size);
+
+    margin-top: 5px;
+    margin-right: 5px;
+
+    transition: all .15s ease;
+  }
+
+  output.on {
+    background: #FF4F4F;
+    box-shadow: 0 0 4px #1C1C17, 0 0 5px #FF4242;
+  }
+
+  output.off {
+    background: #646464;
+    background-image: -webkit-radial-gradient(top, #616161 0%, #616161 20%, #535353 60%)
+  }
+}
+
+.hidden {
+  position:absolute;
+  left:-10000px;
+  top:auto;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+}

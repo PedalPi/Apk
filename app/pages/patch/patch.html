@@ -14,46 +14,33 @@
 
 <ion-content class="patch">
   <button id="effects" clear (click)="manageEffects()"><ion-icon name="md-shuffle"></ion-icon></button>
-  <sr-tabs id="tabs">
+  <sr-tabs id="tabs" (onSelect)="setCurrentEffect($event)">
 
-    <sr-tab *ngFor="let effect of patch.effects" title="{{effect.name}}">
-      <div class="effect-header">
-        <h3>{{effect.title}}</h3>
-        <ion-toggle [checked]="effect.status" (ionChange)=toggleEffectStatus(effect)></ion-toggle>
-        <ion-icon name="arrow-forward"></ion-icon>
-        <ion-icon name="arrow-back"></ion-icon>
-      </div>
-
-      <div *ngFor="let parameter of effect.ports.control.input">
-        <sr-slider
-          *ngIf="
-             parameter.properties.indexOf('enumeration') == -1
-          && parameter.properties.indexOf('toggled') == -1
-          "
-          (onChange)="onParamUpdated(effect, parameter, parameter.value)"
-          [parameter]="parameter"></sr-slider>
-        <sr-combobox
-          *ngIf="parameter.properties.indexOf('enumeration') != -1"
-          (onChange)="onParamUpdated(effect, $event)"
-          [parameter]="parameter"
-          [selected]="parameter.value"
-          ></sr-combobox>
-
-        <sr-toggle
-          *ngIf="parameter.properties.indexOf('toggled') != -1"
-          (onChange)="onParamUpdated(effect, $event)"
-          [parameter]="parameter"></sr-toggle>
-      </div>
-
-      <span *ngFor="let parameter of effect.ports.control.input">
-          <sr-param-knob
-            *ngIf="
-               parameter.properties.indexOf('enumeration') == -1
-            && parameter.properties.indexOf('toggled') == -1
-            "
-            [parameter]="parameter"
-            (onChange)="onParamUpdated(effect, parameter, parameter.value)"></sr-param-knob>
+    <sr-tab *ngFor="let effect of patch.effects" title="{{effect.name}}" [hidden]="effect != currentEffect">
+      <div id="parameters">
+        <span *ngFor="let parameter of effect.ports.control.input" class="parameter {{parameterType(parameter)}}">
+            <!--
+            <sr-slider
+              *ngIf="isParameterKnob(parameter)"
+              (onChange)="onParamUpdated(effect, parameter, parameter.value)"
+              [parameter]="parameter"></sr-slider>
+            -->
+            <sr-param-knob
+              *ngIf="isKnob(parameter)"
+              [parameter]="parameter"
+              (onChange)="onParamUpdated(effect, parameter, parameter.value)"></sr-param-knob>
+            <sr-combobox
+              *ngIf="isCombobox(parameter)"
+              [parameter]="parameter"
+              (onChange)="onParamUpdated(effect, $event, parameter.value)"
+              [selected]="parameter.value"
+              ></sr-combobox>
+            <sr-toggle
+              *ngIf="isToggle(parameter)"
+              (onChange)="onParamUpdated(effect, $event, parameter.value)"
+              [parameter]="parameter"></sr-toggle>
         </span>
+      </div>
     </sr-tab>
 
     <div id="info" *ngIf="patch.effects.length === 0">
@@ -72,15 +59,7 @@
       </button>
     </ion-card>
 
-    <div id="connections">
-      <ion-icon center>
-        <ion-toggle></ion-toggle>
-        <!--
-          <img src="https://raw.githubusercontent.com/moddevices/mod-sdk/master/html/resources/pedals/footswitch.png" />
-        -->
-      </ion-icon>
-      <span class="label">Connections</span>
-    </div>
+    <sr-footswitch id="footswitch" [(ngModel)]="currentEffect.status" (onChange)="toggleEffectStatus(currentEffect)"></sr-footswitch>
 
     <ion-card class="ion-card-clicable no-shadow ion-card-item">
       <button ion-item (click)="toNextPatch()">

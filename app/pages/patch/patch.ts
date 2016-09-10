@@ -6,6 +6,7 @@ import {JsonService} from '../../service/json-service';
 import {PatchEffectsModal} from '../patch-effects/patch-effects-modal';
 
 import {SrCombobox} from '../../components/sr-combobox/sr-combobox';
+import {SrFootswitch} from '../../components/sr-footswitch/sr-footswitch';
 import {SrKnob} from '../../components/sr-knob/sr-knob';
 import {SrParamKnob} from '../../components/sr-param-knob/sr-param-knob';
 import {SrSlider} from '../../components/sr-slider/sr-slider';
@@ -15,16 +16,19 @@ import {SrToggle} from '../../components/sr-toggle/sr-toggle';
 
 import {EffectsListModal} from '../effects-list/effects-list-modal';
 
+import {PatchPresenter} from './patch-presenter';
 
 @Component({
   templateUrl: 'build/pages/patch/patch.html',
-  directives: [SrCombobox, SrKnob, SrSlider, SrTab, SrTabs, SrToggle, SrParamKnob]
+  directives: [SrCombobox, SrKnob, SrSlider, SrTab, SrTabs, SrToggle, SrParamKnob, SrFootswitch]
 })
 export class PatchPage {
   @ViewChild(SrTabs) tabs: SrTabs;
 
   public patch : any;
-  public bank : any;
+  public currentEffect : any;
+
+  private presenter: PatchPresenter;
 
   constructor(
       private nav : NavController,
@@ -32,12 +36,10 @@ export class PatchPage {
       params : NavParams,
       private jsonService : JsonService
     ) {
-    this.bank = params.get('bank');
+    const bank = params.get('bank');
+    this.presenter = new PatchPresenter(this, jsonService, bank);
     this.toPatch(params.get('patch'));
-  }
-
-  private get service() {
-    return this.jsonService.param;
+    this.currentEffect = this.patch.effects[0];
   }
 
   private get currentService() {
@@ -49,15 +51,7 @@ export class PatchPage {
   }
 
   public get beforePatch() : Object {
-    return this.getBeforePatch();
-  }
-
-  private getBeforePatch() : Object {
-    let index = this.getIndex(this.patch) - 1;
-    if (index == -1)
-      index = this.bank.patches.length-1;
-
-    return this.bank.patches[index];
+    return this.presenter.getBeforePatchOf(this.patch);
   }
 
   public toNextPatch() {
@@ -65,37 +59,27 @@ export class PatchPage {
   }
 
   public get nextPatch() : Object {
-    return this.getNextPatch();
-  }
-
-  private getNextPatch() : Object {
-    let index = this.getIndex(this.patch) + 1;
-    if (index == this.bank.patches.length)
-      index = 0;
-
-    return this.bank.patches[index];
+    return this.presenter.getNextPatchOf(this.patch);
   }
 
   private toPatch(patch : Object) {
     this.patch = patch;
 
-    this.currentService.setPatch(this.bank, patch)
-        .subscribe(() => {});
+    this.presenter.requestSetCurrentPatch(this.patch);
 
     if (this.tabs)
       this.tabs.selectTab(0);
-  }
 
-  private getIndex(patch) : number {
-    return this.bank.patches.indexOf(patch);
+    this.currentEffect = this.patch.effects[0];
   }
 
   public manageEffects() {
     const params = {
-      bank: this.bank,
+      bank: this.presenter.bank,
       patch: this.patch,
       jsonService: this.jsonService
     };
+
     const modal = this.modal.create(PatchEffectsModal, params);
     modal.onDidDismiss(data => {
       if (!data) return;
@@ -108,14 +92,8 @@ export class PatchPage {
   }
 
   public onParamUpdated(effect, param, newValue) {
-    param.value = newValue;
-
-    this.service.updateParam(this.bank, this.patch, effect, param).subscribe(() => {});
+    this.presenter.requestUpdateParam(this.patch, effect, param, newValue);
     console.log(`Param ${param.name}: ${param.value}`);
-  }
-
-  public isEnumaration(param) {
-    return param.properties.indexOf('enumeration') != -1;
   }
 
   setEffect() {
@@ -139,9 +117,27 @@ export class PatchPage {
     modal.present();
   }
 
-  toggleEffectStatus(effect) {
-    const update = () => effect.status = !effect.status;
-    this.currentService.toggleStatusEffect(this.bank, this.patch, effect)
-        .subscribe(update);
+  public toggleEffectStatus(effect) {
+    this.presenter.requestToggleStatusEffect(this.patch, effect);
+  }
+
+  public isKnob(parameter) : boolean {
+    return this.presenter.isParameterKnob(parameter);
+  }
+
+  public isCombobox(parameter) : boolean {
+    return this.presenter.isParameterCombobox(parameter);
+  }
+
+  public isToggle(parameter) : boolean {
+    return this.presenter.isParameterToggle(parameter);
+  }
+
+  public parameterType(parameter) : string {
+    return this.presenter.parameterType(parameter);
+  }
+
+  public setCurrentEffect(index) {
+    this.currentEffect = this.patch.effects[index];
   }
 }

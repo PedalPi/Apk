@@ -32,15 +32,19 @@ export class SrParamKnob {
     };
   }
 
-  get value() {
+  get name() : string {
+    return this.parameter.name.toLowerCase();
+  }
+
+  get value() : string {
     return this.render(this.parameter.value);
   }
 
-  get minimum() {
-    return this.truncate(this.parameter.ranges.minimum, 2);
+  get minimum() : string {
+    return this.truncate(this.parameter.ranges.minimum, 2) + "";
   }
 
-  get maximum() {
+  get maximum() : string {
     return this.render(this.parameter.ranges.maximum);
   }
 

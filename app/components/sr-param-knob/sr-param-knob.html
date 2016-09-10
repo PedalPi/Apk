@@ -1,5 +1,5 @@
 <div id="sr-param-knob">
-    <label id="name" for="volume">{{parameter.name}}</label>
+    <label id="name" for="volume">{{name}}</label>
 
     <sr-knob
         [(ngModel)]="parameter.value"
@@ -12,9 +12,11 @@
         spritesTotal="64"
         ></sr-knob>
 
-    <!--<output id="current" for="volume">{{value}}</output>-->
+    <!--
+    <output id="current" for="volume">{{value}}</output>
     <div id="interval">
       <output id="min" for="volume">{{minimum}}</output> –
       <output id="max" for="volume">{{maximum}}</output>
     </div>
+    -->
 </div>
