@@ -5,8 +5,11 @@ import {
   Output,
   Component,
   EventEmitter,
-  ContentChild
+  ContentChild,
+  forwardRef
 } from '@angular/core';
+
+import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 
 import {Behavior} from './behavior';
 import {CircularBehavior} from './circular-behavior';
@@ -16,13 +19,19 @@ import {ImageDrawer} from './image-drawer';
 import {SrcImageDrawer} from './src-image-drawer';
 import {SpriteImageDrawer} from './sprite-image-drawer';
 
+export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => SrKnob),
+    multi: true
+};
 
 @Component({
   selector: 'sr-knob',
   templateUrl: 'build/components/sr-knob/sr-knob.html',
-  directives: [IONIC_DIRECTIVES]
+  directives: [IONIC_DIRECTIVES],
+  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })
-export class SrKnob {
+export class SrKnob implements ControlValueAccessor {
   @Input() value : number;
   @Input() min : number;
   @Input() max : number;
@@ -31,7 +40,6 @@ export class SrKnob {
 
   // Sprite drawer
   @Input() sprite : string;
-  @Input() spriteSize : number;
   @Input() spritesTotal : number;
 
   @Output('onChange') onChange = new EventEmitter();
@@ -46,6 +54,9 @@ export class SrKnob {
 
   private behavior : Behavior = null;
   private imageDrawer : ImageDrawer = null;
+
+  private onChangeCallback = () => {};
+  private onTouchedCallback = () => {};
 
   constructor(element: ElementRef) {
     this.element = element.nativeElement;
@@ -123,5 +134,25 @@ export class SrKnob {
     this.value = newValue;
     this.imageDrawer.updateImage(angle);
     this.onChange.emit(this.value);
+  }
+
+  public updateView() {
+    this.imageDrawer.updateImage(this.angleByValue(this.value));
+  }
+
+  writeValue(value: any) {
+    if (value === null || value === undefined)
+      return;
+
+    this.value = value;
+    this.updateView();
+  }
+
+  registerOnChange(fn: any) {
+    this.onChangeCallback = fn;
+  }
+
+  registerOnTouched(fn: any) {
+    this.onTouchedCallback = fn;
   }
 }

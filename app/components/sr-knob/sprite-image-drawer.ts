@@ -11,9 +11,6 @@ export class SpriteImageDrawer implements ImageDrawer {
   public updateImage(angle : number) {
     const sprite = Math.trunc(angle*this.knob.spritesTotal/360);
     const spritePercent = sprite*100/this.knob.spritesTotal
-    console.log(spritePercent)
-    //360   = totalSprites = 100
-    //angle =      sprite       =  y
 
     this.knob.image.style.backgroundPositionX = `${spritePercent}%`;
   }

@@ -7,6 +7,7 @@ import {PatchEffectsModal} from '../patch-effects/patch-effects-modal';
 
 import {SrCombobox} from '../../components/sr-combobox/sr-combobox';
 import {SrKnob} from '../../components/sr-knob/sr-knob';
+import {SrParamKnob} from '../../components/sr-param-knob/sr-param-knob';
 import {SrSlider} from '../../components/sr-slider/sr-slider';
 import {SrTab} from '../../components/sr-tabs/sr-tab';
 import {SrTabs} from '../../components/sr-tabs/sr-tabs';
@@ -17,7 +18,7 @@ import {EffectsListModal} from '../effects-list/effects-list-modal';
 
 @Component({
   templateUrl: 'build/pages/patch/patch.html',
-  directives: [SrCombobox, SrKnob, SrSlider, SrTab, SrTabs, SrToggle]
+  directives: [SrCombobox, SrKnob, SrSlider, SrTab, SrTabs, SrToggle, SrParamKnob]
 })
 export class PatchPage {
   @ViewChild(SrTabs) tabs: SrTabs;
@@ -108,7 +109,7 @@ export class PatchPage {
 
   public onParamUpdated(effect, param, newValue) {
     param.value = newValue;
-    
+
     this.service.updateParam(this.bank, this.patch, effect, param).subscribe(() => {});
     console.log(`Param ${param.name}: ${param.value}`);
   }

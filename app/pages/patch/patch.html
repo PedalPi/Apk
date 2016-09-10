@@ -32,48 +32,29 @@
           "
           (onChange)="onParamUpdated(effect, parameter, parameter.value)"
           [parameter]="parameter"></sr-slider>
-
-        <sr-knob
-          *ngIf="
-             parameter.properties.indexOf('enumeration') == -1
-          && parameter.properties.indexOf('toggled') == -1
-          "
-          (onChange)="onParamUpdated(effect, parameter, $event)"
-          [value]="parameter.value"
-          [min]="parameter.ranges.minimum"
-          [max]="parameter.ranges.maximum"
-          type="image"
-          src="https://camo.githubusercontent.com/7373c162747ff5b35359ccdf5faf0e8d104a889f/687474703a2f2f7777772e666162696f62696f6e64692e636f6d2f64656d6f2f6769746875622f616e67756c61722d747765656e6d61782d647261676761626c652d6b6e6f622f64656d6f2f696d67732f6b6e6f622e706e67"
-          ></sr-knob>
-
-        <sr-knob
-          *ngIf="
-             parameter.properties.indexOf('enumeration') == -1
-          && parameter.properties.indexOf('toggled') == -1
-          "
-          (onChange)="onParamUpdated(effect, parameter, $event)"
-          [value]="parameter.value"
-          [min]="parameter.ranges.minimum"
-          [max]="parameter.ranges.maximum"
-          type="image"
-          sprite="https://raw.githubusercontent.com/moddevices/mod-sdk/master/html/resources/knobs/boxy/aluminium.png"
-          spriteSize="128"
-          spritesTotal="64"
-          ></sr-knob>
-
         <sr-combobox
           *ngIf="parameter.properties.indexOf('enumeration') != -1"
           (onChange)="onParamUpdated(effect, $event)"
           [parameter]="parameter"
           [selected]="parameter.value"
           ></sr-combobox>
+
         <sr-toggle
           *ngIf="parameter.properties.indexOf('toggled') != -1"
           (onChange)="onParamUpdated(effect, $event)"
           [parameter]="parameter"></sr-toggle>
       </div>
-    </sr-tab>
 
+      <span *ngFor="let parameter of effect.ports.control.input">
+          <sr-param-knob
+            *ngIf="
+               parameter.properties.indexOf('enumeration') == -1
+            && parameter.properties.indexOf('toggled') == -1
+            "
+            [parameter]="parameter"
+            (onChange)="onParamUpdated(effect, parameter, parameter.value)"></sr-param-knob>
+        </span>
+    </sr-tab>
 
     <div id="info" *ngIf="patch.effects.length === 0">
       <ion-icon name="md-shuffle"></ion-icon>
@@ -91,14 +72,15 @@
       </button>
     </ion-card>
 
-    <!--
     <div id="connections">
       <ion-icon center>
-        <img src="img/conection-plug.svg" />
+        <ion-toggle></ion-toggle>
+        <!--
+          <img src="https://raw.githubusercontent.com/moddevices/mod-sdk/master/html/resources/pedals/footswitch.png" />
+        -->
       </ion-icon>
       <span class="label">Connections</span>
     </div>
-    -->
 
     <ion-card class="ion-card-clicable no-shadow ion-card-item">
       <button ion-item (click)="toNextPatch()">

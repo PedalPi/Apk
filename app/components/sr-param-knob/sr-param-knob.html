@@ -1,0 +1,20 @@
+<div id="sr-param-knob">
+    <label id="name" for="volume">{{parameter.name}}</label>
+
+    <sr-knob
+        [(ngModel)]="parameter.value"
+        [min]="parameter.ranges.minimum"
+        [max]="parameter.ranges.maximum"
+
+        (onChange)="update($event)"
+
+        sprite="https://raw.githubusercontent.com/moddevices/mod-sdk/master/html/resources/knobs/chicken-head/chicken-head.png"
+        spritesTotal="64"
+        ></sr-knob>
+
+    <!--<output id="current" for="volume">{{value}}</output>-->
+    <div id="interval">
+      <output id="min" for="volume">{{minimum}}</output> –
+      <output id="max" for="volume">{{maximum}}</output>
+    </div>
+</div>

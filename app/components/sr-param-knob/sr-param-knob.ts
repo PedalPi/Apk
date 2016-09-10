@@ -1,14 +1,21 @@
 import {IONIC_DIRECTIVES} from 'ionic-angular';
-import {Input, Output, Component, EventEmitter} from '@angular/core';
+import {
+  ElementRef,
+  Input, Output,
+  Component,
+  EventEmitter
+} from '@angular/core';
+
+import {SrKnob} from '../sr-knob/sr-knob';
 
 declare var sprintf: any;
 
 @Component({
-  selector: 'sr-slider',
-  templateUrl: 'build/components/sr-slider/sr-slider.html',
-  directives: [IONIC_DIRECTIVES]
+  selector: 'sr-param-knob',
+  templateUrl: 'build/components/sr-param-knob/sr-param-knob.html',
+  directives: [IONIC_DIRECTIVES, SrKnob]
 })
-export class SrSlider {
+export class SrParamKnob {
   @Input() parameter : any;
   @Output('onChange') onChange = new EventEmitter();
 
@@ -52,7 +59,8 @@ export class SrSlider {
     return Math.trunc(num * Math.pow(10, places)) / Math.pow(10, places);
   }
 
-  public update() {
+  public update(value) {
+    this.parameter.value = value;
     this.onChange.emit(this.parameter);
   }
 }
