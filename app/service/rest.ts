@@ -1,4 +1,5 @@
 import {Http, Headers, RequestOptions} from '@angular/http';
+import {JsonService} from './json-service';
 
 
 export class Rest {
@@ -10,6 +11,7 @@ export class Rest {
 
   private get headers() : any {
     const headers = new Headers();
+    headers.append('x-xsrf-token', JsonService.token);
     return new RequestOptions({'headers' : headers});
   }
 

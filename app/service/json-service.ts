@@ -15,6 +15,7 @@ import {CurrentService} from './current-service';
 @Injectable()
 export class JsonService {
   public static server = 'http://localhost:3000';
+  public static token = '';
 
   private rest : Rest;
   private router : Router;
@@ -29,7 +30,7 @@ export class JsonService {
 
   constructor(http : Http) {
     this.rest = new Rest(http);
-    this.router = new Router(JsonService.server);
+    this.router = new Router();
 
     this.banks = new BanksService(this.rest, this.router);
     this.patch = new PatchService(this.rest, this.router);

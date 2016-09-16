@@ -1,7 +1,8 @@
-import {Component, QueryList, ViewChild} from '@angular/core';
+import {Component, QueryList, ViewChild, ApplicationRef} from '@angular/core';
 import {ModalController, NavController, NavParams} from 'ionic-angular';
 
 import {JsonService} from '../../service/json-service';
+import {WebSocketService} from '../../service/websocket/web-socket-service';
 
 import {PatchEffectsModal} from '../patch-effects/patch-effects-modal';
 
@@ -34,12 +35,18 @@ export class PatchPage {
       private nav : NavController,
       private modal : ModalController,
       params : NavParams,
-      private jsonService : JsonService
+      private jsonService : JsonService,
+      private ref: ApplicationRef
     ) {
     const bank = params.get('bank');
     this.presenter = new PatchPresenter(this, jsonService, bank);
     this.toPatch(params.get('patch'));
     this.currentEffect = this.patch.effects[0];
+
+    WebSocketService.ws.onParamValueChangeListener = message => {
+      this.patch.effects[message.effect].ports.control.input[message.param].value = message.value;
+      ref.tick();
+    };
   }
 
   private get currentService() {
