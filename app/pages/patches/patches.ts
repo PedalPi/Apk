@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, NavParams, AlertController, ActionSheetController} from 'ionic-angular';
 import {PatchPage} from '../patch/patch';
 
-import {JsonService} from '../../service/json-service';
+import {JsonService} from '../../service/json/json-service';
 
 import {AlertBuilder} from '../../common/alert';
 import {ContextMenu} from '../../common/contextMenu';

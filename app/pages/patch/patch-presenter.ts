@@ -1,5 +1,5 @@
 import {PatchPage} from './patch';
-import {JsonService} from '../../service/json-service';
+import {JsonService} from '../../service/json/json-service';
 
 
 export class PatchPresenter {

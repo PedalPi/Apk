@@ -4,7 +4,7 @@ import {ViewController, NavController, NavParams} from 'ionic-angular';
 import {SrTabs} from '../../components/sr-tabs/sr-tabs';
 import {SrTab} from '../../components/sr-tabs/sr-tab';
 
-import {JsonService} from '../../service/json-service';
+import {JsonService} from '../../service/json/json-service';
 
 import {AlertCommon} from '../../common/alert';
 

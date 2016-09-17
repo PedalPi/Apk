@@ -1,7 +1,8 @@
 import {BankGenerator} from '../../generator/modelGenerator';
-import {JsonService} from '../../service/json-service';
 
-import {BanksService} from '../../service/banks-service';
+import {DataService} from '../../service/data/data-service';
+import {JsonService} from '../../service/json/json-service';
+import {BanksService} from '../../service/json/banks-service';
 
 import {BanksPage} from './banks';
 
@@ -9,21 +10,26 @@ import {BanksPage} from './banks';
 export class BanksPresenter {
   private jsonService : JsonService;
   private page : BanksPage;
-  public banks;
+  private data;
 
-  constructor(page : BanksPage, jsonService : JsonService) {
-    this.jsonService = jsonService;
+  constructor(page : BanksPage, jsonService : JsonService, data : DataService) {
     this.page = page;
-    this.banks = [];
+    this.jsonService = jsonService;
+    this.data = data;
   }
 
   private get service() : BanksService {
     return this.jsonService.banks;
   }
 
+  get banks() {
+    return this.data.server.banks;
+  }
+
   requestBanks() : void {
-    this.service.getBanks()
-        .subscribe(data => this.banks = data.banks);
+    const updateData = data => this.data.server = data;
+
+    this.service.getBanks().subscribe(updateData);
   }
 
   requestSaveBank(data: any) : void {

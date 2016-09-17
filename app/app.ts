@@ -4,16 +4,18 @@ import {StatusBar} from 'ionic-native';
 
 import {HomePage} from './pages/home/home';
 
-import {JsonService} from './service/json-service';
+import {JsonService} from './service/json/json-service';
+import {WebSocketService} from './service/websocket/web-socket-service';
+import {DataService} from './service/data/data-service';
 
 // Add operators
 import 'rxjs/add/operator/map';
 
 @Component({
-  templateUrl: 'build/app.html', /* <ion-nav [root]="rootPage"></ion-nav> */
-  providers: [JsonService]
+  templateUrl: 'build/app.html',
+  providers: [JsonService, WebSocketService, DataService]
 })
-class MyApp {
+export class App {
   rootPage: any = HomePage;
 
   constructor(private platform: Platform) {
@@ -29,4 +31,4 @@ class MyApp {
   }
 }
 
-ionicBootstrap(MyApp);
+ionicBootstrap(App);

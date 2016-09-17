@@ -8,10 +8,11 @@ import {ConfigurationsPage} from '../configurations/configurations';
 
 import {SrIcon} from '../../components/sr-icon/sr-icon';
 
-import {JsonService} from '../../service/json-service';
-import {CurrentService} from '../../service/current-service';
+import {JsonService} from '../../service/json/json-service';
+import {CurrentService} from '../../service/json/current-service';
+import {BanksService} from '../../service/json/banks-service';
 
-import {BanksService} from '../../service/banks-service';
+import {DataService} from '../../service/data/data-service';
 
 
 @Component({
@@ -19,7 +20,12 @@ import {BanksService} from '../../service/banks-service';
   directives: [SrIcon]
 })
 export class HomePage {
-  constructor(private nav : NavController, private jsonService : JsonService) {}
+  constructor(
+      private nav : NavController,
+      private jsonService : JsonService,
+      private data : DataService) {
+    // ws injected in the first page to start web socket connection
+  }
 
   get service() : CurrentService {
     return this.jsonService.current;
@@ -34,20 +40,21 @@ export class HomePage {
   }
 
   goToCurrent() {
-    const goToCurrent = data => this.openPagesForCurrent(data.bank, data.bank.patches[data.patch]);
-    this.service.current().subscribe(goToCurrent);
+    const goToCurrent = data => this.openPagesForCurrent(data.bank, data.patch);
+    this.service.currentData().subscribe(goToCurrent);
   }
 
-  private openPagesForCurrent(bank, patch) {
-    const data = {
-      'bank': bank,
-      'patch': patch
-    };
+  private openPagesForCurrent(bankIndex : number, patchIndex : number) {
+    this.banksService.getBanks().subscribe(banksData => {
+      this.data.server = banksData;
 
-    this.nav.push(BanksPage).then(() => {
-      return this.nav.push(PatchesPage, data);
-    }).then(() => {
-      return this.nav.push(PatchPage, data);
+      let params : any = {};
+      params.bank = banksData.banks[bankIndex];
+      params.patch = params.bank.patches[patchIndex];
+
+      this.nav.push(BanksPage, {current: true})
+          .then(() => this.nav.push(PatchesPage, params))
+          .then(() => this.nav.push(PatchPage, params));
     });
   }
 

@@ -1,7 +1,7 @@
 import {Component, QueryList, ViewChild, ApplicationRef} from '@angular/core';
 import {ModalController, NavController, NavParams} from 'ionic-angular';
 
-import {JsonService} from '../../service/json-service';
+import {JsonService} from '../../service/json/json-service';
 import {WebSocketService} from '../../service/websocket/web-socket-service';
 
 import {PatchEffectsModal} from '../patch-effects/patch-effects-modal';
@@ -36,17 +36,22 @@ export class PatchPage {
       private modal : ModalController,
       params : NavParams,
       private jsonService : JsonService,
-      private ref: ApplicationRef
+      private ref: ApplicationRef,
+      private ws : WebSocketService
     ) {
     const bank = params.get('bank');
     this.presenter = new PatchPresenter(this, jsonService, bank);
     this.toPatch(params.get('patch'));
     this.currentEffect = this.patch.effects[0];
+  }
 
-    WebSocketService.ws.onParamValueChangeListener = message => {
-      this.patch.effects[message.effect].ports.control.input[message.param].value = message.value;
-      ref.tick();
-    };
+  ionViewWillEnter() {
+    this.ws.onCurrentPatchChangeListener = patch => this.toPatch(patch);
+    console.log(this.tabs);
+  }
+
+  ionViewWillLeave() {
+    this.ws.clearListeners();
   }
 
   private get currentService() {
@@ -71,13 +76,13 @@ export class PatchPage {
 
   private toPatch(patch : Object) {
     this.patch = patch;
+    this.ref.tick();
 
     this.presenter.requestSetCurrentPatch(this.patch);
+    this.currentEffect = this.patch.effects[0];
 
     if (this.tabs)
       this.tabs.selectTab(0);
-
-    this.currentEffect = this.patch.effects[0];
   }
 
   public manageEffects() {

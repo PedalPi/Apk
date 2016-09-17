@@ -1,13 +1,20 @@
 import {Component} from '@angular/core';
-import {NavController, AlertController, ActionSheetController} from 'ionic-angular';
+import {
+  NavController,
+  AlertController,
+  ActionSheetController,
+  NavParams
+} from 'ionic-angular';
+
 import {PatchesPage} from '../patches/patches';
 
-import {JsonService} from '../../service/json-service';
+import {JsonService} from '../../service/json/json-service';
 import {AlertCommon, AlertBuilder} from '../../common/alert';
 import {ContextMenu} from '../../common/contextMenu';
 
 import {BankGenerator} from '../../generator/modelGenerator';
 import {BanksPresenter} from './banks-presenter';
+import {DataService} from '../../service/data/data-service';
 
 
 @Component({
@@ -21,9 +28,11 @@ export class BanksPage {
       private nav : NavController,
       private alert : AlertController,
       private actionSheet : ActionSheetController,
-      jsonService : JsonService
+      jsonService : JsonService,
+      private data : DataService,
+      private params : NavParams
     ) {
-    this.presenter = new BanksPresenter(this, jsonService);
+    this.presenter = new BanksPresenter(this, jsonService, data);
     this.reordering = false;
   }
 
@@ -31,8 +40,13 @@ export class BanksPage {
     return this.presenter.banks;
   }
 
+  get isToCurrentPatchRequest() {
+    return this.params.get('current') === true;
+  }
+
   ngOnInit() {
-    this.presenter.requestBanks();
+    if (!this.isToCurrentPatchRequest)
+      this.presenter.requestBanks();
   }
 
   itemSelected(bank) {

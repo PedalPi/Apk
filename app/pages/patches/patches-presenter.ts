@@ -1,8 +1,8 @@
-import {JsonService} from '../../service/json-service';
+import {JsonService} from '../../service/json/json-service';
 
 import {PatchGenerator} from '../../generator/modelGenerator';
-import {PatchService} from '../../service/patch-service';
-import {BanksService} from '../../service/banks-service';
+import {PatchService} from '../../service/json/patch-service';
+import {BanksService} from '../../service/json/banks-service';
 
 import {PatchesPage} from './patches';
 
