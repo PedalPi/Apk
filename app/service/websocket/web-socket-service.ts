@@ -60,7 +60,7 @@ export class WebSocketService {
     else if (type == 'BANK')
       this.onBankCUDListener(message);
     else if (type == 'PATCH')
-      this.onPatchCUDListener(message);
+      this.onPatchCUD(message);
     else if (type == 'EFFECT')
       this.onEffectCUDListener(message);
     else if (type == 'EFFECT-TOGGLE')
@@ -79,6 +79,20 @@ export class WebSocketService {
     this.onCurrentPatchChangeListener(patch);
   }
 
+  private onPatchCUD(message : any) {
+    const bank = this.bankBy(message);
+    if (message.updateType == "UPDATED")
+      bank.patches[message.patch] = message.value;
+    else if (message.updateType == "DELETED")
+      bank.patches.splice(message.patch, 1);
+    else if (message.updateType == "CREATED")
+      bank.patches.push(message.value);
+
+    this.onPatchCUDListener(message, message.value);
+
+    this.ref.tick();
+  }
+
   private onEffectStatusToggled(message : any) {
     const effect = this.effectBy(message);
     effect.status = !effect.status;
@@ -93,8 +107,12 @@ export class WebSocketService {
     this.onParamValueChangeListener(message);
   }
 
+  private bankBy(message) {
+    return this.data.server.banks[message.bank];
+  }
+
   private patchBy(message) {
-    const bank = this.data.server.banks[message.bank];
+    const bank = this.bankBy(message);
     return bank.patches[message.patch];
   }
 

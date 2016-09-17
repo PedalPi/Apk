@@ -47,7 +47,10 @@ export class PatchPage {
 
   ionViewWillEnter() {
     this.ws.onCurrentPatchChangeListener = patch => this.toPatch(patch);
-    console.log(this.tabs);
+    this.ws.onPatchCUDListener = (message, patch) => {
+      if (message.updateType == 'UPDATED')
+        this.toPatch(patch);
+    };
   }
 
   ionViewWillLeave() {
@@ -143,6 +146,16 @@ export class PatchPage {
 
   public isToggle(parameter) : boolean {
     return this.presenter.isParameterToggle(parameter);
+  }
+
+  public get hasCurrentEffect() {
+    return this.currentEffect !== undefined;
+  }
+  public get currentEffectStatus() {
+    if (this.hasCurrentEffect)
+      return this.currentEffect.status;
+    else
+      return false;
   }
 
   public parameterType(parameter) : string {

@@ -45,7 +45,7 @@
 
     <div id="info" *ngIf="patch.effects.length === 0">
       <ion-icon name="md-shuffle"></ion-icon>
-      Add effects in the patch
+      Add effects in this patch
     </div>
   </sr-tabs>
 </ion-content>
@@ -59,7 +59,7 @@
       </button>
     </ion-card>
 
-    <sr-footswitch id="footswitch" [(ngModel)]="currentEffect.status" (onChange)="toggleEffectStatus(currentEffect)"></sr-footswitch>
+    <sr-footswitch id="footswitch" [(ngModel)]="currentEffectStatus" (onChange)="toggleEffectStatus(currentEffect)" [hidden]="!hasCurrentEffect"></sr-footswitch>
 
     <ion-card class="ion-card-clicable no-shadow ion-card-item">
       <button ion-item (click)="toNextPatch()">
