@@ -3,6 +3,7 @@ import {NavController, NavParams, AlertController, ActionSheetController} from '
 import {PatchPage} from '../patch/patch';
 
 import {JsonService} from '../../service/json/json-service';
+import {WebSocketService} from '../../service/websocket/web-socket-service';
 
 import {AlertBuilder} from '../../common/alert';
 import {ContextMenu} from '../../common/contextMenu';
@@ -26,11 +27,25 @@ export class PatchesPage {
       params : NavParams,
       private alert : AlertController,
       private actionSheet : ActionSheetController,
-      private jsonService : JsonService
+      private jsonService : JsonService,
+      private ws : WebSocketService
     ) {
     this.presenter = new PatchesPresenter(this, params.get('bank'), jsonService);
     this.bank = params.get('bank');
     this.reordering = false;
+  }
+
+  ionViewWillEnter() {
+    this.ws.clearListeners();
+
+    this.ws.onBankCUDListener = (message, bank) => {
+      if (message.updateType == 'UPDATED' && bank.index == this.bank.index)
+        this.bank = bank;
+      else if (message.updateType == 'DELETED' && bank.index == this.bank.index) {
+        this.nav.pop()
+        alert("This bank has been deleted!");
+      }
+    };
   }
 
   createPatch() {

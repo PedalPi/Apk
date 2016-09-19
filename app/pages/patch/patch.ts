@@ -46,15 +46,13 @@ export class PatchPage {
   }
 
   ionViewWillEnter() {
-    this.ws.onCurrentPatchChangeListener = patch => this.toPatch(patch);
+    this.ws.clearListeners();
+    
+    this.ws.onCurrentPatchChangeListener = (bank, patch) => this.toPatch(patch, bank);
     this.ws.onPatchCUDListener = (message, patch) => {
       if (message.updateType == 'UPDATED')
         this.toPatch(patch);
     };
-  }
-
-  ionViewWillLeave() {
-    this.ws.clearListeners();
   }
 
   private get currentService() {
@@ -77,7 +75,10 @@ export class PatchPage {
     return this.presenter.getNextPatchOf(this.patch);
   }
 
-  private toPatch(patch : Object) {
+  private toPatch(patch : Object, bank? : Object) {
+    if (bank)
+      this.presenter.bank = bank;
+
     this.patch = patch;
     this.ref.tick();
 

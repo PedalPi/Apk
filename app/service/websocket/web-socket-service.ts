@@ -4,6 +4,7 @@ import {DataService} from "../data/data-service";
 import {JsonService} from "../json/json-service";
 import {Injectable} from '@angular/core';
 
+import {ModelUtil} from '../../util/model-util';
 
 @Injectable()
 export class WebSocketService {
@@ -58,7 +59,7 @@ export class WebSocketService {
     if (type == 'CURRENT')
       this.onCurrentPatchChange(message);
     else if (type == 'BANK')
-      this.onBankCUDListener(message);
+      this.onBankCUD(message);
     else if (type == 'PATCH')
       this.onPatchCUD(message);
     else if (type == 'EFFECT')
@@ -69,14 +70,29 @@ export class WebSocketService {
       this.onParamValueChange(message);
     else if (type == 'TOKEN')
       JsonService.token = message.value;
-
-    //this.ref.tick();
   }
 
   private onCurrentPatchChange(message : any) {
+    const bank = this.bankBy(message);
     const patch = this.patchBy(message);
 
-    this.onCurrentPatchChangeListener(patch);
+    this.onCurrentPatchChangeListener(bank, patch);
+  }
+
+  private onBankCUD(message : any) {
+    const banks = this.data.server.banks;
+    let bankListIndex = ModelUtil.getBankListIndex(banks, message.bank);
+
+    if (message.updateType == "UPDATED") {
+      banks[bankListIndex] = message.value;
+    } else if (message.updateType == "DELETED")
+      banks.splice(bankListIndex, 1);
+    else if (message.updateType == "CREATED")
+      banks.push(message.value);
+
+    this.onBankCUDListener(message, message.value);
+
+    this.ref.tick();
   }
 
   private onPatchCUD(message : any) {
@@ -107,8 +123,8 @@ export class WebSocketService {
     this.onParamValueChangeListener(message);
   }
 
-  private bankBy(message) {
-    return this.data.server.banks[message.bank];
+  private bankBy(message) : any {
+    return ModelUtil.getBank(this.data.server.banks, message.bank);
   }
 
   private patchBy(message) {

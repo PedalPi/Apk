@@ -11,9 +11,9 @@ import {SrIcon} from '../../components/sr-icon/sr-icon';
 import {JsonService} from '../../service/json/json-service';
 import {CurrentService} from '../../service/json/current-service';
 import {BanksService} from '../../service/json/banks-service';
-
 import {DataService} from '../../service/data/data-service';
 
+import {ModelUtil} from '../../util/model-util'
 
 @Component({
   templateUrl: 'build/pages/home/home.html',
@@ -49,7 +49,7 @@ export class HomePage {
       this.data.server = banksData;
 
       let params : any = {};
-      params.bank = banksData.banks[bankIndex];
+      params.bank = ModelUtil.getBank(banksData.banks, bankIndex);
       params.patch = params.bank.patches[patchIndex];
 
       this.nav.push(BanksPage, {current: true})
