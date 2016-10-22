@@ -25,46 +25,59 @@ export class WebSocketService {
   public onEffectStatusToggledListener : any;
   public onParamValueChangeListener : any;
 
+  public onConnectedListener : any = () => {};
+
+  public forceReconnection : boolean;
   private tryingReconnect : boolean;
   private loading: any;
 
+  private loadingCtrl : LoadingController;
+
   constructor(data : DataService, ref: ApplicationRef, loadingCtrl: LoadingController) {
+    this.loadingCtrl = loadingCtrl;
+    this.forceReconnection = false;
     this.tryingReconnect = false;
+
     this.data = data;
     this.ref = ref;
 
-    this.connection = this.prepareConnectionEvents(loadingCtrl);
+    this.connect(WebSocketService.prepareUrl(JsonService.server));
     this.clearListeners();
   }
 
-  private prepareConnectionEvents(loadingCtrl: LoadingController) {
+  public connect(url) {
+    if (this.connection)
+      this.connection.close();
+
     RobustWebSocket.defaultOptions.shouldReconnect = () => 1500;
-    const connection = new RobustWebSocket(this.url);
+    const connection = new RobustWebSocket(url);
 
     connection.onmessage = m => this.onMessage(m.data);
     connection.onerror = console.error;
 
     connection.onopen = () => {
       if (this.tryingReconnect)
-        this.loading.dismiss();
+        this.loading.dismiss()
 
+      this.forceReconnection = true;
       this.tryingReconnect = false;
+      this.onConnectedListener();
     }
 
     connection.onclose = () => {
-      if (this.tryingReconnect)
+      if (!this.forceReconnection || this.tryingReconnect)
         return;
 
       this.tryingReconnect = true;
-      this.loading = loadingCtrl.create({content: "Trying reconnect"});
+      this.loading = this.loadingCtrl.create({content: "Trying reconnect"});
       this.loading.present();
     }
 
-    return connection;
+    this.connection = connection;
   }
 
-  get url() {
-    return `${JsonService.server.replace("http", "ws")}/ws/`;
+  static prepareUrl(url) {
+    return `${url.replace("http", "ws")}/ws/`;
   }
 
   clearListeners() {

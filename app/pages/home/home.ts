@@ -21,13 +21,15 @@ import {ModelUtil} from '../../util/model-util'
   directives: [SrIcon]
 })
 export class HomePage {
+  public connected : boolean = false;
+
   constructor(
       private nav : NavController,
       private jsonService : JsonService,
       private data : DataService,
       private ws : WebSocketService) {
     // ws injected in the first page to start web socket connection
-    //console.log(ws);
+    ws.onConnectedListener = () => this.connected = true;
   }
 
   get service() : CurrentService {

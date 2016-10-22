@@ -1121,9 +1121,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var json_service_1 = require('../../service/json/json-service');
+var web_socket_service_1 = require('../../service/websocket/web-socket-service');
 var ConfigurationsPage = (function () {
-    function ConfigurationsPage(nav) {
+    function ConfigurationsPage(nav, ws) {
         this.nav = nav;
+        this.ws = ws;
     }
     Object.defineProperty(ConfigurationsPage.prototype, "ip", {
         get: function () {
@@ -1134,18 +1136,19 @@ var ConfigurationsPage = (function () {
     });
     ConfigurationsPage.prototype.setIp = function (ip) {
         json_service_1.JsonService.server = ip;
+        this.ws.connect(web_socket_service_1.WebSocketService.prepareUrl(ip));
     };
     ConfigurationsPage = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/configurations/configurations.html'
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, web_socket_service_1.WebSocketService])
     ], ConfigurationsPage);
     return ConfigurationsPage;
 }());
 exports.ConfigurationsPage = ConfigurationsPage;
 
-},{"../../service/json/json-service":31,"@angular/core":186,"ionic-angular":500}],20:[function(require,module,exports){
+},{"../../service/json/json-service":31,"../../service/websocket/web-socket-service":37,"@angular/core":186,"ionic-angular":500}],20:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1262,12 +1265,14 @@ var web_socket_service_1 = require('../../service/websocket/web-socket-service')
 var model_util_1 = require('../../util/model-util');
 var HomePage = (function () {
     function HomePage(nav, jsonService, data, ws) {
+        var _this = this;
         this.nav = nav;
         this.jsonService = jsonService;
         this.data = data;
         this.ws = ws;
+        this.connected = false;
         // ws injected in the first page to start web socket connection
-        //console.log(ws);
+        ws.onConnectedListener = function () { return _this.connected = true; };
     }
     Object.defineProperty(HomePage.prototype, "service", {
         get: function () {
@@ -2206,39 +2211,42 @@ var model_util_1 = require('../../util/model-util');
 var ionic_angular_1 = require('ionic-angular');
 var WebSocketService = (function () {
     function WebSocketService(data, ref, loadingCtrl) {
+        this.onConnectedListener = function () { };
+        this.loadingCtrl = loadingCtrl;
+        this.forceReconnection = false;
         this.tryingReconnect = false;
         this.data = data;
         this.ref = ref;
-        this.connection = this.prepareConnectionEvents(loadingCtrl);
+        this.connect(WebSocketService.prepareUrl(json_service_1.JsonService.server));
         this.clearListeners();
     }
-    WebSocketService.prototype.prepareConnectionEvents = function (loadingCtrl) {
+    WebSocketService.prototype.connect = function (url) {
         var _this = this;
+        if (this.connection)
+            this.connection.close();
         RobustWebSocket.defaultOptions.shouldReconnect = function () { return 1500; };
-        var connection = new RobustWebSocket(this.url);
+        var connection = new RobustWebSocket(url);
         connection.onmessage = function (m) { return _this.onMessage(m.data); };
         connection.onerror = console.error;
         connection.onopen = function () {
             if (_this.tryingReconnect)
                 _this.loading.dismiss();
+            _this.forceReconnection = true;
             _this.tryingReconnect = false;
+            _this.onConnectedListener();
         };
         connection.onclose = function () {
-            if (_this.tryingReconnect)
+            if (!_this.forceReconnection || _this.tryingReconnect)
                 return;
             _this.tryingReconnect = true;
-            _this.loading = loadingCtrl.create({ content: "Trying reconnect" });
+            _this.loading = _this.loadingCtrl.create({ content: "Trying reconnect" });
             _this.loading.present();
         };
-        return connection;
+        this.connection = connection;
     };
-    Object.defineProperty(WebSocketService.prototype, "url", {
-        get: function () {
-            return json_service_1.JsonService.server.replace("http", "ws") + "/ws/";
-        },
-        enumerable: true,
-        configurable: true
-    });
+    WebSocketService.prepareUrl = function (url) {
+        return url.replace("http", "ws") + "/ws/";
+    };
     WebSocketService.prototype.clearListeners = function () {
         this.onCurrentPatchChangeListener = function () { };
         this.onBankCUDListener = function () { };
