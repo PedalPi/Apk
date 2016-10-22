@@ -12,6 +12,7 @@ import {JsonService} from '../../service/json/json-service';
 import {CurrentService} from '../../service/json/current-service';
 import {BanksService} from '../../service/json/banks-service';
 import {DataService} from '../../service/data/data-service';
+import {WebSocketService} from '../../service/websocket/web-socket-service';
 
 import {ModelUtil} from '../../util/model-util'
 
@@ -23,8 +24,10 @@ export class HomePage {
   constructor(
       private nav : NavController,
       private jsonService : JsonService,
-      private data : DataService) {
+      private data : DataService,
+      private ws : WebSocketService) {
     // ws injected in the first page to start web socket connection
+    //console.log(ws);
   }
 
   get service() : CurrentService {

@@ -5,15 +5,16 @@ import {JsonService} from "../json/json-service";
 import {Injectable} from '@angular/core';
 
 import {ModelUtil} from '../../util/model-util';
+import {ToastController, LoadingController} from 'ionic-angular';
+
+declare var RobustWebSocket: any;
 
 @Injectable()
 export class WebSocketService {
-  public static url = 'ws://localhost:3000/ws/';
-
   private data : DataService;
   private ref: ApplicationRef;
 
-  private connection : any;
+  private connection : WebSocket;
 
   public onCurrentPatchChangeListener : any;
 
@@ -24,16 +25,46 @@ export class WebSocketService {
   public onEffectStatusToggledListener : any;
   public onParamValueChangeListener : any;
 
-  constructor(data : DataService, ref: ApplicationRef) {
+  private tryingReconnect : boolean;
+  private loading: any;
+
+  constructor(data : DataService, ref: ApplicationRef, loadingCtrl: LoadingController) {
+    this.tryingReconnect = false;
     this.data = data;
     this.ref = ref;
-    this.connection = new WebSocket(WebSocketService.url);
 
-    //this.connection.onopen = () => alert('Ping');
-    this.connection.onerror = error => console.log('WebSocket Error ' + error);
-    this.connection.onmessage = e => this.onMessage(e.data);
-
+    this.connection = this.prepareConnectionEvents(loadingCtrl);
     this.clearListeners();
+  }
+
+  private prepareConnectionEvents(loadingCtrl: LoadingController) {
+    RobustWebSocket.defaultOptions.shouldReconnect = () => 1500;
+    const connection = new RobustWebSocket(this.url);
+
+    connection.onmessage = m => this.onMessage(m.data);
+    connection.onerror = console.error;
+
+    connection.onopen = () => {
+      if (this.tryingReconnect)
+        this.loading.dismiss();
+
+      this.tryingReconnect = false;
+    }
+
+    connection.onclose = () => {
+      if (this.tryingReconnect)
+        return;
+
+      this.tryingReconnect = true;
+      this.loading = loadingCtrl.create({content: "Trying reconnect"});
+      this.loading.present();
+    }
+
+    return connection;
+  }
+
+  get url() {
+    return `${JsonService.server.replace("http", "ws")}/ws/`;
   }
 
   clearListeners() {
