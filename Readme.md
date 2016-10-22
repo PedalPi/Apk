@@ -31,6 +31,10 @@ cd test
 codeceptjs run --steps
 ```
 
+### Test 2
+
+Test a alpha in http://PedalPi.github.io/Apk
+
 ### Reference Links
 
  * http://ionicframework.com/docs/v2/cli/serve/

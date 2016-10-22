@@ -1,0 +1,17 @@
+<ul class="nav nav-tabs">
+  <li *ngFor="let tab of tabs; let i = index" (click)="selectTab(i)" [class.active]="tab.active">
+    <button clear>{{tab.title}}</button>
+  </li>
+</ul>
+
+<ng-content></ng-content>
+
+<!--
+<ion-segment [(ngModel)]="current" (ionChange)="ngAfterContentInit()">
+  <ion-segment-button value="{{i}}" *ngFor="let tab of tabs; let i = index" (click)="selectTab(i)">
+    {{tab.title}}
+  </ion-segment-button>
+</ion-segment>
+
+<ng-content></ng-content>
+-->
