@@ -11,30 +11,30 @@ export class EffectService {
     this.router = router;
   }
 
-  private effectUrl(bank : any, patch : any, effect? : any) : string {
-    const patchIndex = bank.patches.indexOf(patch);
-    let url = `/bank/${bank.index}/patch/${patchIndex}/effect`;
+  private effectUrl(bank : any, pedalboard : any, effect? : any) : string {
+    const pedalboardIndex = bank.pedalboards.indexOf(pedalboard);
+    let url = `/bank/${bank.index}/pedalboard/${pedalboardIndex}/effect`;
 
     if (effect) {
-      const effectIndex = patch.effects.indexOf(effect);
+      const effectIndex = pedalboard.effects.indexOf(effect);
       url += `/${effectIndex}`;
     }
 
     return this.router.route(url);
   }
 
-  getEffect(bank : any, patch : any, effect : any) {
-    let url = this.effectUrl(bank, patch, effect);
+  getEffect(bank : any, pedalboard : any, effect : any) {
+    let url = this.effectUrl(bank, pedalboard, effect);
     return this.rest.get(url);
   }
 
-  saveNewEffect(bank : any, patch : any, effect : any) {
-    let url = this.effectUrl(bank, patch);
+  saveNewEffect(bank : any, pedalboard : any, effect : any) {
+    let url = this.effectUrl(bank, pedalboard);
     return this.rest.post(url, effect);
   }
 
-  deleteEffect(bank : any, patch : any, effect : any) {
-    let url = this.effectUrl(bank, patch, effect);
+  deleteEffect(bank : any, pedalboard : any, effect : any) {
+    let url = this.effectUrl(bank, pedalboard, effect);
     return this.rest.delete(url);
   }
 }

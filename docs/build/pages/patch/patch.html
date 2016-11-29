@@ -1,22 +1,22 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      {{patch.name}}
+      {{pedalboard.name}}
     </ion-title>
 
     <ion-buttons end>
-      <button id="add-patch" royal (click)="setEffect()">
+      <button id="add-pedalboard" royal (click)="setEffect()">
         <ion-icon name="create"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content class="patch">
+<ion-content class="pedalboard">
   <button id="effects" clear (click)="manageEffects()"><ion-icon name="md-shuffle"></ion-icon></button>
   <sr-tabs id="tabs" (onSelect)="setCurrentEffect($event)">
 
-    <sr-tab *ngFor="let effect of patch.effects" title="{{effect.name}}" [hidden]="effect != currentEffect">
+    <sr-tab *ngFor="let effect of pedalboard.effects" title="{{effect.name}}" [hidden]="effect != currentEffect">
       <div id="parameters">
         <span *ngFor="let parameter of effect.ports.control.input" class="parameter {{parameterType(parameter)}}">
             <!--
@@ -43,9 +43,9 @@
       </div>
     </sr-tab>
 
-    <div id="info" *ngIf="patch.effects.length === 0">
+    <div id="info" *ngIf="pedalboard.effects.length === 0">
       <ion-icon name="md-shuffle"></ion-icon>
-      Add effects in this patch
+      Add effects in this pedalboard
     </div>
   </sr-tabs>
 </ion-content>
@@ -53,18 +53,18 @@
 <ion-footer>
   <ion-toolbar position="bottom" id="footer">
     <ion-card class="ion-card-clicable no-shadow ion-card-item">
-      <button ion-item (click)="toBeforePatch()">
+      <button ion-item (click)="toBeforePedalboard()">
         <ion-icon name="arrow-back"></ion-icon>
-        <span class="label">{{beforePatch.name}}</span>
+        <span class="label">{{beforePedalboard.name}}</span>
       </button>
     </ion-card>
 
     <sr-footswitch id="footswitch" [(ngModel)]="currentEffectStatus" (onChange)="toggleEffectStatus(currentEffect)" [hidden]="!hasCurrentEffect"></sr-footswitch>
 
     <ion-card class="ion-card-clicable no-shadow ion-card-item">
-      <button ion-item (click)="toNextPatch()">
+      <button ion-item (click)="toNextPedalboard()">
         <ion-icon name="arrow-forward"></ion-icon>
-        <span class="label">{{nextPatch.name}}</span>
+        <span class="label">{{nextPedalboard.name}}</span>
       </button>
     </ion-card>
   </ion-toolbar>

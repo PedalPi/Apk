@@ -4,7 +4,7 @@
       <button royal (click)="close()"><ion-icon name="close"></ion-icon> Close</button>
     </ion-buttons>
 
-    <ion-title>Effects of {{patch.name}}</ion-title>
+    <ion-title>Effects of {{pedalboard.name}}</ion-title>
 
     <ion-buttons end>
       <button royal (click)="newEffect()" [hidden]="removeMode"><ion-icon name="add"></ion-icon></button>
@@ -16,7 +16,7 @@
 
 <ion-content padding>
   <ion-list [reorder]="reorderMode" (ionItemReorder)="reorderItems($event)">
-    <ion-item (click)="select(i)" class="ion-item-light" *ngFor="let effect of patch.effects; let i = index">
+    <ion-item (click)="select(i)" class="ion-item-light" *ngFor="let effect of pedalboard.effects; let i = index">
       {{i+1}} - {{effect.name}}
       <button item-right clear (click)="remove(i)" [hidden]="!removeMode"><ion-icon name="close"></ion-icon></button>
     </ion-item>

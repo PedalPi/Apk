@@ -16,10 +16,10 @@ export class WebSocketService {
 
   private connection : WebSocket;
 
-  public onCurrentPatchChangeListener : any;
+  public onCurrentPedalboardChangeListener : any;
 
   public onBankCUDListener : any;
-  public onPatchCUDListener : any;
+  public onPedalboardCUDListener : any;
   public onEffectCUDListener : any;
 
   public onEffectStatusToggledListener : any;
@@ -81,10 +81,10 @@ export class WebSocketService {
   }
 
   clearListeners() {
-    this.onCurrentPatchChangeListener = () => {};
+    this.onCurrentPedalboardChangeListener = () => {};
 
     this.onBankCUDListener = () => {};
-    this.onPatchCUDListener = () => {};
+    this.onPedalboardCUDListener = () => {};
     this.onEffectCUDListener = () => {};
 
     this.onEffectStatusToggledListener = () => {};
@@ -101,11 +101,11 @@ export class WebSocketService {
     const type = message["type"];
 
     if (type == 'CURRENT')
-      this.onCurrentPatchChange(message);
+      this.onCurrentPedalboardChange(message);
     else if (type == 'BANK')
       this.onBankCUD(message);
     else if (type == 'PATCH')
-      this.onPatchCUD(message);
+      this.onPedalboardCUD(message);
     else if (type == 'EFFECT')
       this.onEffectCUDListener(message);
     else if (type == 'EFFECT-TOGGLE')
@@ -116,11 +116,11 @@ export class WebSocketService {
       JsonService.token = message.value;
   }
 
-  private onCurrentPatchChange(message : any) {
+  private onCurrentPedalboardChange(message : any) {
     const bank = this.bankBy(message);
-    const patch = this.patchBy(message);
+    const pedalboard = this.pedalboardBy(message);
 
-    this.onCurrentPatchChangeListener(bank, patch);
+    this.onCurrentPedalboardChangeListener(bank, pedalboard);
   }
 
   private onBankCUD(message : any) {
@@ -139,16 +139,16 @@ export class WebSocketService {
     this.ref.tick();
   }
 
-  private onPatchCUD(message : any) {
+  private onPedalboardCUD(message : any) {
     const bank = this.bankBy(message);
     if (message.updateType == "UPDATED")
-      bank.patches[message.patch] = message.value;
+      bank.pedalboards[message.pedalboard] = message.value;
     else if (message.updateType == "DELETED")
-      bank.patches.splice(message.patch, 1);
+      bank.pedalboards.splice(message.pedalboard, 1);
     else if (message.updateType == "CREATED")
-      bank.patches.push(message.value);
+      bank.pedalboards.push(message.value);
 
-    this.onPatchCUDListener(message, message.value);
+    this.onPedalboardCUDListener(message, message.value);
 
     this.ref.tick();
   }
@@ -171,14 +171,14 @@ export class WebSocketService {
     return ModelUtil.getBank(this.data.server.banks, message.bank);
   }
 
-  private patchBy(message) {
+  private pedalboardBy(message) {
     const bank = this.bankBy(message);
-    return bank.patches[message.patch];
+    return bank.pedalboards[message.pedalboard];
   }
 
   private effectBy(message) {
-    const patch = this.patchBy(message);
-    return patch.effects[message.effect];
+    const pedalboard = this.pedalboardBy(message);
+    return pedalboard.effects[message.effect];
   }
 
   private paramBy(message) {

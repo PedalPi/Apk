@@ -11,26 +11,26 @@ export class CurrentService {
     this.router = router;
   }
 
-  setPatch(bank : any, patch : any) {
-    let url = this.currentPatchUrl(bank, patch);
+  setPedalboard(bank : any, pedalboard : any) {
+    let url = this.currentPedalboardUrl(bank, pedalboard);
     return this.rest.put(url);
   }
 
-  private currentPatchUrl(bank : any, patch : any) : string {
-    let patchIndex = bank.patches.indexOf(patch);
+  private currentPedalboardUrl(bank : any, pedalboard : any) : string {
+    let pedalboardIndex = bank.pedalboards.indexOf(pedalboard);
 
-    let url = `/current/bank/${bank.index}/patch/${patchIndex}`;
+    let url = `/current/bank/${bank.index}/pedalboard/${pedalboardIndex}`;
     return this.router.route(url);
   }
 
-  toggleStatusEffect(bank : any, patch : any, effect : any) {
-    let url = this.toggleStatusEffectUrl(bank, patch, effect);
+  toggleStatusEffect(bank : any, pedalboard : any, effect : any) {
+    let url = this.toggleStatusEffectUrl(bank, pedalboard, effect);
     return this.rest.put(url, {});
   }
 
-  private toggleStatusEffectUrl(bank : any, patch : any, effect : any) : string {
-    let patchIndex = bank.patches.indexOf(patch);
-    let effectIndex = patch.effects.indexOf(effect);
+  private toggleStatusEffectUrl(bank : any, pedalboard : any, effect : any) : string {
+    let pedalboardIndex = bank.pedalboards.indexOf(pedalboard);
+    let effectIndex = pedalboard.effects.indexOf(effect);
 
     let url = `/current/effect/${effectIndex}`;
     return this.router.route(url);

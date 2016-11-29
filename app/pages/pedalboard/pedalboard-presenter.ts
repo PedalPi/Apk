@@ -1,10 +1,10 @@
-import {PatchPage} from './patch';
+import {PedalboardPage} from './pedalboard';
 import {JsonService} from '../../service/json/json-service';
 
 
-export class PatchPresenter {
+export class PedalboardPresenter {
   constructor(
-      private page : PatchPage,
+      private page : PedalboardPage,
       private jsonService : JsonService,
       public bank) {}
 
@@ -17,47 +17,47 @@ export class PatchPresenter {
   }
 
   //==========================
-  // Patch methods
+  // Pedalboard methods
   //==========================
-  public getBeforePatchOf(patch) : Object {
-    let index = this.getPatchIndex(patch) - 1;
+  public getBeforePedalboardOf(pedalboard) : Object {
+    let index = this.getPedalboardIndex(pedalboard) - 1;
     if (index == -1)
-      index = this.bank.patches.length-1;
+      index = this.bank.pedalboards.length-1;
 
-    return this.bank.patches[index];
+    return this.bank.pedalboards[index];
   }
 
-  public getNextPatchOf(patch) : Object {
-    let index = this.getPatchIndex(patch) + 1;
-    if (index == this.bank.patches.length)
+  public getNextPedalboardOf(pedalboard) : Object {
+    let index = this.getPedalboardIndex(pedalboard) + 1;
+    if (index == this.bank.pedalboards.length)
       index = 0;
 
-    return this.bank.patches[index];
+    return this.bank.pedalboards[index];
   }
 
-  private getPatchIndex(patch) : number {
-    return this.bank.patches.indexOf(patch);
+  private getPedalboardIndex(pedalboard) : number {
+    return this.bank.pedalboards.indexOf(pedalboard);
   }
 
   //==========================
   // Request methods
   //==========================
-  public requestSetCurrentPatch(patch) {
-    this.currentService.setPatch(this.bank, patch)
+  public requestSetCurrentPedalboard(pedalboard) {
+    this.currentService.setPedalboard(this.bank, pedalboard)
         .subscribe(() => {});
   }
 
-  public requestUpdateParam(patch, effect, param, newValue) {
+  public requestUpdateParam(pedalboard, effect, param, newValue) {
     param.value = newValue;
 
-    this.service.updateParam(this.bank, patch, effect, param).subscribe(() => {});
+    this.service.updateParam(this.bank, pedalboard, effect, param).subscribe(() => {});
   }
 
-  public requestToggleStatusEffect(patch, effect) {
+  public requestToggleStatusEffect(pedalboard, effect) {
     const update = () => effect.status = !effect.status;
 
     this.currentService
-        .toggleStatusEffect(this.bank, patch, effect)
+        .toggleStatusEffect(this.bank, pedalboard, effect)
         .subscribe(update);
   }
 

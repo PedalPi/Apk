@@ -23,7 +23,12 @@ export class BanksPresenter {
   }
 
   get banks() {
-    return this.data.server.banks;
+    let banks = this.data.server.banks;
+    if (banks == null)
+     return null;
+
+    banks = Object.keys(banks).map(key => banks[key]);
+    return banks.sort((b1, b2) => b1.index - b2.index);
   }
 
   requestBanks() : void {

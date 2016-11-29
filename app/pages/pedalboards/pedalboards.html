@@ -5,7 +5,7 @@
     </ion-title>
 
     <ion-buttons end>
-      <button id="add-patch" royal (click)="createPatch()" [hidden]="reordering">
+      <button id="add-patch" royal (click)="createPedalboard()" [hidden]="reordering">
         <ion-icon name="add"></ion-icon>
       </button>
       <button royal [hidden]="!reordering" (click)="disableReorder()">Ok</button>
@@ -13,10 +13,10 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content class="patches">
+<ion-content class="pedalboards">
   <ion-list no-lines [reorder]="reordering" (ionItemReorder)="reorderItems($event)" class="list-card">
-    <ion-item *ngFor="let patch of bank.patches">
-      <ion-card (click)="itemSelected(patch)" (press)="onContextPatch(patch)" class="ion-card-clicable no-shadow ion-card-item">
+    <ion-item *ngFor="let patch of bank.pedalboards">
+      <ion-card (click)="itemSelected(patch)" (press)="onContextPedalboard(patch)" class="ion-card-clicable no-shadow ion-card-item">
         <button clear>
           <ion-icon item-left><sr-icon icon="icons.svg#icon-patch"></sr-icon></ion-icon>
           <span class="ion-item">{{patch.name}}</span>

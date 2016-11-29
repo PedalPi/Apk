@@ -4,7 +4,7 @@ import {Http, Headers, RequestOptions} from '@angular/http';
 import {Rest} from './rest';
 import {Router} from './router';
 import {BanksService} from './banks-service';
-import {PatchService} from './patch-service';
+import {PedalboardService} from './pedalboard-service';
 import {EffectService} from './effect-service';
 import {ParamService} from './param-service';
 
@@ -21,7 +21,7 @@ export class JsonService {
   private router : Router;
 
   public banks : BanksService;
-  public patch : PatchService;
+  public pedalboard : PedalboardService;
   public effect : EffectService;
   public param : ParamService;
 
@@ -33,7 +33,7 @@ export class JsonService {
     this.router = new Router();
 
     this.banks = new BanksService(this.rest, this.router);
-    this.patch = new PatchService(this.rest, this.router);
+    this.pedalboard = new PedalboardService(this.rest, this.router);
     this.param = new ParamService(this.rest, this.router);
     this.effect = new EffectService(this.rest, this.router);
 

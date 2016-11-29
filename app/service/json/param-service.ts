@@ -11,22 +11,22 @@ export class ParamService {
     this.router = router;
   }
 
-  private paramUrl(bank : any, patch : any, effect : any, param : any) : string {
-    let patchIndex = bank.patches.indexOf(patch);
-    let effectIndex = patch.effects.indexOf(effect);
+  private paramUrl(bank : any, pedalboard : any, effect : any, param : any) : string {
+    let pedalboardIndex = bank.pedalboards.indexOf(pedalboard);
+    let effectIndex = pedalboard.effects.indexOf(effect);
     let paramIndex = effect.ports.control.input.indexOf(param);
 
-    let url = `/bank/${bank.index}/patch/${patchIndex}/effect/${effectIndex}/param/${paramIndex}`;
+    let url = `/bank/${bank.index}/pedalboard/${pedalboardIndex}/effect/${effectIndex}/param/${paramIndex}`;
     return this.router.route(url);
   }
 
-  getParam(bank : any, patch : any, effect : any, param : any) {
-    let url = this.paramUrl(bank, patch, effect, param);
+  getParam(bank : any, pedalboard : any, effect : any, param : any) {
+    let url = this.paramUrl(bank, pedalboard, effect, param);
     return this.rest.get(url);
   }
 
-  updateParam(bank : any, patch : any, effect : any, param : any) {
-    let url = this.paramUrl(bank, patch, effect, param);
+  updateParam(bank : any, pedalboard : any, effect : any, param : any) {
+    let url = this.paramUrl(bank, pedalboard, effect, param);
     return this.rest.put(url, param.value);
   }
 }

@@ -38,13 +38,13 @@ export class BanksService {
     return this.rest.delete(url);
   }
 
-  swapPatches(bank : any, patchA : number, patchB : number) {
-    let url = this.swapPatchesUrl(bank, patchA, patchB);
+  swapPedalboards(bank : any, pedalboardA : number, pedalboardB : number) {
+    let url = this.swapPedalboardsUrl(bank, pedalboardA, pedalboardB);
     return this.rest.put(url, {});
   }
 
-  private swapPatchesUrl(bank : any, patchA : number, patchB : number) : string {
-    let url = `/swap/patch/bank/${bank.index}/patch-a/${patchA}/patch-b/${patchB}`;
+  private swapPedalboardsUrl(bank : any, pedalboardA : number, pedalboardB : number) : string {
+    let url = `/swap/pedalboard/bank/${bank.index}/pedalboard-a/${pedalboardA}/pedalboard-b/${pedalboardB}`;
 
     return this.router.route(url);
   }

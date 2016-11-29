@@ -6,11 +6,11 @@ import {EffectsListModal} from '../effects-list/effects-list-modal';
 import {JsonService} from '../../service/json/json-service';
 
 @Component({
-  templateUrl: 'build/pages/patch-effects/patch-effects-modal.html'
+  templateUrl: 'build/pages/pedalboard-effects/pedalboard-effects-modal.html'
 })
-export class PatchEffectsModal {
+export class PedalboardEffectsModal {
   public bank : any;
-  public patch : any;
+  public pedalboard : any;
   public mode : string;
   private jsonService : JsonService;
 
@@ -21,7 +21,7 @@ export class PatchEffectsModal {
       private controller: ViewController
     ) {
     this.bank = params.get('bank');
-    this.patch = params.get('patch');
+    this.pedalboard = params.get('pedalboard');
     this.jsonService = params.get('jsonService');
 
     this.toReorderMode();
@@ -31,8 +31,8 @@ export class PatchEffectsModal {
     return this.jsonService.effect;
   }
 
-  private get patchService() {
-    return this.jsonService.patch;
+  private get pedalboardService() {
+    return this.jsonService.pedalboard;
   }
 
   close(effectIndex? : number) {
@@ -50,8 +50,8 @@ export class PatchEffectsModal {
     const modal = this.modal.create(EffectsListModal, data);
     modal.onDidDismiss(effect => {
       if (effect) {
-        this.service.saveNewEffect(this.bank, this.patch, effect.uri)
-            .subscribe(data => this.patch["effects"].push(data["effect"]));
+        this.service.saveNewEffect(this.bank, this.pedalboard, effect.uri)
+            .subscribe(data => this.pedalboard["effects"].push(data["effect"]));
       }
     });
 
@@ -80,20 +80,20 @@ export class PatchEffectsModal {
   }
 
   remove(index : number) {
-    this.service.deleteEffect(this.bank, this.patch, this.patch.effects[index])
-        .subscribe(() => this.patch["effects"].splice(index, 1))
+    this.service.deleteEffect(this.bank, this.pedalboard, this.pedalboard.effects[index])
+        .subscribe(() => this.pedalboard["effects"].splice(index, 1))
   }
 
   reorderItems(indexes) {
     if (indexes.to == -100)
       indexes.to = 0;
 
-    let effect = this.patch.effects[indexes.from];
+    let effect = this.pedalboard.effects[indexes.from];
 
-    this.patch.effects.splice(indexes.from, 1);
-    this.patch.effects.splice(indexes.to, 0, effect);
+    this.pedalboard.effects.splice(indexes.from, 1);
+    this.pedalboard.effects.splice(indexes.to, 0, effect);
 
-    this.patchService.swapEffects(this.bank, this.patch, indexes.from, indexes.to)
+    this.pedalboardService.swapEffects(this.bank, this.pedalboard, indexes.from, indexes.to)
         .subscribe(() => {});
   }
 }

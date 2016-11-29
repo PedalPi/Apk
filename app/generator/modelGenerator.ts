@@ -2,12 +2,12 @@ export class BankGenerator {
     static generate(name : string) : any {
         return {
             "name": name,
-            "patches": [PatchGenerator.generate('Example patch')]
+            "pedalboards": [PedalboardGenerator.generate('Example pedalboard')]
         };
     }
 }
 
-export class PatchGenerator {
+export class PedalboardGenerator {
     static generate(name : string) : any {
         return {
             "name": name,

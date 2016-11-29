@@ -4,7 +4,7 @@ import {ModalController, NavController, NavParams} from 'ionic-angular';
 import {JsonService} from '../../service/json/json-service';
 import {WebSocketService} from '../../service/websocket/web-socket-service';
 
-import {PatchEffectsModal} from '../patch-effects/patch-effects-modal';
+import {PedalboardEffectsModal} from '../pedalboard-effects/pedalboard-effects-modal';
 
 import {SrCombobox} from '../../components/sr-combobox/sr-combobox';
 import {SrFootswitch} from '../../components/sr-footswitch/sr-footswitch';
@@ -17,19 +17,19 @@ import {SrToggle} from '../../components/sr-toggle/sr-toggle';
 
 import {EffectsListModal} from '../effects-list/effects-list-modal';
 
-import {PatchPresenter} from './patch-presenter';
+import {PedalboardPresenter} from './pedalboard-presenter';
 
 @Component({
-  templateUrl: 'build/pages/patch/patch.html',
+  templateUrl: 'build/pages/pedalboard/pedalboard.html',
   directives: [SrCombobox, SrKnob, SrSlider, SrTab, SrTabs, SrToggle, SrParamKnob, SrFootswitch]
 })
-export class PatchPage {
+export class PedalboardPage {
   @ViewChild(SrTabs) tabs: SrTabs;
 
-  public patch : any;
+  public pedalboard : any;
   public currentEffect : any;
 
-  private presenter: PatchPresenter;
+  private presenter: PedalboardPresenter;
 
   constructor(
       private nav : NavController,
@@ -40,18 +40,18 @@ export class PatchPage {
       private ws : WebSocketService
     ) {
     const bank = params.get('bank');
-    this.presenter = new PatchPresenter(this, jsonService, bank);
-    this.toPatch(params.get('patch'));
-    this.currentEffect = this.patch.effects[0];
+    this.presenter = new PedalboardPresenter(this, jsonService, bank);
+    this.toPedalboard(params.get('pedalboard'));
+    this.currentEffect = this.pedalboard.effects[0];
   }
 
   ionViewWillEnter() {
     this.ws.clearListeners();
-    
-    this.ws.onCurrentPatchChangeListener = (bank, patch) => this.toPatch(patch, bank);
-    this.ws.onPatchCUDListener = (message, patch) => {
+
+    this.ws.onCurrentPedalboardChangeListener = (bank, pedalboard) => this.toPedalboard(pedalboard, bank);
+    this.ws.onPedalboardCUDListener = (message, pedalboard) => {
       if (message.updateType == 'UPDATED')
-        this.toPatch(patch);
+        this.toPedalboard(pedalboard);
     };
   }
 
@@ -59,31 +59,31 @@ export class PatchPage {
     return this.jsonService.current;
   }
 
-  public toBeforePatch() {
-    this.toPatch(this.beforePatch);
+  public toBeforePedalboard() {
+    this.toPedalboard(this.beforePedalboard);
   }
 
-  public get beforePatch() : Object {
-    return this.presenter.getBeforePatchOf(this.patch);
+  public get beforePedalboard() : Object {
+    return this.presenter.getBeforePedalboardOf(this.pedalboard);
   }
 
-  public toNextPatch() {
-    this.toPatch(this.nextPatch);
+  public toNextPedalboard() {
+    this.toPedalboard(this.nextPedalboard);
   }
 
-  public get nextPatch() : Object {
-    return this.presenter.getNextPatchOf(this.patch);
+  public get nextPedalboard() : Object {
+    return this.presenter.getNextPedalboardOf(this.pedalboard);
   }
 
-  private toPatch(patch : Object, bank? : Object) {
+  private toPedalboard(pedalboard : Object, bank? : Object) {
     if (bank)
       this.presenter.bank = bank;
 
-    this.patch = patch;
+    this.pedalboard = pedalboard;
     this.ref.tick();
 
-    this.presenter.requestSetCurrentPatch(this.patch);
-    this.currentEffect = this.patch.effects[0];
+    this.presenter.requestSetCurrentPedalboard(this.pedalboard);
+    this.currentEffect = this.pedalboard.effects[0];
 
     if (this.tabs)
       this.tabs.selectTab(0);
@@ -92,11 +92,11 @@ export class PatchPage {
   public manageEffects() {
     const params = {
       bank: this.presenter.bank,
-      patch: this.patch,
+      pedalboard: this.pedalboard,
       jsonService: this.jsonService
     };
 
-    const modal = this.modal.create(PatchEffectsModal, params);
+    const modal = this.modal.create(PedalboardEffectsModal, params);
     modal.onDidDismiss(data => {
       if (!data) return;
 
@@ -108,7 +108,7 @@ export class PatchPage {
   }
 
   public onParamUpdated(effect, param, newValue) {
-    this.presenter.requestUpdateParam(this.patch, effect, param, newValue);
+    this.presenter.requestUpdateParam(this.pedalboard, effect, param, newValue);
     console.log(`Param ${param.name}: ${param.value}`);
   }
 
@@ -120,7 +120,7 @@ export class PatchPage {
     const modal = this.modal.create(EffectsListModal, data);
     modal.onDidDismiss(newEffect => {
       if (newEffect) {
-        let oldEffect = this.patch.effects[this.tabs.current];
+        let oldEffect = this.pedalboard.effects[this.tabs.current];
 
         console.log("Effect selected");
         console.log(newEffect);
@@ -134,7 +134,7 @@ export class PatchPage {
   }
 
   public toggleEffectStatus(effect) {
-    this.presenter.requestToggleStatusEffect(this.patch, effect);
+    this.presenter.requestToggleStatusEffect(this.pedalboard, effect);
   }
 
   public isKnob(parameter) : boolean {
@@ -164,6 +164,6 @@ export class PatchPage {
   }
 
   public setCurrentEffect(index) {
-    this.currentEffect = this.patch.effects[index];
+    this.currentEffect = this.pedalboard.effects[index];
   }
 }

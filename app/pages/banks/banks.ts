@@ -6,7 +6,7 @@ import {
   NavParams
 } from 'ionic-angular';
 
-import {PatchesPage} from '../patches/patches';
+import {PedalboardsPage} from '../pedalboards/pedalboards';
 
 import {JsonService} from '../../service/json/json-service';
 import {AlertCommon, AlertBuilder} from '../../common/alert';
@@ -40,17 +40,17 @@ export class BanksPage {
     return this.presenter.banks;
   }
 
-  get isToCurrentPatchRequest() {
+  get isToCurrentPedalboardRequest() {
     return this.params.get('current') === true;
   }
 
   ngOnInit() {
-    if (!this.isToCurrentPatchRequest)
+    if (!this.isToCurrentPedalboardRequest)
       this.presenter.requestBanks();
   }
 
   itemSelected(bank) {
-    this.nav.push(PatchesPage, {'bank': bank});
+    this.nav.push(PedalboardsPage, {'bank': bank});
   }
 
   createBank() {

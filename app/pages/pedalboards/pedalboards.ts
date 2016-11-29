@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams, AlertController, ActionSheetController} from 'ionic-angular';
-import {PatchPage} from '../patch/patch';
+import {PedalboardPage} from '../pedalboard/pedalboard';
 
 import {JsonService} from '../../service/json/json-service';
 import {WebSocketService} from '../../service/websocket/web-socket-service';
@@ -9,18 +9,18 @@ import {AlertBuilder} from '../../common/alert';
 import {ContextMenu} from '../../common/contextMenu';
 import {SrIcon} from '../../components/sr-icon/sr-icon';
 
-import {PatchGenerator} from '../../generator/modelGenerator';
-import {PatchesPresenter} from './patches-presenter';
+import {PedalboardGenerator} from '../../generator/modelGenerator';
+import {PedalboardsPresenter} from './pedalboards-presenter';
 
 @Component({
-  templateUrl: 'build/pages/patches/patches.html',
+  templateUrl: 'build/pages/pedalboards/pedalboards.html',
   directives: [SrIcon]
 })
-export class PatchesPage {
+export class PedalboardsPage {
   public bank : any;
   public reordering : boolean;
 
-  private presenter : PatchesPresenter;
+  private presenter : PedalboardsPresenter;
 
   constructor(
       private nav : NavController,
@@ -30,9 +30,11 @@ export class PatchesPage {
       private jsonService : JsonService,
       private ws : WebSocketService
     ) {
-    this.presenter = new PatchesPresenter(this, params.get('bank'), jsonService);
+    this.presenter = new PedalboardsPresenter(this, params.get('bank'), jsonService);
     this.bank = params.get('bank');
     this.reordering = false;
+
+    console.log(this.bank);
   }
 
   ionViewWillEnter() {
@@ -48,33 +50,33 @@ export class PatchesPage {
     };
   }
 
-  createPatch() {
+  createPedalboard() {
     let alert = new AlertBuilder(this.alert)
-      .title('New patch')
-      .callback((data) => this.presenter.requestSavePatch(data))
+      .title('New pedalboard')
+      .callback((data) => this.presenter.requestSavePedalboard(data))
       .generateSaveAlert();
 
     alert.present();
   }
 
-  itemSelected(patch) {
-    this.nav.push(PatchPage, {'bank': this.bank, 'patch': patch});
+  itemSelected(pedalboard) {
+    this.nav.push(PedalboardPage, {'bank': this.bank, 'pedalboard': pedalboard});
   }
 
-  onContextPatch(patch) {
+  onContextPedalboard(pedalboard) {
     if (this.reordering)
       return;
 
-    const contextMenu = new ContextMenu(patch.name, 'context');
+    const contextMenu = new ContextMenu(pedalboard.name, 'context');
     let contextInstance = null;
 
     contextMenu.addItem('Reorder', () => this.reordering = !this.reordering);
 
     contextMenu.addItem('Remove', () => {
       let alert = new AlertBuilder(this.alert)
-        .title(`Delete ${patch.name}`)
+        .title(`Delete ${pedalboard.name}`)
         .message(`R u sure?`)
-        .callback(data => this.presenter.requestDeletePatch(patch))
+        .callback(data => this.presenter.requestDeletePedalboard(pedalboard))
         .generationConfirmAlert();
 
       contextInstance.onDidDismiss(() => alert.present());
@@ -82,9 +84,9 @@ export class PatchesPage {
 
     contextMenu.addItem('Rename', () => {
       let alert = new AlertBuilder(this.alert)
-        .title('Rename patch')
-        .defaultValue(patch.name)
-        .callback(data => this.presenter.requestRenamePatch(patch, data))
+        .title('Rename pedalboard')
+        .defaultValue(pedalboard.name)
+        .callback(data => this.presenter.requestRenamePedalboard(pedalboard, data))
         .generateSaveAlert();
 
       contextInstance.onDidDismiss(() => alert.present());

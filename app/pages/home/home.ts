@@ -2,8 +2,8 @@ import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 
 import {BanksPage} from '../banks/banks';
-import {PatchesPage} from '../patches/patches';
-import {PatchPage} from '../patch/patch';
+import {PedalboardsPage} from '../pedalboards/pedalboards';
+import {PedalboardPage} from '../pedalboard/pedalboard';
 import {ConfigurationsPage} from '../configurations/configurations';
 
 import {SrIcon} from '../../components/sr-icon/sr-icon';
@@ -45,21 +45,21 @@ export class HomePage {
   }
 
   goToCurrent() {
-    const goToCurrent = data => this.openPagesForCurrent(data.bank, data.patch);
+    const goToCurrent = data => this.openPagesForCurrent(data.bank, data.pedalboard);
     this.service.currentData().subscribe(goToCurrent);
   }
 
-  private openPagesForCurrent(bankIndex : number, patchIndex : number) {
+  private openPagesForCurrent(bankIndex : number, pedalboardIndex : number) {
     this.banksService.getBanks().subscribe(banksData => {
       this.data.server = banksData;
 
       let params : any = {};
       params.bank = ModelUtil.getBank(banksData.banks, bankIndex);
-      params.patch = params.bank.patches[patchIndex];
+      params.pedalboard = params.bank.pedalboards[pedalboardIndex];
 
       this.nav.push(BanksPage, {current: true})
-          .then(() => this.nav.push(PatchesPage, params))
-          .then(() => this.nav.push(PatchPage, params));
+          .then(() => this.nav.push(PedalboardsPage, params))
+          .then(() => this.nav.push(PedalboardPage, params));
     });
   }
 
