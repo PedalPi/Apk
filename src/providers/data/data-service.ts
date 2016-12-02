@@ -1,0 +1,36 @@
+import {Injectable} from '@angular/core';
+import { ModelUtil } from '../../util/model-util';
+
+@Injectable()
+export class DataService {
+  private data : any = null;
+  public local : any = {};
+
+  public get remote() {
+    return this.hasObtainedRemote() ? this.data : {};
+  }
+
+  public hasObtainedRemote() {
+    return this.data !== null;
+  }
+
+  public set remote(data) {
+    this.data = this.prepareData(data);
+  }
+
+  private prepareData(data) {
+    for (let bankKey in data.banks) {
+      for (let pedalboard of data.banks[bankKey].pedalboards) {
+        for (let i=0; i<pedalboard['effects'].length; i++) {
+          console.log(i);
+          let effect = pedalboard['effects'][i];
+          console.log(effect);
+          pedalboard['effects'][i] = ModelUtil.processEffect(effect);
+          console.log(effect);
+        }
+      }
+    }
+
+    return data;
+  }
+}

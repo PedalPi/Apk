@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      {{bank.name}}
+    </ion-title>
+
+    <ion-buttons end>
+      <button id="add-pedalboard" icon-only ion-button color="royal" (click)="createPedalboard()" [hidden]="reordering">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <button royal [hidden]="!reordering" (click)="disableReorder()">Ok</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="pedalboards">
+  <ion-list no-lines [reorder]="reordering" (ionItemReorder)="reorderItems($event)" class="clean-list">
+    <button ion-item *ngFor="let pedalboard of bank.pedalboards" (click)="itemSelected(pedalboard)" (press)="onContextPedalboard(pedalboard)">
+      <ion-icon item-left><sr-icon icon="icons.svg#icon-pedalboard"></sr-icon></ion-icon>
+      <span class="ion-item">{{pedalboard.name}}</span>
+    </button>
+  </ion-list>
+</ion-content>
