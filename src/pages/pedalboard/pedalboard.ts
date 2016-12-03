@@ -34,8 +34,6 @@ export class PedalboardPage {
     this.presenter = new PedalboardPresenter(this, jsonService, bank);
     this.toPedalboard(params.get('pedalboard'));
     this.currentEffect = this.pedalboard.effects[0];
-
-    console.log(this.pedalboard.effects);
   }
 
   ionViewWillEnter() {

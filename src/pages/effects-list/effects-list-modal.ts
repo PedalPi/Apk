@@ -74,7 +74,7 @@ export class EffectsListModal {
   }
 
   itemSelected(effect) {
-    for (let parameter of effect.plugin.ports.control.input) {
+    for (let parameter of effect.pluginData.ports.control.input) {
       parameter["current"] = parameter["default"];
       delete parameter["default"];
     }

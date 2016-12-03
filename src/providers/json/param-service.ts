@@ -14,7 +14,7 @@ export class ParamService {
   private paramUrl(bank : any, pedalboard : any, effect : any, param : any) : string {
     let pedalboardIndex = bank.pedalboards.indexOf(pedalboard);
     let effectIndex = pedalboard.effects.indexOf(effect);
-    let paramIndex = effect.plugin.ports.control.input.indexOf(param);
+    let paramIndex = effect.pluginData.ports.control.input.indexOf(param);
 
     let url = `/bank/${bank.index}/pedalboard/${pedalboardIndex}/effect/${effectIndex}/param/${paramIndex}`;
     return this.router.route(url);

@@ -31,8 +31,6 @@ export class PedalboardsPage {
     this.presenter = new PedalboardsPresenter(this, params.get('bank'), jsonService);
     this.bank = params.get('bank');
     this.reordering = false;
-
-    console.log(this.bank);
   }
 
   ionViewWillEnter() {

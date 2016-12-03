@@ -56,6 +56,7 @@ export class HomePage {
 
   private openPagesForCurrent(bankIndex : number, pedalboardIndex : number) {
     let params : any = {};
+
     params.bank = ModelUtil.getBank(this.data.remote.banks, bankIndex);
     params.pedalboard = params.bank.pedalboards[pedalboardIndex];
 

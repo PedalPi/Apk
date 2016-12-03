@@ -22,11 +22,9 @@ export class DataService {
     for (let bankKey in data.banks) {
       for (let pedalboard of data.banks[bankKey].pedalboards) {
         for (let i=0; i<pedalboard['effects'].length; i++) {
-          console.log(i);
           let effect = pedalboard['effects'][i];
-          console.log(effect);
+
           pedalboard['effects'][i] = ModelUtil.processEffect(effect);
-          console.log(effect);
         }
       }
     }

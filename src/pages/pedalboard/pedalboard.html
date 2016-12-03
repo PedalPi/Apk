@@ -18,9 +18,9 @@
   <button id="effects" icon-only ion-button clear (click)="manageEffects()"><ion-icon name="md-shuffle"></ion-icon></button>
   <sr-tabs id="tabs" (onSelect)="setCurrentEffect($event)">
 
-    <sr-tab *ngFor="let effect of pedalboard.effects" title="{{effect.plugin.name}}" [hidden]="effect != currentEffect">
+    <sr-tab *ngFor="let effect of pedalboard.effects" title="{{effect.pluginData.name}}" [hidden]="effect != currentEffect">
       <div id="parameters">
-        <span *ngFor="let parameter of effect.plugin.ports.control.input" class="parameter {{parameterType(parameter)}}">
+        <span *ngFor="let parameter of effect.pluginData.ports.control.input" class="parameter {{parameterType(parameter)}}">
             <!--
             <sr-slider
               *ngIf="isParameterKnob(parameter)"

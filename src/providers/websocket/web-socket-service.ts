@@ -94,10 +94,13 @@ export class WebSocketService {
     message = JSON.parse(message);
     console.log(message);
 
+    const type = message["type"];
+
+    if (type == 'TOKEN')
+      JsonService.token = message.value;
+
     if (!this.data.hasObtainedRemote())
       return;
-
-    const type = message["type"];
 
     if (type == 'CURRENT')
       this.onCurrentPedalboardChange(message);
@@ -111,8 +114,6 @@ export class WebSocketService {
       this.onEffectStatusToggled(message);
     else if (type == 'PARAM')
       this.onParamValueChange(message);
-    else if (type == 'TOKEN')
-      JsonService.token = message.value;
   }
 
   private onCurrentPedalboardChange(message : any) {
@@ -182,6 +183,6 @@ export class WebSocketService {
 
   private paramBy(message) {
     const effect = this.effectBy(message);
-    return effect.plugin.ports.control.input[message.param];
+    return effect.pluginData.ports.control.input[message.param];
   }
 }
