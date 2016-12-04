@@ -29,6 +29,8 @@ export class DataService {
       }
     }
 
+    let banks = Object.keys(data.banks).map(key => data.banks[key]);
+    data.banks = banks.sort((b1, b2) => b1.index - b2.index);
     return data;
   }
 }

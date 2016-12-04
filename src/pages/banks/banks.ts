@@ -12,7 +12,6 @@ import {JsonService} from '../../providers/json/json-service';
 import {AlertCommon, AlertBuilder} from '../../common/alert';
 import {ContextMenu} from '../../common/contextMenu';
 
-import {BankGenerator} from '../../generator/modelGenerator';
 import {BanksPresenter} from './banks-presenter';
 import {DataService} from '../../providers/data/data-service';
 

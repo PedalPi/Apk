@@ -85,15 +85,6 @@ export class PedalboardEffectsModal {
   }
 
   reorderItems(indexes) {
-    if (indexes.to == -100)
-      indexes.to = 0;
-
-    let effect = this.pedalboard.effects[indexes.from];
-
-    this.pedalboard.effects.splice(indexes.from, 1);
-    this.pedalboard.effects.splice(indexes.to, 0, effect);
-
-    this.pedalboardService.swapEffects(this.bank, this.pedalboard, indexes.from, indexes.to)
-        .subscribe(() => {});
+    alert('DISABLED');
   }
 }

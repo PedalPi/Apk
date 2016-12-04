@@ -1,4 +1,4 @@
-import {BankGenerator} from '../../generator/modelGenerator';
+import {BankGenerator} from '../../generator/model-generator';
 
 import {DataService} from '../../providers/data/data-service';
 import {JsonService} from '../../providers/json/json-service';
@@ -23,12 +23,11 @@ export class BanksPresenter {
   }
 
   get banks() {
-    let banks = this.data.remote.banks;
-    if (banks == null)
-     return null;
+    return this.data.remote.banks;
+  }
 
-    banks = Object.keys(banks).map(key => banks[key]);
-    return banks.sort((b1, b2) => b1.index - b2.index);
+  bankIndex(bank) {
+    return this.banks.indexOf(bank);
   }
 
   requestSaveBank(data: any) : void {
@@ -38,18 +37,19 @@ export class BanksPresenter {
       this.banks.push(bank);
     }
 
-    this.service.saveNewBank(bank).subscribe(saveBank);
+    this.service.saveNew(bank).subscribe(saveBank);
   }
 
   requestRenameBank(bank : any, data: any) : void {
     bank.name = data.name;
-    this.service.updateBank(bank).subscribe(() => {});
+
+    this.service.update(bank, this.bankIndex(bank)).subscribe(() => {});
   }
 
   requestDeleteBank(bank : any) : void {
     const deleteBank = () => this.banks.splice(this.banks.indexOf(bank), 1);
 
-    this.service.deleteBank(bank).subscribe(deleteBank);
+    this.service.delete(this.bankIndex(bank)).subscribe(deleteBank);
   }
 
   reorderItems(from, to) : void {
@@ -61,10 +61,12 @@ export class BanksPresenter {
     const bankA = this.banks[from];
     const bankB = this.banks[to];
 
-    this.service.swapBanks(bankA.index, bankB.index)
+    const indexA = this.bankIndex(bankA);
+    const indexB = this.bankIndex(bankB);
+
+    this.service.swap(indexA, indexB)
         .subscribe(() => {
-          const indexA = bankA.index
-          bankA.index = bankB.index
+          bankA.index = indexB
           bankB.index = indexA
         });
   }

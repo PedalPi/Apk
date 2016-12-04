@@ -1,6 +1,7 @@
 export class BankGenerator {
     static generate(name : string) : any {
         return {
+            "index": -1,
             "name": name,
             "pedalboards": [PedalboardGenerator.generate('Example pedalboard')]
         };

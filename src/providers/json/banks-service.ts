@@ -11,50 +11,39 @@ export class BanksService {
     this.router = router;
   }
 
-  private banksUrl() : string {
+  private urlAll() : string {
     return this.router.route('/banks');
   }
 
-  private bankUrl(bank? : any) : string {
-    let url = bank ? `/bank/${bank.index}` : '/bank';
+  private url(index? : number) : string {
+    let url = index ? `/bank/${index}` : '/bank';
     return this.router.route(url);
   }
 
   getBanks() {
-    return this.rest.get(this.banksUrl());
+    return this.rest.get(this.urlAll());
   }
 
-  saveNewBank(bank) {
-    return this.rest.post(this.bankUrl(), bank);
+  saveNew(bank : any) {
+    return this.rest.post(this.url(), bank);
   }
 
-  updateBank(bank) {
-    let url = this.bankUrl(bank);
+  update(bank : any, index : number) {
+    let url = this.url(index);
     return this.rest.put(url, bank);
   }
 
-  deleteBank(bank) {
-    let url = this.bankUrl(bank);
+  delete(bank : number) {
+    let url = this.url(bank);
     return this.rest.delete(url);
   }
 
-  swapPedalboards(bank : any, pedalboardA : number, pedalboardB : number) {
-    let url = this.swapPedalboardsUrl(bank, pedalboardA, pedalboardB);
+  swap(bankA : number, bankB : number) {
+    let url = this.swapUrl(bankA, bankB);
     return this.rest.put(url, {});
   }
 
-  private swapPedalboardsUrl(bank : any, pedalboardA : number, pedalboardB : number) : string {
-    let url = `/swap/pedalboard/bank/${bank.index}/pedalboard-a/${pedalboardA}/pedalboard-b/${pedalboardB}`;
-
-    return this.router.route(url);
-  }
-
-  swapBanks(bankA : number, bankB : number) {
-    let url = this.swapBanksUrl(bankA, bankB);
-    return this.rest.put(url, {});
-  }
-
-  private swapBanksUrl(bankA : number, bankB : number) : string {
+  private swapUrl(bankA : number, bankB : number) : string {
     let url = `/swap/bank-a/${bankA}/bank-b/${bankB}`;
 
     return this.router.route(url);
