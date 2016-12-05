@@ -9,7 +9,7 @@ import {
 import {PedalboardsPage} from '../pedalboards/pedalboards';
 
 import {JsonService} from '../../providers/json/json-service';
-import {AlertCommon, AlertBuilder} from '../../common/alert';
+import {AlertBuilder} from '../../common/alert';
 import {ContextMenu} from '../../common/contextMenu';
 
 import {BanksPresenter} from './banks-presenter';

@@ -4,7 +4,6 @@ import {
   Output,
   Component,
   EventEmitter,
-  ContentChild,
   forwardRef
 } from '@angular/core';
 

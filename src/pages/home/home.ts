@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import {NavController} from 'ionic-angular';
 
 import {BanksPage} from '../banks/banks';
 import {PedalboardsPage} from '../pedalboards/pedalboards';
 import {PedalboardPage} from '../pedalboard/pedalboard';
 import {ConfigurationsPage} from '../configurations/configurations';
+import {PedalboardDrawerPage} from '../pedalboard-drawer/pedalboard-drawer';
 
 import {JsonService} from '../../providers/json/json-service';
 import {CurrentService} from '../../providers/json/current-service';
@@ -67,5 +68,13 @@ export class HomePage {
 
   goToConfigurations() {
     this.nav.push(ConfigurationsPage);
+  }
+
+  goToPedalboardDrawer() {
+    let params = {
+      pedalboard: ModelUtil.getBank(this.data.remote.banks, 0)['pedalboards'][0]
+    };
+
+    this.nav.push(PedalboardDrawerPage, params);
   }
 }

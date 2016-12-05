@@ -1,5 +1,4 @@
 import {
-  ElementRef,
   Input, Output,
   Component,
   EventEmitter
