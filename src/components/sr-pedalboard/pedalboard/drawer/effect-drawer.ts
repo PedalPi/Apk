@@ -5,11 +5,10 @@ import * as d3 from 'd3';
 
 
 export class EffectDrawer {
-  private static SIZE : {width: number, height: any};
+  private static SIZE = {width:100, height:150};
   private pedalboard : Pedalboard;
 
   constructor(pedalboard : Pedalboard) {
-    EffectDrawer.SIZE = {width:100, height:150};
     this.pedalboard = pedalboard;
   }
 
@@ -29,25 +28,29 @@ export class EffectDrawer {
   drawIn(effect) {
     const self = this;
 
-    const container = effect.append("g")
-      .classed("effect", true)
-      .attr("transform", d => this.resize(d))
+    const container = effect
+      .append("g")
+        .classed("effect", true)
+        .attr("transform", d => this.resize(d))
 
-      .on("mousedown", function(node) { self.mouseDown(d3.select(this), node) })
-      .on("touchstart", function(node) { self.mouseDown(d3.select(this), node) })
+        .on("mousedown", function(node) { self.mouseDown(d3.select(this), node) })
+        .on("touchstart", function(node) { self.mouseDown(d3.select(this), node) })
 
-      .call(this.generateDragBehavior());
+        .call(this.generateDragBehavior());
 
-    container.append("rect")
-      .classed('back', true);
+    container
+      .append("rect")
+        .classed('back', true);
 
-    const portsInput = container.append("g")
-      .classed('input-ports', true);
+    const portsInput = container
+      .append("g")
+        .classed('input-ports', true);
 
-    const portsOuput = container.append("g")
-      .classed('output-ports', true);
+    const portsOuput = container
+      .append("g")
+        .classed('output-ports', true);
 
-    new PortDrawerInput(this.pedalboard, EffectDrawer.SIZE)
+    new PortDrawerInput(EffectDrawer.SIZE)
       .drawIn(portsInput)
       .classed('input-port', true);
     new PortDrawerOutput(this.pedalboard, EffectDrawer.SIZE)
@@ -82,9 +85,10 @@ export class EffectDrawer {
     const words = title.split(/\s+/g);
     const nwords = words.length;
 
-    const el = gEl.append("text")
-      .attr("text-anchor","middle")
-      .attr("dy", "-" + (nwords-1)*7.5);
+    const el = gEl
+      .append("text")
+        .attr("text-anchor","middle")
+        .attr("dy", "-" + (nwords-1)*7.5);
 
     for (let i = 0; i < words.length; i++) {
       const tspan = el.append('tspan').text(words[i]);

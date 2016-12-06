@@ -2,7 +2,8 @@ import { ElementRef } from '@angular/core';
 
 import {Component} from '@angular/core';
 import {Pedalboard} from './pedalboard/pedalboard';
-import {Effect} from './pedalboard/model/effect';
+import {Effect, SystemEffect} from './pedalboard/model/effect';
+import {Port} from './pedalboard/model/port';
 import {Connection} from './pedalboard/model/connection';
 
 import * as d3 from 'd3';
@@ -21,8 +22,10 @@ export class SrPedalboard {
   }
 
   ngOnInit() {
-    this.pedalboard = new Pedalboard(d3.select(this.element.querySelector('#sr-pedalboard')), [], []);
-    this.pedalboard.update();
+    const element = d3.select(this.element.querySelector('#sr-pedalboard'));
+
+    const systemEffect = new SystemEffect(['playback_1', 'playback_2'], ['capture_1', 'capture_2']);
+    this.pedalboard = new Pedalboard(element, systemEffect);
   }
 
   append(effect : Effect) {
@@ -47,5 +50,13 @@ export class SrPedalboard {
 
   set onEffectRemoved(callback : (effect: Effect) => void) {
     this.pedalboard.onEffectRemoved = callback;
+  }
+
+  get effects() : Array<Effect> {
+    return this.pedalboard.effects;
+  }
+
+  get systemEffect() {
+    return this.pedalboard.systemEffect;
   }
 }

@@ -1,72 +1,68 @@
-import {Effect} from './model/effect';
+import {Effect, Lv2Effect, SystemEffect} from './model/effect';
 import {Connection} from './model/connection';
+import {SystemPort} from './model/port';
 import {EdgeConnector} from './edge-connector';
-import {GraphDefinitions} from './graph-definitions';
 import {ConnectionDrawer} from './drawer/connection-drawer';
 import {EffectDrawer} from './drawer/effect-drawer';
+import {SystemEffectDrawer} from './drawer/systemeffect-drawer';
 import {ConnectionUtil} from './util/connection-util';
+import {KeyboardManager} from './manager/keyboard-manager';
 
 import * as d3 from 'd3';
 
 
 export class Pedalboard {
-  private id : number; // FIXME - Id effects
-  public effects : Array<Effect>;
+  private id : number = 0; // FIXME - Id effects
 
-  private connections : Array<any>;
-
-  private callback : any;
-  private selected : any;
-  private state : any; // FIXME - Deprecated
   private svg : any;
 
-  public edgeConnector : EdgeConnector;
-  private connectionsElements : any;
+  public systemEffect : SystemEffect;
+  public systemEffectElement : any;
+
+  public effects : Array<Effect> = [];
   public effectsElements : any;
 
-  constructor(svg, effects = [], connections = []) {
-    this.id = effects.length;
+  private connections : Array<any> = [];
+  private connectionsElements : any;
 
-    this.effects = effects;
-    this.connections = connections;
+  private callback = {
+    onConnectionAdded: (connection : {}) => {},
+    onConnectionRemoved: (connection : {}) => {},
+    onEffectRemoved: (effect : Effect) => {}
+  };
 
-    this.callback = {
-      onConnectionAdded: (connection : Connection) => {},
-      onConnectionRemoved: (connection : Connection) => {},
-      onEffectRemoved: (effect : Effect) => {}
-    };
+  private selected = {
+    effect: null,
+    connection: null
+  };
 
-    this.selected = {
-      effect: null,
-      connection: null
-    };
+  public edgeConnector : EdgeConnector;
+  private keyboardManager : KeyboardManager;
 
-    // FIXME - Deprecated
-    this.state = {
-      lastKeyDown: -1
-    };
+  constructor(svg, systemEffect : SystemEffect) {
+    this.systemEffect = systemEffect;
 
     this.svg = svg;
     this.draw(svg);
 
-    d3.select(window)
-      .on("keydown", () => this.svgKeyDown())
-      .on("keyup", () => this.svgKeyUp());
-
+    // FIXME Disabled: Add remove effect callback support
+    //this.keyboardManager = this.registerKeyboard(window);
     window.addEventListener('resize', () => this.updateWindow(svg));
   }
 
   draw(svg) {
-    const defs = svg.append('svg:defs');
-    GraphDefinitions.defineArrow(defs);
-
-    const svgG = svg.append("g")
+    const pedalboard = svg.append("g")
         .attr("id", "pedalboard");
 
-    this.edgeConnector = new EdgeConnector(svgG);
+    this.edgeConnector = new EdgeConnector(pedalboard);
 
-    this.connectionsElements = svgG.append("g").attr('id', 'edges').selectAll("g");
-    this.effectsElements = svgG.append("g").attr('id', 'nodes').selectAll("g");
+    this.connectionsElements = pedalboard.append("g").attr('id', 'edges').selectAll("g");
+    this.effectsElements = pedalboard.append("g").attr('id', 'nodes').selectAll("g");
+
+    this.systemEffectElement = pedalboard.append("g").attr('id', 'system-node').selectAll('g');
+
+    const element = this.systemEffectElement.data([this.systemEffect], node => node.id);
+    this.systemEffectElement = new SystemEffectDrawer(this).draw(element);
 
     svg.call(this.dragPedalboardEvent());
   }
@@ -82,37 +78,31 @@ export class Pedalboard {
   /*************************************
    * Events
    *************************************/
-  svgKeyDown() {
-    // make sure repeated key presses don't register for each keydown
-    if (this.state.lastKeyDown !== -1)
-      return;
-
+  private registerKeyboard(window) : KeyboardManager {
     const BACKSPACE_KEY = 8;
     const DELETE_KEY = 46;
 
-    this.state.lastKeyDown = d3.event.keyCode;
+    const keyboardManager = new KeyboardManager(window);
 
-    switch(d3.event.keyCode) {
-      case BACKSPACE_KEY:
-      case DELETE_KEY:
-        d3.event.preventDefault();
-        this.removeSelected();
-        this.update();
+    let removeSeleted = () => {
+      this.removeSelected();
+      this.update();
     }
+
+    keyboardManager.register(BACKSPACE_KEY, removeSeleted);
+    keyboardManager.register(DELETE_KEY, removeSeleted);
+
+    return keyboardManager;
   }
 
-  svgKeyUp() {
-    this.state.lastKeyDown = -1;
-  }
-
-  zoomed() {
+  private zoomed() {
     this.svg.select("#pedalboard")
       .attr("transform", d3.event.transform);
 
     return true;
   }
 
-  updateWindow(svg) {
+  private updateWindow(svg) {
     const documentElement = document.documentElement;
     const body = document.getElementsByTagName('body')[0];
 
@@ -154,7 +144,7 @@ export class Pedalboard {
     this.update();
   }
 
-  selectEffect(element, effect) {
+  selectEffect(element, effect : Effect) {
     this.deselectCurrent();
 
     element.classed("selected", true);
@@ -220,6 +210,26 @@ export class Pedalboard {
      this.createConnection(outputSourceElement, inputTargetElement);
    }
 
+   /*
+   public addSystemOutConnection(systemOutput, effectTarget : Effect, portTarget) {
+     const util = new ConnectionUtil(this);
+
+     const outputSourceElement = util.elementOfPort(effectSource, portSource, 'output');
+     const inputTargetElement = util.elementOfPort(effectTarget, portTarget, 'input');
+
+     this.createConnection(outputSourceElement, inputTargetElement);
+   }
+
+   public addSystemInConnection(effectSource : Effect, portSource, systemInput) {
+     const util = new ConnectionUtil(this);
+
+     const outputSourceElement = util.elementOfPort(effectSource, portSource, 'output');
+     const inputTargetElement = util.elementOfPort(effectTarget, portTarget, 'input');
+
+     this.createConnection(outputSourceElement, inputTargetElement);
+   }
+   */
+
    createConnection(elementSource, elementTarget) {
      const newConnection = new Connection({source: elementSource, target: elementTarget});
 
@@ -258,8 +268,8 @@ export class Pedalboard {
   removeConnectionsOf(effect) {
     let connectionsRemoved = this.connections.filter(
       connection => {
-        const source = Effect.effectOfPort(d3.select(connection.source));
-        const target = Effect.effectOfPort(d3.select(connection.target));
+        const target = Lv2Effect.effectOfPort(d3.select(connection.target));
+        const source = Lv2Effect.effectOfPort(d3.select(connection.source));
 
         return source === effect || target === effect;
       }

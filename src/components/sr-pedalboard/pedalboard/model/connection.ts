@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 
-import {Effect} from './effect';
+import {Lv2Effect} from './effect';
 
 
 export class Connection {
@@ -12,14 +12,14 @@ export class Connection {
     this.target = data.target;
   }
 
-  details() {
+  public details() {
     const originElement = d3.select(this.source);
     const destinationElement = d3.select(this.target);
 
     return {
-      effectSource: Effect.effectOfPort(originElement)['data'],
+      effectSource: Lv2Effect.effectOfPort(originElement)['data'],
       portSource: d3.select(this.source).data()[0],
-      effectTarget: Effect.effectOfPort(destinationElement)['data'],
+      effectTarget: Lv2Effect.effectOfPort(destinationElement)['data'],
       portTarget: d3.select(this.target).data()[0]
     };
   }
@@ -31,8 +31,8 @@ export class Connection {
     const portOrigin = originElement.data()[0];
     const portDestination = destinationElement.data()[0];
 
-    const effectOrigin = Effect.effectOfPort(originElement);
-    const effectDestination = Effect.effectOfPort(destinationElement);
+    const effectOrigin = Lv2Effect.effectOfPort(originElement);
+    const effectDestination = Lv2Effect.effectOfPort(destinationElement);
 
     return `Connection-`
          + `${effectOrigin['id']}:${portOrigin['index']}-`

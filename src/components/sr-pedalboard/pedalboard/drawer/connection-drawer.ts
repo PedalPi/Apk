@@ -14,9 +14,10 @@ export class ConnectionDrawer {
 
   draw(elements, selectedConnection) {
     // update existing connections
-    elements.style('marker-end', 'url(#end-arrow)')
-      .classed("selected", d => d === selectedConnection)
-      .attr("d", connection => this.resize(connection));
+    elements
+        .style('marker-end', 'url(#end-arrow)')
+        .classed("selected", d => d === selectedConnection)
+        .attr("d", connection => this.resize(connection));
 
     // add new connection
     const newElements = this.drawIn(elements.enter())
@@ -32,12 +33,12 @@ export class ConnectionDrawer {
 
     const container = node
       .append("path")
-      .style('marker-end','url(#end-arrow)')
-      .attr("id", connection => Connection.generateId(connection))
-      .classed("link", true)
-      .attr("d", connection => this.resize(connection))
-      .on("mousedown", function(connection) { self.mouseDown(d3.select(this), connection) })
-      .on("touchstart", function(connection) { self.mouseDown(d3.select(this), connection) });
+        .style('marker-end','url(#end-arrow)')
+        .attr("id", connection => Connection.generateId(connection))
+        .classed("link", true)
+        .attr("d", connection => this.resize(connection))
+        .on("mousedown", function(connection) { self.mouseDown(d3.select(this), connection) })
+        .on("touchstart", function(connection) { self.mouseDown(d3.select(this), connection) });
 
     return container;
   }

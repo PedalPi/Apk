@@ -12,7 +12,10 @@ export class ConnectionUtil {
   }
 
   elementOfPort(effect : Effect, port, type : string) {
-    const effectElement = this.elementOfEffect(effect);
+    let effectElement = this.elementOfEffect(effect);
+    if (effectElement == undefined) // FIXME - gambiarra
+      effectElement = this.pedalboard.systemEffectElement.node();
+
     const portsElements = effectElement.querySelectorAll(`.${type}-port`);
 
     return this.getPortInPortElements(port, portsElements);
@@ -24,13 +27,7 @@ export class ConnectionUtil {
   }
 
   private indexOf(effect : Effect) {
-    let id = 0;
-    for (let otherEffect of this.pedalboard.effects) {
-      if (effect.data == otherEffect.data)
-        return id;
-
-      id += 1;
-    }
+    return this.pedalboard.effects.findIndex(otherEffect => effect.data == otherEffect.data);
   }
 
   private getPortInPortElements(port, portElements) {

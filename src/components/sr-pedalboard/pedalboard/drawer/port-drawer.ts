@@ -7,14 +7,12 @@ export class PortDrawer {
   private static RADIUS : number;
   private static PADDING : number;
 
-  protected pedalboard : Pedalboard;
   protected effectSize : {width: number, height: any};
 
-  constructor(pedalboard : Pedalboard, effectSize : {width: number, height: any}) {
+  constructor(effectSize : {width: number, height: any}) {
     PortDrawer.RADIUS = 20;
     PortDrawer.PADDING = 5;
 
-    this.pedalboard = pedalboard;
     this.effectSize = effectSize;
   }
 
@@ -52,7 +50,7 @@ export class PortDrawer {
 
 export class PortDrawerInput extends PortDrawer {
   filterPorts(effect) {
-    return effect.input;
+    return effect.inputs;
   }
 
   x(index) {
@@ -61,8 +59,15 @@ export class PortDrawerInput extends PortDrawer {
 }
 
 export class PortDrawerOutput extends PortDrawer {
+
+  private pedalboard : Pedalboard;
+  constructor(pedalboard : Pedalboard, effectSize : {width: number, height: any}) {
+    super(effectSize);
+    this.pedalboard = pedalboard;
+  }
+
   filterPorts(effect) {
-    return effect.output;
+    return effect.outputs;
   }
 
   x(index) {
