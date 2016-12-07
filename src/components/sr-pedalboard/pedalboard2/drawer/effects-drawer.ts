@@ -13,8 +13,9 @@ export class EffectsDrawer {
 
   static draw(effects : Array<Effect>, effectsNodes, pedalboardView : PedalboardView) {
     // Update effects
-    const effectsNodesUpdated = effectsNodes.data(effects, node => node.id)
-      .attr("transform", this.effectPosition());
+    const effectsNodesUpdated = effectsNodes
+      .data(effects, effect => effect.id)
+        .attr("transform", this.effectPosition());
 
     // Remove old effects
     effectsNodes.exit().remove();

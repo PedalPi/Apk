@@ -1,4 +1,7 @@
 import {EffectsDrawer} from 'drawer/effects-drawer';
+import {ConnectionsDrawer} from 'drawer/connection-drawer';
+
+import {Connection} from './model/connection';
 import {Effect} from './model/effect';
 import {Plug, Output} from './model/plug';
 import {EdgeConnector} from './drawer/edge-connector';
@@ -25,8 +28,15 @@ export class PedalboardView {
     //this.systemEffectElement = pedalboard.append("g").attr('id', 'system-node').selectAll('g');
   }
 
+  /*************************************
+   * Update
+   ************************************/
   updateEffects(effects : Array<Effect>) {
     EffectsDrawer.draw(effects, this.effectsNodes, this);
+  }
+
+  updateConnections(connections : Array<Connection>) {
+    ConnectionsDrawer.draw(connections, this.connectionsNodes);
   }
 
   /*************************************
