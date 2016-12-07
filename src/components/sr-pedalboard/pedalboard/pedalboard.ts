@@ -141,7 +141,7 @@ export class Pedalboard {
     element.classed("selected", true);
 
     this.selected.connection = connection;
-    this.update();
+    //this.update();
   }
 
   selectEffect(element, effect : Effect) {
@@ -150,7 +150,7 @@ export class Pedalboard {
     element.classed("selected", true);
 
     this.selected.effect = effect;
-    this.update();
+    //this.update();
   }
 
   deselectCurrent() {

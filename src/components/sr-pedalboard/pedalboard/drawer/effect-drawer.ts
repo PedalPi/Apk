@@ -55,7 +55,7 @@ export class EffectDrawer {
       .classed('input-port', true);
     new PortDrawerOutput(this.pedalboard, EffectDrawer.SIZE)
       .drawIn(portsOuput)
-      .classed('output-port', true);;
+      .classed('output-port', true);
 
     container.each(function(d) {
       self.insertTitleLinebreaks(d3.select(this), d.title);
