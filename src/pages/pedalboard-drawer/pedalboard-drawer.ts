@@ -47,7 +47,7 @@ export class PedalboardDrawerPage {
   }
 
   removeSeleted() {
-    //this.pedalboardElement.removeSeleted();
+    this.pedalboardElement.removeSeleted();
   }
 
   get effects() : Array<Effect> {

@@ -18,7 +18,7 @@ export class EffectsDrawer {
         .attr("transform", this.effectPosition());
 
     // Remove old effects
-    effectsNodes.exit().remove();
+    effectsNodesUpdated.exit().remove();
 
     // Draw new effects
     const newEffects = effectsNodesUpdated.enter()

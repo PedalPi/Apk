@@ -16,13 +16,18 @@ export class Pedalboard {
     this.view = new PedalboardView(svgElement);
   }
 
+  private updateAll() {
+    this.view.updateEffects(this.effects);
+    this.view.updateConnections(this.connections);
+  }
+
+  /*************************************
+   * Add
+   ************************************/
   addEffect(effect : Effect) {
     effect.id = this.effectIndex++;
     effect.onSelectedListener = (effect : Effect) => this.select(effect);
-    effect.onDragListener = (effect : Effect) => {
-      this.view.updateEffects(this.effects);
-      this.view.updateConnections(this.connections);
-    }
+    effect.onDragListener = (effect : Effect) => this.updateAll();
 
     effect.outputs
           .forEach(output => output.onConnectedListener =
@@ -43,5 +48,47 @@ export class Pedalboard {
 
   private select(object) {
     this.view.select(object);
+  }
+
+  /*************************************
+   * Remove
+   ************************************/
+  public removeSelected() {
+    let selected = this.view.selected;
+    if (selected == null)
+      return;
+
+    if (selected.constructor.name == "Effect")
+        this.removeEffect(selected)
+    else
+      this.removeConnection(selected);
+
+    this.view.deselectCurrent();
+    this.updateAll();
+  }
+
+  private removeEffect(effect : Effect) {
+    console.log('Effect removed', effect);
+    this.effects.splice(this.effects.indexOf(effect), 1);
+    this.removeConnectionsOf(effect);
+    //this.callback.onEffectRemoved(effect.data);
+    this.updateAll();
+  }
+
+  private removeConnectionsOf(effect : Effect) {
+    let connectionsRemoved = this.connections.filter(
+      (connection : Connection) => {
+        return connection.output.effect === effect
+            || connection.input.effect === effect;
+      }
+    );
+
+    connectionsRemoved.map(connection => this.removeConnection(connection));
+  }
+
+  private removeConnection(connection : Connection) {
+    this.connections.splice(this.connections.indexOf(connection), 1);
+    //this.callback.onConnectionRemoved(connection.details());
+    this.view.updateConnections(this.connections);
   }
 }

@@ -15,7 +15,7 @@ export class PedalboardView {
   private connectionsNodes;
   private effectsNodes;
 
-  private objectSelected = null;
+  private selectedObject = null;
 
   private edgeConnector : EdgeConnector;
 
@@ -45,22 +45,22 @@ export class PedalboardView {
    * Selection
    ************************************/
   get selected() {
-    return this.selected;
+    return this.selectedObject;
   }
 
   deselectCurrent() {
-    if (this.objectSelected === null)
+    if (this.selectedObject === null)
       return;
 
-    this.objectSelected.view.classed("selected", false);
-    this.objectSelected = null;
+    this.selectedObject.view.classed("selected", false);
+    this.selectedObject = null;
   }
 
   select(object) {
     this.deselectCurrent();
 
     object.view.classed("selected", true);
-    this.objectSelected = object;
+    this.selectedObject = object;
   }
 
   /*************************************

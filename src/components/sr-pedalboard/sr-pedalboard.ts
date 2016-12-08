@@ -34,11 +34,13 @@ export class SrPedalboard {
   connect(effectSource : Effect, portSource, effectTarget : Effect, portTarget) {
     this.pedalboard.addConnection(effectSource, portSource, effectTarget, portTarget);
   }
+  */
 
   removeSeleted() {
     this.pedalboard.removeSelected();
   }
 
+  /*
   set onConnectionAdded(callback : (connection: Connection) => void) {
     this.pedalboard.onConnectionAdded = callback;
   }
