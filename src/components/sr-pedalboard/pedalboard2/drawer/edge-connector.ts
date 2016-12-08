@@ -1,4 +1,5 @@
-import {ConnectionDrawer} from './drawer/connection-drawer';
+import {ConnectionsDrawer} from './connections-drawer';
+import {Plug} from '../model/plug';
 
 
 export class EdgeConnector {
@@ -18,11 +19,12 @@ export class EdgeConnector {
       .style('marker-end', 'url(#mark-end-arrow)');
   }
 
-  drawToPoint(point) {
-    this.line.attr('d', `M${point.x},${point.y}L${point.x},${point.y}`);
+  drawToPoint(plug : Plug) {
+    const position = plug.position;
+    this.line.attr('d', `M${position.x},${position.y}L${position.x},${position.y}`);
   }
 
-  draw(origin, destination) {
-    this.line.attr('d', () => ConnectionDrawer.generateConnection(origin, destination));
+  draw(origin : Plug, destination : {x, y}) {
+    this.line.attr('d', () => ConnectionsDrawer.line(origin.position, destination));
   }
 }

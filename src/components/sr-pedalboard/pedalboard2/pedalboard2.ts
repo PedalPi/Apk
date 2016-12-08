@@ -19,7 +19,10 @@ export class Pedalboard {
   addEffect(effect : Effect) {
     effect.id = this.effectIndex++;
     effect.onSelectedListener = (effect : Effect) => this.select(effect);
-    effect.onDragListener = (effect : Effect) => this.view.updateEffects(this.effects);
+    effect.onDragListener = (effect : Effect) => {
+      this.view.updateEffects(this.effects);
+      this.view.updateConnections(this.connections);
+    }
 
     effect.outputs
           .forEach(output => output.onConnectedListener =

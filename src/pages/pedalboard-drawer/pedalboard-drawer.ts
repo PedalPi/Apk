@@ -2,9 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import {NavParams} from 'ionic-angular';
 
 import {SrPedalboard} from '../../components/sr-pedalboard/sr-pedalboard';
-import {Effect, Lv2Effect} from '../../components/sr-pedalboard/pedalboard/model/effect';
-
-
+import {Effect} from '../../components/sr-pedalboard/pedalboard2/model/effect';
 
 @Component({
   templateUrl: 'pedalboard-drawer.html',
@@ -21,6 +19,7 @@ export class PedalboardDrawerPage {
     for (let effect of Util.generateEffects(this.pedalboard))
       this.pedalboardElement.append(effect);
 
+    /*
     for (let connection of this.pedalboard.connections) {
       let effectSource, portSource, effectTarget, portTarget;
 
@@ -44,18 +43,19 @@ export class PedalboardDrawerPage {
     }
 
     this.pedalboardElement.onConnectionAdded = connection => console.log('Connection added', connection);
+    */
   }
 
   removeSeleted() {
-    this.pedalboardElement.removeSeleted();
+    //this.pedalboardElement.removeSeleted();
   }
 
   get effects() : Array<Effect> {
-    return this.pedalboardElement.effects;
+    return null;//this.pedalboardElement.effects;
   }
 
   get systemEffect() {
-    return this.pedalboardElement.systemEffect;
+    return null;//this.pedalboardElement.systemEffect;
   }
 }
 
@@ -64,7 +64,7 @@ class Util {
     const effects = [];
     let i = 0;
     for (let effect of pedalboard['effects'])
-      effects.push(new Lv2Effect(150 + 200 * (i++), 280, effect['pluginData']));
+      effects.push(new Effect(150 + 200 * (i++), 280, effect['pluginData']));
 
     return effects;
   }

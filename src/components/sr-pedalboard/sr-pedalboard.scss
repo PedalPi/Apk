@@ -57,29 +57,30 @@ sr-pedalboard {
   /*******************************
    * Effect
    *******************************/
-  .effect .back:hover {
-    fill: var(--hover);
+  .effect {
+    .background:hover {
+      fill: var(--hover);
+    }
+
+    .background {
+      fill: white;
+      stroke: #333;
+      stroke-width: 2px;
+      rx: 6;
+
+      width: 100px;
+      height: 150px;
+
+      x: -50;
+      y: -75;
+    }
   }
-
-  .effect .back {
-    fill: white;
-    stroke: #333;
-    stroke-width: 2px;
-    rx: 6;
-
-    width: 100px;
-    height: 150px;
-
-    x: -50;
-    y: -75;
-  }
-
-  .effect.selected .back {
+  .effect.selected .background {
     fill: var(--selected);
   }
 
   .effect text {
-    font-family: Helvetica,Arial,Sans-serif;
+    font-family: Helvetica, Arial, Sans-serif;
     font-size: 0.9em;
     pointer-events: none;
   }
@@ -87,32 +88,31 @@ sr-pedalboard {
   /**************************
    * Ports
    **************************/
-  .effect .input-port,
-  .effect .output-port {
+  .effect .input,
+  .effect .output {
     stroke: #333;
     stroke-width: 2px;
   }
 
-  .effect .input-port {
+  .effect .input {
     fill: gray;
   }
 
-  .effect .output-port {
+  .effect .output {
     cursor: pointer;
     fill: #F6FBFF;
   }
 
-  .connecting .effect .output-port {
+  .connecting .effect .output {
     cursor: no-drop;
   }
 
-  .connecting .effect .input-port {
+  .connecting .effect .input {
     cursor: pointer;
     fill: red;
   }
 
-  .connecting .effect .input-port:hover {
+  .connecting .effect .input:hover {
     fill: rgb(200, 238, 241);
   }
-
 }

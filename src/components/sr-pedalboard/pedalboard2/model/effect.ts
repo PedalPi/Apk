@@ -26,7 +26,7 @@ export class Effect {
       this.objectInputs.push(new Input(this, input));
 
     for (let output in this.data.ports.audio.output)
-      this.objectInputs.push(new Output(this, output));
+      this.objectOutputs.push(new Output(this, output));
   }
 
   get inputs() {

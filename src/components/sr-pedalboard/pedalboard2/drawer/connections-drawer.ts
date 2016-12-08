@@ -1,27 +1,26 @@
 import {Connection} from '../model/connection';
-import {PortDrawer} from './port-drawer';
 
 import * as d3 from 'd3';
 
 
-export class ConnectionDrawer {
+export class ConnectionsDrawer {
 
   static draw(connections : Array<Connection>, connectionsNodes) {
     // Update existing connections
     let connectionsNodesUpdated = connectionsNodes
         .data(connections, connection => connection.id)
           .style('marker-end', 'url(#end-arrow)')
-          .attr("d", connection => this.resize(connection));
+          .attr("d", this.lineFunction());
 
     // Remove old connections
     connectionsNodes.exit().remove();
 
     // Draw new connection
-    const newConnections = connectionsNodes.enter()
+    const newConnections = connectionsNodesUpdated.enter()
       .append("path")
         .style('marker-end','url(#end-arrow)')
         .classed("link", true)
-        .attr("d", connection => this.resize(connection))
+        .attr("d", this.lineFunction())
 
         .on("mousedown", this.selectConnection())
         .on("touchstart",this.selectConnection());
@@ -42,14 +41,14 @@ export class ConnectionDrawer {
     };
   }
 
-  private static resize(connection) {
-    const source = PortDrawer.positionOfPortElement(d3.select(connection.source));
-    const target = PortDrawer.positionOfPortElement(d3.select(connection.target));
-
-    return ConnectionDrawer.generateConnection(source, target);
+  private static lineFunction() {
+    return (connection) => {
+      console.log(connection);
+      return this.line(connection.output.position, connection.input.position)
+    };
   }
 
-  public static generateConnection(source, target) {
+  public static line(source : {x, y}, target : {x, y}) {
     return `M${source.x},${source.y}`
          + `C${(source.x + target.x) / 2},${source.y}`
          + ` ${(source.x + target.x) / 2},${target.y}`

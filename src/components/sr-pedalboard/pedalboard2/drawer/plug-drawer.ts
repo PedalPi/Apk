@@ -59,7 +59,7 @@ export class OutputPlugDrawer extends PlugDrawer {
     this.pedalboardView = pedalboardView;
   }
 
-  filterPorts(effect) {
+  plugs(effect) {
     return effect.outputs;
   }
 

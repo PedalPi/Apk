@@ -21,7 +21,7 @@ export class EffectsDrawer {
     effectsNodes.exit().remove();
 
     // Draw new effects
-    const newEffects = effectsNodes.enter()
+    const newEffects = effectsNodesUpdated.enter()
       .append("g")
         .classed("effect", true)
         .attr("transform", this.effectPosition())
@@ -29,20 +29,21 @@ export class EffectsDrawer {
         .on("mousedown", this.selectEffect())
         .on("touchstart",this.selectEffect())
 
-        .call(d3.drag().on("drag", this.drag()))
+        .call(d3.drag().on("drag", this.drag()));
 
+    newEffects
       .append("rect")
         .classed('background', true);
 
-    const inputs = newEffects.append("g").classed('input-ports', true);
-    const outputs = newEffects.append("g").classed('output-ports', true);
+    const inputs = newEffects.append("g").classed('inputs', true);
+    const outputs = newEffects.append("g").classed('outputs', true);
 
     new InputPlugDrawer(EffectsDrawer.SIZE)
       .drawIn(inputs)
-        .classed('input-port', true)
-        .classed('connection-taget', true);
+        .classed('input', true)
+        .classed('connection-target', true);
     new OutputPlugDrawer(pedalboardView, EffectsDrawer.SIZE)
-      .drawIn(outputs).classed('output-port', true);
+      .drawIn(outputs).classed('output', true);
 
     // Add view in data
     newEffects.each(function(effect : Effect) {

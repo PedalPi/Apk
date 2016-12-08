@@ -3,20 +3,18 @@ import {Output} from '../model/plug';
 /** Based in http://jsfiddle.net/AkPN2/5/ */
 export class PlugsColliderDettector {
 
-  static dettectCollision(output : Output, connectionsTarget, mousePosition) {
+  static dettectCollision(output : Output, connectionsTarget : Array<any>, mousePosition : {x, y}) {
     const mouseCirclePosition = this.circle(mousePosition);
     return this.getColidedWith(mouseCirclePosition, connectionsTarget);
   }
 
   private static getColidedWith(position, nodes) {
-    for (let node of nodes) {
-      const nodePosition = this.circleByElement(node.datum());
+    let collided = nodes.filter(input => {
+      const nodePosition = this.circleByElement(input);
+      return this.hasColision(nodePosition, position);
+    });
 
-      if (this.hasColision(nodePosition, position))
-        return node.datum();
-    }
-
-    return null;
+    return collided.size() == 0 ? null : collided.data()[0];
   }
 
   private static circleByElement(plug) {
