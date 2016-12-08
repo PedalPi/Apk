@@ -22,10 +22,10 @@ export class Effect {
     this.x = x;
     this.y = y;
 
-    for (let input in this.data.ports.audio.input)
+    for (let input of this.data.ports.audio.input)
       this.objectInputs.push(new Input(this, input));
 
-    for (let output in this.data.ports.audio.output)
+    for (let output of this.data.ports.audio.output)
       this.objectOutputs.push(new Output(this, output));
   }
 

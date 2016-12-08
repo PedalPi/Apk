@@ -9,7 +9,7 @@ export class Pedalboard {
   private connectionIndex = 0;
 
   private view : PedalboardView;
-  private effects : Array<Effect> = [];
+  public effects : Array<Effect> = [];
   private connections : Array<Connection> = [];
 
   constructor(svgElement) {

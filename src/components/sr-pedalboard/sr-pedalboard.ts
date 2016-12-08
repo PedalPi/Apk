@@ -3,7 +3,8 @@ import { ElementRef } from '@angular/core';
 import {Component} from '@angular/core';
 import {Pedalboard} from './pedalboard2/pedalboard2';
 import {Effect} from './pedalboard2/model/effect';
-import {Port} from './pedalboard/model/port';
+import {Output, Input} from './pedalboard2/model/plug';
+
 import {Connection} from './pedalboard/model/connection';
 
 
@@ -30,11 +31,9 @@ export class SrPedalboard {
     this.pedalboard.addEffect(effect);
   }
 
-  /*
-  connect(effectSource : Effect, portSource, effectTarget : Effect, portTarget) {
-    this.pedalboard.addConnection(effectSource, portSource, effectTarget, portTarget);
+  connect(source: Output, target: Input) {
+    this.pedalboard.addConnection(source, target);
   }
-  */
 
   removeSeleted() {
     this.pedalboard.removeSelected();
@@ -52,11 +51,12 @@ export class SrPedalboard {
   set onEffectRemoved(callback : (effect: Effect) => void) {
     this.pedalboard.onEffectRemoved = callback;
   }
+  */
 
   get effects() : Array<Effect> {
     return this.pedalboard.effects;
   }
-
+  /*
   get systemEffect() {
     return this.pedalboard.systemEffect;
   }

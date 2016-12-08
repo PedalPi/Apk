@@ -7,7 +7,9 @@
     <ion-buttons end>
       <button ion-button color="royal"> Effects </button>
 
-
+      <button ion-button ico-only color="royal" (click)="removeSeleted()">
+        <ion-icon name="remove"></ion-icon>
+      </button>
     </ion-buttons>
 
   </ion-navbar>
@@ -17,10 +19,6 @@
   <ion-fab right bottom>
     <button ion-fab>
       <ion-icon name="add"></ion-icon>
-    </button>
-
-    <button ion-fab color="danger" (click)="removeSeleted()">
-      <ion-icon name="remove"></ion-icon>
     </button>
   </ion-fab>
   <sr-pedalboard></sr-pedalboard>

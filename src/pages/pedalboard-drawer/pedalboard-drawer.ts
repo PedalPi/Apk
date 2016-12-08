@@ -19,31 +19,28 @@ export class PedalboardDrawerPage {
     for (let effect of Util.generateEffects(this.pedalboard))
       this.pedalboardElement.append(effect);
 
-    /*
     for (let connection of this.pedalboard.connections) {
-      let effectSource, portSource, effectTarget, portTarget;
+      let source, target;
+      //let effectSource = connection.output.effect == undefined ? this.systemEffect : this.effects[connection.output.effect]
+      //let source = Util.output(effectSource, connection.output.symbol);
 
-      if (connection.output.effect == undefined) {
-        effectSource = this.systemEffect;
-        portSource = this.systemEffect.outputs.filter(output => output.data == connection.output.symbol)[0];
-      } else {
-        effectSource = this.effects[connection.output.effect];
-        portSource = Util.outputPort(effectSource, connection.output.symbol);
-      }
+      //let effectTarget = connection.input.effect == undefined ? this.systemEffect : this.effects[connection.input.effect]
+      //let target = Util.output(effectTarget, connection.input.symbol);
 
-      if (connection.input.effect == undefined) {
-        effectTarget = this.systemEffect;
-        portTarget = this.systemEffect.inputs.filter(input => input.data == connection.input.symbol)[0];
-      } else {
-        effectTarget = this.effects[connection.input.effect];
-        portTarget = Util.inputPort(effectTarget, connection.input.symbol);
-      }
+      if (connection.output.effect == undefined)
+        continue;
+      else
+        source = Util.output(this.effects[connection.output.effect], connection.output.symbol);
 
-      this.pedalboardElement.connect(effectSource, portSource, effectTarget, portTarget);
+      if (connection.input.effect == undefined)
+        continue;
+      else
+        target = Util.input(this.effects[connection.input.effect], connection.input.symbol);
+
+      this.pedalboardElement.connect(source, target);
     }
 
-    this.pedalboardElement.onConnectionAdded = connection => console.log('Connection added', connection);
-    */
+    //this.pedalboardElement.onConnectionAdded = connection => console.log('Connection added', connection);
   }
 
   removeSeleted() {
@@ -51,7 +48,7 @@ export class PedalboardDrawerPage {
   }
 
   get effects() : Array<Effect> {
-    return null;//this.pedalboardElement.effects;
+    return this.pedalboardElement.effects;
   }
 
   get systemEffect() {
@@ -69,15 +66,15 @@ class Util {
     return effects;
   }
 
-  static inputPort(effect : Effect, symbol : string) {
-    return this.port(effect.data.ports.audio.input, symbol);
+  static input(effect : Effect, symbol : string) {
+    return this.plug(effect.inputs, symbol);
   }
 
-  static outputPort(effect : Effect, symbol : string) {
-    return this.port(effect.data.ports.audio.output, symbol);
+  static output(effect : Effect, symbol : string) {
+    return this.plug(effect.outputs, symbol);
   }
 
-  static port(ports : any, symbol : string) {
-    return ports.filter(input => input.symbol == symbol)[0];
+  private static plug(plugs : any, symbol : string) {
+    return plugs.filter(plug => plug.data.symbol == symbol)[0];
   }
 }
