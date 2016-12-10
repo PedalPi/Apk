@@ -13,7 +13,7 @@ export class Pedalboard {
   public effects : Array<Effect> = [];
   private connections : Array<Connection> = [];
 
-  private systemEffect : SystemEffect;
+  public systemEffect : SystemEffect;
 
   constructor(svgElement, systemEffect : SystemEffect) {
     this.systemEffect = systemEffect;

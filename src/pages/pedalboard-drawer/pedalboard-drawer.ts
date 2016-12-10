@@ -20,13 +20,13 @@ export class PedalboardDrawerPage {
       this.pedalboardElement.append(effect);
 
     for (let connection of this.pedalboard.connections) {
-      let source, target;
-      //let effectSource = connection.output.effect == undefined ? this.systemEffect : this.effects[connection.output.effect]
-      //let source = Util.output(effectSource, connection.output.symbol);
+      let effectSource = connection.output.effect == undefined ? this.systemEffect : this.effects[connection.output.effect]
+      let source = Util.output(effectSource, connection.output.symbol);
 
-      //let effectTarget = connection.input.effect == undefined ? this.systemEffect : this.effects[connection.input.effect]
-      //let target = Util.output(effectTarget, connection.input.symbol);
+      let effectTarget = connection.input.effect == undefined ? this.systemEffect : this.effects[connection.input.effect]
+      let target = Util.input(effectTarget, connection.input.symbol);
 
+      /*
       if (connection.output.effect == undefined)
         continue;
       else
@@ -36,7 +36,9 @@ export class PedalboardDrawerPage {
         continue;
       else
         target = Util.input(this.effects[connection.input.effect], connection.input.symbol);
+      */
 
+      console.log(source, target);
       this.pedalboardElement.connect(source, target);
     }
 
@@ -52,7 +54,7 @@ export class PedalboardDrawerPage {
   }
 
   get systemEffect() {
-    return null;//this.pedalboardElement.systemEffect;
+    return this.pedalboardElement.systemEffect;
   }
 }
 
@@ -71,6 +73,7 @@ class Util {
   }
 
   static output(effect : Effect, symbol : string) {
+    console.log(symbol);
     return this.plug(effect.outputs, symbol);
   }
 

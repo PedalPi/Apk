@@ -25,8 +25,8 @@ export class SrPedalboard {
     const element = this.element.querySelector('#sr-pedalboard');
 
     const systemEffect = new SystemEffect({
-      outputs: ['capture_1', 'capture_2'],
-      inputs: ['playback_1', 'playback_2']
+      outputs: [{symbol: 'capture_1'}, {symbol: 'capture_2'}],
+      inputs: [{symbol: 'playback_1'}, {symbol: 'playback_2'}]
     });
     this.pedalboard = new Pedalboard(element, systemEffect);
   }
@@ -60,9 +60,8 @@ export class SrPedalboard {
   get effects() : Array<Effect> {
     return this.pedalboard.effects;
   }
-  /*
+
   get systemEffect() {
     return this.pedalboard.systemEffect;
   }
-  */
 }
