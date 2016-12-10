@@ -17,6 +17,9 @@ export class Pedalboard {
 
   constructor(svgElement, systemEffect : SystemEffect) {
     this.systemEffect = systemEffect;
+    this.systemEffect.outputs
+          .forEach(output => output.onConnectedListener =
+                  (output, input) => this.addConnection(output, input));
 
     this.view = new PedalboardView(svgElement);
     this.view.updateSystemEffect(this.systemEffect);

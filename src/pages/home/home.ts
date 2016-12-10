@@ -28,6 +28,8 @@ export class HomePage {
       private ws : WebSocketService) {
     // ws injected in the first page to start web socket connection
     ws.onConnectedListener = () => this.loadData();
+
+    document.querySelector('body').webkitRequestFullscreen();
   }
 
   get service() : CurrentService {
@@ -71,6 +73,9 @@ export class HomePage {
   }
 
   goToPedalboardDrawer() {
+    //document.querySelector('body').webkitRequestFullscreen();
+    //(<any> window.screen).orientation.lock('landscape').then(alert, alert);
+
     let params = {
       pedalboard: ModelUtil.getBank(this.data.remote.banks, 0)['pedalboards'][0]
     };

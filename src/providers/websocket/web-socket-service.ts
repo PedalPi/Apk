@@ -31,9 +31,11 @@ export class WebSocketService {
   private loading: any;
 
   private loadingCtrl : LoadingController;
+  private toastCtrl : ToastController;
 
-  constructor(data : DataService, ref: ApplicationRef, loadingCtrl: LoadingController) {
+  constructor(data : DataService, ref: ApplicationRef, loadingCtrl: LoadingController, toastCtrl : ToastController) {
     this.loadingCtrl = loadingCtrl;
+    this.toastCtrl = toastCtrl;
     this.forceReconnection = false;
     this.tryingReconnect = false;
 
@@ -61,6 +63,11 @@ export class WebSocketService {
       this.forceReconnection = true;
       this.tryingReconnect = false;
       this.onConnectedListener();
+
+      this.toastCtrl.create({
+        message: 'Device connected',
+        duration: 3000
+      }).present();
     }
 
     connection.onclose = () => {
@@ -70,6 +77,19 @@ export class WebSocketService {
       this.tryingReconnect = true;
       this.loading = this.loadingCtrl.create({content: "Trying reconnect"});
       this.loading.present();
+    }
+
+    connection.onerror = (error, asd) => {
+      console.log(error);
+
+      this.toastCtrl.create({
+        message: 'Connection error',
+        duration: 3000
+      }).present();
+
+      if (this.loading)
+        this.loading.dismiss();
+      connection.close();
     }
 
     this.connection = connection;

@@ -9,6 +9,11 @@
 <ion-content class="configurations">
   <ion-item>
     <ion-label stacked primary>Device ip</ion-label>
-    <ion-input placeholder="192.168.0.1" [value]="ip" (input)='setIp($event.target.value)'></ion-input>
+    <ion-input placeholder="http://192.168.0.1" [(ngModel)]="ip"></ion-input>
   </ion-item>
+
+  <ion-item>
+    <button ion-button full (click)="apply()">Apply</button>
+  </ion-item>
+
 </ion-content>

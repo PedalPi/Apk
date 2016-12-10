@@ -8,10 +8,14 @@ import {WebSocketService} from '../../providers/websocket/web-socket-service';
   templateUrl: 'configurations.html'
 })
 export class ConfigurationsPage {
-  constructor(private nav : NavController, private ws : WebSocketService) {}
+  public ip : string;
 
-  get ip() {
-    return JsonService.server;
+  constructor(private nav : NavController, private ws : WebSocketService) {
+    this.ip = JsonService.server;
+  }
+
+  apply() {
+    this.setIp(this.ip);
   }
 
   setIp(ip : string) {
