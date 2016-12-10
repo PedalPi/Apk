@@ -28,6 +28,7 @@ export class EffectsDrawer {
 
         .on("mousedown", this.selectEffect())
         .on("touchstart",this.selectEffect())
+        .on("dblclick", this.selectEffectDoubleClick())
 
         .call(d3.drag().on("drag", this.drag()));
 
@@ -61,6 +62,13 @@ export class EffectsDrawer {
   private static selectEffect() : (Effect) => any {
     return effect => {
       effect.onSelectedListener(effect);
+      d3.event.stopPropagation();
+    };
+  }
+
+  private static selectEffectDoubleClick() : (Effect) => any {
+    return effect => {
+      effect.onSelectedDoubleClickListener(effect);
       d3.event.stopPropagation();
     };
   }

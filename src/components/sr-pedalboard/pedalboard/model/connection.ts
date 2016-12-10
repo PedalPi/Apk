@@ -1,41 +1,26 @@
-import * as d3 from 'd3';
-
-import {Lv2Effect} from './effect';
+import {Output, Input} from './plug';
 
 
 export class Connection {
-  public source;
-  public target;
+  public index : number;
 
-  constructor(data : {source, target}) {
-    this.source = data.source;
-    this.target = data.target;
+  private outputObject;
+  private inputObject;
+
+  public view = null;
+
+  public onSelectedListener = (connection : Connection) => {};
+
+  constructor(output : Output, input : Input) {
+    this.outputObject = output;
+    this.inputObject = input;
   }
 
-  public details() {
-    const originElement = d3.select(this.source);
-    const destinationElement = d3.select(this.target);
-
-    return {
-      effectSource: Lv2Effect.effectOfPort(originElement)['data'],
-      portSource: d3.select(this.source).data()[0],
-      effectTarget: Lv2Effect.effectOfPort(destinationElement)['data'],
-      portTarget: d3.select(this.target).data()[0]
-    };
+  get output() {
+    return this.outputObject;
   }
 
-  static generateId(connection) {
-    const originElement = d3.select(connection.source);
-    const destinationElement = d3.select(connection.target);
-
-    const portOrigin = originElement.data()[0];
-    const portDestination = destinationElement.data()[0];
-
-    const effectOrigin = Lv2Effect.effectOfPort(originElement);
-    const effectDestination = Lv2Effect.effectOfPort(destinationElement);
-
-    return `Connection-`
-         + `${effectOrigin['id']}:${portOrigin['index']}-`
-         + `${effectDestination['id']}:${portDestination['index']}`;
+  get input() {
+    return this.inputObject;
   }
 }

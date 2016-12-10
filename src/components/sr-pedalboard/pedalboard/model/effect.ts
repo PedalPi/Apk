@@ -1,69 +1,48 @@
-import * as d3 from 'd3';
+import {Input, Output} from './plug';
 
-import {SystemPort} from './port';
 
-export interface Effect {
-  id : number;
-  data : any;
-  inputs : Array<any>;
-  outputs : Array<any>;
-}
-
-export class Lv2Effect implements Effect {
+export class Effect {
   public id : number;
-  private x : number;
-  private y : number;
 
   public data : any;
-  private title : string;
 
+  public x : number;
+  public y : number;
   public view;
 
+  public onSelectedListener = (effect : Effect) => {};
+  public onSelectedDoubleClickListener = (effect : Effect) => {};
+  public onDragListener = (effect : Effect) => {};
+
+  private objectInputs = [];
+  private objectOutputs = [];
+
   constructor(x, y, data) {
-    this.id = -1;
+    this.data = data;
+
     this.x = x;
     this.y = y;
 
-    this.data = data;
-    this.title = data.name;
+    for (let input of this.dataInputs)
+      this.objectInputs.push(new Input(this, input));
+
+    for (let output of this.dataOutputs)
+      this.objectOutputs.push(new Output(this, output));
   }
 
-  dragmove(event) {
-    this.x += event.dx;
-    this.y += event.dy;
-  }
-
-  get inputs() {
+  protected get dataInputs() {
     return this.data.ports.audio.input;
   }
 
-  get outputs() {
+  protected get dataOutputs() {
     return this.data.ports.audio.output;
   }
 
-  static effectOfPort(portElement) {
-    return d3.select(portElement.node().parentElement.parentElement).data()[0];
-  }
-}
-
-export class SystemEffect implements Effect {
-  public id : number;
-  public inputs : Array<SystemPort>;
-  public outputs : Array<SystemPort>;
-
-  public x = 0;
-  public y = 0;
-
-  constructor(inputs : string[], outputs: string[]) {
-    this.id = 0;
-    this.inputs = inputs.map(input => new SystemPort(input, 'system-input'));
-    this.outputs = outputs.map(output => new SystemPort(output, 'system-output'));
+  get inputs() {
+    return this.objectInputs;
   }
 
-  get data() {
-    return {
-      inputs: this.inputs,
-      outputs: this.outputs
-    };
+  get outputs() {
+    return this.objectOutputs;
   }
 }

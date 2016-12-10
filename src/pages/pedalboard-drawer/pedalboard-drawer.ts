@@ -2,7 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import {NavParams} from 'ionic-angular';
 
 import {SrPedalboard} from '../../components/sr-pedalboard/sr-pedalboard';
-import {Effect} from '../../components/sr-pedalboard/pedalboard2/model/effect';
+import {Effect} from '../../components/sr-pedalboard/pedalboard/model/effect';
 
 @Component({
   templateUrl: 'pedalboard-drawer.html',

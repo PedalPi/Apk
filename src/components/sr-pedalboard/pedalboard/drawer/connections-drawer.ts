@@ -42,10 +42,8 @@ export class ConnectionsDrawer {
   }
 
   private static lineFunction() {
-    return (connection) => {
-      console.log(connection);
-      return this.line(connection.output.position, connection.input.position)
-    };
+    return (connection) =>
+      this.line(connection.output.position, connection.input.position)
   }
 
   public static line(source : {x, y}, target : {x, y}) {

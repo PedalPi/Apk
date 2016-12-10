@@ -88,31 +88,31 @@ sr-pedalboard {
   /**************************
    * Ports
    **************************/
-  .effect .input,
-  .effect .output {
+  .input,
+  .output {
     stroke: #333;
     stroke-width: 2px;
   }
 
-  .effect .input {
+  .input {
     fill: gray;
   }
 
-  .effect .output {
+  .output {
     cursor: pointer;
     fill: #F6FBFF;
   }
 
-  .connecting .effect .output {
+  .connecting .output {
     cursor: no-drop;
   }
 
-  .connecting .effect .input {
+  .connecting .input {
     cursor: pointer;
     fill: red;
   }
 
-  .connecting .effect .input:hover {
+  .connecting .input:hover {
     fill: rgb(200, 238, 241);
   }
 }

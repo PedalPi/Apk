@@ -13,13 +13,13 @@ abstract class PlugDrawer {
     this.effectSize = effectSize;
   }
 
-  drawIn(container) {
+  drawIn(container, reverse : boolean = false) {
     return container.selectAll("circle")
       .data(effect => this.plugs(effect))
       .enter()
       .append("circle")
         .attr("r", PlugDrawer.RADIUS)
-        .attr("cx", this.x())
+        .attr("cx", this.x(reverse))
         .attr("cy", this.y())
       .each(function(object) {
         object.view = d3.select(this);
@@ -28,7 +28,7 @@ abstract class PlugDrawer {
 
   plugs(effect) {}
 
-  abstract x();
+  abstract x(reverse : boolean);
 
   y() {
     return (data, index) => {
@@ -45,8 +45,8 @@ export class InputPlugDrawer extends PlugDrawer {
     return effect.inputs;
   }
 
-  x() {
-    return (data, index) => this.effectSize.width/2 * -1;
+  x(reverse : boolean) {
+    return (data, index) => this.effectSize.width/2 * (!reverse ? -1 : 1);
   }
 }
 
@@ -63,12 +63,12 @@ export class OutputPlugDrawer extends PlugDrawer {
     return effect.outputs;
   }
 
-  x() {
-    return (data, index) => this.effectSize.width/2;
+  x(reverse : boolean) {
+    return (data, index) => this.effectSize.width/2 * (reverse ? -1 : 1);
   }
 
-  drawIn(container) {
-    return super.drawIn(container)
+  drawIn(container, reverse : boolean = false) {
+    return super.drawIn(container, reverse)
       .call(this.generateDragBehavior());
   }
 

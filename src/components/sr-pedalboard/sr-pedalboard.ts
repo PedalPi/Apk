@@ -1,9 +1,10 @@
 import { ElementRef } from '@angular/core';
 
 import {Component} from '@angular/core';
-import {Pedalboard} from './pedalboard2/pedalboard2';
-import {Effect} from './pedalboard2/model/effect';
-import {Output, Input} from './pedalboard2/model/plug';
+import {Pedalboard} from './pedalboard/pedalboard';
+import {Effect} from './pedalboard/model/effect';
+import {SystemEffect} from './pedalboard/model/system-effect';
+import {Output, Input} from './pedalboard/model/plug';
 
 import {Connection} from './pedalboard/model/connection';
 
@@ -23,8 +24,11 @@ export class SrPedalboard {
   ngOnInit() {
     const element = this.element.querySelector('#sr-pedalboard');
 
-    //const systemEffect = new SystemEffect(['playback_1', 'playback_2'], ['capture_1', 'capture_2']);
-    this.pedalboard = new Pedalboard(element);
+    const systemEffect = new SystemEffect({
+      outputs: ['capture_1', 'capture_2'],
+      inputs: ['playback_1', 'playback_2']
+    });
+    this.pedalboard = new Pedalboard(element, systemEffect);
   }
 
   append(effect : Effect) {

@@ -1,17 +1,24 @@
 import {EffectsDrawer} from './drawer/effects-drawer';
 import {ConnectionsDrawer} from './drawer/connections-drawer';
+import {SystemEffectDrawer} from './drawer/system-effect-drawer';
 
 import {Connection} from './model/connection';
 import {Effect} from './model/effect';
+import {SystemEffect} from './model/system-effect';
 import {Plug, Output} from './model/plug';
 import {EdgeConnector} from './drawer/edge-connector';
 import {PlugsColliderDettector} from './util/plugs-collider-dettector';
+
+import {ZoomBehaviour} from './behaviour/zoom-behaviour';
 
 import * as d3 from 'd3';
 
 
 export class PedalboardView {
   private svg;
+  private pedalboardNode;
+
+  private systemEffectNode;
   private connectionsNodes;
   private effectsNodes;
 
@@ -21,13 +28,15 @@ export class PedalboardView {
 
   constructor(svgElement) {
     this.svg = d3.select(svgElement);
+    this.pedalboardNode = this.svg.append('g').attr('id', 'pedalboard');
 
-    this.edgeConnector = new EdgeConnector(this.svg);
+    this.edgeConnector = new EdgeConnector(this.pedalboardNode);
 
-    this.connectionsNodes = this.svg.append("g").attr('id', 'connections').selectAll("g");
-    this.effectsNodes = this.svg.append("g").attr('id', 'effects').selectAll("g");
+    this.connectionsNodes = this.pedalboardNode.append("g").attr('id', 'connections').selectAll("g");
+    this.systemEffectNode = this.pedalboardNode.append("g").attr('id', 'system-effect');
+    this.effectsNodes = this.pedalboardNode.append("g").attr('id', 'effects').selectAll("g");
 
-    //this.systemEffectElement = pedalboard.append("g").attr('id', 'system-node').selectAll('g');
+    new ZoomBehaviour(this.svg, this.pedalboardNode);
   }
 
   /*************************************
@@ -39,6 +48,10 @@ export class PedalboardView {
 
   updateConnections(connections : Array<Connection>) {
     this.connectionsNodes = ConnectionsDrawer.draw(connections, this.connectionsNodes);
+  }
+
+  updateSystemEffect(systemEffect : SystemEffect) {
+    SystemEffectDrawer.draw(systemEffect, this.systemEffectNode, this);
   }
 
   /*************************************
@@ -67,7 +80,7 @@ export class PedalboardView {
    * Connector
    ************************************/
   startConnecting(plugOrigin : Plug) {
-    this.svg.classed('connecting', true);
+    this.pedalboardNode.classed('connecting', true);
     this.edgeConnector.drawToPoint(plugOrigin);
   }
 
@@ -76,7 +89,7 @@ export class PedalboardView {
   }
 
   endConnecting(plugOrigin : Output) {
-    this.svg.classed('connecting', false);
+    this.pedalboardNode.classed('connecting', false);
 
     const plugTarget = PlugsColliderDettector.dettectCollision(plugOrigin, this.connectionsTarget, this.mousePosition);
 
@@ -85,7 +98,7 @@ export class PedalboardView {
   }
 
   private get mousePosition() : {x: number, y: number} {
-    const mouse = d3.mouse(this.svg.node());
+    const mouse = d3.mouse(this.pedalboardNode.node());
     return {
       x: mouse[0],
       y: mouse[1]
@@ -96,6 +109,20 @@ export class PedalboardView {
    * Finds
    ************************************/
   private get connectionsTarget() {
-    return this.svg.selectAll('.connection-target');
+    return this.pedalboardNode.selectAll('.connection-target');
+  }
+
+  get size() {
+    const rect = this.svg.node().getBoundingClientRect();
+
+    return {
+      top: rect.top,
+      bottom: rect.bottom,
+      left: rect.left,
+      right: rect.right,
+
+      height: rect.height,
+      width: rect.width
+    };
   }
 }
