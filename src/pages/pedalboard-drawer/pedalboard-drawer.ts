@@ -73,7 +73,6 @@ class Util {
   }
 
   static output(effect : Effect, symbol : string) {
-    console.log(symbol);
     return this.plug(effect.outputs, symbol);
   }
 

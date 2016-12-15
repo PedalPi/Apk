@@ -11,6 +11,7 @@ import { ConfigurationsPage } from '../pages/configurations/configurations';
 import { PedalboardDrawerPage } from '../pages/pedalboard-drawer/pedalboard-drawer';
 import { PedalboardPage } from '../pages/pedalboard/pedalboard';
 import { PedalboardsPage } from '../pages/pedalboards/pedalboards';
+import { PluginsPage } from '../pages/plugins/plugins';
 
 // Components
 import { SrCombobox } from '../components/sr-combobox/sr-combobox';
@@ -30,47 +31,44 @@ import { JsonService } from '../providers/json/json-service';
 import { WebSocketService } from '../providers/websocket/web-socket-service';
 
 
+const pages = [
+  HomePage,
+  BanksPage,
+  ConfigurationsPage,
+  PedalboardDrawerPage,
+  PedalboardPage,
+  PedalboardsPage,
+  PluginsPage,
+];
+
+const components = [
+  SrCombobox,
+  SrFootswitch,
+  SrIcon,
+  SrKnob,
+  SrParamKnob,
+  SrSlider,
+  SrPedalboard,
+  SrTab,
+  SrTabs,
+  SrToggle,
+];
+
+const services = [
+  DataService,
+  JsonService,
+  WebSocketService
+];
+
 @NgModule({
-  declarations: [
-    MyApp,
-
-    HomePage,
-    BanksPage,
-    ConfigurationsPage,
-    PedalboardDrawerPage,
-    PedalboardPage,
-    PedalboardsPage,
-
-    SrCombobox,
-    SrFootswitch,
-    SrIcon,
-    SrKnob,
-    SrParamKnob,
-    SrSlider,
-    SrPedalboard,
-    SrTab,
-    SrTabs,
-    SrToggle,
-  ],
+  declarations: [MyApp].concat(<any> pages).concat(<any> components),
   imports: [
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-
-    HomePage,
-    BanksPage,
-    ConfigurationsPage,
-    PedalboardDrawerPage,
-    PedalboardPage,
-    PedalboardsPage,
-  ],
+  entryComponents: [MyApp].concat(<any> pages),
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    DataService,
-    JsonService,
-    WebSocketService
-  ]
+  ].concat(<any> services)
 })
 export class AppModule {}

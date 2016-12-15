@@ -6,6 +6,7 @@ import {PedalboardsPage} from '../pedalboards/pedalboards';
 import {PedalboardPage} from '../pedalboard/pedalboard';
 import {ConfigurationsPage} from '../configurations/configurations';
 import {PedalboardDrawerPage} from '../pedalboard-drawer/pedalboard-drawer';
+import {PluginsPage} from '../plugins/plugins';
 
 import {JsonService} from '../../providers/json/json-service';
 import {CurrentService} from '../../providers/json/current-service';
@@ -81,5 +82,9 @@ export class HomePage {
     };
 
     this.nav.push(PedalboardDrawerPage, params);
+  }
+
+  goToPlugins() {
+    this.nav.push(PluginsPage);
   }
 }

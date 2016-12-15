@@ -41,8 +41,15 @@
 
     <ion-card (click)="goToPedalboardDrawer()" class="ion-card-clicable no-shadow">
       <button ion-item [disabled]="!connected">
-        <ion-icon name="md-brush" item-left></ion-icon>
+        <ion-icon item-left><sr-icon icon="icons.svg#icon-conection-plug"></sr-icon></ion-icon>
         <span class="ion-item">Pedalboard drawer</span>
+      </button>
+    </ion-card>
+
+    <ion-card (click)="goToPlugins()" class="ion-card-clicable no-shadow">
+      <button ion-item [disabled]="!connected">
+        <ion-icon name="md-brush" item-left></ion-icon>
+        <span class="ion-item">Plugins</span>
       </button>
     </ion-card>
   </ion-list>
