@@ -1,33 +1,37 @@
 export class PluginsCategories {
   private categories = {
-    "Amplifier": null, "Analyser": null,
+    "Amplifier": null,
+    "Analyser": null,
     "Chorus": 'Humphries-guitar-pedal',
     "Compressor": 'Freepik-car-radio',
     "Delay": null,
     "Distortion": 'Humphries-guitar-pedal-2',
-    "Dynamics": 'Freepik-pedal',
+    "Dynamics": 'Artem-Kovyazin-Guitar-Pedal-2',
     "Equaliser": 'Freepik-equalizer-bars',
     "Expander": null,
-    "Filter": null,
+    "Filter": 'Freepik-pedal-for-guitar',
     "Flanger": 'Freepik-equalizer-bars',
-    "Gate": null,
+    "Gate": 'Artem-Kovyazin-Guitar-Pedal',
     "Generator": null, "Highpass": null, "Instrument": null,
-    "Limiter": null, "Lowpass": null, "Mixer": null,
-    "Modulator": null, "Multiband": null,
+    "Limiter": 'Iconic-Amplifier',
+    "Lowpass": null,
+    "Mixer": null,
+    "Modulator": 'Black-Urco-Guitar-Pedal-MXR',
+    "Multiband": null,
     "Oscillator": null, "Parametric": null,
     "Phaser": 'Freepik-pedal',
-    "Pitch Shifter": null,
+    "Pitch Shifter": 'Black-Urco-Guitar-Pedal',
     "Reverb": 'Freepik-music-recorder',
-    "Simulator": null,
+    "Simulator": 'Freepik-amplifier',
     "Spatial": null, "Spectral": null, "Utility": null,
     "Waveshaper": null
   };
 
   public get unlisted() {
     return [
-      'Analyser', 'Expander', 'Generator', 'Instrument', 'Oscillator',
-      'Highpass', 'Lowpass', 'Multiband', 'Parametric', 'Spectral',
-      'Waveshaper',
+      'Amplifier', 'Analyser', 'Expander', 'Generator', 'Instrument',
+      'Oscillator', 'Highpass', 'Lowpass', 'Mixer', 'Multiband',
+      'Parametric', 'Spatial', 'Spectral', 'Waveshaper',
     ];
   }
 

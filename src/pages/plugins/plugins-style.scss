@@ -7,16 +7,27 @@
     fill: #616161;
   }
 
+  .chorus {
+    --border-color: #0090ff;
+    color: #0090ff;
+    fill: #007ad8;
+    border-color: #9dc9e2;
+  }
+
+  .distortion {
+    stroke: white;
+    stroke-width: 0.2px;
+  }
+
   .flanger {
     fill: rebeccapurple;
     color: rebeccapurple;
     border-color: rgb(214, 172, 255);
   }
 
-  .chorus {
-    fill: #34a7ff;
-    color: #34a7ff;
-    border-color: #9dc9e2;
+  .limiter {
+    stroke-width: 0.5px;
+    stroke: currentColor;
   }
 
   .phaser {
@@ -26,6 +37,14 @@
     border-color: #ffcd70;
 
     stroke: white;
-    stroke-width: 0.5px;
+    stroke-width: 0.7px;
+  }
+  
+  .simulator {
+    fill: #4c0000;
+    stroke: white;
+    stroke-width: .3px;
+    color: #4e3535;
+    border-color: #cebcbc;
   }
 }
