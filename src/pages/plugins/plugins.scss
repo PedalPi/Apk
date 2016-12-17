@@ -46,7 +46,14 @@
     }
   }
 
-  img {
-    width: 80%;
+
+  ion-icon {
+    height: 80%;
+  }
+  img,
+  sr-icon {
+    display: inline-block;
+    width: 85%;
+    height: 100%;
   }
 }

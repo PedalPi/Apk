@@ -1,0 +1,31 @@
+#plugins {
+  sr-icon svg {
+    fill: inherit;
+  }
+
+  button {
+    fill: #616161;
+  }
+
+  .flanger {
+    fill: rebeccapurple;
+    color: rebeccapurple;
+    border-color: rgb(214, 172, 255);
+  }
+
+  .chorus {
+    fill: #34a7ff;
+    color: #34a7ff;
+    border-color: #9dc9e2;
+  }
+
+  .phaser {
+    --pedal-border: orange;
+    color: orange;
+    fill: #ca8200;
+    border-color: #ffcd70;
+
+    stroke: white;
+    stroke-width: 0.5px;
+  }
+}

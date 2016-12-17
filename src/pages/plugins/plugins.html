@@ -12,9 +12,9 @@
 
 <ion-content id="plugins">
   <div class="categories">
-    <button *ngFor="let category of categories" class="ion-card-clicable no-shadow ion-card-item" (click)="categorySelected(category)">
-      <!--<sr-icon>-->
-      <img src="http://image.flaticon.com/icons/svg/77/77653.svg" />
+    <button *ngFor="let category of categories.filtered" class="ion-card-clicable no-shadow ion-card-item" (click)="categorySelected(category)"
+             class="{{categories.parse(category)}}">
+      <ion-icon><sr-icon icon="plugins-icons.svg#{{categories.icon(category)}}"></sr-icon></ion-icon>
       {{category}}
     </button>
   </div>
@@ -36,12 +36,8 @@
 
   http://www.flaticon.com/packs/musicon
   <button>
-    MIXER
     <img src="http://image.flaticon.com/icons/svg/77/77693.svg" />
-  </button>
-  <button>
-    Phaser fill rebecapurple
-    <img src="http://image.flaticon.com/icons/svg/77/77653.svg" />
+    MIXER
   </button>
   <button>
     Reverb

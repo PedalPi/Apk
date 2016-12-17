@@ -1,6 +1,8 @@
 import {JsonService} from '../../providers/json/json-service';
 import {PluginService} from '../../providers/json/plugin-service';
 
+import {PluginsCategories} from './plugins-categories';
+
 
 export class PluginsPresenter {
 
@@ -8,7 +10,7 @@ export class PluginsPresenter {
   public effects : any = [];
   public effectsByCategory : any = {};
 
-  public categories = [];
+  public categories = new PluginsCategories();
 
   constructor(jsonService : JsonService) {
     this.jsonService = jsonService;
@@ -24,24 +26,12 @@ export class PluginsPresenter {
       data => {
         this.effects = data.plugins.sort((a, b) => a.name.localeCompare(b.name));
         this.effectsByCategory = this.separatePluginsByCategory(this.effects);
-
-        this.categories = Object.keys(this.effectsByCategory)
-          .sort((a, b) => a.localeCompare(b))
-          .filter((current) => this.filterCategories.indexOf(current) === -1);
       }
     );
   }
 
   private sort(list) {
     return list;
-  }
-
-  private get filterCategories() {
-    return [
-      'Analyser', 'Expander', 'Generator', 'Instrument', 'Oscillator',
-      'Highpass', 'Lowpass', 'Multiband', 'Parametric', 'Spectral',
-      'Waveshaper',
-    ];
   }
 
   private separatePluginsByCategory(plugins : any[]) : any {
