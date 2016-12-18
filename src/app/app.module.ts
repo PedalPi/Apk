@@ -5,6 +5,7 @@ import { MyApp } from './app.component';
 import 'rxjs/add/operator/map';
 
 // Pages
+import { AboutPage } from '../pages/about/about';
 import { HomePage } from '../pages/home/home';
 import { BanksPage } from '../pages/banks/banks';
 import { ConfigurationsPage } from '../pages/configurations/configurations';
@@ -32,6 +33,7 @@ import { WebSocketService } from '../providers/websocket/web-socket-service';
 
 
 const pages = [
+  AboutPage,
   HomePage,
   BanksPage,
   ConfigurationsPage,

@@ -1,0 +1,14 @@
+#about {
+  ion-icon,
+  sr-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  ion-icon[name][item-left] {
+    font-size: 2.35em;
+  }
+  ion-icon[name]::before {
+    vertical-align: sub;
+  }
+}
