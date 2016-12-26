@@ -15,6 +15,14 @@ export class Pedalboard {
 
   public systemEffect : SystemEffect;
 
+  public listener = {
+    connectionAdded: (connection : Connection) => {},
+    connectionRemoved: (connection : Connection) => {},
+    effectDragEnd: (effect : Effect) => {},
+    effectDoubleClick: (effect : Effect) => {},
+    effectRemoved: (effect : Effect) => {}
+  };
+
   constructor(svgElement, systemEffect : SystemEffect) {
     this.systemEffect = systemEffect;
     this.systemEffect.outputs
@@ -37,6 +45,8 @@ export class Pedalboard {
     effect.id = this.effectIndex++;
     effect.onSelectedListener = (effect : Effect) => this.select(effect);
     effect.onDragListener = (effect : Effect) => this.updateAll();
+    effect.onDragEndListener = (effect : Effect) => this.listener.effectDragEnd(effect);
+    effect.onSelectedDoubleClickListener = (effect : Effect) => this.listener.effectDoubleClick(effect);
 
     effect.outputs
           .forEach(output => output.onConnectedListener =
@@ -53,6 +63,8 @@ export class Pedalboard {
 
     this.connections.push(connection);
     this.view.updateConnections(this.connections);
+
+    this.listener.connectionAdded(connection);
   }
 
   private select(object) {
@@ -77,10 +89,9 @@ export class Pedalboard {
   }
 
   private removeEffect(effect : Effect) {
-    console.log('Effect removed', effect);
-    this.effects.splice(this.effects.indexOf(effect), 1);
     this.removeConnectionsOf(effect);
-    //this.callback.onEffectRemoved(effect.data);
+    this.effects.splice(this.effects.indexOf(effect), 1);
+    this.listener.effectRemoved(effect);
     this.updateAll();
   }
 
@@ -92,12 +103,14 @@ export class Pedalboard {
       }
     );
 
-    connectionsRemoved.map(connection => this.removeConnection(connection));
+    connectionsRemoved.map(connection => {
+      this.removeConnection(connection)
+      this.listener.connectionRemoved(connection)
+    });
   }
 
   private removeConnection(connection : Connection) {
     this.connections.splice(this.connections.indexOf(connection), 1);
-    //this.callback.onConnectionRemoved(connection.details());
     this.view.updateConnections(this.connections);
   }
 }

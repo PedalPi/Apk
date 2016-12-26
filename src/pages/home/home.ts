@@ -14,7 +14,8 @@ import {BanksService} from '../../providers/json/banks-service';
 import {DataService} from '../../providers/data/data-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
 
-import {ModelUtil} from '../../util/model-util'
+import {BanksManager} from '../../plugins-manager/banks-manager'
+
 
 @Component({
   templateUrl: 'home.html',
@@ -43,8 +44,7 @@ export class HomePage {
 
   loadData() {
     this.banksService.getBanks().subscribe(banksData => {
-      this.data.remote = banksData;
-
+      this.data.remote.manager = BanksManager.generate(banksData);
       this.connected = true;
     });
   }
@@ -61,7 +61,7 @@ export class HomePage {
   private openPagesForCurrent(bankIndex : number, pedalboardIndex : number) {
     let params : any = {};
 
-    params.bank = ModelUtil.getBank(this.data.remote.banks, bankIndex);
+    params.bank = this.data.remote.manager;
     params.pedalboard = params.bank.pedalboards[pedalboardIndex];
 
     this.nav.push(BanksPage)
@@ -74,11 +74,8 @@ export class HomePage {
   }
 
   goToPedalboardDrawer() {
-    //document.querySelector('body').webkitRequestFullscreen();
-    //(<any> window.screen).orientation.lock('landscape').then(alert, alert);
-
     let params = {
-      pedalboard: ModelUtil.getBank(this.data.remote.banks, 0)['pedalboards'][0]
+      pedalboard: this.data.remote.banks[0].pedalboards[0]
     };
 
     this.nav.push(PedalboardDrawerPage, params);

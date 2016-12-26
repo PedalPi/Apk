@@ -11,11 +11,12 @@ export class SystemEffectDrawer {
   private constructor() {}
 
   static draw(systemEffect : SystemEffect, systemEffectNode, pedalboardView : PedalboardView) {
-    let size = JSON.parse(JSON.stringify(pedalboardView.size));
-    size.width = size.right - 20;
-    size.height = size.bottom;
+    let size = pedalboardView.size;
 
-    systemEffect.x = size.right/2;
+    size.width = Math.max(size.width, size.height) - 20;
+    size.height = Math.min(size.width, size.height);
+
+    systemEffect.x = size.width/2;
     systemEffect.y = size.bottom/2 + 20;
 
     systemEffectNode = systemEffectNode.data([systemEffect])

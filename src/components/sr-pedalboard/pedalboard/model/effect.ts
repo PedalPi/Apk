@@ -4,6 +4,7 @@ import {Input, Output} from './plug';
 export class Effect {
   public id : number;
 
+  public identifier : any;
   public data : any;
 
   public x : number;
@@ -13,11 +14,13 @@ export class Effect {
   public onSelectedListener = (effect : Effect) => {};
   public onSelectedDoubleClickListener = (effect : Effect) => {};
   public onDragListener = (effect : Effect) => {};
+  public onDragEndListener = (effect : Effect) => {};
 
   private objectInputs = [];
   private objectOutputs = [];
 
-  constructor(x, y, data) {
+  constructor(x, y, data, identifier?) {
+    this.identifier = identifier;
     this.data = data;
 
     this.x = x;

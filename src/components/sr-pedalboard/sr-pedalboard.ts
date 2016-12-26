@@ -43,19 +43,25 @@ export class SrPedalboard {
     this.pedalboard.removeSelected();
   }
 
-  /*
   set onConnectionAdded(callback : (connection: Connection) => void) {
-    this.pedalboard.onConnectionAdded = callback;
+    this.pedalboard.listener.connectionAdded = callback;
   }
 
   set onConnectionRemoved(callback : (connection: Connection) => void) {
-    this.pedalboard.onConnectionRemoved = callback;
+    this.pedalboard.listener.connectionRemoved = callback;
+  }
+
+  set onEffectMoved(callback : (effect: Effect) => void) {
+    this.pedalboard.listener.effectDragEnd = callback;
+  }
+
+  set onDoubleClick(callback : (effect: Effect) => void) {
+    this.pedalboard.listener.effectDoubleClick = callback;
   }
 
   set onEffectRemoved(callback : (effect: Effect) => void) {
-    this.pedalboard.onEffectRemoved = callback;
+    this.pedalboard.listener.effectRemoved = callback;
   }
-  */
 
   get effects() : Array<Effect> {
     return this.pedalboard.effects;

@@ -30,7 +30,10 @@ export class EffectsDrawer {
         .on("touchstart",this.selectEffect())
         .on("dblclick", this.selectEffectDoubleClick())
 
-        .call(d3.drag().on("drag", this.drag()));
+        .call(d3.drag()
+                .on("drag", this.drag())
+                .on('end', this.dragEnd())
+              );
 
     newEffects
       .append("rect")
@@ -79,6 +82,12 @@ export class EffectsDrawer {
       effect.y += d3.event.dy;
 
       effect.onDragListener(effect);
+    }
+  }
+
+  private static dragEnd() {
+    return (effect : Effect) => {
+      effect.onDragEndListener(effect);
     }
   }
 }

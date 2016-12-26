@@ -1,8 +1,13 @@
 import {Component, ViewChild} from '@angular/core';
 import {NavParams} from 'ionic-angular';
 
+import {JsonService} from '../../providers/json/json-service';
+
 import {SrPedalboard} from '../../components/sr-pedalboard/sr-pedalboard';
 import {Effect} from '../../components/sr-pedalboard/pedalboard/model/effect';
+
+import {DataService} from '../../providers/data/data-service';
+
 
 @Component({
   templateUrl: 'pedalboard-drawer.html',
@@ -11,8 +16,16 @@ export class PedalboardDrawerPage {
   @ViewChild(SrPedalboard) pedalboardElement : SrPedalboard;
   private pedalboard : any;
 
-  constructor(params : NavParams) {
+  constructor(params : NavParams, data : DataService, private jsonService : JsonService) {
     this.pedalboard = params.get('pedalboard');
+  }
+
+  private get service() {
+    return this.jsonService.pedalboard;
+  }
+
+  private get effectService() {
+    return this.jsonService.effect;
   }
 
   ionViewWillEnter() {
@@ -26,23 +39,22 @@ export class PedalboardDrawerPage {
       let effectTarget = connection.input.effect == undefined ? this.systemEffect : this.effects[connection.input.effect]
       let target = Util.input(effectTarget, connection.input.symbol);
 
-      /*
-      if (connection.output.effect == undefined)
-        continue;
-      else
-        source = Util.output(this.effects[connection.output.effect], connection.output.symbol);
-
-      if (connection.input.effect == undefined)
-        continue;
-      else
-        target = Util.input(this.effects[connection.input.effect], connection.input.symbol);
-      */
-
-      console.log(source, target);
       this.pedalboardElement.connect(source, target);
     }
 
-    //this.pedalboardElement.onConnectionAdded = connection => console.log('Connection added', connection);
+    this.pedalboardElement.onConnectionAdded = connection => console.log('Connection added', connection);
+    this.pedalboardElement.onEffectMoved = effect => {
+      console.log(this.pedalboard.effects.indexOf(effect.identifier))
+      console.log('Effect moved', effect);
+    };
+    this.pedalboardElement.onDoubleClick = effect => {
+      console.log('Effect double click', effect);
+    };
+    this.pedalboardElement.onEffectRemoved = effect => {
+      const effectIndex = this.pedalboard.effects.indexOf(effect.identifier);
+      this.pedalboard.effects.splice(effectIndex, 1);
+      //this.service.delete(effect);
+    }
   }
 
   removeSeleted() {
@@ -63,7 +75,7 @@ class Util {
     const effects = [];
     let i = 0;
     for (let effect of pedalboard['effects'])
-      effects.push(new Effect(150 + 200 * (i++), 280, effect['pluginData']));
+      effects.push(new Effect(150 + 200 * (i++), 280, effect['pluginData'], effect));
 
     return effects;
   }

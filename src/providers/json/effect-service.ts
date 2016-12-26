@@ -11,7 +11,7 @@ export class EffectService {
     this.router = router;
   }
 
-  private effectUrl(bank : any, pedalboard : any, effect? : any) : string {
+  private url(bank : any, pedalboard : any, effect? : any) : string {
     const pedalboardIndex = bank.pedalboards.indexOf(pedalboard);
     let url = `/bank/${bank.index}/pedalboard/${pedalboardIndex}/effect`;
 
@@ -23,18 +23,18 @@ export class EffectService {
     return this.router.route(url);
   }
 
-  getEffect(bank : any, pedalboard : any, effect : any) {
-    let url = this.effectUrl(bank, pedalboard, effect);
+  get(bank : any, pedalboard : any, effect : any) {
+    let url = this.url(bank, pedalboard, effect);
     return this.rest.get(url);
   }
 
-  saveNewEffect(bank : any, pedalboard : any, effect : any) {
-    let url = this.effectUrl(bank, pedalboard);
+  saveNew(bank : any, pedalboard : any, effect : any) {
+    let url = this.url(bank, pedalboard);
     return this.rest.post(url, effect);
   }
 
-  deleteEffect(bank : any, pedalboard : any, effect : any) {
-    let url = this.effectUrl(bank, pedalboard, effect);
+  delete(bank : any, pedalboard : any, effect : any) {
+    let url = this.url(bank, pedalboard, effect);
     return this.rest.delete(url);
   }
 }

@@ -1,9 +1,9 @@
 import {JsonService} from '../../providers/json/json-service';
 
-import {PedalboardGenerator} from '../../generator/model-generator';
 import {PedalboardService} from '../../providers/json/pedalboard-service';
 
 import {PedalboardsPage} from './pedalboards';
+
 
 export class PedalboardsPresenter {
   private page : PedalboardsPage;
@@ -21,7 +21,7 @@ export class PedalboardsPresenter {
   }
 
   requestSavePedalboard(data : any) : void {
-    const pedalboard = PedalboardGenerator.generate(data.name);
+    const pedalboard = null;//PedalboardGenerator.generate(data.name);
     const savePedalboard = status => this.bank.pedalboards.push(pedalboard);
 
     this.service.saveNew(this.bank, pedalboard).subscribe(savePedalboard);

@@ -49,4 +49,10 @@ export class PedalboardService {
 
     return this.router.route(url);
   }
+
+  updateData(bank, pedalboard, data) {
+    let url = `/bank/${bank.index}/pedalboard/${bank.pedalboards.indexOf(pedalboard)}/data/pedalpi-apk`;
+    
+    return this.rest.put(url, data);
+  }
 }

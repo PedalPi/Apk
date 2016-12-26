@@ -4,8 +4,9 @@ import {DataService} from "../data/data-service";
 import {JsonService} from "../json/json-service";
 import {Injectable} from '@angular/core';
 
-import {ModelUtil} from '../../util/model-util';
 import {ToastController, LoadingController} from 'ionic-angular';
+
+import {Bank} from '../../plugins-manager/model/bank';
 
 
 @Injectable()
@@ -144,13 +145,12 @@ export class WebSocketService {
   }
 
   private onBankCUD(message : any) {
-    const banks = this.data.remote.banks;
-    let bankListIndex = ModelUtil.getBankListIndex(banks, message.bank);
+    const banks = this.data.remote.manager;
 
     if (message.updateType == "UPDATED") {
-      banks[bankListIndex] = message.value;
+      banks[message.bank] = message.value;
     } else if (message.updateType == "DELETED")
-      banks.splice(bankListIndex, 1);
+      banks.splice(message.bank, 1);
     else if (message.updateType == "CREATED")
       banks.push(message.value);
 
@@ -175,7 +175,7 @@ export class WebSocketService {
 
   private onEffectStatusToggled(message : any) {
     const effect = this.effectBy(message);
-    effect.status = !effect.status;
+    effect.toggle();
 
     this.onEffectStatusToggledListener(message);
   }
@@ -187,8 +187,8 @@ export class WebSocketService {
     this.onParamValueChangeListener(message);
   }
 
-  private bankBy(message) : any {
-    return ModelUtil.getBank(this.data.remote.banks, message.bank);
+  private bankBy(message) : Bank {
+    return this.data.remote.manager.banks[message.bank]
   }
 
   private pedalboardBy(message) {
@@ -203,6 +203,6 @@ export class WebSocketService {
 
   private paramBy(message) {
     const effect = this.effectBy(message);
-    return effect.pluginData.ports.control.input[message.param];
+    return effect.params[message.param];
   }
 }

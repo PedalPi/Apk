@@ -50,7 +50,7 @@ export class PedalboardEffectsModal {
     const modal = this.modal.create(EffectsListModal, data);
     modal.onDidDismiss(effect => {
       if (effect) {
-        this.service.saveNewEffect(this.bank, this.pedalboard, effect.uri)
+        this.service.saveNew(this.bank, this.pedalboard, effect.uri)
             .subscribe(data => this.pedalboard["effects"].push(data["effect"]));
       }
     });
@@ -80,7 +80,7 @@ export class PedalboardEffectsModal {
   }
 
   remove(index : number) {
-    this.service.deleteEffect(this.bank, this.pedalboard, this.pedalboard.effects[index])
+    this.service.delete(this.bank, this.pedalboard, this.pedalboard.effects[index])
         .subscribe(() => this.pedalboard["effects"].splice(index, 1))
   }
 

@@ -1,5 +1,3 @@
-import {BankGenerator} from '../../generator/model-generator';
-
 import {DataService} from '../../providers/data/data-service';
 import {JsonService} from '../../providers/json/json-service';
 import {BanksService} from '../../providers/json/banks-service';
@@ -23,7 +21,7 @@ export class BanksPresenter {
   }
 
   get banks() {
-    return this.data.remote.banks;
+    return this.data.remote.manager.banks;
   }
 
   bankIndex(bank) {
@@ -31,7 +29,7 @@ export class BanksPresenter {
   }
 
   requestSaveBank(data: any) : void {
-    const bank = BankGenerator.generate(data.name);
+    const bank = null;//BankGenerator.generate(data.name);
     const saveBank = status => {
       bank.index = status.index;
       this.banks.push(bank);
