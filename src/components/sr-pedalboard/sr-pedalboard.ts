@@ -1,5 +1,7 @@
 import { ElementRef } from '@angular/core';
 
+import {BanksManager} from '../../plugins-manager/banks-manager';
+
 import {Component} from '@angular/core';
 import {Pedalboard} from './pedalboard/pedalboard';
 import {Effect} from './pedalboard/model/effect';
@@ -25,9 +27,10 @@ export class SrPedalboard {
     const element = this.element.querySelector('#sr-pedalboard');
 
     const systemEffect = new SystemEffect({
-      outputs: [{symbol: 'capture_1'}, {symbol: 'capture_2'}],
-      inputs: [{symbol: 'playback_1'}, {symbol: 'playback_2'}]
+      outputs: BanksManager.SYSTEM_EFFECT.outputs,
+      inputs: BanksManager.SYSTEM_EFFECT.inputs
     });
+
     this.pedalboard = new Pedalboard(element, systemEffect);
   }
 
@@ -69,5 +72,13 @@ export class SrPedalboard {
 
   get systemEffect() {
     return this.pedalboard.systemEffect;
+  }
+
+  get effectPositions() {
+    const positions = [];
+    for (let effect of this.pedalboard.effects)
+      positions.push({x: effect.x, y: effect.y})
+
+    return positions;
   }
 }

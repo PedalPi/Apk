@@ -1,15 +1,16 @@
 import {Bank} from './model/bank';
+import {SystemEffect} from './model/system/system-effect';
 import {PersistenceDecoder} from './decoder/persistence-decoder';
 
 
 export class BanksManager {
   public banks : Bank[] = []
 
-  static systemEffect = null;
+  static SYSTEM_EFFECT = new SystemEffect('system', ['capture_1', 'capture_2'], ['playback_1', 'playback_2'])
 
   static generate(data: any) {
     const manager = new BanksManager()
-    const decoder = new PersistenceDecoder(BanksManager.systemEffect)
+    const decoder = new PersistenceDecoder(BanksManager.SYSTEM_EFFECT)
 
     for (let bankJson of BanksManager.order(data)) {
       const bank = decoder.read(bankJson)

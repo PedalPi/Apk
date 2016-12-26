@@ -1,6 +1,8 @@
 import {Rest} from './rest';
 import {Router} from './router';
 
+import {Pedalboard} from '../../plugins-manager/model/pedalboard';
+
 
 export class PedalboardService {
   private rest : Rest;
@@ -50,9 +52,12 @@ export class PedalboardService {
     return this.router.route(url);
   }
 
-  updateData(bank, pedalboard, data) {
-    let url = `/bank/${bank.index}/pedalboard/${bank.pedalboards.indexOf(pedalboard)}/data/pedalpi-apk`;
-    
+  updateData(pedalboard: Pedalboard, data) {
+    const key = 'pedalpi-apk';
+    const bank = pedalboard.bank;
+    let url = this.router.route(`/bank/${bank.index}/pedalboard/${pedalboard.index}/data/${key}`);
+    console.log(url);
+
     return this.rest.put(url, data);
   }
 }

@@ -12,6 +12,10 @@ export class Effect {
   public inputs : Input[] = []
   public outputs : Output[] = []
 
+  get index() {
+    return this.pedalboard.effects.indexOf(this);
+  }
+
   toggle() {
     this.active = !this.active
   }

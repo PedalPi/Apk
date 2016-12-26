@@ -6,6 +6,10 @@ import {JsonService} from '../../providers/json/json-service';
 import {SrPedalboard} from '../../components/sr-pedalboard/sr-pedalboard';
 import {Effect} from '../../components/sr-pedalboard/pedalboard/model/effect';
 
+import {Pedalboard} from '../../plugins-manager/model/pedalboard';
+import {Lv2Effect} from '../../plugins-manager/model/lv2/lv2-effect';
+import {Connection} from '../../plugins-manager/model/connection';
+
 import {DataService} from '../../providers/data/data-service';
 
 
@@ -32,20 +36,15 @@ export class PedalboardDrawerPage {
     for (let effect of Util.generateEffects(this.pedalboard))
       this.pedalboardElement.append(effect);
 
-    for (let connection of this.pedalboard.connections) {
-      let effectSource = connection.output.effect == undefined ? this.systemEffect : this.effects[connection.output.effect]
-      let source = Util.output(effectSource, connection.output.symbol);
-
-      let effectTarget = connection.input.effect == undefined ? this.systemEffect : this.effects[connection.input.effect]
-      let target = Util.input(effectTarget, connection.input.symbol);
-
-      this.pedalboardElement.connect(source, target);
-    }
+    for (let connection of this.pedalboard.connections)
+      this.pedalboardElement.connect(this.source(connection), this.target(connection));
 
     this.pedalboardElement.onConnectionAdded = connection => console.log('Connection added', connection);
     this.pedalboardElement.onEffectMoved = effect => {
-      console.log(this.pedalboard.effects.indexOf(effect.identifier))
-      console.log('Effect moved', effect);
+      const data = { effectPositions: this.pedalboardElement.effectPositions }
+      this.pedalboard.data = {'pedalpi-apk': data};
+
+      this.service.updateData(this.pedalboard, data).subscribe();
     };
     this.pedalboardElement.onDoubleClick = effect => {
       console.log('Effect double click', effect);
@@ -55,6 +54,16 @@ export class PedalboardDrawerPage {
       this.pedalboard.effects.splice(effectIndex, 1);
       //this.service.delete(effect);
     }
+  }
+
+  private source(connection : Connection) {
+    let effectSource = connection.output.constructor.name == 'SystemOutput' ? this.systemEffect : this.effects[connection.output.effect.index]
+    return Util.output(effectSource, connection.output.symbol);
+  }
+
+  private target(connection : Connection) {
+    let effectTarget = connection.input.constructor.name == 'SystemInput' ? this.systemEffect : this.effects[connection.input.effect.index]
+    return Util.input(effectTarget, connection.input.symbol);
   }
 
   removeSeleted() {
@@ -71,11 +80,23 @@ export class PedalboardDrawerPage {
 }
 
 class Util {
-  static generateEffects(pedalboard) : Array<Effect> {
+  static generateEffects(pedalboard : Pedalboard) : Array<Effect> {
+    let positions;
+
+    if ('pedalpi-apk' in pedalboard.data)
+      positions = pedalboard.data['pedalpi-apk'].effectPositions;
+
     const effects = [];
+
     let i = 0;
-    for (let effect of pedalboard['effects'])
-      effects.push(new Effect(150 + 200 * (i++), 280, effect['pluginData'], effect));
+    for (let i=0; i<pedalboard.effects.length; i++) {
+      const effect = pedalboard.effects[i];
+      const position = positions[i];
+      const x = position != undefined ? position.x : 150 + 200 * i;
+      const y = position != undefined ? position.y : 280
+
+      effects.push(new Effect(x, y, (<Lv2Effect> effect).plugin, effect));
+    }
 
     return effects;
   }
@@ -84,7 +105,7 @@ class Util {
     return this.plug(effect.inputs, symbol);
   }
 
-  static output(effect : Effect, symbol : string) {
+  static output(effect, symbol : string) {
     return this.plug(effect.outputs, symbol);
   }
 

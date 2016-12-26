@@ -75,7 +75,7 @@ export class HomePage {
 
   goToPedalboardDrawer() {
     let params = {
-      pedalboard: this.data.remote.banks[0].pedalboards[0]
+      pedalboard: this.data.remote.manager.banks[0].pedalboards[0]
     };
 
     this.nav.push(PedalboardDrawerPage, params);

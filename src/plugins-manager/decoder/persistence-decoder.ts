@@ -47,15 +47,16 @@ class PedalboardReader extends Reader {
   read(json) {
     const pedalboard = new Pedalboard(json['name'])
 
-    const effect_reader = new EffectReader(this.systemEffect)
-    for (let effect_json of json['effects'])
-        pedalboard.effects.push(effect_reader.read(effect_json))
+    const effectReader = new EffectReader(this.systemEffect)
+    for (let effectJson of json['effects']) {
+      const effect = effectReader.read(effectJson)
+      effect.pedalboard = pedalboard
+      pedalboard.effects.push(effect)
+    }
 
-    /*
     const connectionReader = new ConnectionReader(pedalboard, this.systemEffect)
     for (let connectionJson of json['connections'])
       pedalboard.connections.push(connectionReader.read(connectionJson))
-    */
 
     if ('data' in json)
       pedalboard.data = json['data']
@@ -114,29 +115,33 @@ class ConnectionReader extends Reader {
     return new Connection(output, input)
   }
 
-  private readOutput(this, json) {
-    const index = json['symbol']
-
+  private readOutput(json) {
     const effectIndex = json['effect']
     const effect = this.pedalboard.effects[effectIndex]
 
-    return effect.outputs[index]
+    return this.genericReadOutput(effect, json['symbol']);
   }
 
-  private readInput(this, json) {
-    const index = json['symbol']
-
+  private readInput(json) {
     const effectIndex = json['effect']
     const effect = this.pedalboard.effects[effectIndex]
 
-    return effect.inputs[index]
+    return this.genericReadInput(effect, json['symbol']);
   }
 
-  private readSystemOutput(this, json) {
-    return this.systemEffect.outputs[json['symbol']]
+  private readSystemOutput(json) {
+    return this.genericReadOutput(this.systemEffect, json['symbol']);
   }
 
-  private readSystemInput(this, json) {
-    return this.systemEffect.inputs[json['symbol']]
+  private readSystemInput(json) {
+    return this.genericReadInput(this.systemEffect, json['symbol']);
+  }
+
+  private genericReadOutput(effect, symbol) {
+    return effect.outputs.filter(output => output.symbol == symbol)[0]
+  }
+
+  private genericReadInput(effect, symbol) {
+    return effect.inputs.filter(input => input.symbol == symbol)[0]
   }
 }
