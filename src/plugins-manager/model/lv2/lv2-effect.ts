@@ -22,7 +22,7 @@ export class Lv2Effect extends Effect {
       'technology': 'lv2',
       'plugin': this.plugin['uri'],
       'active': this.active,
-      'params': this.params.map(param => param.json),
+      'params': this.params.map(param => param.json()),
     }
   }
 }

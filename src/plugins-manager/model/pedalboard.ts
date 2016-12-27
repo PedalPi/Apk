@@ -25,8 +25,8 @@ export class Pedalboard {
   json() {
     return {
       'name': this.name,
-      'effects': this.effects.map(effect => effect.json),
-      'connections': this.connections.map(connection => connection.json),
+      'effects': this.effects.map(effect => effect.json()),
+      'connections': this.connections.map(connection => connection.json()),
       'data': this.data
     }
   }

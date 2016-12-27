@@ -2,6 +2,9 @@ import {DataService} from '../../providers/data/data-service';
 import {JsonService} from '../../providers/json/json-service';
 import {BanksService} from '../../providers/json/banks-service';
 
+import {Bank} from '../../plugins-manager/model/bank';
+import {Pedalboard} from '../../plugins-manager/model/pedalboard';
+
 import {BanksPage} from './banks';
 
 
@@ -21,19 +24,19 @@ export class BanksPresenter {
   }
 
   get banks() {
-    return this.data.remote.manager.banks;
+    return this.manager.banks;
   }
 
-  bankIndex(bank) {
-    return this.banks.indexOf(bank);
+  get manager() {
+    return this.data.remote.manager;
   }
 
   requestSaveBank(data: any) : void {
-    const bank = null;//BankGenerator.generate(data.name);
-    const saveBank = status => {
-      bank.index = status.index;
-      this.banks.push(bank);
-    }
+    const bank = new Bank(data.name);
+    bank.manager = this.data.remote.manager;
+    bank.pedalboards.push(new Pedalboard('Empty pedalboard'));
+
+    const saveBank = status => this.manager.banks.push(bank);
 
     this.service.saveNew(bank).subscribe(saveBank);
   }
@@ -41,13 +44,13 @@ export class BanksPresenter {
   requestRenameBank(bank : any, data: any) : void {
     bank.name = data.name;
 
-    this.service.update(bank, this.bankIndex(bank)).subscribe(() => {});
+    this.service.update(bank).subscribe(() => {});
   }
 
   requestDeleteBank(bank : any) : void {
     const deleteBank = () => this.banks.splice(this.banks.indexOf(bank), 1);
 
-    this.service.delete(this.bankIndex(bank)).subscribe(deleteBank);
+    this.service.delete(bank).subscribe(deleteBank);
   }
 
   reorderItems(from, to) : void {
@@ -59,10 +62,10 @@ export class BanksPresenter {
     const bankA = this.banks[from];
     const bankB = this.banks[to];
 
-    const indexA = this.bankIndex(bankA);
-    const indexB = this.bankIndex(bankB);
+    const indexA = bankA.index;
+    const indexB = bankB.index;
 
-    this.service.swap(indexA, indexB)
+    this.service.swap(bankA, bankB)
         .subscribe(() => {
           bankA.index = indexB
           bankB.index = indexA

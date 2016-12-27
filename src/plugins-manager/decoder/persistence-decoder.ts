@@ -24,11 +24,10 @@ abstract class Reader {
 }
 
 
-class BankReader extends Reader{
+class BankReader extends Reader {
 
   read(json) {
     const bank = new Bank(json['name'])
-    bank.index = json['index']
 
     const pedalboardReader = new PedalboardReader(this.systemEffect)
     for (let pedalboardJson of json['pedalboards']) {

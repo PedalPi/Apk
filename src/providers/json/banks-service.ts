@@ -1,6 +1,8 @@
 import {Rest} from './rest';
 import {Router} from './router';
 
+import {Bank} from '../../plugins-manager/model/bank';
+
 
 export class BanksService {
   private rest : Rest;
@@ -24,22 +26,22 @@ export class BanksService {
     return this.rest.get(this.urlAll());
   }
 
-  saveNew(bank : any) {
-    return this.rest.post(this.url(), bank);
+  saveNew(bank : Bank) {
+    return this.rest.post(this.url(), bank.json());
   }
 
-  update(bank : any, index : number) {
-    let url = this.url(index);
-    return this.rest.put(url, bank);
+  update(bank : Bank) {
+    let url = this.url(bank.index);
+    return this.rest.put(url, bank.json());
   }
 
-  delete(bank : number) {
-    let url = this.url(bank);
+  delete(bank : Bank) {
+    let url = this.url(bank.index);
     return this.rest.delete(url);
   }
 
-  swap(bankA : number, bankB : number) {
-    let url = this.swapUrl(bankA, bankB);
+  swap(bankA : Bank, bankB : Bank) {
+    let url = this.swapUrl(bankA.index, bankB.index);
     return this.rest.put(url, {});
   }
 

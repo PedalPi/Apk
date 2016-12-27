@@ -3,7 +3,6 @@ import {Pedalboard} from './pedalboard'
 
 
 export class Bank {
-  public index : number
   public name : string
   public pedalboards : Pedalboard[]
   public manager : BanksManager
@@ -15,11 +14,15 @@ export class Bank {
     this.manager = null
   }
 
+  get index() {
+    return this.manager.banks.indexOf(this)
+  }
+
   json() {
     return {
       'index': this.index,
       'name': this.name,
-      'pedalboards': this.pedalboards.map(pedalboard => pedalboard.json)
+      'pedalboards': this.pedalboards.map(pedalboard => pedalboard.json())
     }
   }
 }

@@ -28,7 +28,7 @@ export class BanksManager {
 
   json() {
     return {
-      'banks': this.banks.map(bank => bank.json)
+      'banks': this.banks.map(bank => bank.json())
     }
   }
 }
