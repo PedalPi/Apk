@@ -8,13 +8,17 @@ export abstract class Param {
     this.value = defaultValue
   }
 
+  get relativeIndex() : number {
+    return this.effect.params.indexOf(this)
+  }
+
   abstract get minimum() : number
   abstract get maximum() : number
   abstract get symbol() : string
 
   json() {
     return {
-      'index': this.effect.params.indexOf(this),
+      'index': this.relativeIndex,
       'minimum': this.minimum,
       'maximum': this.maximum,
       'symbol': this.symbol,

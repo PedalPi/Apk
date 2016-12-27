@@ -1,6 +1,8 @@
 import {Rest} from './rest';
 import {Router} from './router';
 
+import {Lv2Param} from '../../plugins-manager/model/lv2/lv2-param';
+
 
 export class ParamService {
   private rest : Rest;
@@ -11,22 +13,22 @@ export class ParamService {
     this.router = router;
   }
 
-  private paramUrl(bank : any, pedalboard : any, effect : any, param : any) : string {
-    let pedalboardIndex = bank.pedalboards.indexOf(pedalboard);
-    let effectIndex = pedalboard.effects.indexOf(effect);
-    let paramIndex = effect.pluginData.ports.control.input.indexOf(param);
+  private paramUrl(param : Lv2Param) : string {
+    const effect = param.effect
+    const pedalboard = effect.pedalboard
+    const bank = pedalboard.bank
 
-    let url = `/bank/${bank.index}/pedalboard/${pedalboardIndex}/effect/${effectIndex}/param/${paramIndex}`;
+    let url = `/bank/${bank.index}/pedalboard/${pedalboard.index}/effect/${effect.index}/param/${param.relativeIndex}`;
     return this.router.route(url);
   }
 
-  getParam(bank : any, pedalboard : any, effect : any, param : any) {
-    let url = this.paramUrl(bank, pedalboard, effect, param);
+  getParam(param : Lv2Param) {
+    let url = this.paramUrl(param);
     return this.rest.get(url);
   }
 
-  updateParam(bank : any, pedalboard : any, effect : any, param : any) {
-    let url = this.paramUrl(bank, pedalboard, effect, param);
+  updateParam(param : Lv2Param) {
+    let url = this.paramUrl(param);
     return this.rest.put(url, param.value);
   }
 }

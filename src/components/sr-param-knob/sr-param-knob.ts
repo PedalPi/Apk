@@ -4,51 +4,42 @@ import {
   EventEmitter
 } from '@angular/core';
 
+import {Lv2Param} from '../../plugins-manager/model/lv2/lv2-param';
+
 
 @Component({
   selector: 'sr-param-knob',
   templateUrl: 'sr-param-knob.html',
 })
 export class SrParamKnob {
-  @Input() parameter : any;
+  @Input() parameter : Lv2Param;
   @Output('onChange') onChange = new EventEmitter();
 
-  constructor() {
-    this.parameter = {
-      name: 'Name',
-      value: 0,
-      ranges: {
-        minimum: 0,
-        maximum: 0,
-        default: 0
-      },
-      units: {}
-    };
-  }
+  constructor() {}
 
   get name() : string {
-    return this.parameter.name.toLowerCase();
+    return this.parameter.data.name.toLowerCase();
   }
 
-  get value() : string {
+  get valueRepresentation() : string {
     return this.render(this.parameter.value);
   }
 
-  get minimum() : string {
-    return this.truncate(this.parameter.ranges.minimum, 2) + "";
+  get minimumRepresentation() : string {
+    return this.truncate(this.parameter.minimum, 2) + "";
   }
 
-  get maximum() : string {
-    return this.render(this.parameter.ranges.maximum);
+  get maximumRepretation() : string {
+    return this.render(this.parameter.maximum);
   }
 
   private render(value) : string {
     value = this.truncate(value, 2);
 
-    if (!this.parameter.units.hasOwnProperty('render'))
+    if (!this.parameter.data.units.hasOwnProperty('render'))
       return value + "";
 
-    let render = this.parameter.units.render;
+    let render = this.parameter.data.units.render;
 
     return sprintf(render, value);
   }

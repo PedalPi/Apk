@@ -18,28 +18,28 @@
   <button id="effects" icon-only ion-button clear (click)="manageEffects()"><ion-icon name="md-shuffle"></ion-icon></button>
   <sr-tabs id="tabs" (onSelect)="setCurrentEffect($event)">
 
-    <sr-tab *ngFor="let effect of pedalboard.effects" title="{{effect.pluginData.name}}" [hidden]="effect != currentEffect">
+    <sr-tab *ngFor="let effect of pedalboard.effects" title="{{effect.plugin.name}}" [hidden]="effect != currentEffect">
       <div id="parameters">
-        <span *ngFor="let parameter of effect.pluginData.ports.control.input" class="parameter {{parameterType(parameter)}}">
+        <span *ngFor="let parameter of effect.params" class="parameter {{parameter.parameterType()}}">
             <!--
             <sr-slider
-              *ngIf="isParameterKnob(parameter)"
-              (onChange)="onParamUpdated(effect, parameter, parameter.value)"
+              *ngIf="parameter.isKnob()"
+              (onChange)="onParamUpdated(parameter, parameter.value)"
               [parameter]="parameter"></sr-slider>
             -->
             <sr-param-knob
-              *ngIf="isKnob(parameter)"
+              *ngIf="parameter.isKnob()"
               [parameter]="parameter"
-              (onChange)="onParamUpdated(effect, parameter, parameter.value)"></sr-param-knob>
+              (onChange)="onParamUpdated(parameter, parameter.value)"></sr-param-knob>
             <sr-combobox
-              *ngIf="isCombobox(parameter)"
+              *ngIf="parameter.isCombobox()"
               [parameter]="parameter"
-              (onChange)="onParamUpdated(effect, $event, parameter.value)"
+              (onChange)="onParamUpdated(parameter, parameter.value)"
               [selected]="parameter.value"
               ></sr-combobox>
             <sr-toggle
-              *ngIf="isToggle(parameter)"
-              (onChange)="onParamUpdated(effect, $event, parameter.value)"
+              *ngIf="parameter.isToggle()"
+              (onChange)="onParamUpdated(parameter, parameter.value)"
               [parameter]="parameter"></sr-toggle>
         </span>
       </div>

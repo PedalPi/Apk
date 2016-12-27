@@ -3,8 +3,8 @@
 
     <sr-knob
         [(ngModel)]="parameter.value"
-        [min]="parameter.ranges.minimum"
-        [max]="parameter.ranges.maximum"
+        [min]="parameter.minimum"
+        [max]="parameter.maximum"
 
         (onChange)="update($event)"
 
@@ -13,10 +13,10 @@
         ></sr-knob>
 
     <!--
-    <output id="current" for="volume">{{value}}</output>
+    <output id="current" for="volume">{{valueRepresentation}}</output>
     <div id="interval">
-      <output id="min" for="volume">{{minimum}}</output> –
-      <output id="max" for="volume">{{maximum}}</output>
+      <output id="min" for="volume">{{minimumRepresentation}}</output> –
+      <output id="max" for="volume">{{maximumRepretation}}</output>
     </div>
     -->
 </div>

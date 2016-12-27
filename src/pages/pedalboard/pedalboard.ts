@@ -11,14 +11,20 @@ import {EffectsListModal} from '../effects-list/effects-list-modal';
 
 import {PedalboardPresenter} from './pedalboard-presenter';
 
+import {Effect} from '../../plugins-manager/model/effect';
+import {Pedalboard} from '../../plugins-manager/model/pedalboard';
+
+import {Lv2Param} from '../../plugins-manager/model/lv2/lv2-param';
+
+
 @Component({
   templateUrl: 'pedalboard.html',
 })
 export class PedalboardPage {
   @ViewChild(SrTabs) tabs: SrTabs;
 
-  public pedalboard : any;
-  public currentEffect : any;
+  public pedalboard : Pedalboard;
+  public currentEffect : Effect;
 
   private presenter: PedalboardPresenter;
 
@@ -31,7 +37,7 @@ export class PedalboardPage {
       private ws : WebSocketService
     ) {
     const bank = params.get('bank');
-    this.presenter = new PedalboardPresenter(this, jsonService, bank);
+    this.presenter = new PedalboardPresenter(this, jsonService);
     this.toPedalboard(params.get('pedalboard'));
     this.currentEffect = this.pedalboard.effects[0];
   }
@@ -39,7 +45,7 @@ export class PedalboardPage {
   ionViewWillEnter() {
     this.ws.clearListeners();
 
-    this.ws.onCurrentPedalboardChangeListener = (bank, pedalboard) => this.toPedalboard(pedalboard, bank);
+    this.ws.onCurrentPedalboardChangeListener = (bank, pedalboard) => this.toPedalboard(pedalboard);
     this.ws.onPedalboardCUDListener = (message, pedalboard) => {
       if (message.updateType == 'UPDATED')
         this.toPedalboard(pedalboard);
@@ -54,7 +60,7 @@ export class PedalboardPage {
     this.toPedalboard(this.beforePedalboard);
   }
 
-  public get beforePedalboard() : Object {
+  public get beforePedalboard() : Pedalboard {
     return this.presenter.getBeforePedalboardOf(this.pedalboard);
   }
 
@@ -62,14 +68,11 @@ export class PedalboardPage {
     this.toPedalboard(this.nextPedalboard);
   }
 
-  public get nextPedalboard() : Object {
+  public get nextPedalboard() : Pedalboard {
     return this.presenter.getNextPedalboardOf(this.pedalboard);
   }
 
-  private toPedalboard(pedalboard : Object, bank? : Object) {
-    if (bank)
-      this.presenter.bank = bank;
-
+  private toPedalboard(pedalboard : Pedalboard) {
     this.pedalboard = pedalboard;
     this.ref.tick();
 
@@ -82,7 +85,7 @@ export class PedalboardPage {
 
   public manageEffects() {
     const params = {
-      bank: this.presenter.bank,
+      bank: this.pedalboard.bank,
       pedalboard: this.pedalboard,
       jsonService: this.jsonService
     };
@@ -98,9 +101,9 @@ export class PedalboardPage {
     modal.present();
   }
 
-  public onParamUpdated(effect, param, newValue) {
-    this.presenter.requestUpdateParam(this.pedalboard, effect, param, newValue);
-    console.log(`Param ${param.name}: ${param.value}`);
+  public onParamUpdated(param : Lv2Param, newValue : number) {
+    this.presenter.requestUpdateParam(param, newValue);
+    console.log(`Param ${param.data.name}: ${param.value}`);
   }
 
   setEffect() {
@@ -124,37 +127,22 @@ export class PedalboardPage {
     modal.present();
   }
 
-  public toggleEffectStatus(effect) {
-    this.presenter.requestToggleStatusEffect(this.pedalboard, effect);
-  }
-
-  public isKnob(parameter) : boolean {
-    return this.presenter.isParameterKnob(parameter);
-  }
-
-  public isCombobox(parameter) : boolean {
-    return this.presenter.isParameterCombobox(parameter);
-  }
-
-  public isToggle(parameter) : boolean {
-    return this.presenter.isParameterToggle(parameter);
+  public toggleEffectStatus(effect : Effect) {
+    this.presenter.requestToggleStatusEffect(effect);
   }
 
   public get hasCurrentEffect() {
     return this.currentEffect !== undefined;
   }
+
   public get currentEffectStatus() {
     if (this.hasCurrentEffect)
-      return this.currentEffect.status;
+      return this.currentEffect.active;
     else
       return false;
   }
 
-  public parameterType(parameter) : string {
-    return this.presenter.parameterType(parameter);
-  }
-
-  public setCurrentEffect(index) {
+  public setCurrentEffect(index : number) {
     this.currentEffect = this.pedalboard.effects[index];
   }
 }

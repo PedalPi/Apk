@@ -1,16 +1,17 @@
 import {JsonService} from '../../providers/json/json-service';
 
 import {PedalboardsPage} from './pedalboards';
+import {Bank} from '../../plugins-manager/model/bank';
 import {Pedalboard} from '../../plugins-manager/model/pedalboard';
 import {PedalboardService} from '../../providers/json/pedalboard-service';
 
 
 export class PedalboardsPresenter {
   private page : PedalboardsPage;
-  public bank : any;
+  public bank : Bank;
   private jsonService : JsonService;
 
-  constructor(page : PedalboardsPage, bank : any, jsonService : JsonService) {
+  constructor(page : PedalboardsPage, bank : Bank, jsonService : JsonService) {
     this.page = page;
     this.bank = bank;
     this.jsonService = jsonService;
