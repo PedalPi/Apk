@@ -6,7 +6,7 @@
       <ion-select id="select"
         [(ngModel)]="selected" (ionChange)="update()" [selectOptions]="options">
         <ion-option
-          *ngFor="let option of parameter.scalePoints"
+          *ngFor="let option of parameter.data.scalePoints"
           [value]="option.value">{{option.label}}</ion-option>
       </ion-select>
     </span>
