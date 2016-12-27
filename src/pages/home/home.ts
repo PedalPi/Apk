@@ -60,19 +60,12 @@ export class HomePage {
     params.bank = this.data.remote.manager.banks[bankIndex];
     params.pedalboard = params.bank.pedalboards[pedalboardIndex];
 
-    this.nav.insertPages(
-      1,
-      [{page: PedalboardsPage, params: params},
-       {page: PedalboardPage, params: params}]
-    )
-    //insert(insertIndex, page, params, opts)
-    /*
+    const pages = [
+      {page: PedalboardsPage, params: params},
+      {page: PedalboardPage, params: params}
+    ]
 
-
-    this.nav.push(BanksPage)
-        .then(() => this.nav.push(PedalboardsPage, params))
-        .then(() => this.nav.push(PedalboardPage, params));
-    */
+    this.nav.insertPages(1, pages)
   }
 
   goToBanks() {

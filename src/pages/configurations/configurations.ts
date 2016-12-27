@@ -29,4 +29,8 @@ export class ConfigurationsPage {
   about() {
     this.nav.push(AboutPage);
   }
+
+  sameAddress() {
+    this.ip = `http://${window.location.hostname}:3000`
+  }
 }
