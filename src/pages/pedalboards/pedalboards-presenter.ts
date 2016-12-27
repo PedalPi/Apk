@@ -1,8 +1,8 @@
 import {JsonService} from '../../providers/json/json-service';
 
-import {PedalboardService} from '../../providers/json/pedalboard-service';
-
 import {PedalboardsPage} from './pedalboards';
+import {Pedalboard} from '../../plugins-manager/model/pedalboard';
+import {PedalboardService} from '../../providers/json/pedalboard-service';
 
 
 export class PedalboardsPresenter {
@@ -21,24 +21,25 @@ export class PedalboardsPresenter {
   }
 
   requestSavePedalboard(data : any) : void {
-    const pedalboard = null;//PedalboardGenerator.generate(data.name);
+    const pedalboard = new Pedalboard(data.name);
+    pedalboard.bank = this.bank;
     const savePedalboard = status => this.bank.pedalboards.push(pedalboard);
 
-    this.service.saveNew(this.bank, pedalboard).subscribe(savePedalboard);
+    this.service.saveNew(pedalboard).subscribe(savePedalboard);
   }
 
-  requestDeletePedalboard(pedalboard : any) : void {
+  requestDeletePedalboard(pedalboard : Pedalboard) : void {
     const deletePedalboard = () => {
       const pedalboardIndex = this.bank.pedalboards.indexOf(pedalboard);
       this.bank.pedalboards.splice(pedalboardIndex, 1);
     };
 
-    this.service.delete(this.bank, pedalboard).subscribe(deletePedalboard);
+    this.service.delete(pedalboard).subscribe(deletePedalboard);
   }
 
-  requestRenamePedalboard(pedalboard : any, data : any) : void {
+  requestRenamePedalboard(pedalboard : Pedalboard, data : any) : void {
     pedalboard.name = data.name;
-    this.service.update(this.bank, pedalboard).subscribe(() => {});
+    this.service.update(pedalboard).subscribe(() => {});
   }
 
   reorderItems(from, to) : void {

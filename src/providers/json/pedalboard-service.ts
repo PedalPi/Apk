@@ -1,6 +1,7 @@
 import {Rest} from './rest';
 import {Router} from './router';
 
+import {Bank} from '../../plugins-manager/model/bank';
 import {Pedalboard} from '../../plugins-manager/model/pedalboard';
 
 
@@ -13,7 +14,7 @@ export class PedalboardService {
     this.router = router;
   }
 
-  private url(bank : any, pedalboard? : any) : string {
+  private url(bank : Bank, pedalboard? : Pedalboard) : string {
     let url = `/bank/${bank.index}/pedalboard`;
     if (pedalboard)
       url += `/${bank.pedalboards.indexOf(pedalboard)}`;
@@ -26,18 +27,19 @@ export class PedalboardService {
     return this.rest.get(url);
   }
 
-  saveNew(bank : any, pedalboard : any) {
-    let url = this.url(bank);
-    return this.rest.post(url, pedalboard);
+  saveNew(pedalboard : Pedalboard) {
+    let url = this.url(pedalboard.bank);
+    return this.rest.post(url, pedalboard.json());
   }
 
-  update(bank : any, pedalboard : any) {
-    let url = this.url(bank, pedalboard);
-    return this.rest.put(url, pedalboard);
+  update(pedalboard : Pedalboard) {
+    let url = this.url(pedalboard.bank, pedalboard);
+
+    return this.rest.put(url, pedalboard.json());
   }
 
-  delete(bank : any, pedalboard : any) {
-    let url = this.url(bank, pedalboard);
+  delete(pedalboard : Pedalboard) {
+    let url = this.url(pedalboard.bank, pedalboard);
     return this.rest.delete(url);
   }
 
