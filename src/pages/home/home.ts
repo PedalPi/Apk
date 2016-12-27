@@ -61,11 +61,12 @@ export class HomePage {
     params.pedalboard = params.bank.pedalboards[pedalboardIndex];
 
     const pages = [
+      {page: BanksPage, params: params},
       {page: PedalboardsPage, params: params},
       {page: PedalboardPage, params: params}
     ]
 
-    this.nav.insertPages(1, pages)
+    this.nav.insertPages(3, pages)
   }
 
   goToBanks() {
