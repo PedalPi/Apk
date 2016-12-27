@@ -15,8 +15,6 @@ export class SrParamKnob {
   @Input() parameter : Lv2Param;
   @Output('onChange') onChange = new EventEmitter();
 
-  constructor() {}
-
   get name() : string {
     return this.parameter.data.name.toLowerCase();
   }

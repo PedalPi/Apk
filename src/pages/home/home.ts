@@ -50,23 +50,33 @@ export class HomePage {
   }
 
   goToCurrent() {
-    const goToCurrent = data => this.openPagesForCurrent(data.bank, data.pedalboard);
-    this.service.currentData().subscribe(goToCurrent);
-  }
-
-  goToBanks() {
-    this.nav.push(BanksPage);
+    const goToCurrent = data => this.openPagesForCurrent(data.bank, data.pedalboard)
+    this.service.current().subscribe(goToCurrent);
   }
 
   private openPagesForCurrent(bankIndex : number, pedalboardIndex : number) {
     let params : any = {};
 
-    params.bank = this.data.remote.manager;
+    params.bank = this.data.remote.manager.banks[bankIndex];
     params.pedalboard = params.bank.pedalboards[pedalboardIndex];
+
+    this.nav.insertPages(
+      1,
+      [{page: PedalboardsPage, params: params},
+       {page: PedalboardPage, params: params}]
+    )
+    //insert(insertIndex, page, params, opts)
+    /*
+
 
     this.nav.push(BanksPage)
         .then(() => this.nav.push(PedalboardsPage, params))
         .then(() => this.nav.push(PedalboardPage, params));
+    */
+  }
+
+  goToBanks() {
+    this.nav.push(BanksPage);
   }
 
   goToConfigurations() {
