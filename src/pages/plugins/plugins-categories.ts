@@ -12,7 +12,9 @@ export class PluginsCategories {
     "Filter": 'Freepik-pedal-for-guitar',
     "Flanger": 'Freepik-equalizer-bars',
     "Gate": 'Artem-Kovyazin-Guitar-Pedal',
-    "Generator": null, "Highpass": null, "Instrument": null,
+    "Generator": null,
+    "Highpass": null,
+    "Instrument": null,
     "Limiter": 'Iconic-Amplifier',
     "Lowpass": null,
     "Mixer": null,
@@ -23,7 +25,9 @@ export class PluginsCategories {
     "Pitch Shifter": 'Black-Urco-Guitar-Pedal',
     "Reverb": 'Freepik-music-recorder',
     "Simulator": 'Freepik-amplifier',
-    "Spatial": null, "Spectral": null, "Utility": null,
+    "Spatial": null,
+    "Spectral": null,
+    "Utility": null,
     "Waveshaper": null
   };
 

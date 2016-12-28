@@ -3,8 +3,6 @@ import {Connection} from '../model/connection';
 import {Pedalboard} from '../model/pedalboard';
 
 import {Lv2Effect} from '../model/lv2/lv2-effect';
-import {Lv2Input} from '../model/lv2/lv2-input';
-import {Lv2Output} from '../model/lv2/lv2-output';
 import {Lv2Param} from '../model/lv2/lv2-param';
 
 

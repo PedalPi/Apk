@@ -58,7 +58,6 @@ export class PedalboardService {
     const key = 'pedalpi-apk';
     const bank = pedalboard.bank;
     let url = this.router.route(`/bank/${bank.index}/pedalboard/${pedalboard.index}/data/${key}`);
-    console.log(url);
 
     return this.rest.put(url, data);
   }

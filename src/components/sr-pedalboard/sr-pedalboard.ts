@@ -58,7 +58,7 @@ export class SrPedalboard {
     this.pedalboard.listener.effectDragEnd = callback;
   }
 
-  set onDoubleClick(callback : (effect: Effect) => void) {
+  set onEffectDoubleClick(callback : (effect: Effect) => void) {
     this.pedalboard.listener.effectDoubleClick = callback;
   }
 

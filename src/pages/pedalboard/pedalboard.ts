@@ -4,10 +4,7 @@ import {ModalController, NavController, NavParams} from 'ionic-angular';
 import {JsonService} from '../../providers/json/json-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
 
-import {PedalboardEffectsModal} from '../pedalboard-effects/pedalboard-effects-modal';
 import {SrTabs} from '../../components/sr-tabs/sr-tabs';
-
-import {EffectsListModal} from '../effects-list/effects-list-modal';
 
 import {PedalboardPresenter} from './pedalboard-presenter';
 
@@ -36,10 +33,20 @@ export class PedalboardPage {
       private ref: ApplicationRef,
       private ws : WebSocketService
     ) {
-    const bank = params.get('bank');
     this.presenter = new PedalboardPresenter(this, jsonService);
-    this.toPedalboard(params.get('pedalboard'));
-    this.currentEffect = this.pedalboard.effects[0];
+
+    const pedalboard = params.get('pedalboard')
+
+    if (params.get('effect') === undefined)
+      this.currentEffect = pedalboard.effects[0];
+    else
+      this.currentEffect = params.get('effect')
+
+    this.pedalboard = pedalboard;
+  }
+
+  ionViewDidLoad() {
+    this.toPedalboard(this.currentEffect.pedalboard, this.currentEffect);
   }
 
   ionViewWillEnter() {
@@ -72,59 +79,22 @@ export class PedalboardPage {
     return this.presenter.getNextPedalboardOf(this.pedalboard);
   }
 
-  private toPedalboard(pedalboard : Pedalboard) {
+  private toPedalboard(pedalboard : Pedalboard, effect? : Effect) {
     this.pedalboard = pedalboard;
     this.ref.tick();
 
     this.presenter.requestSetCurrentPedalboard(this.pedalboard);
-    this.currentEffect = this.pedalboard.effects[0];
+    this.currentEffect = effect ? effect : this.pedalboard.effects[0];
 
-    if (this.tabs)
-      this.tabs.selectTab(0);
-  }
-
-  public manageEffects() {
-    const params = {
-      bank: this.pedalboard.bank,
-      pedalboard: this.pedalboard,
-      jsonService: this.jsonService
-    };
-
-    const modal = this.modal.create(PedalboardEffectsModal, params);
-    modal.onDidDismiss(data => {
-      if (!data) return;
-
-      this.tabs.selectTab(data.index);
-      this.tabs.focusTab(data.index);
-    });
-
-    modal.present();
+    if (this.tabs) {
+      this.tabs.selectTab(this.currentEffect.index);
+      this.tabs.focusTab(this.currentEffect.index);
+    }
   }
 
   public onParamUpdated(param : Lv2Param, newValue : number) {
     this.presenter.requestUpdateParam(param, newValue);
     console.log(`Param ${param.data.name}: ${param.value}`);
-  }
-
-  setEffect() {
-    const data = {
-      jsonService : this.jsonService
-    };
-
-    const modal = this.modal.create(EffectsListModal, data);
-    modal.onDidDismiss(newEffect => {
-      if (newEffect) {
-        let oldEffect = this.pedalboard.effects[this.tabs.current];
-
-        console.log("Effect selected");
-        console.log(newEffect);
-
-        console.log("Old effect");
-        console.log(oldEffect);
-      }
-    });
-
-    modal.present();
   }
 
   public toggleEffectStatus(effect : Effect) {

@@ -1,11 +1,11 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Pedalboard Drawer
+      {{pedalboard.name}}
     </ion-title>
 
     <ion-buttons end>
-      <button ion-button color="royal"> Effects </button>
+      <button ion-button color="royal" (click)="goToEffects()"> Effects </button>
 
       <button ion-button ico-only color="royal" (click)="removeSeleted()">
         <ion-icon name="remove"></ion-icon>

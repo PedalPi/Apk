@@ -1,5 +1,5 @@
 <ul class="nav nav-tabs">
-  <li *ngFor="let tab of tabs; let i = index" (click)="selectTab(i)" [class.active]="tab.active">
+  <li *ngFor="let tab of tabs; let i = index" (click)="selectTabClick(i)" [class.active]="tab.active">
     <button ion-button clear>{{tab.title}}</button>
   </li>
 </ul>

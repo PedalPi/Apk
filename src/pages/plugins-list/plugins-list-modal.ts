@@ -7,9 +7,9 @@ import {JsonService} from '../../providers/json/json-service';
 
 
 @Component({
-  templateUrl: 'effects-list-modal.html',
+  templateUrl: 'plugins-list-modal.html',
 })
-export class EffectsListModal {
+export class PluginsListModal {
   @ViewChild(SrTabs) tabs: SrTabs;
 
   public items : any;
