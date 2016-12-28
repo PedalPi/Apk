@@ -11,6 +11,9 @@ import {Output, Input} from './pedalboard/model/plug';
 import {Connection} from './pedalboard/model/connection';
 
 
+/**
+ * Based in: https://bl.ocks.org/cjrd/6863459
+ */
 @Component({
   selector: 'sr-pedalboard',
   templateUrl: 'sr-pedalboard.html',

@@ -54,6 +54,20 @@ export class EffectsDrawer {
       effect.view = d3.select(this);
     });
 
+    newEffects.append("text")
+      .attr("text-anchor", "middle")
+      .each(function(effect : Effect) {
+        const words = effect.data.name.split(/\s+/g);
+
+        const element = d3.select(this);
+
+        for (let i=0; i<words.length; i++) {
+          element.append('tspan')
+            .text(words[i]).attr('x', 0)
+            .attr('dy', 15*i);
+        }
+      });
+
     // Merge
     return newEffects.merge(effectsNodesUpdated);
   }
