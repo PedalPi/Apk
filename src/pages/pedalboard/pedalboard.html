@@ -5,11 +5,12 @@
     </ion-title>
 
     <ion-buttons end>
-      <!--
-      <button id="add-pedalboard" ion-button color="royal" (click)="setEffect()">
-        <ion-icon name="create"></ion-icon>
+      <button ion-button ico-only color="royal" (click)="newEffect()">
+        <ion-icon name="add"></ion-icon>
       </button>
-      -->
+      <button ion-button ico-only color="royal" (click)="removeSeleted()">
+        <ion-icon name="remove"></ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -43,25 +44,25 @@
         </span>
       </div>
     </sr-tab>
+    <div id="info" *ngIf="pedalboard.effects.length === 0">
+      <ion-icon name="md-add"></ion-icon>
+      Add effects in this pedalboard
+    </div>
   </sr-tabs>
 </ion-content>
 
-<ion-footer>
+<ion-footer [hidden]="!hasMorePedalboard && !hasCurrentEffect">
   <ion-toolbar position="bottom" id="footer">
-    <ion-card class="ion-card-clicable no-shadow ion-card-item">
-      <button ion-item (click)="toBeforePedalboard()">
-        <ion-icon name="arrow-back"></ion-icon>
-        <span class="label">{{beforePedalboard.name}}</span>
-      </button>
-    </ion-card>
+    <button ion-item (click)="toBeforePedalboard()">
+      <ion-icon name="arrow-back"></ion-icon>
+      <span class="label">{{beforePedalboard.name}}</span>
+    </button>
 
     <sr-footswitch id="footswitch" [(ngModel)]="currentEffectStatus" (onChange)="toggleEffectStatus(currentEffect)" [hidden]="!hasCurrentEffect"></sr-footswitch>
 
-    <ion-card class="ion-card-clicable no-shadow ion-card-item">
-      <button ion-item (click)="toNextPedalboard()">
-        <ion-icon name="arrow-forward"></ion-icon>
-        <span class="label">{{nextPedalboard.name}}</span>
-      </button>
-    </ion-card>
+    <button ion-item (click)="toNextPedalboard()" [disabled]="hasOnlyTwoPedalboards">
+      <ion-icon name="arrow-forward"></ion-icon>
+      <span class="label">{{nextPedalboard.name}}</span>
+    </button>
   </ion-toolbar>
 </ion-footer>

@@ -86,7 +86,7 @@ export class PedalboardPage {
     this.presenter.requestSetCurrentPedalboard(this.pedalboard);
     this.currentEffect = effect ? effect : this.pedalboard.effects[0];
 
-    if (this.tabs) {
+    if (this.hasCurrentEffect) {
       this.tabs.selectTab(this.currentEffect.index);
       this.tabs.focusTab(this.currentEffect.index);
     }
@@ -114,5 +114,13 @@ export class PedalboardPage {
 
   public setCurrentEffect(index : number) {
     this.currentEffect = this.pedalboard.effects[index];
+  }
+
+  public get hasMorePedalboard() {
+    return this.pedalboard.bank.pedalboards.length > 1;
+  }
+
+  public get hasOnlyTwoPedalboards() {
+    return this.pedalboard.bank.pedalboards.length == 2;
   }
 }
