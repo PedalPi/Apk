@@ -35,6 +35,8 @@ export class SrKnob implements ControlValueAccessor {
 
   @Input() src : string;
 
+  @Input() steps : number;
+
   // Sprite drawer
   @Input() sprite : string;
   @Input() spritesTotal : number;
@@ -140,13 +142,19 @@ export class SrKnob implements ControlValueAccessor {
     return this.max - this.min;
   }
 
+  private get step() : number {
+    return this.range / this.steps;
+  }
+
   private update(angle : number) {
     if (angle > 360)
       angle = 360;
     else if (angle < 0)
       angle = 0;
 
-    const newValue = this.valueByAngle(angle);
+    const newAbsoluteValue = this.valueByAngle(angle);
+    const newRelativeValue = this.stepValue(newAbsoluteValue);
+    const newValue = newRelativeValue;
 
     if (this.value == newValue)
       return;
@@ -154,6 +162,18 @@ export class SrKnob implements ControlValueAccessor {
     this.value = newValue;
     this.imageDrawer.updateImage(angle);
     this.onChange.emit(this.value);
+  }
+
+  private stepValue(value) : number {
+    const step = this.step;
+    let newValue = Math.round(value/step) * step;
+
+    if (newValue > this.max)
+      return this.max;
+    if (newValue < this.min)
+      return this.min;
+
+    return newValue;
   }
 
   public updateView() {

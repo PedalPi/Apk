@@ -1,15 +1,21 @@
 import {Behavior} from './behavior';
 import {SrKnob} from './sr-knob';
 
-
 export class CircularBehavior implements Behavior {
+  private static HIGH_CHANGE = 200; // deg
   private clickedMouseAngle : number;
+  private initialAngle : number;
   private lap : number = 0;
-  private lastMouseAngle : number = 0;
+  private lastMouseAngle : number = null;
 
   constructor(private knob : SrKnob) {
     const event = (event) => {
       this.clickedMouseAngle = this.pointerAngle(event);
+      this.initialAngle = this.knob.angleByValue(this.knob.clickedValue);
+
+      if (this.lastMouseAngle == null)
+        this.lastMouseAngle = this.clickedMouseAngle;
+
       this.lap = 0;
     };
 
@@ -18,22 +24,29 @@ export class CircularBehavior implements Behavior {
   }
 
   calculateAngle(event) : number {
-    const initialAngle = this.knob.angleByValue(this.knob.clickedValue);
-    const pointerAngle = this.pointerAngle(event);
+    const currentPointerAngle = this.pointerAngle(event)
+    const changeAngle = currentPointerAngle - this.clickedMouseAngle;
 
-    const HIGH_CHANGE = 200; // deg
-    if ((this.lastMouseAngle - pointerAngle) > HIGH_CHANGE && this.lap < 1)
+    if (this.CLOCKWISE_LIMIT(currentPointerAngle) && this.lap < 1)
       this.lap += 1;
-
-    else if ((this.lastMouseAngle - pointerAngle) < -HIGH_CHANGE && this.lap > -1)
+    else if (this.ANTI_CLOCKWISE_LIMIT(currentPointerAngle) && this.lap > -1)
       this.lap -= 1;
 
-    const changeAngle = pointerAngle - this.clickedMouseAngle;
+    this.lastMouseAngle = currentPointerAngle;
 
-    this.lastMouseAngle = pointerAngle;
+    return this.initialAngle + changeAngle + this.lap*360;
+  }
 
-    let angle = initialAngle + changeAngle + 360*this.lap
-    return angle < 0 ? angle + 360 : angle;
+  CLOCKWISE_LIMIT(currentPointerAngle) {
+    return (this.lastMouseAngle - currentPointerAngle) > CircularBehavior.HIGH_CHANGE;
+  }
+
+  ANTI_CLOCKWISE_LIMIT(currentPointerAngle) {
+    return (this.lastMouseAngle - currentPointerAngle) < -CircularBehavior.HIGH_CHANGE;
+  }
+
+  prepare(num) {
+     return Math.round(num * 100) / 100
   }
 
   pointerAngle(event) {
@@ -52,9 +65,10 @@ export class CircularBehavior implements Behavior {
     const deltaX = eventClientPosition.x - centerX;
     const deltaY = eventClientPosition.y - centerY;
 
-    const angle = (Math.atan2(deltaY, deltaX) * 180 / Math.PI);
+    let angle = (Math.atan2(deltaY, deltaX) * 180 / Math.PI);
+    angle += 270;
 
-    return angle < 0 ? 360 + angle : angle;
+    return angle > 360 ? angle - 360 : angle;
   }
 
   mouseClientPosition(event) {
