@@ -14,6 +14,7 @@ import {Connection} from '../../plugins-manager/model/connection';
 import {DataService} from '../../providers/data/data-service';
 
 import {SrPedalboardFacade} from './sr-pedalboard-facade';
+import {PluginsPage} from '../plugins/plugins';
 
 
 @Component({
@@ -58,6 +59,12 @@ export class PedalboardDrawerPage {
       params['effect'] = effect.identifier
 
     this.nav.push(PedalboardPage, params, {animate: false});
+  }
+
+  addEffect() {
+    const goTo = (resolve, reject) => this.nav.push(PluginsPage, {resolve: resolve})
+
+    new Promise(goTo).then(data => alert('Recebi da tela 2: ' + data))
   }
 
   private savePedalboardData() {

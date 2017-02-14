@@ -11,4 +11,8 @@
   ion-icon[name]::before {
     vertical-align: sub;
   }
+
+  ion-list-header ion-label {
+    white-space: normal;
+  }
 }

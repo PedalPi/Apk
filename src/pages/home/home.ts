@@ -86,6 +86,8 @@ export class HomePage {
   }
 
   goToPlugins() {
-    this.nav.push(PluginsPage);
+    const goTo = (resolve, reject) => this.nav.push(PluginsPage, {resolve: resolve})
+
+    new Promise(goTo).then(data => alert('Recebi da tela 2: ' + data))
   }
 }
