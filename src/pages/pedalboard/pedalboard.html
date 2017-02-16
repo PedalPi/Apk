@@ -44,14 +44,14 @@
 
 <ion-footer [hidden]="!hasMorePedalboard && !hasCurrentEffect">
   <ion-toolbar position="bottom" id="footer">
-    <button ion-item (click)="toBeforePedalboard()">
+    <button ion-item (click)="toBeforePedalboard()" [disabled]="hasOnlyTwoPedalboards && isFirstPedalboard">
       <ion-icon name="arrow-back"></ion-icon>
       <span class="label">{{beforePedalboard.name}}</span>
     </button>
 
     <sr-footswitch id="footswitch" [(ngModel)]="currentEffectStatus" (onChange)="toggleEffectStatus(currentEffect)" [hidden]="!hasCurrentEffect"></sr-footswitch>
 
-    <button ion-item (click)="toNextPedalboard()" [disabled]="hasOnlyTwoPedalboards">
+    <button ion-item (click)="toNextPedalboard()" [disabled]="hasOnlyTwoPedalboards && !isFirstPedalboard">
       <ion-icon name="arrow-forward"></ion-icon>
       <span class="label">{{nextPedalboard.name}}</span>
     </button>

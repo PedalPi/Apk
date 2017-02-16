@@ -123,4 +123,8 @@ export class PedalboardPage {
   public get hasOnlyTwoPedalboards() {
     return this.pedalboard.bank.pedalboards.length == 2;
   }
+
+  public get isFirstPedalboard() {
+    return this.pedalboard.bank.pedalboards[0] == this.pedalboard;
+  }
 }
