@@ -85,13 +85,15 @@ export class PedalboardDrawerPage {
     const newConnection = connection.model;
     this.pedalboard.connections.push(newConnection);
 
-    this.service.connect(this.pedalboard, newConnection);
+    this.service.connect(this.pedalboard, newConnection).subscribe();
   }
 
   private removeConnection(connection) {
+    const newConnection = connection.model;
+
     const connectionIndex = this.pedalboard.connections.indexOf(connection.identifier);
     this.pedalboard.connections.splice(connectionIndex, 1);
 
-    this.service.disconnect(this.pedalboard, connection);
+    this.service.disconnect(this.pedalboard, newConnection).subscribe();
   }
 }
