@@ -1,5 +1,4 @@
 import {Pedalboard} from './pedalboard'
-import {Connection} from './connection'
 import {Param} from './param'
 import {Input} from './input'
 import {Output} from './output'

@@ -1,13 +1,10 @@
-import {Effect} from './effect'
 import {Input} from './input'
 import {Connection} from './connection'
 
+import {Port} from './port';
 
-export abstract class Output {
-  public symbol: string
 
-  constructor(public effect: Effect) {}
-
+export abstract class Output extends Port {
   connect(input: Input) {
     this.effect.pedalboard.connections.push(new Connection(this, input))
   }

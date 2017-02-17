@@ -4,7 +4,7 @@ import {Effect} from './effect';
 export class SystemEffect extends Effect {
 
   constructor(data) {
-    super(0, 0, data);
+    super(0, 0, data, data);
   }
 
   protected get dataInputs() {

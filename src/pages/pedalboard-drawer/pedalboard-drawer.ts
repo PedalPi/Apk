@@ -3,15 +3,9 @@ import {NavController, NavParams} from 'ionic-angular';
 
 import {PedalboardPage} from '../pedalboard/pedalboard';
 import {JsonService} from '../../providers/json/json-service';
+import {DataService} from '../../providers/data/data-service';
 
 import {SrPedalboard} from '../../components/sr-pedalboard/sr-pedalboard';
-import {Effect} from '../../components/sr-pedalboard/pedalboard/model/effect';
-
-import {Pedalboard} from '../../plugins-manager/model/pedalboard';
-import {Lv2Effect} from '../../plugins-manager/model/lv2/lv2-effect';
-import {Connection} from '../../plugins-manager/model/connection';
-
-import {DataService} from '../../providers/data/data-service';
 
 import {SrPedalboardFacade} from './sr-pedalboard-facade';
 import {PluginsPage} from '../plugins/plugins';
@@ -37,13 +31,18 @@ export class PedalboardDrawerPage {
     return this.jsonService.pedalboard;
   }
 
+  private get effectService() {
+    return this.jsonService.pedalboard;
+  }
+
   ionViewDidLoad() {
     new SrPedalboardFacade(this.pedalboardElement, this.pedalboard).load()
 
     this.pedalboardElement.onEffectMoved = effect => this.savePedalboardData();
     this.pedalboardElement.onEffectDoubleClick = effect => this.goToEffects(effect);
 
-    this.pedalboardElement.onConnectionAdded = connection => console.log('Connection added', connection);
+    this.pedalboardElement.onConnectionAdded = connection => this.addConnection(connection);
+    this.pedalboardElement.onConnectionRemoved = connection => this.removeConnection(connection);
     this.pedalboardElement.onEffectRemoved = effect => this.removeEffect(effect);
   }
 
@@ -77,6 +76,22 @@ export class PedalboardDrawerPage {
   private removeEffect(effect) {
     const effectIndex = this.pedalboard.effects.indexOf(effect.identifier);
     this.pedalboard.effects.splice(effectIndex, 1);
+
+    console.log('Effect removed', effect);
     //this.service.delete(effect);
+  }
+
+  private addConnection(connection) {
+    const newConnection = connection.model;
+    this.pedalboard.connections.push(newConnection);
+
+    this.service.connect(this.pedalboard, newConnection);
+  }
+
+  private removeConnection(connection) {
+    const connectionIndex = this.pedalboard.connections.indexOf(connection.identifier);
+    this.pedalboard.connections.splice(connectionIndex, 1);
+
+    this.service.disconnect(this.pedalboard, connection);
   }
 }

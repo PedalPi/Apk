@@ -1,6 +1,7 @@
 import {SrPedalboard} from '../../components/sr-pedalboard/sr-pedalboard';
 
 import {Effect} from '../../components/sr-pedalboard/pedalboard/model/effect';
+import {SystemEffect} from '../../components/sr-pedalboard/pedalboard/model/system-effect';
 
 import {Pedalboard} from '../../plugins-manager/model/pedalboard';
 import {Lv2Effect} from '../../plugins-manager/model/lv2/lv2-effect';
@@ -11,6 +12,14 @@ export class SrPedalboardFacade {
 
   constructor(private pedalboardElement: SrPedalboard, private pedalboard: Pedalboard) {}
 
+  private get systemEffect() : SystemEffect {
+    return this.pedalboardElement.systemEffect;
+  }
+
+  private get effects() : Array<Effect> {
+    return this.pedalboardElement.effects;
+  }
+
   load() {
     for (let effect of this.generateEffects(this.pedalboard))
       this.pedalboardElement.append(effect);
@@ -19,26 +28,8 @@ export class SrPedalboardFacade {
       this.pedalboardElement.connect(this.source(connection), this.target(connection));
   }
 
-  private source(connection : Connection) {
-    let effectSource = connection.output.constructor.name == 'SystemOutput' ? this.systemEffect : this.effects[connection.output.effect.index]
-    return this.output(effectSource, connection.output.symbol);
-  }
-
-  private target(connection : Connection) {
-    let effectTarget = connection.input.constructor.name == 'SystemInput' ? this.systemEffect : this.effects[connection.input.effect.index]
-    return this.input(effectTarget, connection.input.symbol);
-  }
-
-  private get systemEffect() {
-    return this.pedalboardElement.systemEffect;
-  }
-
-  get effects() : Array<Effect> {
-    return this.pedalboardElement.effects;
-  }
-
   private generateEffects(pedalboard : Pedalboard) : Array<Effect> {
-    let positions;
+    let positions = [];
 
     if ('pedalpi-apk' in pedalboard.data)
       positions = pedalboard.data['pedalpi-apk'].effectPositions;
@@ -51,10 +42,20 @@ export class SrPedalboardFacade {
       const x = position != undefined ? position.x : 150 + 200 * i;
       const y = position != undefined ? position.y : 280
 
-      effects.push(new Effect(x, y, (<Lv2Effect> effect).plugin, effect));
+      effects.push(new Effect(x, y, effect, (<Lv2Effect> effect).plugin));
     }
 
     return effects;
+  }
+
+  private source(connection : Connection) {
+    let effectSource = connection.output.constructor.name == 'SystemOutput' ? this.systemEffect : this.effects[connection.output.effect.index]
+    return this.output(effectSource, connection.output.symbol);
+  }
+
+  private target(connection : Connection) {
+    let effectTarget = connection.input.constructor.name == 'SystemInput' ? this.systemEffect : this.effects[connection.input.effect.index]
+    return this.input(effectTarget, connection.input.symbol);
   }
 
   private input(effect: Effect, symbol : string) {

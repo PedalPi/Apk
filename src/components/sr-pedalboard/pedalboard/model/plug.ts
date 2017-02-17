@@ -1,14 +1,17 @@
 import {Effect} from './effect'
 
+import {Port} from '../../../../plugins-manager/model/port'
 
 export class Plug {
   public data : any;
   public effect : Effect;
   public view;
+  public identifier : Port;
 
-  constructor(effect : Effect, data) {
+  constructor(effect : Effect, identifier : Port, data : any) {
     this.effect = effect;
     this.data = data;
+    this.identifier = identifier;
   }
 
   public get position() {
@@ -16,6 +19,10 @@ export class Plug {
       x: this.effect.x + parseInt(this.view.attr("cx")),
       y: this.effect.y + parseInt(this.view.attr("cy")),
     }
+  }
+
+  get model() {
+    return this.identifier;
   }
 }
 

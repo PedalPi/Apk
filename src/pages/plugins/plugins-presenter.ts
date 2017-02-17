@@ -30,10 +30,6 @@ export class PluginsPresenter {
     );
   }
 
-  private sort(list) {
-    return list;
-  }
-
   private separatePluginsByCategory(plugins : any[]) : any {
     let effectsByCategory = {};
 

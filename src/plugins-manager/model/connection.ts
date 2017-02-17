@@ -12,8 +12,8 @@ export class Connection {
 
   json() {
     return {
-      'output': this.output.json,
-      'input': this.input.json,
+      'output': this.output.json(),
+      'input': this.input.json(),
     }
   }
 }

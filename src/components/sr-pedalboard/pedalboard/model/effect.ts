@@ -1,5 +1,7 @@
 import {Input, Output} from './plug';
 
+import {Effect as EffectModel} from '../../../../plugins-manager/model/effect'
+
 
 export class Effect {
   public id : number;
@@ -19,18 +21,26 @@ export class Effect {
   private objectInputs = [];
   private objectOutputs = [];
 
-  constructor(x, y, data, identifier?) {
+  constructor(x, y, identifier : EffectModel, data) {
     this.identifier = identifier;
     this.data = data;
 
     this.x = x;
     this.y = y;
 
-    for (let input of this.dataInputs)
-      this.objectInputs.push(new Input(this, input));
+    for (let i=0; i<this.dataInputs.length; i++) {
+      let input = this.dataInputs[i];
+      let identifier = this.identifier.inputs[i];
 
-    for (let output of this.dataOutputs)
-      this.objectOutputs.push(new Output(this, output));
+      this.objectInputs.push(new Input(this, identifier, input));
+    }
+
+    for (let i=0; i<this.dataOutputs.length; i++) {
+      let output = this.dataOutputs[i];
+      let identifier = this.identifier.outputs[i];
+
+      this.objectOutputs.push(new Output(this, identifier, output));
+    }
   }
 
   protected get dataInputs() {
@@ -47,5 +57,9 @@ export class Effect {
 
   get outputs() {
     return this.objectOutputs;
+  }
+
+  get model() {
+    return this.identifier;
   }
 }

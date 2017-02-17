@@ -3,6 +3,7 @@ import {Router} from './router';
 
 import {Bank} from '../../plugins-manager/model/bank';
 import {Pedalboard} from '../../plugins-manager/model/pedalboard';
+import {Connection} from '../../plugins-manager/model/connection';
 
 
 export class PedalboardService {
@@ -60,5 +61,19 @@ export class PedalboardService {
     let url = this.router.route(`/bank/${bank.index}/pedalboard/${pedalboard.index}/data/${key}`);
 
     return this.rest.put(url, data);
+  }
+
+  connect(pedalboard: Pedalboard, connection: Connection) {
+    const bank = pedalboard.bank;
+
+    let url = this.router.route(`/bank/${bank.index}/pedalboard/connect`);
+    return this.rest.put(url, connection.json());
+  }
+
+  disconnect(pedalboard: Pedalboard, connection: Connection) {
+    const bank = pedalboard.bank;
+
+    let url = this.router.route(`/bank/${bank.index}/pedalboard/disconnect`);
+    return this.rest.put(url, connection.json());
   }
 }

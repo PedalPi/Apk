@@ -103,14 +103,12 @@ export class Pedalboard {
       }
     );
 
-    connectionsRemoved.map(connection => {
-      this.removeConnection(connection)
-      this.listener.connectionRemoved(connection)
-    });
+    connectionsRemoved.map(connection => this.removeConnection(connection));
   }
 
   private removeConnection(connection : Connection) {
     this.connections.splice(this.connections.indexOf(connection), 1);
     this.view.updateConnections(this.connections);
+    this.listener.connectionRemoved(connection)
   }
 }

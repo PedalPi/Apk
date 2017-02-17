@@ -1,7 +1,6 @@
-export abstract class Input {
-  public symbol : string
-  constructor(public effect) {}
+import {Port} from './port';
 
+export abstract class Input extends Port {
   json() {
     return {
       'effect': this.effect.pedalboard.effects.indexOf(this.effect),

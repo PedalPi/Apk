@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams, AlertController, ActionSheetController} from 'ionic-angular';
-import {PedalboardPage} from '../pedalboard/pedalboard';
 import {PedalboardDrawerPage} from '../pedalboard-drawer/pedalboard-drawer';
 
 import {JsonService} from '../../providers/json/json-service';
