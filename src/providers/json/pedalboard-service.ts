@@ -66,14 +66,14 @@ export class PedalboardService {
   connect(pedalboard: Pedalboard, connection: Connection) {
     const bank = pedalboard.bank;
 
-    let url = this.router.route(`/bank/${bank.index}/pedalboard/connect`);
+    let url = this.router.route(`/bank/${bank.index}/pedalboard/${pedalboard.index}/connect`);
     return this.rest.put(url, connection.json());
   }
 
   disconnect(pedalboard: Pedalboard, connection: Connection) {
     const bank = pedalboard.bank;
 
-    let url = this.router.route(`/bank/${bank.index}/pedalboard/disconnect`);
-    return this.rest.put(url, connection.json());
+    let url = this.router.route(`/bank/${bank.index}/pedalboard/${pedalboard.index}/disconnect`);
+    return this.rest.post(url, connection.json());
   }
 }
