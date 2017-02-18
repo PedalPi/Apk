@@ -15,3 +15,4 @@ declare module '*';
 
 declare var RobustWebSocket: any;
 declare var sprintf: any;
+declare var cordova: any;
