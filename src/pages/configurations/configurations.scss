@@ -1,0 +1,27 @@
+page-configurations {
+
+  .autoSearch #autosearch-title {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  ion-note[selected='selected'] {
+    color: inherit;
+  }
+
+  button.sameAddress {
+    padding: 0;
+    margin: 0;
+  }
+
+  sr-icon {
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  ion-item {
+    vertical-align: middle;
+  }
+}

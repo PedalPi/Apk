@@ -7,6 +7,9 @@
   <access origin="*"/>
   <allow-navigation href="http://ionic.local/*"/>
   <allow-navigation href="http://10.41.101.20:8000"/>
+  <allow-navigation href="http://10.0.0.102:8100"/>
+  <allow-navigation href="http://10.0.0.100:8100"/>
+  <allow-navigation href="http://10.0.0.103:8100"/>
   <allow-intent href="http://*/*"/>
   <allow-intent href="https://*/*"/>
   <allow-intent href="tel:*"/>
@@ -38,4 +41,5 @@
   <plugin name="cordova-plugin-device" spec="1.1.4"/>
   <plugin name="cordova-plugin-splashscreen" spec="~4.0.1"/>
   <plugin name="cordova-plugin-zeroconf" spec="~1.2.2"/>
+  <plugin name="cordova-plugin-crosswalk-webview" spec="~2.3.0"/>
 </widget>

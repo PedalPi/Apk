@@ -22,3 +22,26 @@
     margin: 0;
   }
 }
+
+@media(max-width: 425px) {
+  ion-list .ion-item {
+    font-size: 2.5rem !important;
+  }
+
+  .home {
+    ion-list ion-icon img,
+    ion-list ion-icon sr-icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    ion-list .ion-item {
+      padding-left: 0px;
+    }
+
+    .item-md ion-icon[item-left] + .item-inner,
+    .item-md ion-icon[item-left] + .item-input {
+      margin-left: 12px;
+    }
+  }
+}

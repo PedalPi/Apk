@@ -30,8 +30,6 @@ export class HomePage {
       private ws : WebSocketService) {
     // ws injected in the first page to start web socket connection
     ws.onConnectedListener = () => this.loadData();
-
-    document.querySelector('body').webkitRequestFullscreen();
   }
 
   get service() : CurrentService {
