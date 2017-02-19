@@ -34,7 +34,11 @@ export class WebSocketService {
   private loadingCtrl : LoadingController;
   private toastCtrl : ToastController;
 
+  public connected : boolean;
+
   constructor(data : DataService, ref: ApplicationRef, loadingCtrl: LoadingController, toastCtrl : ToastController) {
+    this.connected = false;
+
     this.loadingCtrl = loadingCtrl;
     this.toastCtrl = toastCtrl;
     this.forceReconnection = false;
@@ -69,9 +73,13 @@ export class WebSocketService {
         message: 'Device connected',
         duration: 3000
       }).present();
+
+      this.connected = true;
     }
 
     connection.onclose = () => {
+      this.connected = false;
+
       if (!this.forceReconnection || this.tryingReconnect)
         return;
 
@@ -82,6 +90,7 @@ export class WebSocketService {
 
     connection.onerror = (error, asd) => {
       console.log(error);
+      this.connected = false;
 
       this.toastCtrl.create({
         message: 'Connection error',

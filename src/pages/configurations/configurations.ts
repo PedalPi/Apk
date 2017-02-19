@@ -29,10 +29,15 @@ export class ConfigurationsPage {
     this.ip = JsonService.server;
     this.autoSearch = false;
 
-    this.devices = []
+    this.devices = [];
     this.zeroconf = new Zeroconf('_pedalpi._tcp.', 'local.');
     this.zeroconf.onDiscoveredListener = device => this.addDevice(device);
     this.zeroconf.onEndDiscoverListener = () => this.endDiscover();
+  }
+
+  get connectedColor() {
+    console.log(this.ws.connected);
+    return this.ws.connected ? "#08AE97" : "danger";
   }
 
   apply() {
@@ -83,7 +88,8 @@ export class ConfigurationsPage {
   }
 
   connect(device : Device) {
-    console.log(device);
+    this.zeroconf.stopDiscover();
+    this.endDiscover();
     this.setIp(`http://${device.address.ipv4}:${device.address.port}`);
   }
 }
