@@ -27,7 +27,7 @@ export class ConfigurationsPage {
 
   constructor(private nav : NavController, private ws : WebSocketService, private ref: ApplicationRef, private toastCtrl : ToastController) {
     this.ip = JsonService.server;
-    this.autoSearch = false;
+    this.autoSearch = !this.emulated;
 
     this.devices = [];
     this.zeroconf = new Zeroconf('_pedalpi._tcp.', 'local.');
@@ -36,7 +36,6 @@ export class ConfigurationsPage {
   }
 
   get connectedColor() {
-    console.log(this.ws.connected);
     return this.ws.connected ? "#08AE97" : "danger";
   }
 
