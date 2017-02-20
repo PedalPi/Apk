@@ -8,6 +8,8 @@ import {ToastController, LoadingController} from 'ionic-angular';
 
 import {Bank} from '../../plugins-manager/model/bank';
 
+import {PedalPiMessageDecoder} from './pedalpi-message-decoder';
+
 
 @Injectable()
 export class WebSocketService {
@@ -121,6 +123,8 @@ export class WebSocketService {
   }
 
   onMessage(message) {
+    new PedalPiMessageDecoder(this.data).onMessage(message);
+
     message = JSON.parse(message);
     console.log(message);
 
@@ -132,18 +136,8 @@ export class WebSocketService {
     if (!this.data.hasObtainedRemote())
       return;
 
-    if (type == 'CURRENT')
-      this.onCurrentPedalboardChange(message);
-    else if (type == 'BANK')
-      this.onBankCUD(message);
-    else if (type == 'PATCH')
-      this.onPedalboardCUD(message);
-    else if (type == 'EFFECT')
+    if (type == 'EFFECT')
       this.onEffectCUDListener(message);
-    else if (type == 'EFFECT-TOGGLE')
-      this.onEffectStatusToggled(message);
-    else if (type == 'PARAM')
-      this.onParamValueChange(message);
   }
 
   private onCurrentPedalboardChange(message : any) {
@@ -153,49 +147,6 @@ export class WebSocketService {
     this.onCurrentPedalboardChangeListener(bank, pedalboard);
   }
 
-  private onBankCUD(message : any) {
-    const banks = this.data.remote.manager;
-
-    if (message.updateType == "UPDATED") {
-      banks[message.bank] = message.value;
-    } else if (message.updateType == "DELETED")
-      banks.splice(message.bank, 1);
-    else if (message.updateType == "CREATED")
-      banks.push(message.value);
-
-    this.onBankCUDListener(message, message.value);
-
-    this.ref.tick();
-  }
-
-  private onPedalboardCUD(message : any) {
-    const bank = this.bankBy(message);
-    if (message.updateType == "UPDATED")
-      bank.pedalboards[message.pedalboard] = message.value;
-    else if (message.updateType == "DELETED")
-      bank.pedalboards.splice(message.pedalboard, 1);
-    else if (message.updateType == "CREATED")
-      bank.pedalboards.push(message.value);
-
-    this.onPedalboardCUDListener(message, message.value);
-
-    this.ref.tick();
-  }
-
-  private onEffectStatusToggled(message : any) {
-    const effect = this.effectBy(message);
-    effect.toggle();
-
-    this.onEffectStatusToggledListener(message);
-  }
-
-  private onParamValueChange(message : any) {
-    const param = this.paramBy(message);
-    param.value = message.value;
-
-    this.onParamValueChangeListener(message);
-  }
-
   private bankBy(message) : Bank {
     return this.data.remote.manager.banks[message.bank]
   }
@@ -203,15 +154,5 @@ export class WebSocketService {
   private pedalboardBy(message) {
     const bank = this.bankBy(message);
     return bank.pedalboards[message.pedalboard];
-  }
-
-  private effectBy(message) {
-    const pedalboard = this.pedalboardBy(message);
-    return pedalboard.effects[message.effect];
-  }
-
-  private paramBy(message) {
-    const effect = this.effectBy(message);
-    return effect.params[message.param];
   }
 }

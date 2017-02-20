@@ -21,7 +21,7 @@ abstract class Reader {
 }
 
 
-class BankReader extends Reader {
+export class BankReader extends Reader {
 
   read(json) {
     const bank = new Bank(json['name'])
@@ -38,7 +38,7 @@ class BankReader extends Reader {
 }
 
 
-class PedalboardReader extends Reader {
+export class PedalboardReader extends Reader {
 
   read(json) {
     const pedalboard = new Pedalboard(json['name'])
