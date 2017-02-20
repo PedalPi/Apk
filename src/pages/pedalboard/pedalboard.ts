@@ -3,6 +3,7 @@ import {ModalController, NavController, NavParams} from 'ionic-angular';
 
 import {JsonService} from '../../providers/json/json-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
+import {UpdateType} from '../../providers/websocket/pedalpi-message-decoder';
 
 import {SrTabs} from '../../components/sr-tabs/sr-tabs';
 
@@ -46,17 +47,22 @@ export class PedalboardPage {
   }
 
   ionViewDidLoad() {
-    this.toPedalboard(this.currentEffect.pedalboard, this.currentEffect);
+    if (this.currentEffect)
+      this.toPedalboard(this.currentEffect.pedalboard, this.currentEffect);
   }
 
   ionViewWillEnter() {
     this.ws.clearListeners();
 
-    this.ws.onCurrentPedalboardChangeListener = (bank, pedalboard) => this.toPedalboard(pedalboard);
-    this.ws.onPedalboardCUDListener = (message, pedalboard) => {
-      if (message.updateType == 'UPDATED')
+    this.ws.messageDecoder.onNotificationCurrentPedalboard = pedalboard => this.toPedalboard(pedalboard);
+    this.ws.messageDecoder.onNotificationPedalboard = (updateType, pedalboard) => {
+      if (updateType == UpdateType.UPDATED)
         this.toPedalboard(pedalboard);
     };
+  }
+
+  ionViewWillLeave() {
+    this.ws.clearListeners();
   }
 
   private get currentService() {

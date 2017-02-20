@@ -1,4 +1,5 @@
 import {JsonService} from '../../providers/json/json-service';
+import {DataService} from '../../providers/data/data-service';
 import {PluginService} from '../../providers/json/plugin-service';
 
 import {PluginsCategories} from './plugins-categories';
@@ -7,25 +8,32 @@ import {PluginsCategories} from './plugins-categories';
 export class PluginsPresenter {
 
   private jsonService : JsonService;
+  private dataService: DataService;
+
   public plugins : any = [];
   public pluginsByCategory : any = {};
 
   public categories = new PluginsCategories();
 
-  constructor(jsonService : JsonService) {
+  constructor(jsonService : JsonService, dataService: DataService) {
     this.jsonService = jsonService;
+    this.dataService = dataService;
   }
 
   private get service() : PluginService {
     return this.jsonService.plugin;
   }
 
-  load() {
+  public load(callback) {
     //https://github.com/mozilla/localForage
     this.service.getPlugins().subscribe(
       data => {
+        this.dataService.updatePlugins(data.plugins);
+
         this.plugins = data.plugins.sort((a, b) => a.name.localeCompare(b.name));
         this.pluginsByCategory = this.separatePluginsByCategory(this.plugins);
+
+        callback();
       }
     );
   }

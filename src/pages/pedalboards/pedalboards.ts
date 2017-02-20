@@ -4,6 +4,7 @@ import {PedalboardDrawerPage} from '../pedalboard-drawer/pedalboard-drawer';
 
 import {JsonService} from '../../providers/json/json-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
+import {UpdateType} from '../../providers/websocket/pedalpi-message-decoder';
 
 import {AlertBuilder} from '../../common/alert';
 import {ContextMenu} from '../../common/contextMenu';
@@ -36,14 +37,19 @@ export class PedalboardsPage {
   ionViewWillEnter() {
     this.ws.clearListeners();
 
-    this.ws.onBankCUDListener = (message, bank) => {
-      if (message.updateType == 'UPDATED' && bank.index == this.bank.index)
+    this.ws.messageDecoder.onNotificationBank = (updateType, bank) => {
+      if (updateType == UpdateType.UPDATED && bank.id == this.bank.id) {
         this.bank = bank;
-      else if (message.updateType == 'DELETED' && bank.index == this.bank.index) {
-        this.nav.pop()
+      
+      } else if (updateType == UpdateType.REMOVED && bank.index == this.bank.index) {
+        this.nav.pop();
         alert("This bank has been deleted!");
       }
     };
+  }
+
+  ionViewWillLeave() {
+    this.ws.clearListeners();
   }
 
   createPedalboard() {

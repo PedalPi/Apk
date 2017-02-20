@@ -4,11 +4,15 @@ import {NavController, NavParams} from 'ionic-angular';
 import {PedalboardPage} from '../pedalboard/pedalboard';
 import {JsonService} from '../../providers/json/json-service';
 import {DataService} from '../../providers/data/data-service';
+import {WebSocketService} from '../../providers/websocket/web-socket-service';
+import {UpdateType} from '../../providers/websocket/pedalpi-message-decoder';
 
 import {SrPedalboard} from '../../components/sr-pedalboard/sr-pedalboard';
 
 import {SrPedalboardFacade} from './sr-pedalboard-facade';
 import {PluginsPage} from '../plugins/plugins';
+
+import {Effect} from '../../plugins-manager/model/effect';
 
 
 @Component({
@@ -22,7 +26,8 @@ export class PedalboardDrawerPage {
       private nav : NavController,
       params : NavParams,
       data : DataService,
-      private jsonService : JsonService
+      private jsonService : JsonService,
+      private ws : WebSocketService
   ) {
     this.pedalboard = params.get('pedalboard');
   }
@@ -32,11 +37,41 @@ export class PedalboardDrawerPage {
   }
 
   private get effectService() {
-    return this.jsonService.pedalboard;
+    return this.jsonService.effect;
+  }
+
+  ionViewWillEnter() {
+    this.ws.clearListeners();
+
+    this.ws.messageDecoder.onNotificationCurrentPedalboard = pedalboard => console.log('Mudaram o pedalboard, marróia');
+    this.ws.messageDecoder.onNotificationPedalboard = (updateType, pedalboard) => {
+      const hasBeenRemoved = this.pedalboard.index == -1;
+      const hasBeenUpdated = this.pedalboard.index == pedalboard.index;
+
+      if (updateType == UpdateType.UPDATED && (hasBeenRemoved || hasBeenUpdated)) {
+        this.pedalboard = pedalboard;
+        this.drawPedalboard(this.pedalboard, true);
+
+      } else if (updateType == UpdateType.REMOVED && hasBeenRemoved) {
+        this.nav.pop();
+        alert("This pedalboard has been deleted!");
+      }
+    }
+  }
+
+  ionViewWillLeave() {
+    this.ws.clearListeners();
   }
 
   ionViewDidLoad() {
-    new SrPedalboardFacade(this.pedalboardElement, this.pedalboard).load()
+    this.drawPedalboard(this.pedalboard, false);
+  }
+
+  private drawPedalboard(pedalboard, clear) {
+    if (clear)
+      this.pedalboardElement.clear()
+
+    new SrPedalboardFacade(this.pedalboardElement, pedalboard).load()
 
     this.pedalboardElement.onEffectMoved = effect => this.savePedalboardData();
     this.pedalboardElement.onEffectDoubleClick = effect => this.goToEffects(effect);
@@ -63,7 +98,14 @@ export class PedalboardDrawerPage {
   addEffect() {
     const goTo = (resolve, reject) => this.nav.push(PluginsPage, {resolve: resolve})
 
-    new Promise(goTo).then(data => alert('Recebi da tela 2: ' + data))
+    new Promise(goTo).then((effect : Effect) => {
+      effect.pedalboard = this.pedalboard;
+      this.pedalboard.effects.push(effect);
+
+      this.effectService.saveNew(effect).subscribe(
+        () => this.drawPedalboard(this.pedalboard, true)
+      );
+    });
   }
 
   private savePedalboardData() {
@@ -75,10 +117,10 @@ export class PedalboardDrawerPage {
 
   private removeEffect(effect) {
     const effectIndex = this.pedalboard.effects.indexOf(effect.identifier);
-    this.pedalboard.effects.splice(effectIndex, 1);
 
-    console.log('Effect removed', effect);
-    //this.service.delete(effect);
+    this.effectService.delete(effect.identifier).subscribe(
+      () => this.pedalboard.effects.splice(effectIndex, 1)
+    );
   }
 
   private addConnection(connection) {

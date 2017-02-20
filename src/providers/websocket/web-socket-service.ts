@@ -6,10 +6,13 @@ import {Injectable} from '@angular/core';
 
 import {ToastController, LoadingController} from 'ionic-angular';
 
-import {Bank} from '../../plugins-manager/model/bank';
-
 import {PedalPiMessageDecoder} from './pedalpi-message-decoder';
 
+
+export interface MessageDecoder {
+  onMessage(message : any);
+  clearListeners();
+}
 
 @Injectable()
 export class WebSocketService {
@@ -20,12 +23,7 @@ export class WebSocketService {
 
   public onCurrentPedalboardChangeListener : any;
 
-  public onBankCUDListener : any;
-  public onPedalboardCUDListener : any;
-  public onEffectCUDListener : any;
-
-  public onEffectStatusToggledListener : any;
-  public onParamValueChangeListener : any;
+  public messageDecoder : any;
 
   public onConnectedListener : any = () => {};
 
@@ -50,6 +48,7 @@ export class WebSocketService {
     this.ref = ref;
 
     this.connect(WebSocketService.prepareUrl(JsonService.server));
+    this.messageDecoder = new PedalPiMessageDecoder(this.data);
     this.clearListeners();
   }
 
@@ -112,47 +111,11 @@ export class WebSocketService {
   }
 
   clearListeners() {
-    this.onCurrentPedalboardChangeListener = () => {};
-
-    this.onBankCUDListener = () => {};
-    this.onPedalboardCUDListener = () => {};
-    this.onEffectCUDListener = () => {};
-
-    this.onEffectStatusToggledListener = () => {};
-    this.onParamValueChangeListener = () => {};
+    this.messageDecoder.clearListeners();
   }
 
   onMessage(message) {
-    new PedalPiMessageDecoder(this.data).onMessage(message);
-
     message = JSON.parse(message);
-    console.log(message);
-
-    const type = message["type"];
-
-    if (type == 'TOKEN')
-      JsonService.token = message.value;
-
-    if (!this.data.hasObtainedRemote())
-      return;
-
-    if (type == 'EFFECT')
-      this.onEffectCUDListener(message);
-  }
-
-  private onCurrentPedalboardChange(message : any) {
-    const bank = this.bankBy(message);
-    const pedalboard = this.pedalboardBy(message);
-
-    this.onCurrentPedalboardChangeListener(bank, pedalboard);
-  }
-
-  private bankBy(message) : Bank {
-    return this.data.remote.manager.banks[message.bank]
-  }
-
-  private pedalboardBy(message) {
-    const bank = this.bankBy(message);
-    return bank.pedalboards[message.pedalboard];
+    this.messageDecoder.onMessage(message);
   }
 }

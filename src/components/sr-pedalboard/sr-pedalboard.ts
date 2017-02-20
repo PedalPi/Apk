@@ -37,12 +37,16 @@ export class SrPedalboard {
     this.pedalboard = new Pedalboard(element, systemEffect);
   }
 
+  clear() {
+    this.pedalboard.clear();
+  }
+
   append(effect : Effect) {
     this.pedalboard.addEffect(effect);
   }
 
   connect(source: Output, target: Input) {
-    this.pedalboard.addConnection(source, target);
+    this.pedalboard.addConnection(source, target, false);
   }
 
   removeSeleted() {

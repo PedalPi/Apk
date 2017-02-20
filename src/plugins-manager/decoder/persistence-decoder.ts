@@ -39,10 +39,14 @@ export class BankReader extends Reader {
 
 export class PedalboardReader extends Reader {
 
+  constructor(systemEffect, private pluginsData?) {
+    super(systemEffect)
+  }
+
   read(json) {
     const pedalboard = new Pedalboard(json['name'])
 
-    const effectReader = new EffectReader(this.systemEffect)
+    const effectReader = new EffectReader(this.systemEffect, this.pluginsData)
     for (let effectJson of json['effects']) {
       const effect = effectReader.read(effectJson)
       effect.pedalboard = pedalboard
@@ -63,14 +67,23 @@ export class PedalboardReader extends Reader {
 
 export class EffectReader extends Reader {
 
-  read(json) {
+  constructor(systemEffect, private pluginsData?) {
+    super(systemEffect)
+  }
+
+  read(json, data?) {
     if (json['technology'] == 'lv2')
       return this.readLv2(json)
 
     throw Error('Unknown effect technology: ' + json['technology'])
   }
 
-  private readLv2(json) {
+  private readLv2(json, data?) {
+    if (json['pluginData'] == undefined) {
+      const uri = json['plugin'];
+      json['pluginData'] = this.pluginsData[uri];
+    }
+
     const effect = new Lv2Effect(json['pluginData'])
 
     for (let i=0; i < effect.params.length; i++) {

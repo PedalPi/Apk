@@ -1,9 +1,6 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {ViewController, NavController, NavParams} from 'ionic-angular';
-import {EffectReader} from '../../plugins-manager/decoder/persistence-decoder';
-import {SrTabs} from '../../components/sr-tabs/sr-tabs';
-
-import {JsonService} from '../../providers/json/json-service';
+import {Lv2Effect} from '../../plugins-manager/model/lv2/lv2-effect';
 
 
 @Component({
@@ -18,7 +15,6 @@ export class PluginsListModal {
     this.category = params.get('category');
     this.pluginsOriginals = params.get('plugins');
     this.plugins = this.initializeItems();
-    
   }
 
   close() {
@@ -26,9 +22,7 @@ export class PluginsListModal {
   }
 
   itemSelected(plugin) {
-    //console.log(plugin);
-    //let effect = new EffectReader(null).read({technology: 'lv2', pluginData : plugin});
-    let effect = plugin;
+    let effect = new Lv2Effect(plugin);
     this.controller.dismiss(effect);
   }
 

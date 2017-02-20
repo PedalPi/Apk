@@ -10,12 +10,13 @@ import {Param} from "../../plugins-manager/model/param";
 
 import {BankReader, PedalboardReader} from "../../plugins-manager/decoder/persistence-decoder";
 
+import {MessageDecoder} from './web-socket-service';
 
 export enum UpdateType {
   CREATED, UPDATED, REMOVED
 }
 
-export class PedalPiMessageDecoder {
+export class PedalPiMessageDecoder implements MessageDecoder {
 
   public onNotificationCurrentPedalboard : (pedalboard : Pedalboard) => any;
 
@@ -46,7 +47,6 @@ export class PedalPiMessageDecoder {
   }
 
   onMessage(message) {
-    message = JSON.parse(message);
     console.log(message);
 
     const type = message["type"];
@@ -65,9 +65,9 @@ export class PedalPiMessageDecoder {
       this.onBankChange(updateType, message);
     else if (type == 'PEDALBOARD')
       this.onPedalboardChange(updateType, message);
-    /*else if (type == 'EFFECT')
-      this.onEffectChange(message);
-    */else if (type == 'EFFECT-TOGGLE')
+    else if (type == 'EFFECT')
+      this.onNotificationEffect(null, null); //message
+    else if (type == 'EFFECT-TOGGLE')
       this.onEffectStatusToggled(message);
     else if (type == 'PARAM')
       this.onParamValueChange(message);
@@ -95,15 +95,15 @@ export class PedalPiMessageDecoder {
 
     if (updateType == UpdateType.UPDATED) {
       const index = message.bank;
-      const bank = new BankReader(null).read(message.value);
-      this.manager.banks[index] = message.value;
+      const bank = new BankReader(BanksManager.SYSTEM_EFFECT).read(message.value);
+      this.manager.banks[index] = bank;
 
     } else if (updateType == UpdateType.REMOVED) {
       const index = message.bank;
       this.manager.banks.splice(index, 1);
 
     } else if (updateType == UpdateType.CREATED) {
-      const bank = new BankReader(null).read(message.value);
+      const bank = new BankReader(BanksManager.SYSTEM_EFFECT).read(message.value);
       bank.manager = this.manager;
       this.manager.banks.push(bank);
     }
@@ -113,24 +113,29 @@ export class PedalPiMessageDecoder {
 
   private onPedalboardChange(updateType : UpdateType, message : any) {
     const bank = this.bankBy(message.bank);
+    const systemEffect = BanksManager.SYSTEM_EFFECT;
+    const pluginsData = this.data.remote['plugins'];
+
+    let pedalboard = null;
 
     if (updateType == UpdateType.UPDATED) {
-      const pedalboard = new PedalboardReader(null).read(message.value);
+      pedalboard = new PedalboardReader(systemEffect, pluginsData).read(message.value);
       pedalboard.bank = bank;
 
       bank.pedalboards[message.pedalboard] = pedalboard;
 
     } else if (updateType == UpdateType.REMOVED) {
+      pedalboard = bank.pedalboards[message.pedalboard];
       bank.pedalboards.splice(message.pedalboard, 1);
 
     } else if (updateType == UpdateType.CREATED) {
-      const pedalboard = new PedalboardReader(null).read(message.value);
+      pedalboard = new PedalboardReader(systemEffect, pluginsData).read(message.value);
       pedalboard.bank = bank;
 
-      bank.pedalboards.push(message.value);
+      bank.pedalboards.push(pedalboard);
     }
 
-    this.onNotificationPedalboard(message, message.value);
+    this.onNotificationPedalboard(updateType, pedalboard);
   }
 
   private onEffectStatusToggled(message : any) {

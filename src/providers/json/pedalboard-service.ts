@@ -23,11 +23,6 @@ export class PedalboardService {
     return this.router.route(url);
   }
 
-  get(bank : any, pedalboard : any) {
-    let url = this.url(bank, pedalboard);
-    return this.rest.get(url);
-  }
-
   saveNew(pedalboard : Pedalboard) {
     let url = this.url(pedalboard.bank);
     return this.rest.post(url, pedalboard.json());

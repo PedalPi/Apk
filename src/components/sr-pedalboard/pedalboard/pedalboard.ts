@@ -38,6 +38,11 @@ export class Pedalboard {
     this.view.updateConnections(this.connections);
   }
 
+  clear() {
+    this.effects.splice(0, this.effects.length);
+    this.connections.splice(0, this.connections.length);
+  }
+
   /*************************************
    * Add
    ************************************/
@@ -56,7 +61,7 @@ export class Pedalboard {
     this.view.updateEffects(this.effects);
   }
 
-  addConnection(output : Output, input : Input) {
+  addConnection(output : Output, input : Input, notify=true) {
     const connection = new Connection(output, input);
     connection.index = this.connectionIndex++;
     connection.onSelectedListener = (connection : Connection) => this.select(connection);
@@ -64,7 +69,8 @@ export class Pedalboard {
     this.connections.push(connection);
     this.view.updateConnections(this.connections);
 
-    this.listener.connectionAdded(connection);
+    if (notify)
+      this.listener.connectionAdded(connection);
   }
 
   private select(object) {

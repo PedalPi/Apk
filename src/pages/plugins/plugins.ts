@@ -2,8 +2,11 @@ import {NavController, NavParams, ModalController} from 'ionic-angular';
 import {Component} from '@angular/core';
 
 import {JsonService} from '../../providers/json/json-service';
+import {DataService} from '../../providers/data/data-service';
 import {PluginsPresenter} from './plugins-presenter';
 import {PluginsListModal} from '../plugins-list/plugins-list-modal';
+
+import {LoadingController} from 'ionic-angular';
 
 
 @Component({
@@ -12,16 +15,28 @@ import {PluginsListModal} from '../plugins-list/plugins-list-modal';
 export class PluginsPage {
   private presenter : PluginsPresenter;
 
-  constructor(private nav : NavController, private params : NavParams, jsonService : JsonService, private modal : ModalController) {
-    this.presenter = new PluginsPresenter(jsonService);
+  constructor(
+      private nav : NavController,
+      private params : NavParams,
+      jsonService : JsonService,
+      dataService : DataService,
+      private modal : ModalController,
+      private loadingCtrl : LoadingController) {
+    this.presenter = new PluginsPresenter(jsonService, dataService);
   }
 
   ionViewDidLoad() {
-    this.presenter.load();
+    this.refresh();
   }
 
   get categories() {
     return this.presenter.categories;
+  }
+
+  refresh() {
+    const loading = this.loadingCtrl.create({content: "Getting plugins"});
+    loading.present();
+    this.presenter.load(() => loading.dismiss());
   }
 
   categorySelected(category : string) {

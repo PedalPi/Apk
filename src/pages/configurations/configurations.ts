@@ -1,4 +1,5 @@
 import {ApplicationRef} from '@angular/core';
+import {ToastController} from 'ionic-angular';
 
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
@@ -8,7 +9,6 @@ import {WebSocketService} from '../../providers/websocket/web-socket-service';
 
 import {AboutPage} from '../about/about';
 
-import {ToastController, LoadingController} from 'ionic-angular';
 import {Zeroconf, Device} from './zeroconf';
 
 

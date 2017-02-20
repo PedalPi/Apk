@@ -1,6 +1,11 @@
 import {Rest} from './rest';
 import {Router} from './router';
 
+import {Bank} from '../../plugins-manager/model/bank';
+import {Pedalboard} from '../../plugins-manager/model/pedalboard';
+import {Effect} from '../../plugins-manager/model/effect';
+import {Lv2Effect} from '../../plugins-manager/model/lv2/lv2-effect';
+
 
 export class EffectService {
   private rest : Rest;
@@ -11,30 +16,23 @@ export class EffectService {
     this.router = router;
   }
 
-  private url(bank : any, pedalboard : any, effect? : any) : string {
-    const pedalboardIndex = bank.pedalboards.indexOf(pedalboard);
-    let url = `/bank/${bank.index}/pedalboard/${pedalboardIndex}/effect`;
+  private url(pedalboard : Pedalboard, effect? : Effect) : string {
+    const bank : Bank = pedalboard.bank;
+    let url = `/bank/${bank.index}/pedalboard/${pedalboard.index}/effect`;
 
-    if (effect) {
-      const effectIndex = pedalboard.effects.indexOf(effect);
-      url += `/${effectIndex}`;
-    }
+    if (effect)
+      url += `/${effect.index}`;
 
     return this.router.route(url);
   }
 
-  get(bank : any, pedalboard : any, effect : any) {
-    let url = this.url(bank, pedalboard, effect);
-    return this.rest.get(url);
+  saveNew(effect : Effect) {
+    let url = this.url(effect.pedalboard);
+    return this.rest.post(url, (<Lv2Effect> effect).plugin.uri);
   }
 
-  saveNew(bank : any, pedalboard : any, effect : any) {
-    let url = this.url(bank, pedalboard);
-    return this.rest.post(url, effect);
-  }
-
-  delete(bank : any, pedalboard : any, effect : any) {
-    let url = this.url(bank, pedalboard, effect);
+  delete(effect : Effect) {
+    let url = this.url(effect.pedalboard, effect);
     return this.rest.delete(url);
   }
 }
