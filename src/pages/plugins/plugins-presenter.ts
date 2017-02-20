@@ -7,8 +7,8 @@ import {PluginsCategories} from './plugins-categories';
 export class PluginsPresenter {
 
   private jsonService : JsonService;
-  public effects : any = [];
-  public effectsByCategory : any = {};
+  public plugins : any = [];
+  public pluginsByCategory : any = {};
 
   public categories = new PluginsCategories();
 
@@ -24,8 +24,8 @@ export class PluginsPresenter {
     //https://github.com/mozilla/localForage
     this.service.getPlugins().subscribe(
       data => {
-        this.effects = data.plugins.sort((a, b) => a.name.localeCompare(b.name));
-        this.effectsByCategory = this.separatePluginsByCategory(this.effects);
+        this.plugins = data.plugins.sort((a, b) => a.name.localeCompare(b.name));
+        this.pluginsByCategory = this.separatePluginsByCategory(this.plugins);
       }
     );
   }

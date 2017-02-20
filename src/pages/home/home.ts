@@ -86,6 +86,6 @@ export class HomePage {
   }
 
   goToPlugins() {
-    this.nav.push(PluginsPage);
+    new Promise((resolve, reject) => this.nav.push(PluginsPage, {resolve: resolve})).then(data => alert('Recebi de categorias ' + data));
   }
 }
