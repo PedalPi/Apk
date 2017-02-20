@@ -85,7 +85,6 @@ export class HomePage {
 
   goToPlugins() {
     const goTo = (resolve, reject) => this.nav.push(PluginsPage, {resolve: resolve})
-
-    new Promise(goTo).then(data => alert('Recebi da tela 2: ' + data))
+    new Promise(goTo).then(data => alert('Recebi de categorias ' + data));
   }
 }

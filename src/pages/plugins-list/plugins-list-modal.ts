@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {ViewController, NavController, NavParams} from 'ionic-angular';
-
+import {EffectReader} from '../../plugins-manager/decoder/persistence-decoder';
 import {SrTabs} from '../../components/sr-tabs/sr-tabs';
 
 import {JsonService} from '../../providers/json/json-service';
@@ -10,81 +10,39 @@ import {JsonService} from '../../providers/json/json-service';
   templateUrl: 'plugins-list-modal.html',
 })
 export class PluginsListModal {
-  @ViewChild(SrTabs) tabs: SrTabs;
-
-  public items : any;
-  public effects : any = [];
-  public effectsByCategory : any = {};
-
-  public categories = [];
-  private jsonService : JsonService;
+  public category : string;
+  public plugins : any = [];
+  private pluginsOriginals : any = [];
 
   constructor(private nav : NavController, params : NavParams, private controller: ViewController) {
-    this.jsonService = params.get('jsonService');
-  }
-
-  private get service() {
-      return this.jsonService.plugin;
-  }
-
-  ngOnInit() {
-    //https://github.com/mozilla/localForage
-    this.service.getPlugins().subscribe(
-      data => {
-        this.effects = data.plugins.sort((a, b) => a.name.localeCompare(b.name));
-        this.items = this.effects;
-
-        this.effectsByCategory = this.separatePluginsByCategory(this.effects);
-
-        this.categories = Object.keys(this.effectsByCategory).sort(
-          (a, b) => a.localeCompare(b)
-        );
-      }
-    );
-  }
-
-  private separatePluginsByCategory(plugins : any[]) : any {
-    let effectsByCategory = {};
-
-    for (let plugin of plugins) {
-      for (let category of plugin.category) {
-        if (effectsByCategory[category] === undefined)
-          effectsByCategory[category] = []
-
-        effectsByCategory[category].push(plugin);
-      }
-    }
-
-    return effectsByCategory;
+    this.category = params.get('category');
+    this.pluginsOriginals = params.get('plugins');
+    this.plugins = this.initializeItems();
+    
   }
 
   close() {
     this.controller.dismiss();
   }
 
-  getItems(event) {
-    let q = event.target.value;
-
-    if (q.trim() == '') {
-      this.items = this.effects;
-      return;
-    }
-
-    this.items = this.effects.filter(v => v.name.toLowerCase().indexOf(q.toLowerCase()) > -1)
-  }
-
-  itemSelected(effect) {
-    for (let parameter of effect.pluginData.ports.control.input) {
-      parameter["current"] = parameter["default"];
-      delete parameter["default"];
-    }
-
+  itemSelected(plugin) {
+    //console.log(plugin);
+    //let effect = new EffectReader(null).read({technology: 'lv2', pluginData : plugin});
+    let effect = plugin;
     this.controller.dismiss(effect);
   }
 
-  categorySelected(category) {
-    const index = this.categories.indexOf(category);
-    this.tabs.selectTab(index+2);
-    this.tabs.focusTab(index+2);
+  getItems(event: any) {
+    this.plugins = this.initializeItems();
+    let name = event.target.value;
+
+    if (name && name.trim() != '')
+      this.plugins = this.plugins.filter((plugin) =>
+        (plugin.name.toLowerCase().indexOf(name.toLowerCase()) > -1)
+      );
+  }
+
+  private initializeItems() {
+    return this.pluginsOriginals.slice(0).reverse();
   }
 }

@@ -1,7 +1,6 @@
 import {Bank} from '../model/bank';
 import {Connection} from '../model/connection';
 import {Pedalboard} from '../model/pedalboard';
-
 import {Lv2Effect} from '../model/lv2/lv2-effect';
 
 
@@ -62,7 +61,7 @@ export class PedalboardReader extends Reader {
 }
 
 
-class EffectReader extends Reader {
+export class EffectReader extends Reader {
 
   read(json) {
     if (json['technology'] == 'lv2')

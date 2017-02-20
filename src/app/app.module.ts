@@ -14,6 +14,8 @@ import { PedalboardPage } from '../pages/pedalboard/pedalboard';
 import { PedalboardsPage } from '../pages/pedalboards/pedalboards';
 import { PluginsPage } from '../pages/plugins/plugins';
 
+import { PluginsListModal } from '../pages/plugins-list/plugins-list-modal';
+
 // Components
 import { SrCombobox } from '../components/sr-combobox/sr-combobox';
 import { SrFootswitch } from '../components/sr-footswitch/sr-footswitch';
@@ -41,6 +43,8 @@ const pages = [
   PedalboardPage,
   PedalboardsPage,
   PluginsPage,
+
+  PluginsListModal
 ];
 
 const components = [
