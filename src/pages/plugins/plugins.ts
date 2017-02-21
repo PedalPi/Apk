@@ -41,16 +41,24 @@ export class PluginsPage {
 
   categorySelected(category : string) {
     let plugins = this.presenter.pluginsByCategory[category];
+    this.goToPluginsList(category, plugins);
+  }
 
+  categoryAllSelected() {
+    this.goToPluginsList('All', this.presenter.plugins);
+  }
+
+  private goToPluginsList(category : string, plugins : any) {
     const modal = this.modal.create(PluginsListModal, {category: category, plugins: plugins})
     modal.present();
     modal.onDidDismiss(effect => {
-        if (effect == undefined)
-            return;
-        this.nav.pop().then(status => {
-      	  const callback = this.params.get('resolve');
-          callback(effect);
-    	})
+      if (effect == undefined)
+        return;
+
+      this.nav.pop().then(status => {
+  	    const callback = this.params.get('resolve');
+        callback(effect);
+	    })
     });
   }
 }

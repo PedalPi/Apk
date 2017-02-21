@@ -64,7 +64,7 @@ export class EffectsDrawer {
         for (let i=0; i<words.length; i++) {
           element.append('tspan')
             .text(words[i]).attr('x', 0)
-            .attr('dy', 15*i);
+            .attr('dy', i == 0 ? -30 : 15);
         }
       });
 

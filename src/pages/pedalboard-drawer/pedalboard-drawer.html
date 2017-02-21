@@ -6,20 +6,20 @@
 
     <ion-buttons end>
       <button ion-button color="royal" (click)="goToEffects()"> Effects </button>
-
-      <button ion-button ico-only color="royal" (click)="removeSeleted()">
-        <ion-icon name="remove"></ion-icon>
-      </button>
     </ion-buttons>
-
   </ion-navbar>
 </ion-header>
 
 <ion-content class="pedalboard-drawer">
   <ion-fab right bottom>
-    <button ion-fab (click)=addEffect()>
+    <button ion-fab (click)="addEffect()">
       <ion-icon name="add"></ion-icon>
     </button>
+
+    <button ion-fab (click)="removeSeleted()" color="danger">
+      <ion-icon name="remove"></ion-icon>
+    </button>
   </ion-fab>
+
   <sr-pedalboard></sr-pedalboard>
 </ion-content>

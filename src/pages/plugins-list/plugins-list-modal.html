@@ -8,9 +8,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content id="effectList">
-  <h2 padding>{{category}}</h2>
-  <ion-list padding>
+<ion-content id="effectList" padding>
+  <ion-list>
+    <h2>{{category}}</h2>
     <button *ngFor="let plugin of plugins" ion-item (click)="itemSelected(plugin)">{{plugin.name}}</button>
   </ion-list>
 </ion-content>

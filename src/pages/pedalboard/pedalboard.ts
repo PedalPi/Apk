@@ -47,7 +47,7 @@ export class PedalboardPage {
   }
 
   ionViewDidLoad() {
-    if (this.currentEffect)
+    if (this.currentEffect != null)
       this.toPedalboard(this.currentEffect.pedalboard, this.currentEffect);
   }
 

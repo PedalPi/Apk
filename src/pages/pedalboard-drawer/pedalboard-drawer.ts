@@ -40,6 +40,10 @@ export class PedalboardDrawerPage {
     return this.jsonService.effect;
   }
 
+  private get currentService() {
+    return this.jsonService.current;
+  }
+  
   ionViewWillEnter() {
     this.ws.clearListeners();
 
@@ -57,6 +61,10 @@ export class PedalboardDrawerPage {
         alert("This pedalboard has been deleted!");
       }
     }
+
+    this.currentService
+        .setPedalboard(this.pedalboard)
+        .subscribe(() => {});
   }
 
   ionViewWillLeave() {

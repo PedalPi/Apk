@@ -37,6 +37,6 @@ export class PluginsListModal {
   }
 
   private initializeItems() {
-    return this.pluginsOriginals.slice(0).reverse();
+    return this.pluginsOriginals.slice(0);
   }
 }

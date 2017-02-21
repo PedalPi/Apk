@@ -12,6 +12,11 @@
 
 <ion-content id="plugins">
   <div class="categories">
+    <button class="all ion-card-clicable no-shadow ion-card-item" (click)="categoryAllSelected()">
+      <ion-icon><sr-icon icon="plugins-icons.svg#{{categories.icon(category)}}"></sr-icon></ion-icon>
+      All
+    </button>
+
     <button *ngFor="let category of categories.filtered" class="ion-card-clicable no-shadow ion-card-item" (click)="categorySelected(category)"
              class="{{categories.parse(category)}}">
       <ion-icon><sr-icon icon="plugins-icons.svg#{{categories.icon(category)}}"></sr-icon></ion-icon>

@@ -74,17 +74,4 @@ export class HomePage {
   goToConfigurations() {
     this.nav.push(ConfigurationsPage);
   }
-
-  goToPedalboardDrawer() {
-    let params = {
-      pedalboard: this.data.remote.manager.banks[0].pedalboards[0]
-    };
-
-    this.nav.push(PedalboardDrawerPage, params);
-  }
-
-  goToPlugins() {
-    const goTo = (resolve, reject) => this.nav.push(PluginsPage, {resolve: resolve})
-    new Promise(goTo).then(data => console.log(data));
-  }
 }
