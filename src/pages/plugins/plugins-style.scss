@@ -14,6 +14,11 @@
     border-color: #9dc9e2;
   }
 
+  .delay {
+    --details: lightsteelblue;
+    --border-color: lightslategrey;
+  }
+
   .distortion {
     stroke: white;
     stroke-width: 0.2px;
@@ -39,7 +44,7 @@
     stroke: white;
     stroke-width: 0.7px;
   }
-  
+
   .simulator {
     fill: #4c0000;
     stroke: white;

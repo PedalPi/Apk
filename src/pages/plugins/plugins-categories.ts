@@ -4,7 +4,7 @@ export class PluginsCategories {
     "Analyser": null,
     "Chorus": 'Humphries-guitar-pedal',
     "Compressor": 'Freepik-car-radio',
-    "Delay": null,
+    "Delay": 'Max-Burnside-Reel-To-Reel',
     "Distortion": 'Humphries-guitar-pedal-2',
     "Dynamics": 'Artem-Kovyazin-Guitar-Pedal-2',
     "Equaliser": 'Freepik-equalizer-bars',
