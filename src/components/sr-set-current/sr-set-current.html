@@ -1,0 +1,15 @@
+<ion-toolbar position="bottom" id="footer" [hidden]="!visible">
+  <button ion-item (click)="toBefore()"
+          [disabled]="!beforeEnabled">
+    <ion-icon name="arrow-back"></ion-icon>
+    <span class="label">{{before.index}} - {{before.name}}</span>
+  </button>
+
+  <ng-content></ng-content>
+
+  <button ion-item (click)="toNext()"
+          [disabled]="!nextEnabled">
+    <ion-icon name="arrow-forward"></ion-icon>
+    <span class="label">{{next.index}} - {{next.name}}</span>
+  </button>
+</ion-toolbar>

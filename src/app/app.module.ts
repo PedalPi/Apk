@@ -24,6 +24,7 @@ import { SrKnob } from '../components/sr-knob/sr-knob';
 import { SrParamKnob } from '../components/sr-param-knob/sr-param-knob';
 import { SrSlider } from '../components/sr-slider/sr-slider';
 import { SrPedalboard } from '../components/sr-pedalboard/sr-pedalboard';
+import { SrSetCurrent } from '../components/sr-set-current/sr-set-current';
 import { SrTab } from '../components/sr-tabs/sr-tab';
 import { SrTabs } from '../components/sr-tabs/sr-tabs';
 import { SrToggle } from '../components/sr-toggle/sr-toggle';
@@ -55,6 +56,7 @@ const components = [
   SrParamKnob,
   SrSlider,
   SrPedalboard,
+  SrSetCurrent,
   SrTab,
   SrTabs,
   SrToggle,

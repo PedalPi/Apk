@@ -42,8 +42,7 @@ export class PedalboardPage {
   }
 
   ionViewDidLoad() {
-    if (this.currentEffect != null)
-      this.toPedalboard(this.currentEffect.pedalboard, this.currentEffect);
+    this.toPedalboard(this.pedalboard, this.currentEffect);
   }
 
   ionViewWillEnter() {
@@ -58,26 +57,6 @@ export class PedalboardPage {
 
   ionViewWillLeave() {
     this.ws.clearListeners();
-  }
-
-  private get currentService() {
-    return this.jsonService.current;
-  }
-
-  public toBeforePedalboard() {
-    this.toPedalboard(this.beforePedalboard);
-  }
-
-  public get beforePedalboard() : Pedalboard {
-    return this.presenter.getBeforePedalboardOf(this.pedalboard);
-  }
-
-  public toNextPedalboard() {
-    this.toPedalboard(this.nextPedalboard);
-  }
-
-  public get nextPedalboard() : Pedalboard {
-    return this.presenter.getNextPedalboardOf(this.pedalboard);
   }
 
   private toPedalboard(pedalboard : Pedalboard, effect? : Effect) {
@@ -118,18 +97,6 @@ export class PedalboardPage {
 
   public setCurrentEffect(index : number) {
     this.currentEffect = this.pedalboard.effects[index];
-  }
-
-  public get hasMorePedalboard() {
-    return this.pedalboard.bank.pedalboards.length > 1;
-  }
-
-  public get hasOnlyTwoPedalboards() {
-    return this.pedalboard.bank.pedalboards.length == 2;
-  }
-
-  public get isFirstPedalboard() {
-    return this.pedalboard.bank.pedalboards[0] == this.pedalboard;
   }
 
   public goToConnections() {

@@ -5,12 +5,11 @@ import {BanksPage} from '../banks/banks';
 import {PedalboardsPage} from '../pedalboards/pedalboards';
 import {PedalboardPage} from '../pedalboard/pedalboard';
 import {ConfigurationsPage} from '../configurations/configurations';
-import {PedalboardDrawerPage} from '../pedalboard-drawer/pedalboard-drawer';
-import {PluginsPage} from '../plugins/plugins';
 
 import {JsonService} from '../../providers/json/json-service';
 import {CurrentService} from '../../providers/json/current-service';
 import {BanksService} from '../../providers/json/banks-service';
+import {PluginService} from '../../providers/json/plugin-service';
 import {DataService} from '../../providers/data/data-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
 
@@ -32,18 +31,31 @@ export class HomePage {
     ws.onConnectedListener = () => this.loadData();
   }
 
-  get service() : CurrentService {
+  private get service() : CurrentService {
     return this.jsonService.current;
   }
 
-  get banksService() : BanksService {
+  private get banksService() : BanksService {
     return this.jsonService.banks;
+  }
+
+  private get pluginService() : PluginService {
+    return this.jsonService.plugin;
   }
 
   loadData() {
     this.banksService.getBanks().subscribe(banksData => {
       this.data.remote.manager = BanksManager.generate(banksData);
       this.connected = true;
+    });
+
+    this.banksService.getBanks().subscribe(banksData => {
+      this.data.remote.manager = BanksManager.generate(banksData);
+      this.connected = true;
+    });
+
+    this.pluginService.getPlugins().subscribe(plugins => {
+      this.data.updatePlugins(plugins.plugins);
     });
   }
 

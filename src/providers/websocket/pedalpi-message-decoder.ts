@@ -118,6 +118,8 @@ export class PedalPiMessageDecoder implements MessageDecoder {
 
     let pedalboard = null;
 
+    console.log(this.data.remote)
+
     if (updateType == UpdateType.UPDATED) {
       pedalboard = new PedalboardReader(systemEffect, pluginsData).read(message.value);
       pedalboard.bank = bank;

@@ -19,29 +19,6 @@ export class PedalboardPresenter {
   }
 
   //==========================
-  // Pedalboard methods
-  //==========================
-  public getBeforePedalboardOf(pedalboard) : Pedalboard {
-    const bank = pedalboard.bank
-
-    let index = pedalboard.index - 1;
-    if (index == -1)
-      index = bank.pedalboards.length-1;
-
-    return bank.pedalboards[index];
-  }
-
-  public getNextPedalboardOf(pedalboard) : Pedalboard {
-    const bank = pedalboard.bank
-
-    let index = pedalboard.index + 1;
-    if (index == bank.pedalboards.length)
-      index = 0;
-
-    return bank.pedalboards[index];
-  }
-
-  //==========================
   // Request methods
   //==========================
   public requestSetCurrentPedalboard(pedalboard : Pedalboard) {
