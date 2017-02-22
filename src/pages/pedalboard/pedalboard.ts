@@ -8,6 +8,7 @@ import {UpdateType} from '../../providers/websocket/pedalpi-message-decoder';
 import {SrTabs} from '../../components/sr-tabs/sr-tabs';
 
 import {PedalboardPresenter} from './pedalboard-presenter';
+import {PedalboardDrawerPage} from '../pedalboard-drawer/pedalboard-drawer';
 
 import {Effect} from '../../plugins-manager/model/effect';
 import {Pedalboard} from '../../plugins-manager/model/pedalboard';
@@ -36,14 +37,8 @@ export class PedalboardPage {
     ) {
     this.presenter = new PedalboardPresenter(this, jsonService);
 
-    const pedalboard = params.get('pedalboard')
-
-    if (params.get('effect') === undefined)
-      this.currentEffect = pedalboard.effects[0];
-    else
-      this.currentEffect = params.get('effect')
-
-    this.pedalboard = pedalboard;
+    this.pedalboard = params.get('pedalboard');
+    this.currentEffect = this.pedalboard.effects[0];
   }
 
   ionViewDidLoad() {
@@ -92,10 +87,13 @@ export class PedalboardPage {
     this.presenter.requestSetCurrentPedalboard(this.pedalboard);
     this.currentEffect = effect ? effect : this.pedalboard.effects[0];
 
-    if (this.hasCurrentEffect) {
-      this.tabs.selectTab(this.currentEffect.index);
-      this.tabs.focusTab(this.currentEffect.index);
-    }
+    if (this.hasCurrentEffect)
+      this.setEffectTab(this.currentEffect)
+  }
+
+  private setEffectTab(effect) {
+    this.tabs.selectTab(effect.index);
+    this.tabs.focusTab(effect.index);
   }
 
   public onParamUpdated(param : Lv2Param, newValue : number) {
@@ -132,5 +130,20 @@ export class PedalboardPage {
 
   public get isFirstPedalboard() {
     return this.pedalboard.bank.pedalboards[0] == this.pedalboard;
+  }
+
+  public goToConnections() {
+    const goTo = (resolve, reject) => this.nav.push(
+      PedalboardDrawerPage,
+      {pedalboard: this.pedalboard, resolve: resolve},
+      {animate: false}
+    );
+
+    new Promise(goTo).then((effect : Effect) => {
+      if (effect) {
+        this.currentEffect = effect;
+        this.setEffectTab(this.currentEffect);
+      }
+    });
   }
 }

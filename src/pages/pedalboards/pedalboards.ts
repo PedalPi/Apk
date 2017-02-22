@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams, AlertController, ActionSheetController} from 'ionic-angular';
-import {PedalboardDrawerPage} from '../pedalboard-drawer/pedalboard-drawer';
+import {PedalboardPage} from '../pedalboard/pedalboard';
 
 import {JsonService} from '../../providers/json/json-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
@@ -40,7 +40,7 @@ export class PedalboardsPage {
     this.ws.messageDecoder.onNotificationBank = (updateType, bank) => {
       if (updateType == UpdateType.UPDATED && bank.id == this.bank.id) {
         this.bank = bank;
-      
+
       } else if (updateType == UpdateType.REMOVED && bank.index == this.bank.index) {
         this.nav.pop();
         alert("This bank has been deleted!");
@@ -62,7 +62,7 @@ export class PedalboardsPage {
   }
 
   itemSelected(pedalboard) {
-    this.nav.push(PedalboardDrawerPage, {'pedalboard': pedalboard});
+    this.nav.push(PedalboardPage, {'pedalboard': pedalboard});
   }
 
   onContextPedalboard(pedalboard) {

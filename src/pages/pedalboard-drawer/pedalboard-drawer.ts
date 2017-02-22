@@ -24,7 +24,7 @@ export class PedalboardDrawerPage {
 
   constructor(
       private nav : NavController,
-      params : NavParams,
+      private params : NavParams,
       data : DataService,
       private jsonService : JsonService,
       private ws : WebSocketService
@@ -40,10 +40,6 @@ export class PedalboardDrawerPage {
     return this.jsonService.effect;
   }
 
-  private get currentService() {
-    return this.jsonService.current;
-  }
-  
   ionViewWillEnter() {
     this.ws.clearListeners();
 
@@ -61,10 +57,6 @@ export class PedalboardDrawerPage {
         alert("This pedalboard has been deleted!");
       }
     }
-
-    this.currentService
-        .setPedalboard(this.pedalboard)
-        .subscribe(() => {});
   }
 
   ionViewWillLeave() {
@@ -94,13 +86,13 @@ export class PedalboardDrawerPage {
   }
 
   goToEffects(effect?) {
-    const params = {
-      'pedalboard': this.pedalboard
-    }
+    let promise = this.nav.pop({animate: false})
+    
     if (effect)
-      params['effect'] = effect.identifier
-
-    this.nav.push(PedalboardPage, params, {animate: false});
+      promise.then(status => {
+        const callback = this.params.get('resolve');
+        callback(effect.identifier);
+      });
   }
 
   addEffect() {

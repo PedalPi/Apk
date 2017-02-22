@@ -1,11 +1,13 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar hideBackButton>
     <ion-title>
       {{pedalboard.name}}
     </ion-title>
 
     <ion-buttons end>
-      <button ion-button color="royal" (click)="goToEffects()"> Effects </button>
+      <button ion-button icon-only color="royal" (click)="goToEffects()">
+        <ion-icon><sr-icon class="knob" icon="icons.svg#icon-Oliviu-Stoian-Knob"></sr-icon></ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
