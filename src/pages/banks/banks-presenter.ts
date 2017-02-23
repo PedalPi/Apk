@@ -34,7 +34,10 @@ export class BanksPresenter {
   requestSaveBank(data: any) : void {
     const bank = new Bank(data.name);
     bank.manager = this.data.remote.manager;
-    bank.pedalboards.push(new Pedalboard('Empty pedalboard'));
+
+    const pedalboard = new Pedalboard('Empty pedalboard');
+    pedalboard.bank = bank;
+    bank.pedalboards.push(pedalboard);
 
     const saveBank = status => this.manager.banks.push(bank);
 
