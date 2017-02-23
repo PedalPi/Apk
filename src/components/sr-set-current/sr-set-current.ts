@@ -16,7 +16,7 @@ export class SrSetCurrent {
   @Output() onChange = new EventEmitter();
 
   get visible() : boolean {
-    return this.totalInCurrentBank > 1;
+    return this.totalInCurrentBank > 0;
   }
 
   private get bank() {
@@ -53,7 +53,7 @@ export class SrSetCurrent {
   }
 
   public get beforeEnabled() : boolean {
-    return this.totalInCurrentBank != 2
+    return this.totalInCurrentBank > 2
         || this.current != this.first;
   }
 
@@ -75,8 +75,8 @@ export class SrSetCurrent {
   }
 
   public get nextEnabled() : boolean {
-    return this.totalInCurrentBank != 2
-        || this.current != this.second;
+    return this.totalInCurrentBank > 2
+        || (this.totalInCurrentBank == 2 && this.current != this.second);
   }
 
   public toNext() {
