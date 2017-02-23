@@ -62,12 +62,19 @@ export class BanksPage {
     contextMenu.addItem('Reorder', () => this.reordering = !this.reordering);
 
     contextMenu.addItem('Remove', () => {
-      let alert = new AlertBuilder(this.alert)
-        .title(`Delete ${bank.name}`)
-        .message('R u sure?')
-        .callback(data => this.presenter.requestDeleteBank(bank))
-        .generateConfirmAlert();
-
+      let alert;
+      if (bank.manager.banks.length == 1) {
+        alert = new AlertBuilder(this.alert)
+          .title('Error')
+          .message(`There must be at least one bank`)
+          .generateSimple();
+      } else {
+        alert = new AlertBuilder(this.alert)
+          .title(`Delete ${bank.name}`)
+          .message('R u sure?')
+          .callback(data => this.presenter.requestDeleteBank(bank))
+          .generateConfirmAlert();
+      }
       contextInstance.onDidDismiss(() => alert.present());
     });
 
