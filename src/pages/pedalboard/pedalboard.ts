@@ -1,5 +1,5 @@
 import {Component, ViewChild, ApplicationRef} from '@angular/core';
-import {ModalController, NavController, NavParams} from 'ionic-angular';
+import {ToastController, ModalController, NavController, NavParams} from 'ionic-angular';
 
 import {JsonService} from '../../providers/json/json-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
@@ -33,7 +33,8 @@ export class PedalboardPage {
       params : NavParams,
       private jsonService : JsonService,
       private ref: ApplicationRef,
-      private ws : WebSocketService
+      private ws : WebSocketService,
+      private toastCtrl : ToastController
     ) {
     this.presenter = new PedalboardPresenter(this, jsonService);
 
@@ -48,7 +49,14 @@ export class PedalboardPage {
   ionViewWillEnter() {
     this.ws.clearListeners();
 
-    this.ws.messageDecoder.onNotificationCurrentPedalboard = pedalboard => this.toPedalboard(pedalboard);
+    this.ws.messageDecoder.onNotificationCurrentPedalboard = pedalboard => {
+      this.toPedalboard(pedalboard);
+      this.toastCtrl.create({
+        message: `Current pedalboard has changed to "${pedalboard.name}"`,
+        duration: 3000,
+        dismissOnPageChange: true
+      }).present();
+    }
     this.ws.messageDecoder.onNotificationPedalboard = (updateType, pedalboard) => {
       if (updateType == UpdateType.UPDATED)
         this.toPedalboard(pedalboard);
