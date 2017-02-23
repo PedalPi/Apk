@@ -50,16 +50,17 @@ export class PedalboardPage {
     this.ws.clearListeners();
 
     this.ws.messageDecoder.onNotificationCurrentPedalboard = pedalboard => {
-      this.toPedalboard(pedalboard);
+      this.toPedalboard(pedalboard, undefined, false);
       this.toastCtrl.create({
         message: `Current pedalboard has changed to "${pedalboard.name}"`,
         duration: 3000,
         dismissOnPageChange: true
       }).present();
     }
+
     this.ws.messageDecoder.onNotificationPedalboard = (updateType, pedalboard) => {
       if (updateType == UpdateType.UPDATED)
-        this.toPedalboard(pedalboard);
+        this.toPedalboard(pedalboard, undefined, false);
     };
   }
 
@@ -67,11 +68,12 @@ export class PedalboardPage {
     this.ws.clearListeners();
   }
 
-  private toPedalboard(pedalboard : Pedalboard, effect? : Effect) {
+  private toPedalboard(pedalboard : Pedalboard, effect? : Effect, notify=true) {
     this.pedalboard = pedalboard;
     this.ref.tick();
 
-    this.presenter.requestSetCurrentPedalboard(this.pedalboard);
+    if (notify)
+      this.presenter.requestSetCurrentPedalboard(this.pedalboard);
     this.currentEffect = effect ? effect : this.pedalboard.effects[0];
 
     if (this.hasCurrentEffect)
