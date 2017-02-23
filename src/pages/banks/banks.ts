@@ -66,7 +66,7 @@ export class BanksPage {
         .title(`Delete ${bank.name}`)
         .message('R u sure?')
         .callback(data => this.presenter.requestDeleteBank(bank))
-        .generationConfirmAlert();
+        .generateConfirmAlert();
 
       contextInstance.onDidDismiss(() => alert.present());
     });

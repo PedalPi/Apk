@@ -1,26 +1,10 @@
 import {AlertController, Alert, AlertOptions, AlertInputOptions} from 'ionic-angular';
 
-export class AlertCommon {
-  static generate(title : string, callback : Function, value? : any) : Alert {
-    return null;
-  }
-
-  static alert(title : string, okCallback : Function) : Alert {
-    /*return Alert.create({
-      'title': title,
-      buttons: ['Cancel', {
-        text: 'Ok',
-        handler: data => okCallback(data)
-      }]
-    });*/
-    return null;
-  }
-}
 
 export class AlertBuilder {
   private json : AlertOptions;
   private controller : AlertController;
-  private callbackFunction : Function;
+  private callbackFunction : Function = () => {};
   private defaultValueText : string;
 
   constructor(controller : AlertController) {
@@ -80,7 +64,16 @@ export class AlertBuilder {
     return this.controller.create(this.json);
   }
 
-  generationConfirmAlert() : Alert {
+  generateSimple() : Alert {
+    this.addButton({
+      text: 'Ok',
+      handler: data => this.callbackFunction(data)
+    });
+
+    return this.controller.create(this.json);
+  }
+
+  generateConfirmAlert() : Alert {
     this.addButton('Cancel');
     this.addButton({
       text: 'Ok',

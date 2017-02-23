@@ -75,12 +75,19 @@ export class PedalboardsPage {
     contextMenu.addItem('Reorder', () => this.reordering = !this.reordering);
 
     contextMenu.addItem('Remove', () => {
-      let alert = new AlertBuilder(this.alert)
-        .title(`Delete ${pedalboard.name}`)
-        .message(`R u sure?`)
-        .callback(data => this.presenter.requestDeletePedalboard(pedalboard))
-        .generationConfirmAlert();
-
+      let alert;
+      if (pedalboard.bank.pedalboards.length == 1) {
+        alert = new AlertBuilder(this.alert)
+          .title('Error')
+          .message(`A bank must have at least one pedalboard`)
+          .generateSimple();
+      } else {
+        alert = new AlertBuilder(this.alert)
+          .title(`Delete ${pedalboard.name}`)
+          .message(`R u sure?`)
+          .callback(data => this.presenter.requestDeletePedalboard(pedalboard))
+          .generateConfirmAlert();
+      }
       contextInstance.onDidDismiss(() => alert.present());
     });
 
