@@ -66,7 +66,7 @@ export class PedalPiMessageDecoder implements MessageDecoder {
     else if (type == 'PEDALBOARD')
       this.onPedalboardChange(updateType, message);
     else if (type == 'EFFECT')
-      this.onNotificationEffect(null, null); //message
+      this.onNotificationEffect(updateType, message);
     else if (type == 'EFFECT-TOGGLE')
       this.onEffectStatusToggled(message);
     else if (type == 'PARAM')
@@ -115,8 +115,6 @@ export class PedalPiMessageDecoder implements MessageDecoder {
     const plugins = this.data.remote.plugins;
 
     let pedalboard = null;
-
-    console.log(this.data.remote)
 
     if (updateType == UpdateType.UPDATED) {
       pedalboard = new PedalboardReader(systemEffect, plugins).read(message.value);

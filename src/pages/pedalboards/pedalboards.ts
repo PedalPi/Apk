@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ApplicationRef} from '@angular/core';
 import {NavController, NavParams, AlertController, ActionSheetController} from 'ionic-angular';
 import {PedalboardPage} from '../pedalboard/pedalboard';
 
@@ -8,15 +8,18 @@ import {UpdateType} from '../../providers/websocket/pedalpi-message-decoder';
 
 import {AlertBuilder} from '../../common/alert';
 import {ContextMenu} from '../../common/contextMenu';
+import {Navigator} from '../../common/navigator';
 
 import {PedalboardsPresenter} from './pedalboards-presenter';
+
+import {Bank} from '../../plugins-manager/model/bank';
 
 
 @Component({
   templateUrl: 'pedalboards.html',
 })
 export class PedalboardsPage {
-  public bank : any;
+  public bank : Bank;
   public reordering : boolean;
 
   private presenter : PedalboardsPresenter;
@@ -27,7 +30,8 @@ export class PedalboardsPage {
       private alert : AlertController,
       private actionSheet : ActionSheetController,
       private jsonService : JsonService,
-      private ws : WebSocketService
+      private ws : WebSocketService,
+      private ref : ApplicationRef
     ) {
     this.presenter = new PedalboardsPresenter(this, params.get('bank'), jsonService);
     this.bank = params.get('bank');
@@ -67,7 +71,19 @@ export class PedalboardsPage {
   }
 
   itemSelected(pedalboard) {
-    this.nav.push(PedalboardPage, {'pedalboard': pedalboard});
+    const nav = new Navigator(this.nav);
+
+    nav.push(PedalboardPage, {pedalboard: pedalboard})
+       .thenBackSucess((bank? : Bank) => this.onBackSucess(bank));
+  }
+
+  private onBackSucess(bank? : Bank) : boolean {
+    if (bank) {
+      this.bank = bank;
+      this.ref.tick();
+    }
+
+    return true;
   }
 
   onContextPedalboard(pedalboard) {

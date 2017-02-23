@@ -10,8 +10,11 @@ import {SrTabs} from '../../components/sr-tabs/sr-tabs';
 import {PedalboardPresenter} from './pedalboard-presenter';
 import {PedalboardDrawerPage} from '../pedalboard-drawer/pedalboard-drawer';
 
+import {Navigator} from '../../common/navigator';
+
 import {Effect} from '../../plugins-manager/model/effect';
 import {Pedalboard} from '../../plugins-manager/model/pedalboard';
+import {Bank} from '../../plugins-manager/model/bank';
 
 import {Lv2Param} from '../../plugins-manager/model/lv2/lv2-param';
 
@@ -26,11 +29,12 @@ export class PedalboardPage {
   public currentEffect : Effect;
 
   private presenter: PedalboardPresenter;
+  private backButtonCallbackEnabled = true;
 
   constructor(
       private nav : NavController,
       private modal : ModalController,
-      params : NavParams,
+      private params : NavParams,
       private jsonService : JsonService,
       private ref: ApplicationRef,
       private ws : WebSocketService,
@@ -47,7 +51,20 @@ export class PedalboardPage {
   }
 
   ionViewWillEnter() {
+    this.backButtonCallbackEnabled = true;
     this.ws.clearListeners();
+
+    this.ws.messageDecoder.onNotificationBank = (updateType : UpdateType, bank : Bank) => {
+      if (updateType == UpdateType.UPDATED && this.pedalboard.bank.index == -1) {
+        this.toastCtrl.create({
+          message: `Bank of the current pedalboard has been updated`,
+          duration: 3000
+        }).present();
+
+        this.backButtonCallbackEnabled = false;
+        this.nav.pop().then(() => this.goToBack(bank));
+      }
+    }
 
     this.ws.messageDecoder.onNotificationCurrentPedalboard = pedalboard => {
       this.toPedalboard(pedalboard, undefined, false);
@@ -66,6 +83,18 @@ export class PedalboardPage {
 
   ionViewWillLeave() {
     this.ws.clearListeners();
+  }
+
+  ionViewWillUnload() {
+    if (this.backButtonCallbackEnabled)
+      this.goToBack(this.pedalboard.bank);
+  }
+
+  private goToBack(bank : Bank) {
+    const callback = this.params.get('resolve');
+
+    if (callback)
+      callback(bank);
   }
 
   private toPedalboard(pedalboard : Pedalboard, effect? : Effect, notify=true) {
@@ -110,17 +139,18 @@ export class PedalboardPage {
   }
 
   public goToConnections() {
-    const goTo = (resolve, reject) => this.nav.push(
-      PedalboardDrawerPage,
-      {pedalboard: this.pedalboard, resolve: resolve},
-      {animate: false}
-    );
+    const nav = new Navigator(this.nav);
 
-    new Promise(goTo).then((effect : Effect) => {
-      if (effect) {
-        this.currentEffect = effect;
-        this.setEffectTab(this.currentEffect);
-      }
-    });
+    nav.push(PedalboardDrawerPage, {pedalboard: this.pedalboard}, {animate: false})
+       .thenBackSucess((effect? : Effect) => this.onBackSucess(effect));
+  }
+
+  private onBackSucess(effect? : Effect) : boolean {
+    if (effect) {
+      this.currentEffect = effect;
+      this.setEffectTab(this.currentEffect);
+    }
+
+    return true;
   }
 }
