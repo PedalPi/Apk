@@ -38,11 +38,11 @@ export class PedalboardsPage {
     this.ws.clearListeners();
 
     this.ws.messageDecoder.onNotificationBank = (updateType, bank) => {
-      console.log(bank);
-      if (updateType == UpdateType.UPDATED && bank.index == this.bank.index) {
+      const thisBankAffected = this.bank.index == -1;
+      if (updateType == UpdateType.UPDATED && thisBankAffected) {
         this.bank = bank;
 
-      } else if (updateType == UpdateType.REMOVED && this.bank.index == -1) {
+      } else if (updateType == UpdateType.REMOVED && thisBankAffected) {
         this.nav.pop().then(() =>
           new AlertBuilder(this.alert)
             .message(`The bank <b>"${bank.name}"</b> has been deleted`)

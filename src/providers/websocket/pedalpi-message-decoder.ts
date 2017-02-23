@@ -92,7 +92,8 @@ export class PedalPiMessageDecoder implements MessageDecoder {
 
   private onBankChange(updateType : UpdateType, message : any) {
     const index = message.bank;
-    const plugins = this.data.remote.pluginsData;
+    const plugins = this.data.remote.plugins;
+
     const bank = new BankReader(BanksManager.SYSTEM_EFFECT, plugins).read(message.value);
     bank.manager = this.manager;
 
