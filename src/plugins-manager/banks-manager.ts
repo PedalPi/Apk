@@ -8,9 +8,9 @@ export class BanksManager {
 
   static SYSTEM_EFFECT = new SystemEffect('system', ['capture_1', 'capture_2'], ['playback_1', 'playback_2'])
 
-  static generate(data: any) {
+  static generate(data: any, pluginsData : any) {
     const manager = new BanksManager()
-    const decoder = new PersistenceDecoder(BanksManager.SYSTEM_EFFECT)
+    const decoder = new PersistenceDecoder(BanksManager.SYSTEM_EFFECT, pluginsData);
 
     for (let bankJson of BanksManager.order(data)) {
       const bank = decoder.read(bankJson)

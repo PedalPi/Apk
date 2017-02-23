@@ -5,16 +5,16 @@ import {Lv2Effect} from '../model/lv2/lv2-effect';
 
 
 export class PersistenceDecoder {
-  constructor(private systemEffect) {}
+  constructor(private systemEffect, private pluginsData) {}
 
   read(json) {
-    return new BankReader(this.systemEffect).read(json)
+    return new BankReader(this.systemEffect, this.pluginsData).read(json)
   }
 }
 
 
 abstract class Reader {
-  constructor(protected systemEffect) {}
+  constructor(protected systemEffect, protected pluginsData?) {}
 
   abstract read(this, json);
 }
@@ -25,7 +25,7 @@ export class BankReader extends Reader {
   read(json) {
     const bank = new Bank(json['name'])
 
-    const pedalboardReader = new PedalboardReader(this.systemEffect)
+    const pedalboardReader = new PedalboardReader(this.systemEffect, this.pluginsData)
     for (let pedalboardJson of json['pedalboards']) {
       const pedalboard = pedalboardReader.read(pedalboardJson)
       pedalboard.bank = bank
@@ -38,10 +38,6 @@ export class BankReader extends Reader {
 
 
 export class PedalboardReader extends Reader {
-
-  constructor(systemEffect, private pluginsData?) {
-    super(systemEffect)
-  }
 
   read(json) {
     const pedalboard = new Pedalboard(json['name'])
@@ -67,11 +63,7 @@ export class PedalboardReader extends Reader {
 
 export class EffectReader extends Reader {
 
-  constructor(systemEffect, private pluginsData?) {
-    super(systemEffect)
-  }
-
-  read(json, data?) {
+  read(json) {
     if (json['technology'] == 'lv2')
       return this.readLv2(json)
 

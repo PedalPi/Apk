@@ -1,18 +1,19 @@
-#sr-toggle {
+sr-toggle {
   font-weight: 100;
   padding: 20px 20px 0px;
-  display: block;
+  display: inline-block;
   color: #808080;
-
-  display: flex;
-  width: 100%;
 
   #name {
     font-size: 20px;
     display: block;
+    text-transform: capitalize;
+
+    margin: 0;
   }
 
   ion-toggle {
+    display: block;
     margin-top: 20px;
     margin-right: 10px;
   }

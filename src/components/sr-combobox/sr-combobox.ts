@@ -11,6 +11,9 @@ export class SrCombobox {
   @Input() selected : any;
   @Output('onChange') onChange = new EventEmitter();
 
+  get name() : string {
+    return this.parameter.data.name.toLowerCase();
+  }
 
   public get options() {
     return {

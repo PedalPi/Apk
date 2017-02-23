@@ -64,7 +64,7 @@ export class AlertBuilder {
     return this.controller.create(this.json);
   }
 
-  generateSimple() : Alert {
+  generate() : Alert {
     this.addButton({
       text: 'Ok',
       handler: data => this.callbackFunction(data)
@@ -73,7 +73,7 @@ export class AlertBuilder {
     return this.controller.create(this.json);
   }
 
-  generateConfirmAlert() : Alert {
+  generateConfirmation() : Alert {
     this.addButton('Cancel');
     this.addButton({
       text: 'Ok',

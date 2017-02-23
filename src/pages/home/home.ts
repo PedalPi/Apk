@@ -44,18 +44,15 @@ export class HomePage {
   }
 
   loadData() {
-    this.banksService.getBanks().subscribe(banksData => {
-      this.data.remote.manager = BanksManager.generate(banksData);
-      this.connected = true;
-    });
-
-    this.banksService.getBanks().subscribe(banksData => {
-      this.data.remote.manager = BanksManager.generate(banksData);
-      this.connected = true;
-    });
-
     this.pluginService.getPlugins().subscribe(plugins => {
       this.data.updatePlugins(plugins.plugins);
+
+      this.banksService.getBanks().subscribe(banksData => {
+        const plugins = this.data.remote.plugins;
+        this.data.remote.manager = BanksManager.generate(banksData, plugins);
+        this.connected = true;
+      });
+
     });
   }
 

@@ -14,6 +14,10 @@ export class SrToggle {
     };
   }
 
+  get name() : string {
+    return this.parameter.data.name.toLowerCase();
+  }
+
   update() {
     this.parameter.value = this.parameter.value === 0 ? 1 : 0;
     this.onChange.emit(this.parameter);

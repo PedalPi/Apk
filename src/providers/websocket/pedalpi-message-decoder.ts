@@ -91,22 +91,19 @@ export class PedalPiMessageDecoder implements MessageDecoder {
   }
 
   private onBankChange(updateType : UpdateType, message : any) {
-    let bank = null;
+    const index = message.bank;
+    const plugins = this.data.remote.pluginsData;
+    const bank = new BankReader(BanksManager.SYSTEM_EFFECT, plugins).read(message.value);
+    bank.manager = this.manager;
 
-    if (updateType == UpdateType.UPDATED) {
-      const index = message.bank;
-      const bank = new BankReader(BanksManager.SYSTEM_EFFECT).read(message.value);
+    if (updateType == UpdateType.UPDATED)
       this.manager.banks[index] = bank;
 
-    } else if (updateType == UpdateType.REMOVED) {
-      const index = message.bank;
+    else if (updateType == UpdateType.REMOVED)
       this.manager.banks.splice(index, 1);
 
-    } else if (updateType == UpdateType.CREATED) {
-      const bank = new BankReader(BanksManager.SYSTEM_EFFECT).read(message.value);
-      bank.manager = this.manager;
+    else if (updateType == UpdateType.CREATED)
       this.manager.banks.push(bank);
-    }
 
     this.onNotificationBank(updateType, bank);
   }
@@ -114,14 +111,14 @@ export class PedalPiMessageDecoder implements MessageDecoder {
   private onPedalboardChange(updateType : UpdateType, message : any) {
     const bank = this.bankBy(message.bank);
     const systemEffect = BanksManager.SYSTEM_EFFECT;
-    const pluginsData = this.data.remote['plugins'];
+    const plugins = this.data.remote.plugins;
 
     let pedalboard = null;
 
     console.log(this.data.remote)
 
     if (updateType == UpdateType.UPDATED) {
-      pedalboard = new PedalboardReader(systemEffect, pluginsData).read(message.value);
+      pedalboard = new PedalboardReader(systemEffect, plugins).read(message.value);
       pedalboard.bank = bank;
 
       bank.pedalboards[message.pedalboard] = pedalboard;
@@ -131,7 +128,7 @@ export class PedalPiMessageDecoder implements MessageDecoder {
       bank.pedalboards.splice(message.pedalboard, 1);
 
     } else if (updateType == UpdateType.CREATED) {
-      pedalboard = new PedalboardReader(systemEffect, pluginsData).read(message.value);
+      pedalboard = new PedalboardReader(systemEffect, plugins).read(message.value);
       pedalboard.bank = bank;
 
       bank.pedalboards.push(pedalboard);

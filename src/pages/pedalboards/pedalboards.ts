@@ -38,12 +38,17 @@ export class PedalboardsPage {
     this.ws.clearListeners();
 
     this.ws.messageDecoder.onNotificationBank = (updateType, bank) => {
-      if (updateType == UpdateType.UPDATED && bank.id == this.bank.id) {
+      console.log(bank);
+      if (updateType == UpdateType.UPDATED && bank.index == this.bank.index) {
         this.bank = bank;
 
-      } else if (updateType == UpdateType.REMOVED && bank.index == this.bank.index) {
-        this.nav.pop();
-        alert("This bank has been deleted!");
+      } else if (updateType == UpdateType.REMOVED && this.bank.index == -1) {
+        this.nav.pop().then(() =>
+          new AlertBuilder(this.alert)
+            .message(`The bank <b>"${bank.name}"</b> has been deleted`)
+            .generate()
+            .present()
+        );
       }
     };
   }
@@ -80,13 +85,13 @@ export class PedalboardsPage {
         alert = new AlertBuilder(this.alert)
           .title('Error')
           .message(`A bank must have at least one pedalboard`)
-          .generateSimple();
+          .generate();
       } else {
         alert = new AlertBuilder(this.alert)
           .title(`Delete ${pedalboard.name}`)
           .message(`R u sure?`)
           .callback(data => this.presenter.requestDeletePedalboard(pedalboard))
-          .generateConfirmAlert();
+          .generateConfirmation();
       }
       contextInstance.onDidDismiss(() => alert.present());
     });

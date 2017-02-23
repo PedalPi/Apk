@@ -1,7 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 
-import {PedalboardPage} from '../pedalboard/pedalboard';
 import {JsonService} from '../../providers/json/json-service';
 import {DataService} from '../../providers/data/data-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
@@ -87,7 +86,7 @@ export class PedalboardDrawerPage {
 
   goToEffects(effect?) {
     let promise = this.nav.pop({animate: false})
-    
+
     if (effect)
       promise.then(status => {
         const callback = this.params.get('resolve');

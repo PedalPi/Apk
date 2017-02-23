@@ -67,13 +67,13 @@ export class BanksPage {
         alert = new AlertBuilder(this.alert)
           .title('Error')
           .message(`There must be at least one bank`)
-          .generateSimple();
+          .generate();
       } else {
         alert = new AlertBuilder(this.alert)
           .title(`Delete ${bank.name}`)
           .message('R u sure?')
           .callback(data => this.presenter.requestDeleteBank(bank))
-          .generateConfirmAlert();
+          .generateConfirmation();
       }
       contextInstance.onDidDismiss(() => alert.present());
     });
