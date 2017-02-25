@@ -29,7 +29,7 @@ export class PedalboardPage {
   public currentEffect : Effect;
 
   private presenter: PedalboardPresenter;
-  private backButtonCallbackEnabled = true;
+  private ionViewWillUnloadCallbackEnabled = true;
 
   constructor(
       private nav : NavController,
@@ -51,34 +51,34 @@ export class PedalboardPage {
   }
 
   ionViewWillEnter() {
-    this.backButtonCallbackEnabled = true;
+    this.ionViewWillUnloadCallbackEnabled = true;
     this.ws.clearListeners();
 
     this.ws.messageDecoder.onNotificationBank = (updateType : UpdateType, bank : Bank) => {
       if (updateType == UpdateType.UPDATED && this.pedalboard.bank.index == -1) {
-        this.toastCtrl.create({
-          message: `Bank of the current pedalboard has been updated`,
-          duration: 3000
-        }).present();
-
-        this.backButtonCallbackEnabled = false;
+        this.presentToast(`Bank of the current pedalboard has been updated`);
+        this.ionViewWillUnloadCallbackEnabled = false;
         this.nav.pop().then(() => this.goToBack(bank));
       }
     }
 
     this.ws.messageDecoder.onNotificationCurrentPedalboard = pedalboard => {
       this.toPedalboard(pedalboard, undefined, false);
-      this.toastCtrl.create({
-        message: `Current pedalboard has changed to "${pedalboard.name}"`,
-        duration: 3000,
-        dismissOnPageChange: true
-      }).present();
+      this.presentToast(`Current pedalboard has changed to "${pedalboard.name}"`);
     }
 
     this.ws.messageDecoder.onNotificationPedalboard = (updateType, pedalboard) => {
-      if (updateType == UpdateType.UPDATED)
+      if (updateType == UpdateType.UPDATED && this.pedalboard.bank.index == -1)
         this.toPedalboard(pedalboard, undefined, false);
     };
+  }
+
+  private presentToast(message) {
+    this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      dismissOnPageChange: true
+    }).present();
   }
 
   ionViewWillLeave() {
@@ -86,7 +86,7 @@ export class PedalboardPage {
   }
 
   ionViewWillUnload() {
-    if (this.backButtonCallbackEnabled)
+    if (this.ionViewWillUnloadCallbackEnabled)
       this.goToBack(this.pedalboard.bank);
   }
 

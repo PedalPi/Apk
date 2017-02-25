@@ -1,4 +1,4 @@
-import {Component, ApplicationRef} from '@angular/core';
+import {Component} from '@angular/core';
 import {NavController, NavParams, AlertController, ActionSheetController} from 'ionic-angular';
 import {PedalboardPage} from '../pedalboard/pedalboard';
 
@@ -30,8 +30,7 @@ export class PedalboardsPage {
       private alert : AlertController,
       private actionSheet : ActionSheetController,
       private jsonService : JsonService,
-      private ws : WebSocketService,
-      private ref : ApplicationRef
+      private ws : WebSocketService
     ) {
     this.presenter = new PedalboardsPresenter(this, params.get('bank'), jsonService);
     this.bank = params.get('bank');
@@ -43,18 +42,19 @@ export class PedalboardsPage {
 
     this.ws.messageDecoder.onNotificationBank = (updateType, bank) => {
       const thisBankAffected = this.bank.index == -1;
-      if (updateType == UpdateType.UPDATED && thisBankAffected) {
+      if (updateType == UpdateType.UPDATED && thisBankAffected)
         this.bank = bank;
 
-      } else if (updateType == UpdateType.REMOVED && thisBankAffected) {
-        this.nav.pop().then(() =>
-          new AlertBuilder(this.alert)
-            .message(`The bank <b>"${bank.name}"</b> has been deleted`)
-            .generate()
-            .present()
-        );
-      }
+      else if (updateType == UpdateType.REMOVED && thisBankAffected)
+        this.nav.pop().then(() => this.presentAlert(`The bank <b>"${bank.name}"</b> has been deleted`));
     };
+  }
+
+  private presentAlert(message) {
+    new AlertBuilder(this.alert)
+      .message(message)
+      .generate()
+      .present()
   }
 
   ionViewWillLeave() {
@@ -78,10 +78,8 @@ export class PedalboardsPage {
   }
 
   private onBackSucess(bank? : Bank) : boolean {
-    if (bank) {
+    if (bank)
       this.bank = bank;
-      this.ref.tick();
-    }
 
     return true;
   }

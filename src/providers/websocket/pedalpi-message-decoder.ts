@@ -7,8 +7,9 @@ import {Bank} from "../../plugins-manager/model/bank";
 import {Pedalboard} from "../../plugins-manager/model/pedalboard";
 import {Effect} from "../../plugins-manager/model/effect";
 import {Param} from "../../plugins-manager/model/param";
+import {Connection} from "../../plugins-manager/model/connection";
 
-import {BankReader, PedalboardReader} from "../../plugins-manager/decoder/persistence-decoder";
+import {BankReader, PedalboardReader, EffectReader, ConnectionReader} from "../../plugins-manager/decoder/persistence-decoder";
 
 import {MessageDecoder} from './web-socket-service';
 
@@ -27,6 +28,8 @@ export class PedalPiMessageDecoder implements MessageDecoder {
   public onNotificationEffectStatusToggled : (effect : Effect) => any;
   public onNotificationParamValueChange : (param: Param) => any;
 
+  public onNotificationConnection = (type : UpdateType, connection : Connection) => {};
+
   constructor(private data : DataService) {
     this.clearListeners();
   }
@@ -44,6 +47,7 @@ export class PedalPiMessageDecoder implements MessageDecoder {
 
     this.onNotificationEffectStatusToggled = (effect : Effect) => {};
     this.onNotificationParamValueChange = (param : Param) => {};
+    this.onNotificationConnection = (type : UpdateType, connection : Connection) => {};
   }
 
   onMessage(message) {
@@ -66,11 +70,13 @@ export class PedalPiMessageDecoder implements MessageDecoder {
     else if (type == 'PEDALBOARD')
       this.onPedalboardChange(updateType, message);
     else if (type == 'EFFECT')
-      this.onNotificationEffect(updateType, message);
+      this.onEffectChange(updateType, message);
     else if (type == 'EFFECT-TOGGLE')
       this.onEffectStatusToggled(message);
     else if (type == 'PARAM')
       this.onParamValueChange(message);
+    else if (type == 'CONNECTION')
+      this.onConnectionChange(updateType, message);
   }
 
   private updateType(updateType : string) {
@@ -136,6 +142,27 @@ export class PedalPiMessageDecoder implements MessageDecoder {
     this.onNotificationPedalboard(updateType, pedalboard);
   }
 
+  private onEffectChange(updateType : UpdateType, message : any) {
+    const pedalboard = this.pedalboardBy(message);
+    const systemEffect = BanksManager.SYSTEM_EFFECT;
+    const plugins = this.data.remote.plugins;
+
+    let effect = null;
+
+    if (updateType == UpdateType.REMOVED) {
+      effect = pedalboard.effects[message.effect];
+      pedalboard.effects.splice(message.effect, 1);
+
+    } else if (updateType == UpdateType.CREATED) {
+      effect = new EffectReader(systemEffect, plugins).read(message.value);
+      effect.pedalboard = pedalboard;
+
+      pedalboard.effects.push(effect);
+    }
+
+    this.onNotificationEffect(updateType, effect);
+  }
+
   private onEffectStatusToggled(message : any) {
     const effect = this.effectBy(message);
     effect.toggle();
@@ -148,6 +175,36 @@ export class PedalPiMessageDecoder implements MessageDecoder {
     param.value = message.value;
 
     this.onNotificationParamValueChange(message);
+  }
+
+  private onConnectionChange(updateType : UpdateType, message : any) {
+    const pedalboard = this.pedalboardBy(message);
+    const systemEffect = BanksManager.SYSTEM_EFFECT;
+
+    let connection = new ConnectionReader(pedalboard, systemEffect).read(message.value);
+
+    if (updateType == UpdateType.REMOVED) {
+      const index = this.connectionIndex(pedalboard, connection);
+      pedalboard.connections.splice(index, 1);
+
+    } else if (updateType == UpdateType.CREATED) {
+      pedalboard.connections.push(connection);
+    }
+
+    this.onNotificationConnection(updateType, connection);
+  }
+
+  private connectionIndex(pedalboard : Pedalboard, connection : Connection) {
+    let index = 0;
+    for (let pedalboardConnection of pedalboard.connections) {
+      if (connection.input == pedalboardConnection.input
+       && connection.output == pedalboardConnection.output)
+        return index;
+
+      index++;
+    }
+
+    return -1;
   }
 
   private bankBy(index) : Bank {

@@ -43,6 +43,9 @@ export class PedalboardDrawerPage {
     this.ws.clearListeners();
 
     this.ws.messageDecoder.onNotificationCurrentPedalboard = pedalboard => console.log('Mudaram o pedalboard, marróia');
+    this.ws.messageDecoder.onNotificationEffect = (updateType, effect) => this.drawPedalboard(this.pedalboard, true);
+    this.ws.messageDecoder.onNotificationConnection = (updateType, effect) => this.drawPedalboard(this.pedalboard, true);
+
     this.ws.messageDecoder.onNotificationPedalboard = (updateType, pedalboard) => {
       const hasBeenRemoved = this.pedalboard.index == -1;
       const hasBeenUpdated = this.pedalboard.index == pedalboard.index;
@@ -67,6 +70,7 @@ export class PedalboardDrawerPage {
   }
 
   private drawPedalboard(pedalboard, clear) {
+    console.log(pedalboard);
     if (clear)
       this.pedalboardElement.clear()
 

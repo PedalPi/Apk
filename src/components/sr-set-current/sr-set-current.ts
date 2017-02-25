@@ -15,10 +15,6 @@ export class SrSetCurrent {
   @Input() current: Pedalboard;
   @Output() onChange = new EventEmitter();
 
-  get visible() : boolean {
-    return this.totalInCurrentBank > 0;
-  }
-
   private get bank() {
     return this.current.bank;
   }

@@ -92,10 +92,10 @@ export class EffectReader extends Reader {
 }
 
 
-class ConnectionReader extends Reader {
+export class ConnectionReader extends Reader {
   private pedalboard: Pedalboard;
 
-  constructor(pedalboard, systemEffect) {
+  constructor(pedalboard : Pedalboard, systemEffect) {
     super(systemEffect)
     this.pedalboard = pedalboard
   }
