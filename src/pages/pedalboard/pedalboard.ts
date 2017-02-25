@@ -1,11 +1,12 @@
 import {Component, ViewChild, ApplicationRef} from '@angular/core';
-import {ToastController, ModalController, NavController, NavParams} from 'ionic-angular';
+import {ViewController, ToastController, ModalController, NavController, NavParams} from 'ionic-angular';
 
 import {JsonService} from '../../providers/json/json-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
 import {UpdateType} from '../../providers/websocket/pedalpi-message-decoder';
 
 import {SrTabs} from '../../components/sr-tabs/sr-tabs';
+import {SrSetCurrent} from '../../components/sr-set-current/sr-set-current';
 
 import {PedalboardPresenter} from './pedalboard-presenter';
 import {PedalboardDrawerPage} from '../pedalboard-drawer/pedalboard-drawer';
@@ -24,12 +25,12 @@ import {Lv2Param} from '../../plugins-manager/model/lv2/lv2-param';
 })
 export class PedalboardPage {
   @ViewChild(SrTabs) tabs: SrTabs;
+  @ViewChild(SrSetCurrent) currentComponent: SrSetCurrent;
 
   public pedalboard : Pedalboard;
   public currentEffect : Effect;
 
   private presenter: PedalboardPresenter;
-  private ionViewWillUnloadCallbackEnabled = true;
 
   constructor(
       private nav : NavController,
@@ -38,7 +39,9 @@ export class PedalboardPage {
       private jsonService : JsonService,
       private ref: ApplicationRef,
       private ws : WebSocketService,
-      private toastCtrl : ToastController
+      private toastCtrl : ToastController,
+      private viewController : ViewController,
+      private navigator : Navigator
     ) {
     this.presenter = new PedalboardPresenter(this, jsonService);
 
@@ -51,14 +54,16 @@ export class PedalboardPage {
   }
 
   ionViewWillEnter() {
-    this.ionViewWillUnloadCallbackEnabled = true;
     this.ws.clearListeners();
 
     this.ws.messageDecoder.onNotificationBank = (updateType : UpdateType, bank : Bank) => {
       if (updateType == UpdateType.UPDATED && this.pedalboard.bank.index == -1) {
         this.presentToast(`Bank of the current pedalboard has been updated`);
-        this.ionViewWillUnloadCallbackEnabled = false;
-        this.nav.pop().then(() => this.goToBack(bank));
+        // It's necessary call goToBack instread this.nav.pop().then(() => this.goToBack(bank));
+        // because I don't know
+        this.goToBack(bank);
+        this.nav.pop();
+        //this.nav.pop().then(() => this.goToBack(bank));
       }
     }
 
@@ -68,8 +73,22 @@ export class PedalboardPage {
     }
 
     this.ws.messageDecoder.onNotificationPedalboard = (updateType, pedalboard) => {
-      if (updateType == UpdateType.UPDATED && this.pedalboard.bank.index == -1)
+      if (updateType == UpdateType.UPDATED && this.pedalboard.index == -1)
         this.toPedalboard(pedalboard, undefined, false);
+    };
+
+    this.ws.messageDecoder.onNotificationEffect = (updateType, effect) => {
+      if (updateType == UpdateType.CREATED && effect.pedalboard == this.pedalboard) {
+        this.currentEffect = effect;
+        this.ref.tick();
+        this.setEffectTab(effect);
+      }
+
+      if (updateType == UpdateType.REMOVED && effect.pedalboard == this.pedalboard) {
+        this.currentEffect = this.pedalboard.effects.length > 0
+                           ? this.pedalboard.effects[0]
+                           : undefined;
+      }
     };
   }
 
@@ -86,18 +105,16 @@ export class PedalboardPage {
   }
 
   ionViewWillUnload() {
-    if (this.ionViewWillUnloadCallbackEnabled)
-      this.goToBack(this.pedalboard.bank);
+    this.goToBack(this.pedalboard.bank);
   }
 
   private goToBack(bank : Bank) {
-    const callback = this.params.get('resolve');
-
-    if (callback)
-      callback(bank);
+    const params = {bank: bank}
+    this.navigator.callBackSucess(this.params, params);
   }
 
   private toPedalboard(pedalboard : Pedalboard, effect? : Effect, notify=true) {
+    this.currentComponent.current = pedalboard;
     this.pedalboard = pedalboard;
     this.ref.tick();
 
@@ -139,10 +156,9 @@ export class PedalboardPage {
   }
 
   public goToConnections() {
-    const nav = new Navigator(this.nav);
-
-    nav.push(PedalboardDrawerPage, {pedalboard: this.pedalboard}, {animate: false})
-       .thenBackSucess((effect? : Effect) => this.onBackSucess(effect));
+    this.navigator
+        .push(PedalboardDrawerPage, {pedalboard: this.pedalboard}, {animate: false})
+        .thenBackSucess((params) => this.onBackSucess(params.effect));
   }
 
   private onBackSucess(effect? : Effect) : boolean {

@@ -1,10 +1,10 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter
 } from '@angular/core';
 import {Pedalboard} from '../../plugins-manager/model/pedalboard';
+import {Bank} from '../../plugins-manager/model/bank';
 
 @Component({
   selector: 'sr-set-current',
@@ -12,8 +12,36 @@ import {Pedalboard} from '../../plugins-manager/model/pedalboard';
 })
 export class SrSetCurrent {
 
-  @Input() current: Pedalboard;
+  private pedalboard : Pedalboard;
+  public next : Pedalboard;
+  public before : Pedalboard;
+
   @Output() onChange = new EventEmitter();
+
+  constructor() {
+    const bank = new Bank('Bank');
+    this.pedalboard = new Pedalboard('Current pedalboard');
+    this.before = new Pedalboard('Before pedalboard');
+    this.next = new Pedalboard('Next pedalboard');
+
+    this.pedalboard.bank = bank;
+    this.next.bank = bank;
+    this.before.bank = bank;
+
+    bank.pedalboards.push(this.next);
+    bank.pedalboards.push(this.pedalboard);
+    bank.pedalboards.push(this.before);
+  }
+
+  public set current(current : Pedalboard) {
+    this.pedalboard = current;
+    this.before = this.calculeBefore();
+    this.next = this.calculeNext();
+  }
+
+  public get current() {
+    return this.pedalboard;
+  }
 
   private get bank() {
     return this.current.bank;
@@ -31,7 +59,7 @@ export class SrSetCurrent {
     return this.bank.pedalboards[1];
   }
 
-  public get before() : Pedalboard {
+  private calculeBefore() : Pedalboard {
     if (this.totalInCurrentBank == 2)
       return this.first;
 
@@ -53,7 +81,7 @@ export class SrSetCurrent {
         || this.current != this.first;
   }
 
-  public get next() : Pedalboard {
+  private calculeNext() : Pedalboard {
     if (this.totalInCurrentBank == 2)
       return this.second;
 

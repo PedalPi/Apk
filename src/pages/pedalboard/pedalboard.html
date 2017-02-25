@@ -49,7 +49,7 @@
 </ion-content>
 
 <ion-footer>
-  <sr-set-current [current]="pedalboard" (onChange)="toPedalboard($event)">
+  <sr-set-current (onChange)="toPedalboard($event)">
     <sr-footswitch id="footswitch" [(ngModel)]="currentEffectStatus" (onChange)="toggleEffectStatus(currentEffect)" [hidden]="!hasCurrentEffect"></sr-footswitch>
   </sr-set-current>
 </ion-footer>

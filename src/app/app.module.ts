@@ -34,6 +34,8 @@ import { DataService } from '../providers/data/data-service';
 import { JsonService } from '../providers/json/json-service';
 import { WebSocketService } from '../providers/websocket/web-socket-service';
 
+import { Navigator } from '../common/navigator';
+
 
 const pages = [
   AboutPage,
@@ -65,8 +67,11 @@ const components = [
 const services = [
   DataService,
   JsonService,
-  WebSocketService
+  WebSocketService,
+
+  Navigator
 ];
+
 
 @NgModule({
   declarations: [MyApp].concat(<any> pages).concat(<any> components),

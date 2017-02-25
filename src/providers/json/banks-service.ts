@@ -31,8 +31,6 @@ export class BanksService {
   }
 
   update(bank : Bank) {
-    console.log(bank)
-    console.log(bank.index)
     let url = this.url(bank.index);
     return this.rest.put(url, bank.json());
   }

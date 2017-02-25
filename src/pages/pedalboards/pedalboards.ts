@@ -30,11 +30,15 @@ export class PedalboardsPage {
       private alert : AlertController,
       private actionSheet : ActionSheetController,
       private jsonService : JsonService,
-      private ws : WebSocketService
+      private ws : WebSocketService,
+      private navigator : Navigator
     ) {
     this.presenter = new PedalboardsPresenter(this, params.get('bank'), jsonService);
     this.bank = params.get('bank');
     this.reordering = false;
+
+    if (params.get('current'))
+      this.itemSelected(params.get('pedalboard'));
   }
 
   ionViewWillEnter() {
@@ -71,15 +75,15 @@ export class PedalboardsPage {
   }
 
   itemSelected(pedalboard) {
-    const nav = new Navigator(this.nav);
-
-    nav.push(PedalboardPage, {pedalboard: pedalboard})
-       .thenBackSucess((bank? : Bank) => this.onBackSucess(bank));
+    this.navigator
+        .push(PedalboardPage, {pedalboard: pedalboard})
+        .thenBackSucess((bank? : Bank) => this.onBackSucess(bank));
   }
 
-  private onBackSucess(bank? : Bank) : boolean {
-    if (bank)
-      this.bank = bank;
+  public onBackSucess(params) : boolean {
+    console.log(params);
+    if (params.bank)
+      this.bank = params.bank;
 
     return true;
   }

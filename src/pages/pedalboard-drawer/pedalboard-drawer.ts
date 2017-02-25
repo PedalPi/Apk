@@ -12,6 +12,7 @@ import {SrPedalboardFacade} from './sr-pedalboard-facade';
 import {PluginsPage} from '../plugins/plugins';
 
 import {Effect} from '../../plugins-manager/model/effect';
+import {Navigator} from '../../common/navigator';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class PedalboardDrawerPage {
       private params : NavParams,
       data : DataService,
       private jsonService : JsonService,
-      private ws : WebSocketService
+      private ws : WebSocketService,
+      private navigator : Navigator
   ) {
     this.pedalboard = params.get('pedalboard');
   }
@@ -92,23 +94,23 @@ export class PedalboardDrawerPage {
     let promise = this.nav.pop({animate: false})
 
     if (effect)
-      promise.then(status => {
-        const callback = this.params.get('resolve');
-        callback(effect.identifier);
-      });
+      promise.then(status => this.navigator.callBackSucess(this.params, {effect: effect.identifier}));
   }
 
   addEffect() {
-    const goTo = (resolve, reject) => this.nav.push(PluginsPage, {resolve: resolve})
+    this.navigator.push(PluginsPage, {})
+        .thenBackSucess(params => this.onBackSucess(params.effect))
+  }
 
-    new Promise(goTo).then((effect : Effect) => {
-      effect.pedalboard = this.pedalboard;
-      this.pedalboard.effects.push(effect);
+  onBackSucess(effect : Effect) {
+    effect.pedalboard = this.pedalboard;
+    this.pedalboard.effects.push(effect);
 
-      this.effectService.saveNew(effect).subscribe(
-        () => this.drawPedalboard(this.pedalboard, true)
-      );
-    });
+    this.effectService.saveNew(effect).subscribe(
+      () => this.drawPedalboard(this.pedalboard, true)
+    );
+
+    return true;
   }
 
   private savePedalboardData() {

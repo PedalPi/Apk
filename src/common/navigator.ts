@@ -1,8 +1,10 @@
-import {NavController} from 'ionic-angular';
+import {App, NavParams} from 'ionic-angular';
+import {Injectable} from '@angular/core';
 
 
+@Injectable()
 export class Navigator {
-  constructor(private nav: NavController) {}
+  constructor(private app: App) {}
 
   public push(page, parameters, options?) {
     const goTo = (resolve, reject) => {
@@ -15,12 +17,29 @@ export class Navigator {
 
     return new NavigatorResult(goTo);
   }
+
+  private get nav() {
+    return this.app.getActiveNav();
+  }
+
+  public callBackSucess(navParams : NavParams, params) {
+    const callback = navParams.get('resolve')
+
+    if (callback)
+      return callback(params)
+
+    return true;
+  }
+
+  private get beforePage() {
+    return this.nav.getPrevious(this.nav.getActive()).instance;
+  }
 }
 
 export class NavigatorResult {
   constructor(private goTo) {}
 
-  public thenBackSucess(callback : (...args: any[]) => boolean) {
+  public thenBackSucess(callback : (params : any) => boolean) {
     new Promise(this.goTo).then(callback);
   }
 }

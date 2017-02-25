@@ -18,8 +18,12 @@ export class SrToggle {
     return this.parameter.data.name.toLowerCase();
   }
 
+  get actived() : boolean {
+    return this.parameter.value === 1
+  }
+
   update() {
-    this.parameter.value = this.parameter.value === 0 ? 1 : 0;
+    this.parameter.value = this.actived ? 0 : 1;
     this.onChange.emit(this.parameter);
   }
 }

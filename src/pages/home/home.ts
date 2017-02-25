@@ -64,16 +64,17 @@ export class HomePage {
   private openPagesForCurrent(bankIndex : number, pedalboardIndex : number) {
     let params : any = {};
 
+    params.current = true;
     params.bank = this.data.remote.manager.banks[bankIndex];
     params.pedalboard = params.bank.pedalboards[pedalboardIndex];
 
     const pages = [
       {page: BanksPage, params: params},
       {page: PedalboardsPage, params: params},
-      {page: PedalboardPage, params: params}
+      //{page: PedalboardPage, params: params}
     ]
 
-    this.nav.insertPages(3, pages)
+    this.nav.insertPages(pages.length, pages, {animate: false})
   }
 
   goToBanks() {

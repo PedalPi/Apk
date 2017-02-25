@@ -7,6 +7,7 @@ import {PluginsPresenter} from './plugins-presenter';
 import {PluginsListModal} from '../plugins-list/plugins-list-modal';
 
 import {LoadingController} from 'ionic-angular';
+import {Navigator} from '../../common/navigator';
 
 
 @Component({
@@ -21,7 +22,8 @@ export class PluginsPage {
       jsonService : JsonService,
       dataService : DataService,
       private modal : ModalController,
-      private loadingCtrl : LoadingController) {
+      private loadingCtrl : LoadingController,
+      private navigator : Navigator) {
     this.presenter = new PluginsPresenter(jsonService, dataService);
   }
 
@@ -55,10 +57,7 @@ export class PluginsPage {
       if (effect == undefined)
         return;
 
-      this.nav.pop().then(status => {
-  	    const callback = this.params.get('resolve');
-        callback(effect);
-	    })
+      this.nav.pop().then(status => this.navigator.callBackSucess(this.params, {effect: effect}));
     });
   }
 }
