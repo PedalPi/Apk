@@ -21,11 +21,10 @@ export class WebSocketService {
 
   private connection : WebSocket;
 
-  public onCurrentPedalboardChangeListener : any;
-
   public messageDecoder : any;
 
   public onConnectedListener : any = () => {};
+  public onErrorListener : any = () => {};
 
   public forceReconnection : boolean;
   private tryingReconnect : boolean;
@@ -60,7 +59,6 @@ export class WebSocketService {
     const connection = new RobustWebSocket(url);
 
     connection.onmessage = m => this.onMessage(m.data);
-    connection.onerror = console.error;
 
     connection.onopen = () => {
       if (this.tryingReconnect)
@@ -100,7 +98,9 @@ export class WebSocketService {
 
       if (this.loading)
         this.loading.dismiss();
+
       connection.close();
+      this.onErrorListener()
     }
 
     this.connection = connection;
@@ -111,6 +111,7 @@ export class WebSocketService {
   }
 
   clearListeners() {
+    this.onConnectedListener = () => {};
     this.messageDecoder.clearListeners();
   }
 

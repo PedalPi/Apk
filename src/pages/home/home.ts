@@ -3,7 +3,6 @@ import {NavController} from 'ionic-angular';
 
 import {BanksPage} from '../banks/banks';
 import {PedalboardsPage} from '../pedalboards/pedalboards';
-import {PedalboardPage} from '../pedalboard/pedalboard';
 import {ConfigurationsPage} from '../configurations/configurations';
 
 import {JsonService} from '../../providers/json/json-service';
@@ -31,6 +30,11 @@ export class HomePage {
       private loadingCtrl : LoadingController) {
     // ws injected in the first page to start web socket connection
     ws.onConnectedListener = () => this.loadData();
+    ws.onErrorListener = () => this.goToConfigurations();
+  }
+
+  ionViewWillLeave() {
+    this.ws.clearListeners();
   }
 
   private get service() : CurrentService {
