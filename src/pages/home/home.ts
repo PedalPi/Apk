@@ -14,6 +14,7 @@ import {DataService} from '../../providers/data/data-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
 
 import {BanksManager} from '../../plugins-manager/banks-manager'
+import {LoadingController} from 'ionic-angular';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class HomePage {
       private nav : NavController,
       private jsonService : JsonService,
       private data : DataService,
-      private ws : WebSocketService) {
+      private ws : WebSocketService,
+      private loadingCtrl : LoadingController) {
     // ws injected in the first page to start web socket connection
     ws.onConnectedListener = () => this.loadData();
   }
@@ -44,6 +46,9 @@ export class HomePage {
   }
 
   loadData() {
+    const loading = this.loadingCtrl.create({content: "Getting data"});
+    loading.present();
+
     this.pluginService.getPlugins().subscribe(plugins => {
       this.data.updatePlugins(plugins.plugins);
 
@@ -51,8 +56,9 @@ export class HomePage {
         const plugins = this.data.remote.plugins;
         this.data.remote.manager = BanksManager.generate(banksData, plugins);
         this.connected = true;
-      });
 
+        loading.dismiss();
+      });
     });
   }
 
