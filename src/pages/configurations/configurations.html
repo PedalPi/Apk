@@ -11,15 +11,14 @@
     </ion-buttons>
   </ion-navbar>
 
-  <ion-navbar>
-
-  <ion-list>
-      <ion-item>
+  <ion-navbar [color]="connectedColor">
+    <ion-list>
+      <ion-item id="configurationsDiscoverMode">
         <ion-label>Discover device mode</ion-label>
 
-        <ion-note item-right [attr.selected]="!emulated && !autoSearch ? 'selected' : ''">Manual</ion-note>
+        <ion-note item-right [attr.selected]="!autoSearch ? 'selected' : ''">Manual</ion-note>
         <ion-toggle [(ngModel)]="autoSearch" [disabled]="emulated"></ion-toggle>
-        <ion-note item-right [attr.selected]="!emulated && autoSearch ? 'selected' : ''">Auto</ion-note>
+        <ion-note item-right [attr.selected]="autoSearch ? 'selected' : ''">Auto</ion-note>
       </ion-item>
     </ion-list>
   </ion-navbar>
