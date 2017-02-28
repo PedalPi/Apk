@@ -1,0 +1,36 @@
+.pages-manager > .scroll-content {
+  display: flex;
+  overflow-y: hidden;
+}
+
+.subpage {
+  width: 100%;
+
+  ion-header,
+  ion-footer {
+    position: inherit;
+  }
+
+  ion-header {
+    display: none;
+  }
+
+  .scroll-content {
+    margin: 0 !important;
+  }
+}
+
+page-pedalboard-manager {
+  page-pedalboard {
+    max-width: 550px;
+
+    ion-content {
+      height: calc(100% - 86px);
+    }
+
+    #tabs ul {
+      width: 50%;
+      max-width: 550px;
+    }
+  }
+}

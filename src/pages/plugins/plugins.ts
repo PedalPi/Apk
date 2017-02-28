@@ -11,6 +11,7 @@ import {Navigator} from '../../common/navigator';
 
 
 @Component({
+  selector: 'page-plugins',
   templateUrl: 'plugins.html',
 })
 export class PluginsPage {
@@ -25,10 +26,21 @@ export class PluginsPage {
       private loadingCtrl : LoadingController,
       private navigator : Navigator) {
     this.presenter = new PluginsPresenter(jsonService, dataService);
+    console.log((<any> this).ngAfterContentInit)
   }
 
   ionViewDidLoad() {
+    //console.log('Exists ionic cycle')
     this.refresh();
+  }
+
+  ngAfterContentInit() {
+    console.log('ngAfterContentInit')
+    this.refresh();
+  }
+
+  ngOnDestroy() {
+    console.log('ngOnDestroy')
   }
 
   get categories() {
@@ -47,6 +59,7 @@ export class PluginsPage {
   }
 
   categoryAllSelected() {
+    console.log(this.presenter)
     this.goToPluginsList('All', this.presenter.plugins);
   }
 

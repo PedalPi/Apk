@@ -21,6 +21,7 @@ import {Lv2Param} from '../../plugins-manager/model/lv2/lv2-param';
 
 
 @Component({
+  selector: 'page-pedalboard',
   templateUrl: 'pedalboard.html',
 })
 export class PedalboardPage {

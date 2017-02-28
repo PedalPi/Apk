@@ -13,6 +13,7 @@ import { PedalboardDrawerPage } from '../pages/pedalboard-drawer/pedalboard-draw
 import { PedalboardPage } from '../pages/pedalboard/pedalboard';
 import { PedalboardsPage } from '../pages/pedalboards/pedalboards';
 import { PluginsPage } from '../pages/plugins/plugins';
+import { PedalboardManagerPage } from '../pages/pedalboard-manager/pedalboard-manager';
 
 import { PluginsListModal } from '../pages/plugins-list/plugins-list-modal';
 
@@ -46,6 +47,7 @@ const pages = [
   PedalboardPage,
   PedalboardsPage,
   PluginsPage,
+  PedalboardManagerPage,
 
   PluginsListModal
 ];

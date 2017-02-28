@@ -16,6 +16,7 @@ import {Navigator} from '../../common/navigator';
 
 
 @Component({
+  selector: 'page-pedalboard-drawer',
   templateUrl: 'pedalboard-drawer.html',
 })
 export class PedalboardDrawerPage {
@@ -39,6 +40,11 @@ export class PedalboardDrawerPage {
 
   private get effectService() {
     return this.jsonService.effect;
+  }
+
+  ngAfterViewInit() {
+    console.log('ngAfterContentInit')
+    this.ionViewDidLoad();
   }
 
   ionViewWillEnter() {

@@ -111,7 +111,7 @@ export class WebSocketService {
   }
 
   clearListeners() {
-    this.onConnectedListener = () => {};
+    this.onErrorListener = () => {};
     this.messageDecoder.clearListeners();
   }
 
