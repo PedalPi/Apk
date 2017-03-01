@@ -2,13 +2,31 @@
 
   <ion-navbar>
     <ion-title>Manage: Pedalboard name</ion-title>
-  </ion-navbar>
 
+    <ion-buttons end>
+      <sr-button-toggle [state]="showDrawer">
+        <button ion-button icon-only color="royal" (click)="toggleDrawer()">
+          <ion-icon><sr-icon class="connections" icon="icons.svg#icon-Richard-Schumann-Connect"></sr-icon></ion-icon>
+        </button>
+      </sr-button-toggle>
+    </ion-buttons>
+  </ion-navbar>
 </ion-header>
 
 
 <ion-content class="pages-manager">
-  <page-pedalboard-drawer class="subpage"></page-pedalboard-drawer>
-  <page-pedalboard class="subpage"></page-pedalboard>
-  <page-plugins class="subpage" hidden></page-plugins>
+  <page-pedalboard-drawer class="subpage no-header" [hidden]="!showDrawer"></page-pedalboard-drawer>
+
+  <page-pedalboard class="subpage no-header" [hidden]="showPlugins"></page-pedalboard>
+  <page-plugins class="subpage" [hidden]="!showPlugins"></page-plugins>
+
+  <ion-fab right bottom [hidden]="showDrawer">
+    <button ion-fab (click)="goToPlugins()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+
+    <button ion-fab (click)="removeSeleted()" color="danger">
+      <ion-icon name="remove"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>

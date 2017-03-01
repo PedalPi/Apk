@@ -18,6 +18,7 @@ import { PedalboardManagerPage } from '../pages/pedalboard-manager/pedalboard-ma
 import { PluginsListModal } from '../pages/plugins-list/plugins-list-modal';
 
 // Components
+import { SrButtonToggleComponent } from '../components/sr-button-toggle/sr-button-toggle';
 import { SrCombobox } from '../components/sr-combobox/sr-combobox';
 import { SrFootswitch } from '../components/sr-footswitch/sr-footswitch';
 import { SrIcon } from '../components/sr-icon/sr-icon';
@@ -53,6 +54,7 @@ const pages = [
 ];
 
 const components = [
+  SrButtonToggleComponent,
   SrCombobox,
   SrFootswitch,
   SrIcon,

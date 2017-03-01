@@ -11,18 +11,22 @@
     position: inherit;
   }
 
-  ion-header {
-    display: none;
-  }
-
   .scroll-content {
     margin: 0 !important;
   }
 }
 
+.subpage.no-header {
+  ion-header {
+    display: none;
+  }
+}
+
+
 page-pedalboard-manager {
   page-pedalboard {
     max-width: 550px;
+    border-left: 1px solid #dedede;
 
     ion-content {
       height: calc(100% - 86px);
@@ -31,6 +35,10 @@ page-pedalboard-manager {
     #tabs ul {
       width: 50%;
       max-width: 550px;
+    }
+
+    ion-footer {
+      border-top: 2px solid #dedede;
     }
   }
 }

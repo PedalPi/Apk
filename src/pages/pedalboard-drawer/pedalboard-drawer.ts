@@ -42,11 +42,6 @@ export class PedalboardDrawerPage {
     return this.jsonService.effect;
   }
 
-  ngAfterViewInit() {
-    console.log('ngAfterContentInit')
-    this.ionViewDidLoad();
-  }
-
   ionViewWillEnter() {
     this.ws.clearListeners();
 

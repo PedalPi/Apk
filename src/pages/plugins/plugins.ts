@@ -26,22 +26,9 @@ export class PluginsPage {
       private loadingCtrl : LoadingController,
       private navigator : Navigator) {
     this.presenter = new PluginsPresenter(jsonService, dataService);
-    console.log((<any> this).ngAfterContentInit)
   }
 
-  ionViewDidLoad() {
-    //console.log('Exists ionic cycle')
-    this.refresh();
-  }
-
-  ngAfterContentInit() {
-    console.log('ngAfterContentInit')
-    this.refresh();
-  }
-
-  ngOnDestroy() {
-    console.log('ngOnDestroy')
-  }
+  ionViewDidLoad() {}
 
   get categories() {
     return this.presenter.categories;
