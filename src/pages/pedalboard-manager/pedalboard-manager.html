@@ -4,29 +4,37 @@
     <ion-title>Manage: Pedalboard name</ion-title>
 
     <ion-buttons end>
-      <sr-button-toggle [state]="showDrawer">
+      <sr-button-toggle [state]="showDrawer" id="button-connections-toggle">
         <button ion-button icon-only color="royal" (click)="toggleDrawer()">
-          <ion-icon><sr-icon class="connections" icon="icons.svg#icon-Richard-Schumann-Connect"></sr-icon></ion-icon>
+          <ion-icon>
+            <sr-icon class="connections" icon="icons.svg#icon-Richard-Schumann-Connect"></sr-icon>
+          </ion-icon>
         </button>
       </sr-button-toggle>
+
+      <button ion-button icon-only color="royal" (click)="toggleDrawer()" id="button-parameters">
+        <ion-icon [hidden]="showDrawer">
+          <sr-icon class="connections" icon="icons.svg#icon-Richard-Schumann-Connect"></sr-icon>
+        </ion-icon>
+        <ion-icon [hidden]="!showDrawer">
+          <sr-icon class="connections" icon="icons.svg#icon-Oliviu-Stoian-Knob"></sr-icon>
+        </ion-icon>
+      </button>
+
+      <button ion-button icon-only color="royal">
+        <ion-icon name="remove"></ion-icon>
+      </button>
+      <button ion-button icon-only color="royal" (click)="goToPlugins()">
+        <ion-icon name="add"></ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content class="pages-manager">
+<ion-content #splitPane class="pages-manager">
   <page-pedalboard-drawer class="subpage no-header" [hidden]="!showDrawer"></page-pedalboard-drawer>
 
-  <page-pedalboard class="subpage no-header" [hidden]="showPlugins"></page-pedalboard>
-  <page-plugins class="subpage" [hidden]="!showPlugins"></page-plugins>
-
-  <ion-fab right bottom [hidden]="showDrawer">
-    <button ion-fab (click)="goToPlugins()">
-      <ion-icon name="add"></ion-icon>
-    </button>
-
-    <button ion-fab (click)="removeSeleted()" color="danger">
-      <ion-icon name="remove"></ion-icon>
-    </button>
-  </ion-fab>
+  <page-pedalboard [class]="'subpage no-header right ' + (showDrawer ? '': 'full')" [hidden]="showPlugins"></page-pedalboard>
+  <page-plugins [class]="'subpage right ' + (showDrawer ? '': 'full')" [hidden]="!showPlugins"></page-plugins>
 </ion-content>
