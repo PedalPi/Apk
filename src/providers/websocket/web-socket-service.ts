@@ -46,9 +46,13 @@ export class WebSocketService {
     this.data = data;
     this.ref = ref;
 
-    this.connect(WebSocketService.prepareUrl(JsonService.server));
+    data.addOnReadyListener(() => this.initializeConnection());
     this.messageDecoder = new PedalPiMessageDecoder(this.data);
     this.clearListeners();
+  }
+
+  private initializeConnection() {
+    this.connect(WebSocketService.prepareUrl(JsonService.server))
   }
 
   public connect(url) {
@@ -74,6 +78,8 @@ export class WebSocketService {
       }).present();
 
       this.connected = true;
+
+      this.data.lastDeviceConnected = url;
     }
 
     connection.onclose = () => {

@@ -2,6 +2,8 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
+import { Storage } from '@ionic/storage';
+
 import 'rxjs/add/operator/map';
 
 // Pages
@@ -85,6 +87,7 @@ const services = [
   bootstrap: [IonicApp],
   entryComponents: [MyApp].concat(<any> pages),
   providers: [
+    Storage,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
   ].concat(<any> services)
 })
