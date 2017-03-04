@@ -1,5 +1,5 @@
 import {NavController, NavParams, ModalController} from 'ionic-angular';
-import {Component} from '@angular/core';
+import {Output, EventEmitter, Component} from '@angular/core';
 
 import {JsonService} from '../../providers/json/json-service';
 import {DataService} from '../../providers/data/data-service';
@@ -15,6 +15,7 @@ import {Navigator} from '../../common/navigator';
   templateUrl: 'plugins.html',
 })
 export class PluginsPage {
+  @Output() onClose = new EventEmitter();
   private presenter : PluginsPresenter;
 
   constructor(
@@ -59,5 +60,9 @@ export class PluginsPage {
 
       this.nav.pop().then(status => this.navigator.callBackSucess(this.params, {effect: effect}));
     });
+  }
+
+  close() {
+    this.onClose.emit();
   }
 }

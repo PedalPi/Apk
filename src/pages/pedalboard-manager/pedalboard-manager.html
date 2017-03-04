@@ -24,7 +24,7 @@
       <button ion-button icon-only color="royal">
         <ion-icon name="remove"></ion-icon>
       </button>
-      <button ion-button icon-only color="royal" (click)="goToPlugins()">
+      <button ion-button icon-only color="royal" (click)="showPluginsCategories()">
         <ion-icon name="add"></ion-icon>
       </button>
     </ion-buttons>
@@ -34,18 +34,21 @@
 
 <ion-content #splitPane class="pages-manager">
   <page-pedalboard-drawer
-    class="subpage no-header"
+    class="subpage"
     [hidden]="!drawerVisible"
     [pedalboard]="pedalboard"
     (onEffectClick)="selectEffect($event, false)"
     (onEffectDoubleClick)="selectEffect($event, true)"></page-pedalboard-drawer>
 
   <page-pedalboard
-    [class]="'subpage no-header right ' + (drawerVisible ? '': 'full')"
-    [hidden]="showPlugins"
+    [class]="'subpage right ' + (drawerVisible ? '': 'full')"
+    [hidden]="pluginsCategoriesVisible"
     [pedalboard]="pedalboard"
     (onCurrentChange)="setPedalboard($event)"
     (onEffectChange)="selectEffectPedalboardManager($event)">
   </page-pedalboard>
-  <page-plugins [class]="'subpage ' + (drawerVisible ? '': 'full')" [hidden]="!showPlugins"></page-plugins>
+  <page-plugins
+    [class]="'subpage ' + (drawerVisible ? '': 'full')"
+    [hidden]="!pluginsCategoriesVisible"
+    (onClose)="hidePluginsCategories()"></page-plugins>
 </ion-content>

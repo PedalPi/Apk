@@ -27,7 +27,7 @@ export class PedalboardManagerPage {
   @ViewChild('splitPane') ionContent : Content;
 
   public drawerVisible : boolean = true;
-  public showPlugins : boolean = false;
+  public pluginsCategoriesVisible : boolean = false;
 
   private mediaQuerie : MediaQueryList
   private mediaQuerieCallback : (query: MediaQueryList) => void
@@ -138,7 +138,6 @@ export class PedalboardManagerPage {
   }
 
   public selectEffectPedalboardManager(effect : Effect) {
-    console.log('Tab selected', effect);
     this.pedalboardDrawer.select(effect);
   }
 
@@ -146,9 +145,6 @@ export class PedalboardManagerPage {
     this.drawerVisible = !this.drawerVisible;
   }
 
-  goToPlugins() {
-    this.showPlugins = true;
-  }
 
   private updateSplit(query : MediaQueryList) {
     let element = this.ionContent.getNativeElement();
@@ -157,5 +153,13 @@ export class PedalboardManagerPage {
       element.classList.add('split');
     else
       element.classList.remove('split');
+  }
+
+  showPluginsCategories() {
+    this.pluginsCategoriesVisible = true;
+  }
+
+  hidePluginsCategories() {
+    this.pluginsCategoriesVisible = false;
   }
 }
