@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams, AlertController, ActionSheetController} from 'ionic-angular';
-import {PedalboardPage} from '../pedalboard/pedalboard';
+import {PedalboardManagerPage} from '../pedalboard-manager/pedalboard-manager';
 
 import {JsonService} from '../../providers/json/json-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
@@ -76,7 +76,7 @@ export class PedalboardsPage {
 
   itemSelected(pedalboard) {
     this.navigator
-        .push(PedalboardPage, {pedalboard: pedalboard})
+        .push(PedalboardManagerPage, {pedalboard: pedalboard})
         .thenBackSucess((bank? : Bank) => this.onBackSucess(bank));
   }
 

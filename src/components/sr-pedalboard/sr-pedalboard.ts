@@ -1,6 +1,7 @@
 import { ElementRef } from '@angular/core';
 
 import {BanksManager} from '../../plugins-manager/banks-manager';
+import {Effect as EffectModel} from '../../plugins-manager/model/effect';
 
 import {Component} from '@angular/core';
 import {Pedalboard} from './pedalboard/pedalboard';
@@ -47,6 +48,11 @@ export class SrPedalboard {
 
   connect(source: Output, target: Input) {
     this.pedalboard.addConnection(source, target, false);
+  }
+
+  select(effect : EffectModel) {
+    const d3Effect = this.pedalboard.effects[effect.index];
+    this.pedalboard.select(d3Effect);
   }
 
   removeSeleted() {

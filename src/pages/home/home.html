@@ -40,7 +40,7 @@
     </ion-card>
 
     <ion-card (click)="goToPedalboardManager()" class="ion-card-clicable no-shadow">
-      <button ion-item>
+      <button ion-item [disabled]="!connected">
         <ion-icon item-left><sr-icon icon="icons.svg#icon-Oliviu-Stoian-Knob"></sr-icon></ion-icon>
         <span class="ion-item">Pedalboard Manager</span>
       </button>

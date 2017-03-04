@@ -41,6 +41,9 @@ export class Pedalboard {
   clear() {
     this.effects.splice(0, this.effects.length);
     this.connections.splice(0, this.connections.length);
+
+    this.view.updateEffects(this.effects);
+    this.view.updateConnections(this.connections);
   }
 
   /*************************************
@@ -73,7 +76,7 @@ export class Pedalboard {
       this.listener.connectionAdded(connection);
   }
 
-  private select(object) {
+  public select(object) {
     this.view.select(object);
   }
 

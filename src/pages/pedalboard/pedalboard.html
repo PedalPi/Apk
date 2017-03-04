@@ -3,17 +3,11 @@
     <ion-title>
       {{pedalboard.name}}
     </ion-title>
-
-    <ion-buttons end>
-      <button ion-button icon-only color="royal" (click)="goToConnections()">
-        <ion-icon><sr-icon class="connections" icon="icons.svg#icon-Richard-Schumann-Connect"></sr-icon></ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content class="pedalboard">
-  <sr-tabs id="tabs" (onSelect)="setCurrentEffect($event)">
+  <sr-tabs id="tabs" (onSelect)="setCurrentEffectByIndex($event)">
 
     <sr-tab *ngFor="let effect of pedalboard.effects" title="{{effect.plugin.name}}" [hidden]="effect != currentEffect">
       <div id="parameters">
