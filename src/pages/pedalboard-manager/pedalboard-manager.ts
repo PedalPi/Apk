@@ -63,7 +63,7 @@ export class PedalboardManagerPage {
 
     this.ws.messageDecoder.onNotificationBank = (updateType : UpdateType, bank : Bank) => {
       if (updateType == UpdateType.UPDATED && this.pedalboard.bank.index == -1) {
-        this.presentToast(`Bank of the current pedalboard has been updated`);
+        this.presentToast(`Bank of the current pedalboard has been updated`, false);
         // It's necessary call goToBack instread this.nav.pop().then(() => this.goToBack(bank));
         // because I don't know
         this.goToBack(bank);
@@ -79,12 +79,13 @@ export class PedalboardManagerPage {
 
     this.ws.messageDecoder.onNotificationPedalboard = (updateType, pedalboard) => {
       const isCurrentPedalboard = this.pedalboard.index == -1;
-      if (updateType == UpdateType.UPDATED) {
-        if (isCurrentPedalboard)
-          this.toPedalboard(pedalboard);
-        else
-          this.toPedalboard(this.pedalboard);
-      }
+
+      let reloadPedalboard = this.pedalboard;
+
+      if (updateType == UpdateType.UPDATED && isCurrentPedalboard)
+        reloadPedalboard = pedalboard;
+
+      this.toPedalboard(reloadPedalboard);
     };
 
     this.ws.messageDecoder.onNotificationEffect = (updateType, effect) => {
@@ -108,11 +109,11 @@ export class PedalboardManagerPage {
     this.goToBack(this.pedalboard.bank);
   }
 
-  private presentToast(message) {
+  private presentToast(message, dismissOnPageChange=true) {
     this.toastCtrl.create({
       message: message,
       duration: 3000,
-      dismissOnPageChange: true
+      dismissOnPageChange: dismissOnPageChange
     }).present();
   }
 
@@ -122,8 +123,8 @@ export class PedalboardManagerPage {
   }
 
   private toPedalboard(pedalboard : Pedalboard, effect? : Effect) {
-    this.pedalboardParameters.toPedalboard(pedalboard, effect, false);
     this.setPedalboard(pedalboard);
+    this.pedalboardParameters.toPedalboard(pedalboard, effect, false);
   }
 
   public setPedalboard(pedalboard : Pedalboard) {
@@ -157,6 +158,8 @@ export class PedalboardManagerPage {
 
   showPluginsCategories() {
     this.pluginsCategoriesVisible = true;
+    if (this.mediaQuerie.matches)
+      this.drawerVisible = false;
   }
 
   hidePluginsCategories() {
