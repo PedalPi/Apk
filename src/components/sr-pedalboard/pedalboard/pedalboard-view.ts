@@ -36,7 +36,7 @@ export class PedalboardView {
     this.systemEffectNode = this.pedalboardNode.append("g").attr('id', 'system-effect');
     this.effectsNodes = this.pedalboardNode.append("g").attr('id', 'effects').selectAll("g");
 
-    new ZoomBehaviour(this.svg, this.pedalboardNode);
+    new ZoomBehaviour(this.svg, this.pedalboardNode, this);
   }
 
   /*************************************
@@ -115,14 +115,15 @@ export class PedalboardView {
   get size() {
     const rect = this.svg.node().getBoundingClientRect();
 
+    console.log(rect);
     return {
       top: rect.top,
       bottom: rect.bottom,
       left: rect.left,
       right: rect.right,
 
-      height: rect.height,
-      width: rect.width
+      height: 768,//rect.height,
+      width: 1024//rect.width
     };
   }
 }

@@ -17,7 +17,7 @@ export class SystemEffectDrawer {
     size.height = Math.min(size.width, size.height);
 
     systemEffect.x = size.width/2;
-    systemEffect.y = size.bottom/2 + 20;
+    systemEffect.y = 400;//size.bottom/2 + 20;
 
     systemEffectNode = systemEffectNode.data([systemEffect])
       .attr("transform", this.effectPosition());

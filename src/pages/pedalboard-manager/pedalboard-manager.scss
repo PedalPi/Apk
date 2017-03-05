@@ -1,6 +1,9 @@
+.pages-manager > .scroll-content {
+  overflow-y: hidden;
+}
+
 .pages-manager.split > .scroll-content {
   display: flex;
-  overflow-y: hidden;
 }
 
 .subpage {
