@@ -64,8 +64,11 @@ export class Pedalboard {
     this.view.updateEffects(this.effects);
   }
 
-  addConnection(output : Output, input : Input, notify=true) {
+  addConnection(output : Output, input : Input, notify=true, checkRedundance=true) {
     const connection = new Connection(output, input);
+    if (checkRedundance && this.existsConnection(connection))
+      return
+
     connection.index = this.connectionIndex++;
     connection.onSelectedListener = (connection : Connection) => this.select(connection);
 
@@ -74,6 +77,16 @@ export class Pedalboard {
 
     if (notify)
       this.listener.connectionAdded(connection);
+  }
+
+  private existsConnection(connection : Connection) {
+    for (let connectionPersisted of this.connections) {
+      if (connection.input.identifier == connectionPersisted.input.identifier
+       && connection.output.identifier == connectionPersisted.output.identifier)
+      return true;
+    }
+
+    return false;
   }
 
   public select(object) {

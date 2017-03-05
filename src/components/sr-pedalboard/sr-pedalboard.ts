@@ -47,7 +47,7 @@ export class SrPedalboard {
   }
 
   connect(source: Output, target: Input) {
-    this.pedalboard.addConnection(source, target, false);
+    this.pedalboard.addConnection(source, target, false, false);
   }
 
   select(effect : EffectModel) {

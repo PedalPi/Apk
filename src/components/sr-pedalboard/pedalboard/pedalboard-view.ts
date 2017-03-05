@@ -115,7 +115,6 @@ export class PedalboardView {
   get size() {
     const rect = this.svg.node().getBoundingClientRect();
 
-    console.log(rect);
     return {
       top: rect.top,
       bottom: rect.bottom,

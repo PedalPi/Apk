@@ -45,7 +45,7 @@ export class PedalboardDrawerPage {
   }
 
   ionViewDidLoad() {
-    this.drawPedalboard(this.pedalboard, false);
+    //this.drawPedalboard(this.pedalboard, false);
   }
 
   public drawPedalboard(pedalboard, clear) {
