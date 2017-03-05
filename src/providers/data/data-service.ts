@@ -48,7 +48,7 @@ export class DataService {
     this._lastDeviceConnected = device;
   }
 
-  addOnReadyListener(listener : () => void) {
+  public addOnReadyListener(listener : () => void) {
     this.onReadyListeners.push(listener);
   }
 }

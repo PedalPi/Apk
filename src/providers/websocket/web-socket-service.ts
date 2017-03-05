@@ -1,7 +1,6 @@
 import {ApplicationRef} from '@angular/core';
 
 import {DataService} from "../data/data-service";
-import {JsonService} from "../json/json-service";
 import {Injectable} from '@angular/core';
 
 import {ToastController, LoadingController} from 'ionic-angular';
@@ -52,37 +51,52 @@ export class WebSocketService {
   }
 
   private initializeConnection() {
-    this.connect(WebSocketService.prepareUrl(JsonService.server))
+    this.connect(this.data.lastDeviceConnected)
+        .then(() => this.onConnectedListener())
+        .catch(() => this.onErrorListener());
   }
 
-  public connect(url) {
-    if (this.connection)
-      this.connection.close();
+  public connect(url) : Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (this.connection)
+        this.connection.close();
 
-    RobustWebSocket.defaultOptions.shouldReconnect = () => 1500;
-    const connection = new RobustWebSocket(url);
+      RobustWebSocket.defaultOptions.shouldReconnect = () => 1500;
+      const connection = new RobustWebSocket(url);
 
-    connection.onmessage = m => this.onMessage(m.data);
+      connection.onmessage = m => this.onMessage(m.data);
 
-    connection.onopen = () => {
+      connection.onopen = this.onConnectionOpen(resolve, url);
+      connection.onclose = this.onConnectionClose()
+      connection.onerror = this.onConnectionError(connection, reject);
+
+      this.connection = connection;
+    });
+  }
+
+  private onMessage(message) {
+    message = JSON.parse(message);
+    this.messageDecoder.onMessage(message);
+  }
+
+  private onConnectionOpen(resolve, url) {
+    return () => {
       if (this.tryingReconnect)
         this.loading.dismiss()
 
       this.forceReconnection = true;
       this.tryingReconnect = false;
-      this.onConnectedListener();
 
-      this.toastCtrl.create({
-        message: 'Device connected',
-        duration: 3000
-      }).present();
+      this.showToast('Device connected');
 
       this.connected = true;
-
       this.data.lastDeviceConnected = url;
+      resolve();
     }
+  }
 
-    connection.onclose = () => {
+  private onConnectionClose() {
+    return () => {
       this.connected = false;
 
       if (!this.forceReconnection || this.tryingReconnect)
@@ -92,24 +106,28 @@ export class WebSocketService {
       this.loading = this.loadingCtrl.create({content: "Trying reconnect"});
       this.loading.present();
     }
+  }
 
-    connection.onerror = (error, asd) => {
+  private onConnectionError(connection, reject) {
+    return (error) => {
       console.log(error);
       this.connected = false;
 
-      this.toastCtrl.create({
-        message: 'Connection error',
-        duration: 3000
-      }).present();
+      this.showToast('Connection error');
 
       if (this.loading)
         this.loading.dismiss();
 
       connection.close();
-      this.onErrorListener()
+      reject();
     }
+  }
 
-    this.connection = connection;
+  private showToast(message, duration=3000) {
+    this.toastCtrl.create({
+      message: message,
+      duration: duration
+    }).present();
   }
 
   static prepareUrl(url) {
@@ -119,10 +137,5 @@ export class WebSocketService {
   clearListeners() {
     this.onErrorListener = () => {};
     this.messageDecoder.clearListeners();
-  }
-
-  onMessage(message) {
-    message = JSON.parse(message);
-    this.messageDecoder.onMessage(message);
   }
 }

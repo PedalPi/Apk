@@ -1,8 +1,10 @@
 import {JsonService} from './json-service';
 
 export class Router {
-  
+
+  constructor(private jsonService : JsonService) {}
+
   route(address : string) {
-    return JsonService.server + address;
+    return this.jsonService.webServer + address;
   }
 }

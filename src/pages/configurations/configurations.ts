@@ -25,8 +25,13 @@ export class ConfigurationsPage {
   public finding = false;
   public toast: any;
 
-  constructor(private nav : NavController, private ws : WebSocketService, private ref: ApplicationRef, private toastCtrl : ToastController) {
-    this.ip = JsonService.server;
+  constructor(
+      private nav : NavController,
+      private ws : WebSocketService,
+      private ref: ApplicationRef,
+      private toastCtrl : ToastController,
+      private jsonService : JsonService) {
+    this.ip = jsonService.webServer;
     this.autoSearch = !this.emulated;
 
     this.devices = [];
@@ -45,8 +50,8 @@ export class ConfigurationsPage {
 
   private setIp(ip : string) {
     this.ip = ip;
-    JsonService.server = ip;
-    this.ws.connect(WebSocketService.prepareUrl(ip));
+    this.ws.connect(WebSocketService.prepareUrl(ip))
+        .then(() => {}, () => {});
   }
 
   about() {
