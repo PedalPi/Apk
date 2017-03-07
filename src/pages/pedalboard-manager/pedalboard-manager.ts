@@ -5,10 +5,12 @@ import {WebSocketService} from '../../providers/websocket/web-socket-service';
 import {UpdateType} from '../../providers/websocket/pedalpi-message-decoder';
 
 import {Navigator} from '../../common/navigator';
+import {FragmentNavigator} from '../../common/fragment/fragment-navigator';
 
 import {PedalboardDrawerPage} from '../pedalboard-drawer/pedalboard-drawer';
 import {PedalboardPage} from '../pedalboard/pedalboard';
 import {PluginsPage} from '../plugins/plugins';
+import {PluginsListModal} from '../plugins-list/plugins-list-modal';
 
 import {Effect} from '../../plugins-manager/model/effect';
 import {Pedalboard} from '../../plugins-manager/model/pedalboard';
@@ -20,19 +22,20 @@ import {Bank} from '../../plugins-manager/model/bank';
   templateUrl: 'pedalboard-manager.html'
 })
 export class PedalboardManagerPage {
-  @ViewChild(PluginsPage) pluginsPage : PluginsPage;
-
   @ViewChild(PedalboardDrawerPage) pedalboardDrawer : PedalboardDrawerPage;
-  @ViewChild(PedalboardPage) pedalboardParameters : PedalboardPage;
-  @ViewChild('splitPane') ionContent : Content;
+  @ViewChild(PedalboardPage) pedalboardParametersFragment : PedalboardPage;
+  @ViewChild(PluginsPage) pluginsCategoriesFragment : PluginsPage;
+  @ViewChild(PluginsListModal) pluginsListFragment : PluginsListModal;
+
+  @ViewChild('splitPane') splitPane : Content;
 
   public drawerVisible : boolean = true;
-  public pluginsCategoriesVisible : boolean = false;
 
   private mediaQuerie : MediaQueryList
   private mediaQuerieCallback : (query: MediaQueryList) => void
 
   public pedalboard : Pedalboard;
+  public fragmentNavigator : FragmentNavigator;
 
   constructor(
     public nav: NavController,
@@ -43,6 +46,7 @@ export class PedalboardManagerPage {
     private navigator : Navigator) {
     this.mediaQuerieCallback = query => this.updateSplit(query);
     this.pedalboard = params.get('pedalboard');
+    this.fragmentNavigator = new FragmentNavigator();
   }
 
   ionViewDidLoad() {
@@ -53,9 +57,17 @@ export class PedalboardManagerPage {
 
     this.drawerVisible = !this.mediaQuerie.matches;
 
+    this.fragmentNavigator.register(PedalboardPage, this.pedalboardParametersFragment);
+    this.fragmentNavigator.register(PluginsPage, this.pluginsCategoriesFragment);
+    this.fragmentNavigator.register(PluginsListModal, this.pluginsListFragment);
+
+    console.log('push')
+    this.fragmentNavigator.push(PedalboardPage);
+    console.log('pushed')
+
     this.pedalboardDrawer.ionViewDidLoad();
-    this.pedalboardParameters.ionViewDidLoad();
-    this.pluginsPage.ionViewDidLoad();
+    //this.pedalboardParametersFragment.ionViewDidLoad();
+    //this.pluginsCategoriesFragment.ionViewDidLoad();
   }
 
   ionViewWillEnter() {
@@ -107,6 +119,7 @@ export class PedalboardManagerPage {
 
   ionViewWillUnload() {
     this.goToBack(this.pedalboard.bank);
+    this.fragmentNavigator.clearStack();
   }
 
   private presentToast(message, dismissOnPageChange=true) {
@@ -124,7 +137,7 @@ export class PedalboardManagerPage {
 
   private toPedalboard(pedalboard : Pedalboard, effect? : Effect) {
     this.setPedalboard(pedalboard);
-    this.pedalboardParameters.toPedalboard(pedalboard, effect, false);
+    this.pedalboardParametersFragment.toPedalboard(pedalboard, effect, false);
   }
 
   public setPedalboard(pedalboard : Pedalboard) {
@@ -133,7 +146,7 @@ export class PedalboardManagerPage {
   }
 
   public selectEffect(effect : Effect, doubleClick : boolean) {
-    this.pedalboardParameters.setCurrentEffect(effect);
+    this.pedalboardParametersFragment.setCurrentEffect(effect);
     if (doubleClick && this.drawerVisible)
       this.drawerVisible = false;
   }
@@ -146,9 +159,8 @@ export class PedalboardManagerPage {
     this.drawerVisible = !this.drawerVisible;
   }
 
-
   private updateSplit(query : MediaQueryList) {
-    let element = this.ionContent.getNativeElement();
+    let element = this.splitPane.getNativeElement();
 
     if (!query.matches)
       element.classList.add('split');
@@ -156,13 +168,9 @@ export class PedalboardManagerPage {
       element.classList.remove('split');
   }
 
-  showPluginsCategories() {
-    this.pluginsCategoriesVisible = true;
+  goToPluginsCategories() {
+    this.fragmentNavigator.push(PluginsPage);
     if (this.mediaQuerie.matches)
       this.drawerVisible = false;
-  }
-
-  hidePluginsCategories() {
-    this.pluginsCategoriesVisible = false;
   }
 }

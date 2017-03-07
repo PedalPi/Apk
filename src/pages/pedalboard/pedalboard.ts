@@ -1,10 +1,13 @@
 import {
   Input, Output, EventEmitter,
-  Component, ViewChild, ApplicationRef
+  Component, ViewChild, ApplicationRef,
+  ElementRef
 } from '@angular/core';
 import {NavParams} from 'ionic-angular';
 
 import {JsonService} from '../../providers/json/json-service';
+
+import {Fragment} from '../../common/fragment/fragment';
 
 import {SrTabs} from '../../components/sr-tabs/sr-tabs';
 import {SrSetCurrent} from '../../components/sr-set-current/sr-set-current';
@@ -21,7 +24,7 @@ import {Lv2Param} from '../../plugins-manager/model/lv2/lv2-param';
   selector: 'page-pedalboard',
   templateUrl: 'pedalboard.html',
 })
-export class PedalboardPage {
+export class PedalboardPage implements Fragment {
   @ViewChild(SrTabs) tabs: SrTabs;
   @ViewChild(SrSetCurrent) currentComponent: SrSetCurrent;
 
@@ -34,6 +37,7 @@ export class PedalboardPage {
   private presenter: PedalboardPresenter;
 
   constructor(
+      private element: ElementRef,
       private params : NavParams,
       private jsonService : JsonService,
       private ref: ApplicationRef
@@ -91,7 +95,11 @@ export class PedalboardPage {
   public setCurrentEffectByIndex(index : number) {
     const effect = this.pedalboard.effects[index];
     this.setCurrentEffect(effect);
-    
+
     this.onEffectChange.emit(effect);
+  }
+
+  getNativeElement() {
+    return this.element.nativeElement;
   }
 }

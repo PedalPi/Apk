@@ -1,24 +1,26 @@
-import {NavController, NavParams, ModalController} from 'ionic-angular';
-import {Output, EventEmitter, Component} from '@angular/core';
+import { Input, Component, ElementRef} from '@angular/core';
+import {LoadingController, NavController, NavParams, ModalController} from 'ionic-angular';
+
+import {Navigator} from '../../common/navigator';
+import {Fragment} from '../../common/fragment/fragment';
+import {FragmentNavigator} from '../../common/fragment/fragment-navigator';
 
 import {JsonService} from '../../providers/json/json-service';
 import {DataService} from '../../providers/data/data-service';
 import {PluginsPresenter} from './plugins-presenter';
 import {PluginsListModal} from '../plugins-list/plugins-list-modal';
 
-import {LoadingController} from 'ionic-angular';
-import {Navigator} from '../../common/navigator';
-
 
 @Component({
   selector: 'page-plugins',
   templateUrl: 'plugins.html',
 })
-export class PluginsPage {
-  @Output() onClose = new EventEmitter();
+export class PluginsPage implements Fragment {
+  @Input() fragmentNavigator : FragmentNavigator;
   private presenter : PluginsPresenter;
 
   constructor(
+      private element : ElementRef,
       private nav : NavController,
       private params : NavParams,
       jsonService : JsonService,
@@ -28,8 +30,6 @@ export class PluginsPage {
       private navigator : Navigator) {
     this.presenter = new PluginsPresenter(jsonService, dataService);
   }
-
-  ionViewDidLoad() {}
 
   get categories() {
     return this.presenter.categories;
@@ -62,7 +62,11 @@ export class PluginsPage {
     });
   }
 
-  close() {
-    this.onClose.emit();
+  public close() {
+    this.fragmentNavigator.pop();
+  }
+
+  public getNativeElement() {
+    return this.element.nativeElement;
   }
 }
