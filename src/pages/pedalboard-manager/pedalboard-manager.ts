@@ -3,14 +3,15 @@ import { Content, ToastController, Platform, NavController, NavParams } from 'io
 
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
 import {UpdateType} from '../../providers/websocket/pedalpi-message-decoder';
+import {JsonService} from '../../providers/json/json-service';
 
 import {Navigator} from '../../common/navigator';
 import {FragmentNavigator} from '../../common/fragment/fragment-navigator';
 
 import {PedalboardDrawerPage} from '../pedalboard-drawer/pedalboard-drawer';
-import {PedalboardPage} from '../pedalboard/pedalboard';
-import {PluginsPage} from '../plugins/plugins';
-import {PluginsListModal} from '../plugins-list/plugins-list-modal';
+import {PedalboardParametersPage} from '../pedalboard-parameters/pedalboard-parameters';
+import {PluginsCategoriesPage} from '../plugins-categories/plugins-categories';
+import {PluginsListPage} from '../plugins-list/plugins-list';
 
 import {Effect} from '../../plugins-manager/model/effect';
 import {Pedalboard} from '../../plugins-manager/model/pedalboard';
@@ -23,9 +24,9 @@ import {Bank} from '../../plugins-manager/model/bank';
 })
 export class PedalboardManagerPage {
   @ViewChild(PedalboardDrawerPage) pedalboardDrawer : PedalboardDrawerPage;
-  @ViewChild(PedalboardPage) pedalboardParametersFragment : PedalboardPage;
-  @ViewChild(PluginsPage) pluginsCategoriesFragment : PluginsPage;
-  @ViewChild(PluginsListModal) pluginsListFragment : PluginsListModal;
+  @ViewChild(PedalboardParametersPage) pedalboardParametersFragment : PedalboardParametersPage;
+  @ViewChild(PluginsCategoriesPage) pluginsCategoriesFragment : PluginsCategoriesPage;
+  @ViewChild(PluginsListPage) pluginsListFragment : PluginsListPage;
 
   @ViewChild('splitPane') splitPane : Content;
 
@@ -43,10 +44,15 @@ export class PedalboardManagerPage {
     private platform: Platform,
     private ws : WebSocketService,
     private toastCtrl : ToastController,
-    private navigator : Navigator) {
+    private navigator : Navigator,
+    private jsonService : JsonService) {
     this.mediaQuerieCallback = query => this.updateSplit(query);
     this.pedalboard = params.get('pedalboard');
     this.fragmentNavigator = new FragmentNavigator();
+  }
+
+  private get service() {
+    return this.jsonService.effect;
   }
 
   ionViewDidLoad() {
@@ -57,17 +63,11 @@ export class PedalboardManagerPage {
 
     this.drawerVisible = !this.mediaQuerie.matches;
 
-    this.fragmentNavigator.register(PedalboardPage, this.pedalboardParametersFragment);
-    this.fragmentNavigator.register(PluginsPage, this.pluginsCategoriesFragment);
-    this.fragmentNavigator.register(PluginsListModal, this.pluginsListFragment);
+    this.fragmentNavigator.register(PedalboardParametersPage, this.pedalboardParametersFragment);
+    this.fragmentNavigator.register(PluginsCategoriesPage, this.pluginsCategoriesFragment);
+    this.fragmentNavigator.register(PluginsListPage, this.pluginsListFragment);
 
-    console.log('push')
-    this.fragmentNavigator.push(PedalboardPage);
-    console.log('pushed')
-
-    this.pedalboardDrawer.ionViewDidLoad();
-    //this.pedalboardParametersFragment.ionViewDidLoad();
-    //this.pluginsCategoriesFragment.ionViewDidLoad();
+    this.fragmentNavigator.push(PedalboardParametersPage);
   }
 
   ionViewWillEnter() {
@@ -169,8 +169,20 @@ export class PedalboardManagerPage {
   }
 
   goToPluginsCategories() {
-    this.fragmentNavigator.push(PluginsPage);
+    this.fragmentNavigator.push(PluginsCategoriesPage);
     if (this.mediaQuerie.matches)
       this.drawerVisible = false;
+  }
+
+  public onPluginSelected(effect) {
+    this.fragmentNavigator.pop(); // Plugins list
+    this.fragmentNavigator.pop(); // Plugins categories
+
+    effect.pedalboard = this.pedalboard;
+    this.service.saveNew(effect).subscribe(() => {
+      this.pedalboard.effects.push(effect);
+      this.pedalboardParametersFragment.setCurrentEffect(effect);
+      this.pedalboardDrawer.drawPedalboard(this.pedalboard, true);
+    });
   }
 }

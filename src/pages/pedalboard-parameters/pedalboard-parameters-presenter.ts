@@ -1,13 +1,13 @@
-import {PedalboardPage} from './pedalboard';
+import {PedalboardParametersPage} from './pedalboard-parameters';
 import {JsonService} from '../../providers/json/json-service';
 
 import {Effect} from '../../plugins-manager/model/effect';
 import {Pedalboard} from '../../plugins-manager/model/pedalboard';
 
 
-export class PedalboardPresenter {
+export class PedalboardParametersPresenter {
   constructor(
-      private page : PedalboardPage,
+      private page : PedalboardParametersPage,
       private jsonService : JsonService) {}
 
   private get service() {

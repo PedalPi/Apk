@@ -12,6 +12,11 @@ export class FragmentNavigator {
     return item ? item.fragment : null;
   }
 
+  get params() {
+    let item = this.stack[this.stack.length-1];
+    return item ? item.parameters : {};
+  }
+
   public register(identifier, fragment : Fragment) {
     this.fragments[identifier] = fragment;
 
@@ -49,8 +54,10 @@ export class FragmentNavigator {
     this.stack.splice(-1, 1);
 
     const newActive = this.active;
-    this.callIonViewWillEnter(newActive);
-    this.showActive();
+    if (newActive) {
+      this.callIonViewWillEnter(newActive);
+      this.showActive();
+    }
   }
 
   public clearStack() {

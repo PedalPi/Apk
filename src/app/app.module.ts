@@ -12,12 +12,12 @@ import { HomePage } from '../pages/home/home';
 import { BanksPage } from '../pages/banks/banks';
 import { ConfigurationsPage } from '../pages/configurations/configurations';
 import { PedalboardDrawerPage } from '../pages/pedalboard-drawer/pedalboard-drawer';
-import { PedalboardPage } from '../pages/pedalboard/pedalboard';
+import { PedalboardParametersPage } from '../pages/pedalboard-parameters/pedalboard-parameters';
 import { PedalboardsPage } from '../pages/pedalboards/pedalboards';
-import { PluginsPage } from '../pages/plugins/plugins';
+import { PluginsCategoriesPage } from '../pages/plugins-categories/plugins-categories';
+import { PluginsListPage } from '../pages/plugins-list/plugins-list';
 import { PedalboardManagerPage } from '../pages/pedalboard-manager/pedalboard-manager';
 
-import { PluginsListModal } from '../pages/plugins-list/plugins-list-modal';
 
 // Components
 import { SrButtonToggleComponent } from '../components/sr-button-toggle/sr-button-toggle';
@@ -47,12 +47,11 @@ const pages = [
   BanksPage,
   ConfigurationsPage,
   PedalboardDrawerPage,
-  PedalboardPage,
+  PedalboardParametersPage,
   PedalboardsPage,
-  PluginsPage,
   PedalboardManagerPage,
-
-  PluginsListModal
+  PluginsCategoriesPage,
+  PluginsListPage
 ];
 
 const components = [

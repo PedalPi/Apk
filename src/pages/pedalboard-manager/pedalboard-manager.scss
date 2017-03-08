@@ -33,7 +33,7 @@ ion-header:not(.full) .toggleDrawer {
   display: hidden;
 }
 
-page-pedalboard-manager page-pedalboard {
+page-pedalboard-manager page-pedalboard-parameters {
   ion-content {
     height: calc(100% - 86px);
   }
@@ -43,7 +43,7 @@ page-pedalboard-manager page-pedalboard {
 }
 
 @media (min-width: 993px) {
-  page-pedalboard-manager page-pedalboard:not(.full) #tabs ul {
+  page-pedalboard-manager page-pedalboard-parameters:not(.full) #tabs ul {
     width: 50%;
     max-width: 550px;
   }

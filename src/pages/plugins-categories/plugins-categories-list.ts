@@ -1,4 +1,4 @@
-export class PluginsCategories {
+export class PluginsCategoriesList {
   private categories = {
     "Amplifier": null,
     "Analyser": null,

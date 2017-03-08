@@ -10,7 +10,6 @@ import {DataService} from '../../providers/data/data-service';
 import {SrPedalboard} from '../../components/sr-pedalboard/sr-pedalboard';
 
 import {SrPedalboardFacade} from './sr-pedalboard-facade';
-import {PluginsPage} from '../plugins/plugins';
 
 import {Effect} from '../../plugins-manager/model/effect';
 import {Pedalboard} from '../../plugins-manager/model/pedalboard';
@@ -44,10 +43,6 @@ export class PedalboardDrawerPage {
     return this.jsonService.effect;
   }
 
-  ionViewDidLoad() {
-    //this.drawPedalboard(this.pedalboard, false);
-  }
-
   public drawPedalboard(pedalboard, clear) {
     if (clear)
       this.pedalboardElement.clear()
@@ -74,19 +69,7 @@ export class PedalboardDrawerPage {
   }
 
   addEffect() {
-    this.navigator.push(PluginsPage, {})
-        .thenBackSucess(params => this.onBackSucess(params.effect))
-  }
-
-  onBackSucess(effect : Effect) {
-    effect.pedalboard = this.pedalboard;
-    this.pedalboard.effects.push(effect);
-
-    this.effectService.saveNew(effect).subscribe(
-      () => this.drawPedalboard(this.pedalboard, true)
-    );
-
-    return true;
+    alert('Will be removed. Use top menu function');
   }
 
   private savePedalboardData() {

@@ -40,17 +40,21 @@
     (onEffectClick)="selectEffect($event, false)"
     (onEffectDoubleClick)="selectEffect($event, true)"></page-pedalboard-drawer>
 
-  <page-pedalboard
+  <page-pedalboard-parameters
     [class]="'subpage right ' + (drawerVisible ? '': 'full')"
     [pedalboard]="pedalboard"
     (onCurrentChange)="setPedalboard($event)"
     (onEffectChange)="selectEffectPedalboardManager($event)">
-  </page-pedalboard>
+  </page-pedalboard-parameters>
 
-  <page-plugins
+  <page-plugins-categories
     [fragmentNavigator]='fragmentNavigator'
     [class]="'subpage ' + (drawerVisible ? '': 'full')">
-  </page-plugins>
+  </page-plugins-categories>
 
-  <page-plugins-list></page-plugins-list>
+  <page-plugins-list
+    [fragmentNavigator]='fragmentNavigator'
+    (onPluginSelected)='onPluginSelected($event)'
+    [class]="'subpage ' + (drawerVisible ? '': 'full')">
+  </page-plugins-list>
 </ion-content>

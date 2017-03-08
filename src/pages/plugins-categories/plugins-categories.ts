@@ -1,34 +1,29 @@
-import { Input, Component, ElementRef} from '@angular/core';
-import {LoadingController, NavController, NavParams, ModalController} from 'ionic-angular';
+import {Input, Component, ElementRef} from '@angular/core';
+import {LoadingController} from 'ionic-angular';
 
-import {Navigator} from '../../common/navigator';
 import {Fragment} from '../../common/fragment/fragment';
 import {FragmentNavigator} from '../../common/fragment/fragment-navigator';
 
 import {JsonService} from '../../providers/json/json-service';
 import {DataService} from '../../providers/data/data-service';
-import {PluginsPresenter} from './plugins-presenter';
-import {PluginsListModal} from '../plugins-list/plugins-list-modal';
+import {PluginsCategoriesPresenter} from './plugins-categories-presenter';
+import {PluginsListPage} from '../plugins-list/plugins-list';
 
 
 @Component({
-  selector: 'page-plugins',
-  templateUrl: 'plugins.html',
+  selector: 'page-plugins-categories',
+  templateUrl: 'plugins-categories.html',
 })
-export class PluginsPage implements Fragment {
+export class PluginsCategoriesPage implements Fragment {
   @Input() fragmentNavigator : FragmentNavigator;
-  private presenter : PluginsPresenter;
+  private presenter : PluginsCategoriesPresenter;
 
   constructor(
       private element : ElementRef,
-      private nav : NavController,
-      private params : NavParams,
       jsonService : JsonService,
       dataService : DataService,
-      private modal : ModalController,
-      private loadingCtrl : LoadingController,
-      private navigator : Navigator) {
-    this.presenter = new PluginsPresenter(jsonService, dataService);
+      private loadingCtrl : LoadingController) {
+    this.presenter = new PluginsCategoriesPresenter(jsonService, dataService);
   }
 
   get categories() {
@@ -47,19 +42,17 @@ export class PluginsPage implements Fragment {
   }
 
   categoryAllSelected() {
-    console.log(this.presenter)
     this.goToPluginsList('All', this.presenter.plugins);
   }
 
   private goToPluginsList(category : string, plugins : any) {
-    const modal = this.modal.create(PluginsListModal, {category: category, plugins: plugins})
-    modal.present();
-    modal.onDidDismiss(effect => {
-      if (effect == undefined)
-        return;
+    const parameters = {
+      category: category,
+      plugins: plugins
+    };
 
-      this.nav.pop().then(status => this.navigator.callBackSucess(this.params, {effect: effect}));
-    });
+    this.fragmentNavigator
+        .push(PluginsListPage, parameters);
   }
 
   public close() {

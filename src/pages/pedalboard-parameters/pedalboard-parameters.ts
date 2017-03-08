@@ -12,7 +12,7 @@ import {Fragment} from '../../common/fragment/fragment';
 import {SrTabs} from '../../components/sr-tabs/sr-tabs';
 import {SrSetCurrent} from '../../components/sr-set-current/sr-set-current';
 
-import {PedalboardPresenter} from './pedalboard-presenter';
+import {PedalboardParametersPresenter} from './pedalboard-parameters-presenter';
 
 import {Effect} from '../../plugins-manager/model/effect';
 import {Pedalboard} from '../../plugins-manager/model/pedalboard';
@@ -21,10 +21,10 @@ import {Lv2Param} from '../../plugins-manager/model/lv2/lv2-param';
 
 
 @Component({
-  selector: 'page-pedalboard',
-  templateUrl: 'pedalboard.html',
+  selector: 'page-pedalboard-parameters',
+  templateUrl: 'pedalboard-parameters.html',
 })
-export class PedalboardPage implements Fragment {
+export class PedalboardParametersPage implements Fragment {
   @ViewChild(SrTabs) tabs: SrTabs;
   @ViewChild(SrSetCurrent) currentComponent: SrSetCurrent;
 
@@ -34,7 +34,7 @@ export class PedalboardPage implements Fragment {
 
   public currentEffect : Effect;
 
-  private presenter: PedalboardPresenter;
+  private presenter: PedalboardParametersPresenter;
 
   constructor(
       private element: ElementRef,
@@ -42,7 +42,7 @@ export class PedalboardPage implements Fragment {
       private jsonService : JsonService,
       private ref: ApplicationRef
     ) {
-    this.presenter = new PedalboardPresenter(this, jsonService);
+    this.presenter = new PedalboardParametersPresenter(this, jsonService);
   }
 
   ionViewDidLoad() {
@@ -68,6 +68,7 @@ export class PedalboardPage implements Fragment {
     if (!this.hasCurrentEffect)
       return;
 
+    this.ref.tick();
     this.tabs.selectTab(effect.index);
     this.tabs.focusTab(effect.index);
   }

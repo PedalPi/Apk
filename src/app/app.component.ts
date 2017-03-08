@@ -3,7 +3,6 @@ import { Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { HomePage } from '../pages/home/home';
-import { PluginsPage } from '../pages/plugins/plugins';
 
 
 @Component({
@@ -11,7 +10,6 @@ import { PluginsPage } from '../pages/plugins/plugins';
 })
 export class MyApp {
   rootPage = HomePage;
-  pluginsPage = PluginsPage;
 
   constructor(platform: Platform) {
     platform.ready().then(() => {

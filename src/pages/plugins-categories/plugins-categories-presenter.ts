@@ -2,10 +2,10 @@ import {JsonService} from '../../providers/json/json-service';
 import {DataService} from '../../providers/data/data-service';
 import {PluginService} from '../../providers/json/plugin-service';
 
-import {PluginsCategories} from './plugins-categories';
+import {PluginsCategoriesList} from './plugins-categories-list';
 
 
-export class PluginsPresenter {
+export class PluginsCategoriesPresenter {
 
   private jsonService : JsonService;
   private dataService: DataService;
@@ -13,7 +13,7 @@ export class PluginsPresenter {
   public plugins : any = [];
   public pluginsByCategory : any = {};
 
-  public categories = new PluginsCategories();
+  public categories = new PluginsCategoriesList();
 
   constructor(jsonService : JsonService, dataService: DataService) {
     this.jsonService = jsonService;
