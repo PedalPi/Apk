@@ -69,6 +69,9 @@ export class Pedalboard {
     if (checkRedundance && this.existsConnection(connection))
       return
 
+    if (connection.input.effect == connection.output.effect)
+      return
+
     connection.index = this.connectionIndex++;
     connection.onSelectedListener = (connection : Connection) => this.select(connection);
 
@@ -111,7 +114,6 @@ export class Pedalboard {
   }
 
   private removeEffect(effect : Effect) {
-    console.log(effect);
     this.removeConnectionsOf(effect);
     this.effects.splice(this.effects.indexOf(effect), 1);
     this.listener.effectRemoved(effect);
