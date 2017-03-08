@@ -50,8 +50,7 @@ export class ConfigurationsPage {
 
   private setIp(ip : string) {
     this.ip = ip;
-    this.ws.connect(WebSocketService.prepareUrl(ip))
-        .then(() => {}, () => {});
+    this.ws.tryConnect(WebSocketService.prepareUrl(ip));
   }
 
   about() {

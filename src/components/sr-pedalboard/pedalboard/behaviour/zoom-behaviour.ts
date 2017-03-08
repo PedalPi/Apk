@@ -17,6 +17,7 @@ export class ZoomBehaviour {
 
     // Combine the two changes to
     const translatey = 20;
+    //const scale = width / svg.node().getBoundingClientRect().width;
     const scale = svg.node().getBoundingClientRect().width / width;
     // - start view scaled
     element.attr("transform", `translate(0, ${translatey})scale(${scale})`);

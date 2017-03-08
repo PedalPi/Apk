@@ -51,12 +51,16 @@ export class WebSocketService {
   }
 
   private initializeConnection() {
-    this.connect(this.data.lastDeviceConnected)
+    this.tryConnect(this.data.lastDeviceConnected);
+  }
+
+  public tryConnect(url) {
+    this.connect(url)
         .then(() => this.onConnectedListener())
         .catch(() => this.onErrorListener());
   }
 
-  public connect(url) : Promise<any> {
+  private connect(url) : Promise<any> {
     return new Promise((resolve, reject) => {
       if (this.connection)
         this.connection.close();

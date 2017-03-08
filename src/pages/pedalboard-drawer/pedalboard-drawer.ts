@@ -68,10 +68,6 @@ export class PedalboardDrawerPage {
     this.pedalboardElement.removeSeleted();
   }
 
-  addEffect() {
-    alert('Will be removed. Use top menu function');
-  }
-
   private savePedalboardData() {
     const data = { effectPositions: this.pedalboardElement.effectPositions }
     this.pedalboard.data = {'pedalpi-apk': data};

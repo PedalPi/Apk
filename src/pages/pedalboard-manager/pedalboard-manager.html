@@ -4,6 +4,11 @@
     <ion-title>{{pedalboard.name}}</ion-title>
 
     <ion-buttons end>
+
+      <button ion-button icon-only color="royal" (click)="goToPluginsCategories()" [hidden]="!isParametersActive()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+
       <sr-button-toggle [state]="drawerVisible" id="button-connections-toggle">
         <button ion-button icon-only color="royal" (click)="toggleDrawer()">
           <ion-icon>
@@ -19,13 +24,6 @@
         <ion-icon [hidden]="!drawerVisible">
           <sr-icon class="connections" icon="icons.svg#icon-Oliviu-Stoian-Knob"></sr-icon>
         </ion-icon>
-      </button>
-
-      <button ion-button icon-only color="royal">
-        <ion-icon name="remove"></ion-icon>
-      </button>
-      <button ion-button icon-only color="royal" (click)="goToPluginsCategories()">
-        <ion-icon name="add"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>

@@ -185,4 +185,8 @@ export class PedalboardManagerPage {
       this.pedalboardDrawer.drawPedalboard(this.pedalboard, true);
     });
   }
+
+  isParametersActive() {
+    return this.fragmentNavigator.active == this.pedalboardParametersFragment;
+  }
 }
