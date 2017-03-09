@@ -3,7 +3,7 @@ import {PedalboardView} from '../pedalboard-view';
 import * as d3 from 'd3';
 
 
-abstract class PlugDrawer {
+export abstract class PlugDrawer {
   private static RADIUS = 20;
   private static PADDING = 5;
 

@@ -13,7 +13,7 @@ export class PersistenceDecoder {
 }
 
 
-abstract class Reader {
+export abstract class Reader {
   constructor(protected systemEffect, protected pluginsData?) {}
 
   abstract read(this, json);
