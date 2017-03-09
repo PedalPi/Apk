@@ -22,7 +22,7 @@ export class PedalboardView {
   private connectionsNodes;
   private effectsNodes;
 
-  private selectedObject = null;
+  private selectedObject : Effect | Connection = null;
 
   private edgeConnector : EdgeConnector;
 
@@ -69,7 +69,7 @@ export class PedalboardView {
     this.selectedObject = null;
   }
 
-  select(object) {
+  select(object : Effect | Connection) {
     this.deselectCurrent();
 
     object.view.classed("selected", true);

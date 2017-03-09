@@ -2,11 +2,16 @@ import {Input, Output} from './plug';
 
 import {Effect as EffectModel} from '../../../../plugins-manager/model/effect'
 
+import {ElementDrawer} from './element-drawer';
 
-export class Effect {
+
+export class Effect implements ElementDrawer {
+  static get className() { return "Effect"; }
+  get className() { return Effect.className; }
+
   public id : number;
 
-  public identifier : any;
+  public identifier : EffectModel;
   public data : any;
 
   public x : number;

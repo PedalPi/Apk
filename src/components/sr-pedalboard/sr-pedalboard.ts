@@ -30,10 +30,13 @@ export class SrPedalboard {
   ngOnInit() {
     const element = this.element.querySelector('#sr-pedalboard');
 
-    const systemEffect = new SystemEffect({
-      outputs: BanksManager.SYSTEM_EFFECT.outputs,
-      inputs: BanksManager.SYSTEM_EFFECT.inputs
-    });
+    const systemEffect = new SystemEffect(
+      BanksManager.SYSTEM_EFFECT,
+      {
+        outputs: BanksManager.SYSTEM_EFFECT.outputs,
+        inputs: BanksManager.SYSTEM_EFFECT.inputs
+      }
+    );
 
     this.pedalboard = new Pedalboard(element, systemEffect);
   }

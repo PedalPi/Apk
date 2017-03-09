@@ -2,9 +2,14 @@ import {Output, Input} from './plug';
 
 import {Connection as ConnectionModel} from '../../../../plugins-manager/model/connection'
 
+import {ElementDrawer} from './element-drawer';
 
-export class Connection {
-  public index : number;
+
+export class Connection implements ElementDrawer {
+  static get className() { return "Connection"; }
+  get className() { return Connection.className; }
+
+  public id;
 
   private outputObject;
   private inputObject;

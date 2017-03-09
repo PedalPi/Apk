@@ -81,7 +81,6 @@ export class PedalboardsPage {
   }
 
   public onBackSucess(params) : boolean {
-    console.log(params);
     if (params.bank)
       this.bank = params.bank;
 

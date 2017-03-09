@@ -50,22 +50,22 @@ export class SrPedalboardFacade {
 
   private source(connection : Connection) {
     let effectSource;
-    try {
-      effectSource = this.effects[connection.output.effect.index]
-    } catch(e) {
+
+    if (connection.output.effect == this.systemEffect.identifier)
       effectSource = this.systemEffect;
-    }
+    else
+      effectSource = this.effects[connection.output.effect.index]
 
     return this.output(effectSource, connection.output.symbol);
   }
 
   private target(connection : Connection) {
     let effectTarget;
-    try {
-      effectTarget = this.effects[connection.input.effect.index]
-    } catch(e) {
+
+    if (connection.input.effect == this.systemEffect.identifier)
       effectTarget = this.systemEffect;
-    }
+    else
+      effectTarget = this.effects[connection.input.effect.index]
 
     return this.input(effectTarget, connection.input.symbol);
   }

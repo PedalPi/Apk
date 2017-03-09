@@ -69,10 +69,11 @@ export class Pedalboard {
     if (checkRedundance && this.existsConnection(connection))
       return
 
-    if (connection.input.effect == connection.output.effect)
+    if (connection.input.effect == connection.output.effect
+    &&  connection.input.effect != this.systemEffect)
       return
 
-    connection.index = this.connectionIndex++;
+    connection.id = this.connectionIndex++;
     connection.onSelectedListener = (connection : Connection) => this.select(connection);
 
     this.connections.push(connection);
@@ -92,7 +93,7 @@ export class Pedalboard {
     return false;
   }
 
-  public select(object) {
+  public select(object : Effect | Connection) {
     this.view.select(object);
   }
 
@@ -104,10 +105,10 @@ export class Pedalboard {
     if (selected == null)
       return;
 
-    if (selected.constructor.name == "Effect")
-      this.removeEffect(selected)
+    if (selected.className == Effect.className)
+      this.removeEffect(<Effect> selected)
     else
-      this.removeConnection(selected);
+      this.removeConnection(<Connection> selected);
 
     this.view.deselectCurrent();
     this.updateAll();

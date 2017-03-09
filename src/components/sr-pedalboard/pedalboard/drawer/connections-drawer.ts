@@ -8,7 +8,7 @@ export class ConnectionsDrawer {
   static draw(connections : Array<Connection>, connectionsNodes) {
     // Update existing connections
     let connectionsNodesUpdated = connectionsNodes
-        .data(connections)
+        .data(connections, (connection : Connection) => connection.id)
           .style('marker-end', 'url(#end-arrow)')
           .attr("d", this.lineFunction());
 
