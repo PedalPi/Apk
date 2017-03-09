@@ -152,6 +152,7 @@ export class PedalPiMessageDecoder implements MessageDecoder {
     if (updateType == UpdateType.REMOVED) {
       effect = pedalboard.effects[message.effect];
       pedalboard.effects.splice(message.effect, 1);
+      pedalboard.removeConnectionsOf(effect);
 
     } else if (updateType == UpdateType.CREATED) {
       effect = new EffectReader(systemEffect, plugins).read(message.value);
@@ -184,14 +185,18 @@ export class PedalPiMessageDecoder implements MessageDecoder {
     let connection = new ConnectionReader(pedalboard, systemEffect).read(message.value);
 
     if (updateType == UpdateType.REMOVED) {
-      const index = this.connectionIndex(pedalboard, connection);
-      pedalboard.connections.splice(index, 1);
+      this.removeConnection(pedalboard, connection);
 
     } else if (updateType == UpdateType.CREATED) {
       pedalboard.connections.push(connection);
     }
 
     this.onNotificationConnection(updateType, connection);
+  }
+
+  private removeConnection(pedalboard : Pedalboard, connection : Connection) {
+    const index = this.connectionIndex(pedalboard, connection);
+    pedalboard.connections.splice(index, 1);
   }
 
   private connectionIndex(pedalboard : Pedalboard, connection : Connection) {

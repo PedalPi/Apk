@@ -22,7 +22,7 @@ export class Effect {
   connections() {
     const isPedalboardConnection =
       connection => connection.input.effect == this
-                || connection.output.effect == this
+                 || connection.output.effect == this
 
     return this.pedalboard.connections.filter(isPedalboardConnection)
   }

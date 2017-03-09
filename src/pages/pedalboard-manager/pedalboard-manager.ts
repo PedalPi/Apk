@@ -111,6 +111,10 @@ export class PedalboardManagerPage {
         this.toPedalboard(this.pedalboard, effect);
       }
     };
+
+    this.ws.messageDecoder.onNotificationConnection = (updateType, connection) => {
+      this.toPedalboard(this.pedalboard);
+    }
   }
 
   ionViewWillLeave() {

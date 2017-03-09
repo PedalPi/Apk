@@ -91,6 +91,7 @@ export class ConfigurationsPage {
   }
 
   connect(device : Device) {
+    console.log('connect')
     this.zeroconf.stopDiscover();
     this.endDiscover();
     this.setIp(`http://${device.address.ipv4}:${device.address.port}`);

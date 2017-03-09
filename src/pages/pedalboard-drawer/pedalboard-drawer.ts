@@ -75,11 +75,16 @@ export class PedalboardDrawerPage {
     this.service.updateData(this.pedalboard, data).subscribe();
   }
 
-  private removeEffect(effect) {
-    const effectIndex = this.pedalboard.effects.indexOf(effect.identifier);
+  private removeEffect(effectView) {
+    let effect : Effect = effectView.identifier;
+    const effectIndex = effect.index;
 
-    this.effectService.delete(effect.identifier).subscribe(
-      () => this.pedalboard.effects.splice(effectIndex, 1)
+    this.effectService.delete(effect).subscribe(
+      () => {
+        this.pedalboard.effects.splice(effectIndex, 1)
+        this.pedalboard.removeConnectionsOf(effect);
+        this.savePedalboardData()
+      }
     );
   }
 

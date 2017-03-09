@@ -41,53 +41,72 @@ import { WebSocketService } from '../providers/websocket/web-socket-service';
 import { Navigator } from '../common/navigator';
 
 
-const pages = [
-  AboutPage,
-  HomePage,
-  BanksPage,
-  ConfigurationsPage,
-  PedalboardDrawerPage,
-  PedalboardParametersPage,
-  PedalboardsPage,
-  PedalboardManagerPage,
-  PluginsCategoriesPage,
-  PluginsListPage
-];
-
-const components = [
-  SrButtonToggleComponent,
-  SrCombobox,
-  SrFootswitch,
-  SrIcon,
-  SrKnob,
-  SrParamKnob,
-  SrSlider,
-  SrPedalboard,
-  SrSetCurrent,
-  SrTab,
-  SrTabs,
-  SrToggle,
-];
-
-const services = [
-  DataService,
-  JsonService,
-  WebSocketService,
-
-  Navigator
-];
-
-
 @NgModule({
-  declarations: [MyApp].concat(<any> pages).concat(<any> components),
+  declarations: [
+    MyApp,
+
+    AboutPage,
+    HomePage,
+    BanksPage,
+    ConfigurationsPage,
+    PedalboardDrawerPage,
+    PedalboardParametersPage,
+    PedalboardsPage,
+    PedalboardManagerPage,
+    PluginsCategoriesPage,
+    PluginsListPage,
+
+    SrButtonToggleComponent,
+    SrCombobox,
+    SrFootswitch,
+    SrIcon,
+    SrKnob,
+    SrParamKnob,
+    SrSlider,
+    SrPedalboard,
+    SrSetCurrent,
+    SrTab,
+    SrTabs,
+    SrToggle,
+  ],
   imports: [
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
-  entryComponents: [MyApp].concat(<any> pages),
+  entryComponents: [
+    MyApp,
+
+    AboutPage,
+    HomePage,
+    BanksPage,
+    ConfigurationsPage,
+    PedalboardDrawerPage,
+    PedalboardParametersPage,
+    PedalboardsPage,
+    PedalboardManagerPage,
+    PluginsCategoriesPage,
+    PluginsListPage,
+
+    SrButtonToggleComponent,
+    SrCombobox,
+    SrFootswitch,
+    SrIcon,
+    SrKnob,
+    SrParamKnob,
+    SrSlider,
+    SrPedalboard,
+    SrSetCurrent,
+    SrTab,
+    SrTabs,
+    SrToggle,
+  ],
   providers: [
     Storage,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-  ].concat(<any> services)
+    DataService,
+    JsonService,
+    WebSocketService,
+    Navigator
+  ]
 })
 export class AppModule {}

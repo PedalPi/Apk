@@ -105,7 +105,7 @@ export class Pedalboard {
       return;
 
     if (selected.constructor.name == "Effect")
-        this.removeEffect(selected)
+      this.removeEffect(selected)
     else
       this.removeConnection(selected);
 
@@ -128,12 +128,13 @@ export class Pedalboard {
       }
     );
 
-    connectionsRemoved.map(connection => this.removeConnection(connection));
+    connectionsRemoved.map(connection => this.removeConnection(connection, false));
   }
 
-  private removeConnection(connection : Connection) {
+  private removeConnection(connection : Connection, notify=true) {
     this.connections.splice(this.connections.indexOf(connection), 1);
     this.view.updateConnections(this.connections);
-    this.listener.connectionRemoved(connection)
+    if (notify)
+      this.listener.connectionRemoved(connection)
   }
 }

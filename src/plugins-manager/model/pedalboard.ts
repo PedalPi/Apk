@@ -22,6 +22,11 @@ export class Pedalboard {
     return this.bank.pedalboards.indexOf(this)
   }
 
+  removeConnectionsOf(effect : Effect) {
+    let filter = conn => conn.input.effect != effect && conn.output.effect != effect;
+    this.connections = this.connections.filter(filter);
+  }
+
   json() {
     return {
       'name': this.name,
