@@ -2,7 +2,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
-import { Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage'
 
 import 'rxjs/add/operator/map';
 
@@ -71,6 +71,7 @@ import { Navigator } from '../common/navigator';
   ],
   imports: [
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
