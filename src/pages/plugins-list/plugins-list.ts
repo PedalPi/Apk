@@ -23,7 +23,10 @@ export class PluginsListPage implements Fragment {
   ionViewWillEnter() {
     this.category = this.fragmentNavigator.params['category'];
     this.pluginsOriginals = this.fragmentNavigator.params['plugins'];
-    this.plugins = this.initializeItems();
+    if (this.pluginsOriginals == undefined)
+      this.pluginsOriginals = [];
+
+    this.plugins = this.initializeItems(this.pluginsOriginals);
   }
 
   public close() {
@@ -36,7 +39,7 @@ export class PluginsListPage implements Fragment {
   }
 
   public getItems(event: any) {
-    this.plugins = this.initializeItems();
+    this.plugins = this.initializeItems(this.pluginsOriginals);
     let name = event.target.value;
 
     if (name && name.trim() != '')
@@ -45,8 +48,8 @@ export class PluginsListPage implements Fragment {
       );
   }
 
-  private initializeItems() {
-    return this.pluginsOriginals.slice(0);
+  private initializeItems(pluginsOriginals) {
+    return pluginsOriginals.slice(0);
   }
 
   public getNativeElement() {

@@ -10,7 +10,7 @@
 
 <ion-content id="effectList" padding>
   <ion-list>
-    <h2>{{category}}</h2>
+    <h2>{{category}} <ion-badge item-right color="secondary">{{pluginsOriginals.length}} plugins</ion-badge></h2>
     <button *ngFor="let plugin of plugins" ion-item (click)="itemSelected(plugin)">{{plugin.name}}</button>
   </ion-list>
 </ion-content>

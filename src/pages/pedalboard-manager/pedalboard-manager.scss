@@ -59,3 +59,7 @@ page-pedalboard-manager page-pedalboard-parameters {
     display: none;
   }
 }
+
+page-plugins-categories ion-content, page-plugins-list ion-content {
+  height: calc(100% - 56px);
+}
