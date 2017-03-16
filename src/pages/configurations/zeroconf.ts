@@ -26,7 +26,8 @@ export class Zeroconf {
       this.type,
       this.domain,
       result => {
-        if (result.action)
+        console.log(result);
+        if (result.action && result.service.ipv4Addresses.length > 0)
           this.onDiscoveredListener(new Device(result.service));
       }
     );
