@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      {{patch.name}}
+    </ion-title>
+
+    <ion-buttons end>
+      <button id="add-patch" royal (click)="setEffect()">
+        <ion-icon name="create"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="patch">
+  <button id="effects" clear (click)="manageEffects()"><ion-icon name="md-shuffle"></ion-icon></button>
+  <sr-tabs id="tabs" (onSelect)="setCurrentEffect($event)">
+
+    <sr-tab *ngFor="let effect of patch.effects" title="{{effect.name}}" [hidden]="effect != currentEffect">
+      <div id="parameters">
+        <span *ngFor="let parameter of effect.ports.control.input" class="parameter {{parameterType(parameter)}}">
+            <!--
+            <sr-slider
+              *ngIf="isParameterKnob(parameter)"
+              (onChange)="onParamUpdated(effect, parameter, parameter.value)"
+              [parameter]="parameter"></sr-slider>
+            -->
+            <sr-param-knob
+              *ngIf="isKnob(parameter)"
+              [parameter]="parameter"
+              (onChange)="onParamUpdated(effect, parameter, parameter.value)"></sr-param-knob>
+            <sr-combobox
+              *ngIf="isCombobox(parameter)"
+              [parameter]="parameter"
+              (onChange)="onParamUpdated(effect, $event, parameter.value)"
+              [selected]="parameter.value"
+              ></sr-combobox>
+            <sr-toggle
+              *ngIf="isToggle(parameter)"
+              (onChange)="onParamUpdated(effect, $event, parameter.value)"
+              [parameter]="parameter"></sr-toggle>
+        </span>
+      </div>
+    </sr-tab>
+
+    <div id="info" *ngIf="patch.effects.length === 0">
+      <ion-icon name="md-shuffle"></ion-icon>
+      Add effects in this patch
+    </div>
+  </sr-tabs>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar position="bottom" id="footer">
+    <ion-card class="ion-card-clicable no-shadow ion-card-item">
+      <button ion-item (click)="toBeforePatch()">
+        <ion-icon name="arrow-back"></ion-icon>
+        <span class="label">{{beforePatch.name}}</span>
+      </button>
+    </ion-card>
+
+    <sr-footswitch id="footswitch" [(ngModel)]="currentEffectStatus" (onChange)="toggleEffectStatus(currentEffect)" [hidden]="!hasCurrentEffect"></sr-footswitch>
+
+    <ion-card class="ion-card-clicable no-shadow ion-card-item">
+      <button ion-item (click)="toNextPatch()">
+        <ion-icon name="arrow-forward"></ion-icon>
+        <span class="label">{{nextPatch.name}}</span>
+      </button>
+    </ion-card>
+  </ion-toolbar>
+</ion-footer>

@@ -1,51 +1,37 @@
-# PedalPi Apk
+# Pedal Pi Apk - Alpha 2
 
-It's a work in progress project to manager the patch and effects
+Manage your pedalboards in an app.
 
-## Usign
+## Use
 
-```
-git clone https://github.com/PedalPi/Apk Apk
-cd Apk
-npm install
-sudo npm install -g ionic@beta
-ionic serve -p 3000 -a
-```
-
-## Test
-
-```
-npm install -g codeceptjs
-npm install -g webdriverio
-
-cd test
-
-# Download chromeDriver
-wget http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.1.jar
-wget http://chromedriver.storage.googleapis.com/2.25/chromedriver_linux64.zip
-
-#sudo apt-get install unzip -y
-unzip chromedriver_linux64.zip
-
-java -jar selenium-server-standalone-2.53.1.jar -Dwebdriver.chrome.driver="./chromedriver" &
-
-codeceptjs run --steps
-```
-
-### Test 2
-
-Test a alpha in http://PedalPi.github.io/Apk
-
-### Reference Links
-
- * http://ionicframework.com/docs/v2/cli/serve/
+* Online: http://PedalPi.github.io/Apk
+* Android: Comming soon
+* iOS: Comming soon
 
 ## Screenshots
 
-![Home page](www/img/pages/Home.png)
+![Home page with current pedalboard, banks and configurations options](docs/images/home.png)
 
-![Banks page](www/img/pages/Banks.png)
+![Effect GxAmplifier Stereo focused. Your parameters are listed](docs/images/effect-parameters.png)
 
-![Patches page](www/img/pages/Patches.png)
+![Pedalboard connections page](docs/images/connections.png)
 
-![Patch page](www/img/pages/Patch.png)
+![Plugins categories](docs/images/plugins-categories.png)
+
+## Development
+
+### Configure
+
+```
+npm install -g ionic
+git clone https://github.com/PedalPi/Apk Apk
+cd Apk
+npm install
+ionic serve -b -a
+```
+
+## Old versions
+
+* **Alpha 0**: http://PedalPi.github.io/Apk/old/alpha-0
+* **Alpha 1**: Web build not generated
+* **Alpha 2**: (current)
