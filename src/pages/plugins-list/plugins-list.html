@@ -4,7 +4,9 @@
       <button ion-button color="royal" (click)="close()">Cancel</button>
     </ion-buttons>
 
-    <ion-searchbar (input)="getItems($event)"></ion-searchbar>
+    <ion-searchbar
+      (ionInput)="getItems($event)"
+      (ionCancel)="clearedSearchBar()"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 

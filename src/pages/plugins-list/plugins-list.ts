@@ -55,4 +55,8 @@ export class PluginsListPage implements Fragment {
   public getNativeElement() {
     return this.element.nativeElement;
   }
+
+  public clearedSearchBar() {
+    this.plugins = this.pluginsOriginals;
+  }
 }
