@@ -7,6 +7,8 @@ import {Pedalboard} from '../../plugins-manager/model/pedalboard';
 
 import {BanksPage} from './banks';
 
+import {MessagesList} from '../../common/message/messages-list';
+
 
 export class BanksPresenter {
   private jsonService : JsonService;
@@ -32,7 +34,9 @@ export class BanksPresenter {
   }
 
   requestSaveBank(data: any) : void {
-    const bank = new Bank(data.name);
+    const bank = new Bank(data.name.trim());
+    this.validate(bank, this.banks);
+
     bank.manager = this.data.remote.manager;
 
     const pedalboard = new Pedalboard('Empty pedalboard');
@@ -44,8 +48,31 @@ export class BanksPresenter {
     this.service.saveNew(bank).subscribe(saveBank);
   }
 
+  private validate(bank : Bank, banks : Array<Bank>) {
+    const errors = new MessagesList();
+    if (bank.name == "")
+      errors.add('Bank name is empty');
+
+    const filterByName = otherBank => otherBank.name.toUpperCase() == bank.name.toUpperCase()
+                                   && otherBank != bank;
+    const existsBankWithSameName = this.banks.filter(filterByName).length > 0;
+
+    if (existsBankWithSameName)
+      errors.add(`Exists another bank with same name of <strong>${bank.name}</strong>`);
+
+    if (!errors.isEmpty())
+      throw errors;
+  }
+
   requestRenameBank(bank : any, data: any) : void {
+    const oldName = bank.name;
     bank.name = data.name;
+    try {
+      this.validate(bank, this.banks);
+    } catch (messages) {
+      bank.name = oldName;
+      throw messages;
+    }
 
     this.service.update(bank).subscribe(() => {});
   }

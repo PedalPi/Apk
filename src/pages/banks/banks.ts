@@ -46,10 +46,23 @@ export class BanksPage {
   createBank() {
     let alert = new AlertBuilder(this.alert)
       .title('New bank')
-      .callback((data) => this.presenter.requestSaveBank(data))
+      .callback((data) => {
+        try {
+          this.presenter.requestSaveBank(data)
+        } catch (messages) {
+          this.createError(messages.toString()).present();
+        }
+      })
       .generateSaveAlert();
 
     alert.present();
+  }
+
+  private createError(message) {
+    return new AlertBuilder(this.alert)
+      .title('Error')
+      .message(message)
+      .generate();
   }
 
   onContextBank(bank) {
@@ -63,12 +76,9 @@ export class BanksPage {
 
     contextMenu.addItem('Remove', () => {
       let alert;
-      if (bank.manager.banks.length == 1) {
-        alert = new AlertBuilder(this.alert)
-          .title('Error')
-          .message(`There must be at least one bank`)
-          .generate();
-      } else {
+      if (bank.manager.banks.length == 1)
+        alert = this.createError(`There must be at least one bank`);
+      else {
         alert = new AlertBuilder(this.alert)
           .title(`Delete ${bank.name}`)
           .message('R u sure?')
@@ -82,7 +92,13 @@ export class BanksPage {
       let alert = new AlertBuilder(this.alert)
         .title('Rename bank')
         .defaultValue(bank.name)
-        .callback(data => this.presenter.requestRenameBank(bank, data))
+        .callback(data => {
+          try {
+            this.presenter.requestRenameBank(bank, data)
+          } catch (messages) {
+            this.createError(messages.toString()).present();
+          }
+        })
         .generateSaveAlert();
 
       contextInstance.onDidDismiss(() => alert.present());
