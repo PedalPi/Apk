@@ -1,5 +1,7 @@
 # Pedal Pi Apk - Alpha 2
 
+[![Build Status](https://travis-ci.org/PedalPi/Apk.svg?branch=master)](https://travis-ci.org/PedalPi/Apk)
+
 Manage your pedalboards in an app.
 
 ## Use
