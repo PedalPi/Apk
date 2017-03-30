@@ -95,18 +95,4 @@ export class HomePage {
   goToConfigurations() {
     this.nav.push(ConfigurationsPage);
   }
-
-  goToPedalboardManager() {
-    const goToTest = data => {
-      let params : any = {};
-
-      params.current = true;
-      params.bank = this.data.remote.manager.banks[data.bank];
-      params.pedalboard = params.bank.pedalboards[data.pedalboard];
-
-      this.nav.push(PedalboardManagerPage, params);
-    }
-
-    this.service.current().subscribe(goToTest);
-  }
 }
