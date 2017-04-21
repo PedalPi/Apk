@@ -15,7 +15,10 @@
 
 <ion-content class="pedalboards">
   <ion-list no-lines [reorder]="reordering" (ionItemReorder)="reorderItems($event)" class="clean-list">
-    <button ion-item *ngFor="let pedalboard of bank.pedalboards" (click)="itemSelected(pedalboard)" (press)="onContextPedalboard(pedalboard)">
+    <button ion-item *ngFor="let pedalboard of bank.pedalboards"
+            (click)="itemSelected(pedalboard)"
+            (press)="onContextPedalboard(pedalboard)"
+            (contextmenu)="onContextPedalboard(pedalboard)">
       <ion-icon item-left><sr-icon icon="icons.svg#icon-pedalboard"></sr-icon></ion-icon>
       <span class="ion-item">{{pedalboard.name}}</span>
     </button>

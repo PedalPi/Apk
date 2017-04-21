@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-navbar [color]="connectedColor">
+    <ion-title>{{'CONNECTION' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list padding>
+    <ion-item disabled>
+      <ion-label color="dark">Device name</ion-label>
+    </ion-item>
+    <ion-item disabled>
+      <ion-label color="dark">Password</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-navbar [color]="connectedColor" id="connectionHeader">
+    <ion-list>
+      <ion-item id="connectionDiscoverMode">
+        <ion-label class="label">{{'DISCOVER_DEVICE_MODE' | translate}}</ion-label>
+
+        <ion-note item-right [attr.selected]="!autoSearch ? 'selected' : ''">{{'MANUAL' | translate}}</ion-note>
+        <ion-toggle [(ngModel)]="autoSearch" [disabled]="emulated"></ion-toggle>
+        <ion-note item-right [attr.selected]="autoSearch ? 'selected' : ''">{{'AUTO' | translate}}</ion-note>
+      </ion-item>
+    </ion-list>
+  </ion-navbar>
+
+  <div *ngIf="!autoSearch" padding>
+    <ion-item>
+      <ion-label stacked primary>{{'DEVICE_IP' | translate}}</ion-label>
+      <ion-input placeholder="http://192.168.0.1" [(ngModel)]="ip"></ion-input>
+      <button class="sameAddress" ion-button clear item-right large (click)="sameAddress()">
+        {{'SAME_ADDRESS' | translate}}
+      </button>
+    </ion-item>
+
+    <ion-item>
+      <button ion-button full large (click)="apply()">{{'APPLY' | translate}}</button>
+    </ion-item>
+  </div>
+
+  <div *ngIf="autoSearch" padding class="autoSearch">
+    <div id="autosearch-title">
+      <h2>{{'DEVICES' | translate}}</h2>
+
+      <ion-spinner [hidden]='!finding'></ion-spinner>
+      <button ion-button (click)="startDiscover()" [hidden]="finding" color="dark" outline>
+        {{'DISCOVER' | translate}}
+      </button>
+    </div>
+
+    <ion-list>
+      <ion-item *ngFor="let device of devices" (click)="connect(device)">
+        <sr-icon icon="icons.svg#icon-raspberry"></sr-icon> {{device.name}}
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

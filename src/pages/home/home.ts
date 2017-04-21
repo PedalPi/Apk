@@ -6,7 +6,6 @@ import {TranslateService} from '@ngx-translate/core';
 import {BanksPage} from '../banks/banks';
 import {PedalboardsPage} from '../pedalboards/pedalboards';
 import {ConfigurationsPage} from '../configurations/configurations';
-import {PedalboardManagerPage} from '../pedalboard-manager/pedalboard-manager';
 
 import {JsonService} from '../../providers/json/json-service';
 import {CurrentService} from '../../providers/json/current-service';
@@ -36,7 +35,8 @@ export class HomePage {
     ws.onConnectedListener = () => this.loadData();
     ws.onErrorListener = () => this.goToConfigurations();
 
-    translate.setDefaultLang('en');
+    // FIXME
+    translate.setDefaultLang(data.language == undefined ? 'en' : data.language);
   }
 
   ionViewWillLeave() {

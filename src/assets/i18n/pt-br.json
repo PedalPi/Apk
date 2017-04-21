@@ -1,0 +1,52 @@
+{
+  "HOME": "Início",
+  "CURRENT_PEDALBOARD": "Pedalboard Atual",
+  "BANKS": "Bancos",
+  "CONFIGURATIONS": "Configurações",
+
+  "ABOUT": "Sobre",
+  "DISCOVER_DEVICE_MODE": "Modo de busca por dispositivos",
+  "MANUAL": "Manual",
+  "AUTO": "Automático",
+
+  "DEVICE_IP": "IP do dispositivo",
+  "SAME_ADDRESS": "Mesmo endereço",
+  "APPLY": "Aplicar",
+
+  "DEVICES": "dispositivos",
+
+  "PROJECT": "Projeto",
+  "CREDITS": "Créditos",
+
+  "ICONS": "Ícones",
+
+  "ALL": "Todos",
+  "ADD_EFFECTS_IN_THIS_PEDALBOARD": "Adicione efeitos neste pedalboard",
+
+  "RENAME": "Renomear",
+  "REORDER": "Reordenar",
+  "REMOVE": "Remover",
+
+  "NEW_BANK": "Novo banco",
+  "RENAME_BANK": "Renomear banco",
+
+  "ERROR": "Erro",
+  "DELETE": "Remover {{name}}",
+  "R_U_SURE": "Você tem certeza?",
+  "ERROR_REMOVE_UNIQUE_BANK": "Deve existir ao menos um banco!",
+  "ERROR_BANK_NAME_EMPTY": "Nome do banco está vazio",
+  "ERROR_BANK_SAME_NAME": "Existe outro banco com o mesmo nome (<strong>{{name}}</strong>)",
+
+  "WARNING_BANK_REMOVED": "O banco <strong>{{name}}</strong> foi removido",
+
+  "NEW_PEDALBOARD": "Novo pedalboard",
+  "RENAME_PEDALBOARD": "Renomear pedalboard",
+  "ERROR_REMOVE_UNIQUE_PEDALBOARD": "Um banco deve possuir ao menos <strong>um</strong> pedalboard",
+
+  "CONNECTION": "Connecção",
+  "DISCOVER": "buscar",
+  "LANGUAGE": "Idioma",
+  "DEVICE": "Dispositivo",
+
+  "IMAGES": "Imagens"
+}

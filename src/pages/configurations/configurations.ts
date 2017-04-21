@@ -1,99 +1,42 @@
-import {ApplicationRef} from '@angular/core';
-import {ToastController} from 'ionic-angular';
-
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
+import {TranslateService} from '@ngx-translate/core';
 
-import {JsonService} from '../../providers/json/json-service';
+import {DataService} from '../../providers/data/data-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
 
 import {AboutPage} from '../about/about';
-
-import {Zeroconf, Device} from './zeroconf';
-
+import {ConnectionPage} from '../connection/connection';
 
 @Component({
   selector: 'page-configurations',
   templateUrl: 'configurations.html'
 })
 export class ConfigurationsPage {
-  public ip : string;
-  public autoSearch : boolean;
-  public devices : Array<any>;
-
-  private zeroconf : Zeroconf;
-  public finding = false;
-  public toast: any;
-
   constructor(
-      private nav : NavController,
-      private ws : WebSocketService,
-      private ref: ApplicationRef,
-      private toastCtrl : ToastController,
-      private jsonService : JsonService) {
-    this.ip = jsonService.webServer;
-    this.autoSearch = !this.emulated;
-
-    this.devices = [];
-    this.zeroconf = new Zeroconf('_pedalpi._tcp.', 'local.');
-    this.zeroconf.onDiscoveredListener = device => this.addDevice(device);
-    this.zeroconf.onEndDiscoverListener = () => this.endDiscover();
-  }
+    private data : DataService,
+    private nav : NavController,
+    private ws : WebSocketService,
+    private translate: TranslateService) {}
 
   get connectedColor() {
     return this.ws.connected ? "#08AE97" : "danger";
-  }
-
-  apply() {
-    this.setIp(this.ip);
-  }
-
-  private setIp(ip : string) {
-    this.ip = ip;
-    this.ws.tryConnect(WebSocketService.prepareUrl(ip));
   }
 
   about() {
     this.nav.push(AboutPage);
   }
 
-  sameAddress() {
-    this.ip = `http://${window.location.hostname}:3000`
+  connection() {
+    this.nav.push(ConnectionPage);
   }
 
-  get emulated() {
-    return (<any> window).cordova == undefined;
+  set language(language) {
+    this.data.language = language;
+    this.translate.setDefaultLang(language);
   }
 
-  startDiscover() {
-    this.toast = this.toastCtrl.create({
-      message: `Finding devices`
-    });
-    this.toast.present();
-
-    this.finding = true;
-    this.devices = [];
-
-    this.zeroconf.discover();
-  }
-
-  endDiscover() {
-    this.toast.dismiss();
-    this.finding = false;
-  }
-
-  addDevice(device : Device) {
-    if (this.devices.filter(d => d.equals(device)).length > 0)
-      return;
-
-    this.devices.push(device);
-    this.ref.tick();
-  }
-
-  connect(device : Device) {
-    console.log('connect')
-    this.zeroconf.stopDiscover();
-    this.endDiscover();
-    this.setIp(`http://${device.address.ipv4}:${device.address.port}`);
+  get language() {
+    return this.data.language;
   }
 }

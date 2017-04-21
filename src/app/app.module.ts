@@ -14,6 +14,7 @@ import { AboutPage } from '../pages/about/about';
 import { HomePage } from '../pages/home/home';
 import { BanksPage } from '../pages/banks/banks';
 import { ConfigurationsPage } from '../pages/configurations/configurations';
+import { ConnectionPage } from '../pages/connection/connection';
 import { PedalboardDrawerPage } from '../pages/pedalboard-drawer/pedalboard-drawer';
 import { PedalboardParametersPage } from '../pages/pedalboard-parameters/pedalboard-parameters';
 import { PedalboardsPage } from '../pages/pedalboards/pedalboards';
@@ -60,6 +61,7 @@ export function createTranslateLoader(http: Http) {
     HomePage,
     BanksPage,
     ConfigurationsPage,
+    ConnectionPage,
     PedalboardDrawerPage,
     PedalboardParametersPage,
     PedalboardsPage,
@@ -102,6 +104,7 @@ export function createTranslateLoader(http: Http) {
     HomePage,
     BanksPage,
     ConfigurationsPage,
+    ConnectionPage,
     PedalboardDrawerPage,
     PedalboardParametersPage,
     PedalboardsPage,
