@@ -44,11 +44,13 @@ export class BanksPage {
   }
 
   createBank() {
+    let callback = bank => this.itemSelected(bank);
+
     let alert = new AlertBuilder(this.alert)
       .title('New bank')
       .callback((data) => {
         try {
-          this.presenter.requestSaveBank(data)
+          this.presenter.requestSaveNewBank(data, callback);
         } catch (messages) {
           this.createError(messages.toString()).present();
         }

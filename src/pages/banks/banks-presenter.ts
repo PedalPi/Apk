@@ -2,8 +2,8 @@ import {DataService} from '../../providers/data/data-service';
 import {JsonService} from '../../providers/json/json-service';
 import {BanksService} from '../../providers/json/banks-service';
 
+import {Default} from '../../plugins-manager/default';
 import {Bank} from '../../plugins-manager/model/bank';
-import {Pedalboard} from '../../plugins-manager/model/pedalboard';
 
 import {BanksPage} from './banks';
 
@@ -33,17 +33,20 @@ export class BanksPresenter {
     return this.data.remote.manager;
   }
 
-  requestSaveBank(data: any) : void {
+  requestSaveNewBank(data: any, callback : any) : void {
     const bank = new Bank(data.name.trim());
     this.validate(bank, this.banks);
 
     bank.manager = this.data.remote.manager;
 
-    const pedalboard = new Pedalboard('Empty pedalboard');
+    const pedalboard = Default.defaultPedalboard('Empty pedalboard');
     pedalboard.bank = bank;
     bank.pedalboards.push(pedalboard);
 
-    const saveBank = status => this.manager.banks.push(bank);
+    const saveBank = status => {
+      this.manager.banks.push(bank);
+      callback(bank);
+    }
 
     this.service.saveNew(bank).subscribe(saveBank);
   }
