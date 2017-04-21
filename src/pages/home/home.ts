@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 
+import {TranslateService} from '@ngx-translate/core';
+
 import {BanksPage} from '../banks/banks';
 import {PedalboardsPage} from '../pedalboards/pedalboards';
 import {ConfigurationsPage} from '../configurations/configurations';
@@ -24,6 +26,7 @@ export class HomePage {
   public connected : boolean = false;
 
   constructor(
+      translate: TranslateService,
       private nav : NavController,
       private jsonService : JsonService,
       private data : DataService,
@@ -32,6 +35,8 @@ export class HomePage {
     // ws injected in the first page to start web socket connection
     ws.onConnectedListener = () => this.loadData();
     ws.onErrorListener = () => this.goToConfigurations();
+
+    translate.setDefaultLang('en');
   }
 
   ionViewWillLeave() {

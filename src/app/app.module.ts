@@ -1,4 +1,5 @@
 import { NgModule, ErrorHandler } from '@angular/core';
+
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
@@ -40,6 +41,14 @@ import { WebSocketService } from '../providers/websocket/web-socket-service';
 
 import { Navigator } from '../common/navigator';
 
+// Translate
+import {Http} from '@angular/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function createTranslateLoader(http: Http) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -71,7 +80,15 @@ import { Navigator } from '../common/navigator';
   ],
   imports: [
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [Http]
+      }
+    }),
   ],
   bootstrap: [IonicApp],
   entryComponents: [

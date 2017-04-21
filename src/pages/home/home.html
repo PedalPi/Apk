@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      PedalPi α³ - Home
+      PedalPi α³ - {{'HOME' | translate}}
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -11,7 +11,7 @@
     <ion-card class="ion-card-clicable no-shadow">
       <button ion-item [disabled]="!connected" (click)="goToCurrent()" >
         <ion-icon item-left><sr-icon icon="icons.svg#icon-pedalboard"></sr-icon></ion-icon>
-        <span class="ion-item">Current Pedalboard</span>
+        <span class="ion-item">{{'CURRENT_PEDALBOARD' | translate}}</span>
       </button>
     </ion-card>
 
@@ -19,7 +19,7 @@
       <button id="pedalpi" ion-item [disabled]="!connected" (click)="goToBanks()">
         <!--<ion-icon item-left><img src="img/raspberry_pi.png" /></ion-icon>-->
         <ion-icon item-left><sr-icon icon="icons.svg#icon-local-folder"></sr-icon></ion-icon>
-        <span class="ion-item">Banks</span>
+        <span class="ion-item">{{'BANKS' | translate}}</span>
       </button>
     </ion-card>
 
@@ -35,7 +35,7 @@
     <ion-card (click)="goToConfigurations()" class="ion-card-clicable no-shadow">
       <button ion-item>
         <ion-icon item-left><sr-icon icon="icons.svg#icon-configurations"></sr-icon></ion-icon>
-        <span class="ion-item">Configurations</span>
+        <span class="ion-item">{{'CONFIGURATIONS' | translate}}</span>
       </button>
     </ion-card>
 
