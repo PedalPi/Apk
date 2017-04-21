@@ -34,12 +34,12 @@ export class AlertBuilder {
     this.json.title = await this.translate(title, data);
   }
 
-  async subTitle(subTitle : string) {
-    this.json.subTitle = await this.translate(subTitle);
+  async subTitle(subTitle : string, data : any = {}) {
+    this.json.subTitle = await this.translate(subTitle, data);
   }
 
-  async message(message : string) {
-    this.json.message = await this.translate(message);
+  async message(message : string, data : any = {}) {
+    this.json.message = await this.translate(message, data);
   }
 
   callback(callback : Function) {

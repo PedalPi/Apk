@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, AlertController, ActionSheetController} from 'ionic-angular';
+import {NavController, NavParams, AlertController, ActionSheet, ActionSheetController} from 'ionic-angular';
+import {TranslateService} from '@ngx-translate/core';
 import {PedalboardManagerPage} from '../pedalboard-manager/pedalboard-manager';
 
 import {JsonService} from '../../providers/json/json-service';
@@ -13,6 +14,7 @@ import {Navigator} from '../../common/navigator';
 import {PedalboardsPresenter} from './pedalboards-presenter';
 
 import {Bank} from '../../plugins-manager/model/bank';
+import {Pedalboard} from '../../plugins-manager/model/pedalboard';
 
 
 @Component({
@@ -28,10 +30,11 @@ export class PedalboardsPage {
       private nav : NavController,
       params : NavParams,
       private alert : AlertController,
-      private actionSheet : ActionSheetController,
+      public actionSheet : ActionSheetController,
       private jsonService : JsonService,
       private ws : WebSocketService,
-      private navigator : Navigator
+      private navigator : Navigator,
+      public translate: TranslateService
     ) {
     this.presenter = new PedalboardsPresenter(this, params.get('bank'), jsonService);
     this.bank = params.get('bank');
@@ -39,6 +42,10 @@ export class PedalboardsPage {
 
     if (params.get('current'))
       this.itemSelected(params.get('pedalboard'));
+  }
+
+  get alertBuilder() {
+    return new AlertBuilder(this.alert, this.translate);
   }
 
   ionViewWillEnter() {
@@ -50,13 +57,13 @@ export class PedalboardsPage {
         this.bank = bank;
 
       else if (updateType == UpdateType.REMOVED && thisBankAffected)
-        this.nav.pop().then(() => this.presentAlert(`The bank <b>"${bank.name}"</b> has been deleted`));
+        this.nav.pop().then(() => this.presentAlert('WARNING_BANK_REMOVED', {name: bank.name}));
     };
   }
 
-  private presentAlert(message) {
-    let builder = new AlertBuilder(this.alert);
-    builder.message(message);
+  private presentAlert(message: string, data: any = {}) {
+    let builder = this.alertBuilder;
+    builder.message(message, data);
 
     builder.generate()
            .present();
@@ -69,9 +76,9 @@ export class PedalboardsPage {
   createPedalboard() {
     let callback = pedalboard => this.itemSelected(pedalboard);
 
-    let builder = new AlertBuilder(this.alert)
+    let builder = this.alertBuilder;
 
-    builder.title('New pedalboard')
+    builder.title('NEW_PEDALBOARD')
     builder.callback((data) => this.presenter.requestSaveNewPedalboard(data, callback))
 
     builder.generateSaveAlert().present();
@@ -90,46 +97,13 @@ export class PedalboardsPage {
     return true;
   }
 
-  onContextPedalboard(pedalboard) {
+  onContextPedalboard(pedalboard) : boolean {
     if (this.reordering)
-      return;
+      return false;
 
-    const contextMenu = new ContextMenu(pedalboard.name, null);
-    let contextInstance = null;
+    new PedalboardsContextMenu(this, this.translate).generate(pedalboard);
 
-    contextMenu.addItem('Reorder', () => this.reordering = !this.reordering);
-
-    contextMenu.addItem('Remove', () => {
-      let alert;
-      if (pedalboard.bank.pedalboards.length == 1) {
-        let builder = new AlertBuilder(this.alert)
-        builder.title('Error')
-        builder.message(`A bank must have at least one pedalboard`)
-        alert = builder.generate();
-      } else {
-        let builder = new AlertBuilder(this.alert);
-        builder.title(`Delete ${pedalboard.name}`);
-        builder.message(`R u sure?`);
-        builder.callback(data => this.presenter.requestDeletePedalboard(pedalboard));
-        alert = builder.generateConfirmation();
-      }
-      contextInstance.onDidDismiss(() => alert.present());
-    });
-
-    contextMenu.addItem('Rename', () => {
-      let builder = new AlertBuilder(this.alert)
-
-      builder.title('Rename pedalboard')
-      builder.defaultValue(pedalboard.name)
-      builder.callback(data => this.presenter.requestRenamePedalboard(pedalboard, data))
-
-      contextInstance.onDidDismiss(() => builder.generateSaveAlert().present());
-    });
-
-    //contextMenu.addItem('Copy to local', () => console.log('Cancel clicked'));
-
-    contextInstance = contextMenu.generate(this.actionSheet);
-    contextInstance.present();
+    return false;
   }
 
   reorderItems(indexes) {
@@ -141,5 +115,78 @@ export class PedalboardsPage {
 
   disableReorder() {
     this.reordering = false;
+  }
+
+  //==================================
+  // Presenter request
+  //==================================
+  requestRenamePedalboard(pedalboard, newName : string) {
+    this.presenter.requestRenamePedalboard(pedalboard, newName);
+  }
+
+  requestDeletePedalboard(pedalboard : Pedalboard) {
+    this.presenter.requestDeletePedalboard(pedalboard)
+  }
+}
+
+class PedalboardsContextMenu {
+  private instance : ActionSheet;
+
+  constructor(private page: PedalboardsPage,
+              private translate: TranslateService) {}
+
+  generate(pedalboard : Pedalboard) {
+    const contextMenu = new ContextMenu(pedalboard.name, this.translate);
+
+    contextMenu.addItem('REORDER', () => this.reoder(pedalboard));
+    contextMenu.addItem('REMOVE', () => this.remove(pedalboard));
+    contextMenu.addItem('RENAME', () => this.rename(pedalboard));
+    //contextMenu.addItem('Copy to local', () => console.log('Cancel clicked'));
+
+    this.instance = contextMenu.generate(this.page.actionSheet);
+    this.instance.present();
+  }
+
+  private reoder(pedalboard : Pedalboard) {
+    this.page.reordering = !this.page.reordering;
+  }
+
+  private remove(pedalboard : Pedalboard) {
+    let alert;
+    if (pedalboard.bank.pedalboards.length == 1)
+      alert = this.generateErrorAlert('ERROR_REMOVE_UNIQUE_PEDALBOARD');
+    else
+      alert = this.generateConfirmRemoveAlert(pedalboard);
+
+    this.instance.onDidDismiss(() => alert.present());
+  }
+
+  private generateErrorAlert(message) {
+    let builder = this.page.alertBuilder;
+
+    builder.title('ERROR')
+    builder.message(message)
+
+    return builder.generate();
+  }
+
+  private generateConfirmRemoveAlert(pedalboard : Pedalboard) {
+    let builder = this.page.alertBuilder;
+
+    builder.title(`DELETE`, {name: pedalboard.name})
+    builder.message('R_U_SURE')
+    builder.callback(data => this.page.requestDeletePedalboard(pedalboard))
+
+    return builder.generateConfirmation();
+  }
+
+  private rename(pedalboard : Pedalboard) {
+    let builder = this.page.alertBuilder;
+
+    builder.title('RENAME_PEDALBOARD')
+    builder.defaultValue(pedalboard.name)
+    builder.callback(data => this.page.requestRenamePedalboard(pedalboard, data.name))
+
+    this.instance.onDidDismiss(() => builder.generateSaveAlert().present());
   }
 }

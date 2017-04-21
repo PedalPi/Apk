@@ -35,5 +35,11 @@
   "R_U_SURE": "R u sure?",
   "ERROR_REMOVE_UNIQUE_BANK": "There must be at least one bank!",
   "ERROR_BANK_NAME_EMPTY": "Bank name is empty",
-  "ERROR_BANK_SAME_NAME": "Exists another bank with same name of <strong>{{name}}</strong>"
+  "ERROR_BANK_SAME_NAME": "Exists another bank with same name of <strong>{{name}}</strong>",
+
+  "WARNING_BANK_REMOVED": "The bank <strong>{{name}}</strong> has been deleted",
+
+  "NEW_PEDALBOARD": "New pedalboard",
+  "RENAME_PEDALBOARD": "Rename pedalboard",
+  "ERROR_REMOVE_UNIQUE_PEDALBOARD": "A bank must have at least one pedalboard"
 }
