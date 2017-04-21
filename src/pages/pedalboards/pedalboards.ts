@@ -66,9 +66,11 @@ export class PedalboardsPage {
   }
 
   createPedalboard() {
+    let callback = pedalboard => this.itemSelected(pedalboard);
+
     let alert = new AlertBuilder(this.alert)
       .title('New pedalboard')
-      .callback((data) => this.presenter.requestSaveNewPedalboard(data))
+      .callback((data) => this.presenter.requestSaveNewPedalboard(data, callback))
       .generateSaveAlert();
 
     alert.present();

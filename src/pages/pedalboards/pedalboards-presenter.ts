@@ -23,10 +23,13 @@ export class PedalboardsPresenter {
     return this.jsonService.pedalboard;
   }
 
-  requestSaveNewPedalboard(data : any) : void {
+  requestSaveNewPedalboard(data : any, callback : any) : void {
     const pedalboard = this.createDefaultPedalboard(data.name);
     pedalboard.bank = this.bank;
-    const savePedalboard = status => this.bank.pedalboards.push(pedalboard);
+    const savePedalboard = status => {
+      this.bank.pedalboards.push(pedalboard);
+      callback(pedalboard);
+    }
 
     this.service.saveNew(pedalboard).subscribe(savePedalboard);
   }
