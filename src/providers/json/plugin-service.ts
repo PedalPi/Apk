@@ -12,7 +12,7 @@ export class PluginService {
   }
 
   private get pluginsUrl() : string {
-    return this.router.route(`/effects`);
+    return this.router.route(`/plugins`);
   }
 
   getPlugins() {
