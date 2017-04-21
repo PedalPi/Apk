@@ -1,4 +1,4 @@
-# Pedal Pi Apk - Alpha 2
+# Pedal Pi Apk - Alpha 3
 
 [![Build Status](https://travis-ci.org/PedalPi/Apk.svg?branch=master)](https://travis-ci.org/PedalPi/Apk)
 
