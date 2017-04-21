@@ -26,12 +26,12 @@ export class HomePage {
   public connected : boolean = false;
 
   constructor(
-      translate: TranslateService,
       private nav : NavController,
       private jsonService : JsonService,
       private data : DataService,
       private ws : WebSocketService,
-      private loadingCtrl : LoadingController) {
+      private loadingCtrl : LoadingController,
+      translate: TranslateService) {
     // ws injected in the first page to start web socket connection
     ws.onConnectedListener = () => this.loadData();
     ws.onErrorListener = () => this.goToConfigurations();

@@ -1,3 +1,5 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
 import { NgModule, ErrorHandler } from '@angular/core';
 
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -79,9 +81,11 @@ export function createTranslateLoader(http: Http) {
     SrToggle,
   ],
   imports: [
+    BrowserModule,
     IonicModule.forRoot(MyApp),
+    HttpModule,
     IonicStorageModule.forRoot(),
-    
+
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -46,8 +46,8 @@ export class PedalboardsPresenter {
     this.service.delete(pedalboard).subscribe(deletePedalboard);
   }
 
-  requestRenamePedalboard(pedalboard : Pedalboard, data : any) : void {
-    pedalboard.name = data.name;
+  requestRenamePedalboard(pedalboard : Pedalboard, newName : string) : void {
+    pedalboard.name = newName;
     this.service.update(pedalboard).subscribe(() => {});
   }
 

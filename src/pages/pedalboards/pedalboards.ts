@@ -7,7 +7,7 @@ import {WebSocketService} from '../../providers/websocket/web-socket-service';
 import {UpdateType} from '../../providers/websocket/pedalpi-message-decoder';
 
 import {AlertBuilder} from '../../common/alert';
-import {ContextMenu} from '../../common/contextMenu';
+import {ContextMenu} from '../../common/context-menu';
 import {Navigator} from '../../common/navigator';
 
 import {PedalboardsPresenter} from './pedalboards-presenter';
@@ -55,10 +55,11 @@ export class PedalboardsPage {
   }
 
   private presentAlert(message) {
-    new AlertBuilder(this.alert)
-      .message(message)
-      .generate()
-      .present()
+    let builder = new AlertBuilder(this.alert);
+    builder.message(message);
+
+    builder.generate()
+           .present();
   }
 
   ionViewWillLeave() {
@@ -68,12 +69,12 @@ export class PedalboardsPage {
   createPedalboard() {
     let callback = pedalboard => this.itemSelected(pedalboard);
 
-    let alert = new AlertBuilder(this.alert)
-      .title('New pedalboard')
-      .callback((data) => this.presenter.requestSaveNewPedalboard(data, callback))
-      .generateSaveAlert();
+    let builder = new AlertBuilder(this.alert)
 
-    alert.present();
+    builder.title('New pedalboard')
+    builder.callback((data) => this.presenter.requestSaveNewPedalboard(data, callback))
+
+    builder.generateSaveAlert().present();
   }
 
   itemSelected(pedalboard) {
@@ -93,7 +94,7 @@ export class PedalboardsPage {
     if (this.reordering)
       return;
 
-    const contextMenu = new ContextMenu(pedalboard.name, 'context');
+    const contextMenu = new ContextMenu(pedalboard.name, null);
     let contextInstance = null;
 
     contextMenu.addItem('Reorder', () => this.reordering = !this.reordering);
@@ -101,28 +102,28 @@ export class PedalboardsPage {
     contextMenu.addItem('Remove', () => {
       let alert;
       if (pedalboard.bank.pedalboards.length == 1) {
-        alert = new AlertBuilder(this.alert)
-          .title('Error')
-          .message(`A bank must have at least one pedalboard`)
-          .generate();
+        let builder = new AlertBuilder(this.alert)
+        builder.title('Error')
+        builder.message(`A bank must have at least one pedalboard`)
+        alert = builder.generate();
       } else {
-        alert = new AlertBuilder(this.alert)
-          .title(`Delete ${pedalboard.name}`)
-          .message(`R u sure?`)
-          .callback(data => this.presenter.requestDeletePedalboard(pedalboard))
-          .generateConfirmation();
+        let builder = new AlertBuilder(this.alert);
+        builder.title(`Delete ${pedalboard.name}`);
+        builder.message(`R u sure?`);
+        builder.callback(data => this.presenter.requestDeletePedalboard(pedalboard));
+        alert = builder.generateConfirmation();
       }
       contextInstance.onDidDismiss(() => alert.present());
     });
 
     contextMenu.addItem('Rename', () => {
-      let alert = new AlertBuilder(this.alert)
-        .title('Rename pedalboard')
-        .defaultValue(pedalboard.name)
-        .callback(data => this.presenter.requestRenamePedalboard(pedalboard, data))
-        .generateSaveAlert();
+      let builder = new AlertBuilder(this.alert)
 
-      contextInstance.onDidDismiss(() => alert.present());
+      builder.title('Rename pedalboard')
+      builder.defaultValue(pedalboard.name)
+      builder.callback(data => this.presenter.requestRenamePedalboard(pedalboard, data))
+
+      contextInstance.onDidDismiss(() => builder.generateSaveAlert().present());
     });
 
     //contextMenu.addItem('Copy to local', () => console.log('Cancel clicked'));
