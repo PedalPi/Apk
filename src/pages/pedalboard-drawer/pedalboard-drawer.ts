@@ -90,7 +90,6 @@ export class PedalboardDrawerPage {
 
   private addConnection(connection) {
     const newConnection = connection.model;
-    console.log(connection.model)
     this.pedalboard.connections.push(newConnection);
 
     this.service.connect(this.pedalboard, newConnection).subscribe();
