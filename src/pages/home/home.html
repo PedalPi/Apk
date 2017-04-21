@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      PedalPi α³ - {{'HOME' | translate}}
+      Pedal Pi α³ - {{'HOME' | translate}}
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -17,7 +17,6 @@
 
     <ion-card class="ion-card-clicable no-shadow">
       <button id="pedalpi" ion-item [disabled]="!connected" (click)="goToBanks()">
-        <!--<ion-icon item-left><img src="img/raspberry_pi.png" /></ion-icon>-->
         <ion-icon item-left><sr-icon icon="icons.svg#icon-local-folder"></sr-icon></ion-icon>
         <span class="ion-item">{{'BANKS' | translate}}</span>
       </button>

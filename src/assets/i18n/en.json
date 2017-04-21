@@ -2,5 +2,24 @@
   "HOME": "Home",
   "CURRENT_PEDALBOARD": "Current Pedalboard",
   "BANKS": "Banks",
-  "CONFIGURATIONS": "Configurations"
+  "CONFIGURATIONS": "Configurations",
+
+  "ABOUT": "About",
+  "DISCOVER_DEVICE_MODE": "Discover device mode",
+  "MANUAL": "Manual",
+  "AUTO": "Auto",
+
+  "DEVICE_IP": "Device ip",
+  "SAME_ADDRESS": "Same address",
+  "APPLY": "Apply",
+
+  "DEVICES": "Devices",
+
+  "PROJECT": "Project",
+  "CREDITS": "Credits",
+
+  "ICONS": "Icons",
+
+  "ALL": "All",
+  "ADD_EFFECTS_IN_THIS_PEDALBOARD": "Add effects in this pedalboard"
 }
