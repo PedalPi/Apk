@@ -16,6 +16,8 @@ export class ConnectionView {
   private showModal : boolean;
   public onDataLoaded = () => {};
 
+  private modal;
+
   constructor(
       private loadingCtrl : LoadingController,
       private toastCtrl : ToastController,
@@ -56,10 +58,15 @@ export class ConnectionView {
 
   public showConnectionModal() {
     this.showModal = true;
-    let modal = this.modalCtrl.create(ConnectionPage, {}, {enableBackdropDismiss: false});
+    this.modal = this.modalCtrl.create(ConnectionPage, {}, {enableBackdropDismiss: false});
 
-    modal.onDidDismiss(() => this.showModal = false);
-    modal.present();
+    this.modal.onDidDismiss(() => this.showModal = false);
+    this.modal.present();
+  }
+
+  public dismiss() {
+    if (this.modal !== undefined)
+      this.modal.dismiss();
   }
 
 

@@ -14,7 +14,6 @@ import {DataService} from '../../providers/data/data-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
 import {ConnectionView} from '../../providers/websocket/connection-view';
 import {LanguageService} from '../../providers/lang/language';
-import {ConnectionStatus} from '../../providers/websocket/web-socket-service';
 
 
 @Component({
@@ -34,10 +33,15 @@ export class HomePage {
 
     const view = new ConnectionView(loadingCtrl, toastCtrl, modalCtrl, data, jsonService, translate);
     ws.view = view;
-    view.onDataLoaded = () => this.goToCurrent();
+    view.onDataLoaded = () => this.prepareGoToCurrent();
 
     this.translate.setDefaultLang(LanguageService.navigatorLanguage());
     this.data.addOnReadyListener(() => this.loadLanguage());
+  }
+
+  private async prepareGoToCurrent() {
+    await this.goToCurrent();
+    this.ws.view.dismiss();
   }
 
   public get connected() {
@@ -56,9 +60,9 @@ export class HomePage {
     return this.jsonService.current;
   }
 
-  goToCurrent() {
-    const goToCurrent = data => this.openPagesForCurrent(data.bank, data.pedalboard)
-    this.service.current().subscribe(goToCurrent);
+  async goToCurrent() {
+    const data = await this.service.current().toPromise();
+    return this.openPagesForCurrent(data.bank, data.pedalboard);
   }
 
   private openPagesForCurrent(bankIndex : number, pedalboardIndex : number) {
@@ -74,7 +78,7 @@ export class HomePage {
       //{page: PedalboardPage, params: params}
     ]
 
-    this.nav.insertPages(pages.length, pages, {animate: false})
+    return this.nav.insertPages(pages.length, pages, {animate: false});
   }
 
   goToBanks() {
