@@ -1,57 +1,33 @@
 <ion-header>
   <ion-navbar [color]="connectedColor">
     <ion-title>
-      Configurations
+      {{'CONFIGURATIONS' | translate}}
     </ion-title>
 
     <ion-buttons end>
       <button ion-button color="royal" (click)="about()">
-        About
+        {{'ABOUT' | translate }}
       </button>
     </ion-buttons>
   </ion-navbar>
-
-  <ion-navbar [color]="connectedColor">
-    <ion-list>
-      <ion-item id="configurationsDiscoverMode">
-        <ion-label>Discover device mode</ion-label>
-
-        <ion-note item-right [attr.selected]="!autoSearch ? 'selected' : ''">Manual</ion-note>
-        <ion-toggle [(ngModel)]="autoSearch" [disabled]="emulated"></ion-toggle>
-        <ion-note item-right [attr.selected]="autoSearch ? 'selected' : ''">Auto</ion-note>
-      </ion-item>
-    </ion-list>
-  </ion-navbar>
-
 </ion-header>
 
-<ion-content>
-  <div *ngIf="!autoSearch">
-    <ion-item>
-      <ion-label stacked primary>Device ip</ion-label>
-      <ion-input placeholder="http://192.168.0.1" [(ngModel)]="ip"></ion-input>
-      <button class="sameAddress" ion-button clear item-right large (click)="sameAddress()">Same address</button>
-    </ion-item>
+<ion-content class="base-block">
+  <ion-list class="center-block">
+    <button ion-item (click)="connection()">
+      <ion-label>{{ 'DEVICE' | translate }}</ion-label>
+      <span item-right>{{device}}</span>
+    </button>
 
     <ion-item>
-      <button ion-button full large (click)="apply()">Apply</button>
+      <ion-label color="dark">{{ 'LANGUAGE' | translate }}</ion-label>
+
+      <ion-select [(ngModel)]="language">
+        <ion-option value="en">English</ion-option>
+        <ion-option value="es">Espanõl</ion-option>
+        <ion-option value="pt-BR">Português (BR)</ion-option>
+      </ion-select>
     </ion-item>
-  </div>
+  </ion-list>
 
-  <div *ngIf="autoSearch" padding class="autoSearch">
-    <div id="autosearch-title">
-      <h2>Devices</h2>
-
-      <ion-spinner [hidden]='!finding'></ion-spinner>
-      <button ion-button (click)="startDiscover()" [hidden]="finding" color="dark" outline>
-        discover
-      </button>
-    </div>
-
-    <ion-list>
-      <ion-item *ngFor="let device of devices" (click)="connect(device)">
-        <sr-icon icon="icons.svg#icon-raspberry"></sr-icon> {{device.name}}
-      </ion-item>
-    </ion-list>
-  </div>
 </ion-content>

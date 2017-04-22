@@ -2,8 +2,8 @@ import {DataService} from '../../providers/data/data-service';
 import {JsonService} from '../../providers/json/json-service';
 import {BanksService} from '../../providers/json/banks-service';
 
+import {Default} from '../../plugins-manager/default';
 import {Bank} from '../../plugins-manager/model/bank';
-import {Pedalboard} from '../../plugins-manager/model/pedalboard';
 
 import {BanksPage} from './banks';
 
@@ -33,42 +33,46 @@ export class BanksPresenter {
     return this.data.remote.manager;
   }
 
-  requestSaveBank(data: any) : void {
-    const bank = new Bank(data.name.trim());
-    this.validate(bank, this.banks);
+  private async translate(text : string, data : any = {}) {
+    return this.page.translate.get(text, data).toPromise();
+  }
+
+  async requestSaveNewBank(name: string, callback : any = null) : Promise<Bank> {
+    const bank = new Bank(name.trim());
+    await this.validate(bank, this.banks);
 
     bank.manager = this.data.remote.manager;
 
-    const pedalboard = new Pedalboard('Empty pedalboard');
+    const pedalboard = Default.defaultPedalboard('Empty pedalboard');
     pedalboard.bank = bank;
     bank.pedalboards.push(pedalboard);
 
-    const saveBank = status => this.manager.banks.push(bank);
-
-    this.service.saveNew(bank).subscribe(saveBank);
+    await this.service.saveNew(bank).toPromise();
+    this.manager.banks.push(bank);
+    return bank;
   }
 
-  private validate(bank : Bank, banks : Array<Bank>) {
+  private async validate(bank : Bank, banks : Array<Bank>) {
     const errors = new MessagesList();
     if (bank.name == "")
-      errors.add('Bank name is empty');
+      errors.add(await this.translate('ERROR_BANK_NAME_EMPTY'));
 
     const filterByName = otherBank => otherBank.name.toUpperCase() == bank.name.toUpperCase()
                                    && otherBank != bank;
     const existsBankWithSameName = this.banks.filter(filterByName).length > 0;
 
     if (existsBankWithSameName)
-      errors.add(`Exists another bank with same name of <strong>${bank.name}</strong>`);
+      errors.add(await this.translate('ERROR_BANK_SAME_NAME', {name: bank.name}));
 
     if (!errors.isEmpty())
       throw errors;
   }
 
-  requestRenameBank(bank : any, data: any) : void {
+  async requestRenameBank(bank : Bank, newName: string) {
     const oldName = bank.name;
-    bank.name = data.name;
+    bank.name = newName.trim();
     try {
-      this.validate(bank, this.banks);
+      await this.validate(bank, this.banks);
     } catch (messages) {
       bank.name = oldName;
       throw messages;

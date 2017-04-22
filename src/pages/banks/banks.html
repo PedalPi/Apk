@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Banks
+      {{'BANKS' | translate}}
     </ion-title>
 
     <ion-buttons end>
@@ -16,7 +16,10 @@
 
 <ion-content class="banks">
   <ion-list no-lines [reorder]="reordering" (ionItemReorder)="reorderItems($event)" class="clean-list">
-    <button ion-item *ngFor="let bank of banks" (click)="itemSelected(bank)" (press)="onContextBank(bank)">
+    <button ion-item *ngFor="let bank of banks"
+      (click)="itemSelected(bank)"
+      (press)="onContextBank(bank)"
+      (contextmenu)="onContextBank(bank)">
       <ion-icon name="ios-folder-outline" item-left></ion-icon>
       <span>{{bank.name}}</span>
     </button>

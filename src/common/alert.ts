@@ -1,44 +1,53 @@
+import 'rxjs/add/operator/toPromise';
+
 import {AlertController, Alert, AlertOptions, AlertInputOptions} from 'ionic-angular';
+import {TranslateService} from '@ngx-translate/core';
 
 
 export class AlertBuilder {
   private json : AlertOptions;
   private controller : AlertController;
+  private translateService : TranslateService;
   private callbackFunction : Function = () => {};
   private defaultValueText : string;
 
-  constructor(controller : AlertController) {
+  constructor(controller : AlertController, translateService : TranslateService = null) {
     this.controller = controller;
     this.json = {
       'title' : '',
       buttons: [],
       inputs: []
     };
+    this.translateService = translateService;
   }
 
-  title(title : string) : AlertBuilder {
-    this.json.title = title;
-    return this;
+  private translate(text, data : any = {}) : Promise<string> {
+    if (this.translateService == null)
+      return Promise.resolve(text);
+
+    return this.translateService
+        .get(text, data)
+        .toPromise();
   }
 
-  subTitle(subTitle : string) : AlertBuilder {
-    this.json.subTitle = subTitle;
-    return this;
+  async title(title : string, data : any = {}) {
+    this.json.title = await this.translate(title, data);
   }
 
-  message(message : string) : AlertBuilder {
-    this.json.message = message;
-    return this;
+  async subTitle(subTitle : string, data : any = {}) {
+    this.json.subTitle = await this.translate(subTitle, data);
   }
 
-  callback(callback : Function) : AlertBuilder {
+  async message(message : string, data : any = {}) {
+    this.json.message = await this.translate(message, data);
+  }
+
+  callback(callback : Function) {
     this.callbackFunction = callback;
-    return this;
   }
 
-  defaultValue(defaultValue : string) : AlertBuilder {
+  defaultValue(defaultValue : string) {
     this.defaultValueText = defaultValue;
-    return this;
   }
 
   addButton(button : any) {

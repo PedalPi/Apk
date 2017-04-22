@@ -1,37 +1,55 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
+import {ToastController, LoadingController, ModalController, AlertController} from 'ionic-angular';
+
+import {TranslateService} from '@ngx-translate/core';
 
 import {BanksPage} from '../banks/banks';
 import {PedalboardsPage} from '../pedalboards/pedalboards';
 import {ConfigurationsPage} from '../configurations/configurations';
-import {PedalboardManagerPage} from '../pedalboard-manager/pedalboard-manager';
 
 import {JsonService} from '../../providers/json/json-service';
 import {CurrentService} from '../../providers/json/current-service';
-import {BanksService} from '../../providers/json/banks-service';
-import {PluginService} from '../../providers/json/plugin-service';
 import {DataService} from '../../providers/data/data-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
-
-import {BanksManager} from '../../plugins-manager/banks-manager'
-import {LoadingController} from 'ionic-angular';
+import {ConnectionView} from '../../providers/websocket/connection-view';
+import {LanguageService} from '../../providers/lang/language';
 
 
 @Component({
   templateUrl: 'home.html',
 })
 export class HomePage {
-  public connected : boolean = false;
-
   constructor(
       private nav : NavController,
       private jsonService : JsonService,
       private data : DataService,
-      private ws : WebSocketService,
-      private loadingCtrl : LoadingController) {
-    // ws injected in the first page to start web socket connection
-    ws.onConnectedListener = () => this.loadData();
-    ws.onErrorListener = () => this.goToConfigurations();
+      private ws : WebSocketService, // ws injected in the first page to start web socket connection
+      private translate: TranslateService,
+      private loadingCtrl : LoadingController,
+      toastCtrl: ToastController,
+      modalCtrl: ModalController,
+      alertCtrl: AlertController) {
+
+    const view = new ConnectionView(loadingCtrl, toastCtrl, modalCtrl, data, jsonService, translate);
+    ws.view = view;
+    view.onDataLoaded = () => this.prepareGoToCurrent();
+
+    this.translate.setDefaultLang(LanguageService.navigatorLanguage());
+    this.data.addOnReadyListener(() => this.loadLanguage());
+  }
+
+  private async prepareGoToCurrent() {
+    await this.goToCurrent();
+    this.ws.view.dismiss();
+  }
+
+  public get connected() {
+    return this.ws.connected;
+  }
+
+  private loadLanguage() {
+    this.translate.setDefaultLang(this.data.language);
   }
 
   ionViewWillLeave() {
@@ -42,34 +60,9 @@ export class HomePage {
     return this.jsonService.current;
   }
 
-  private get banksService() : BanksService {
-    return this.jsonService.banks;
-  }
-
-  private get pluginService() : PluginService {
-    return this.jsonService.plugin;
-  }
-
-  loadData() {
-    const loading = this.loadingCtrl.create({content: "Getting data"});
-    loading.present();
-
-    this.pluginService.getPlugins().subscribe(plugins => {
-      this.data.updatePlugins(plugins.plugins);
-
-      this.banksService.getBanks().subscribe(banksData => {
-        const plugins = this.data.remote.plugins;
-        this.data.remote.manager = BanksManager.generate(banksData, plugins);
-        this.connected = true;
-
-        loading.dismiss();
-      });
-    });
-  }
-
-  goToCurrent() {
-    const goToCurrent = data => this.openPagesForCurrent(data.bank, data.pedalboard)
-    this.service.current().subscribe(goToCurrent);
+  async goToCurrent() {
+    const data = await this.service.current().toPromise();
+    return this.openPagesForCurrent(data.bank, data.pedalboard);
   }
 
   private openPagesForCurrent(bankIndex : number, pedalboardIndex : number) {
@@ -85,7 +78,7 @@ export class HomePage {
       //{page: PedalboardPage, params: params}
     ]
 
-    this.nav.insertPages(pages.length, pages, {animate: false})
+    return this.nav.insertPages(pages.length, pages, {animate: false});
   }
 
   goToBanks() {

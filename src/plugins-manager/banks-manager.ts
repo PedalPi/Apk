@@ -6,7 +6,7 @@ import {PersistenceDecoder} from './decoder/persistence-decoder';
 export class BanksManager {
   public banks : Bank[] = []
 
-  static SYSTEM_EFFECT = new SystemEffect('system', ['capture_1', 'capture_2'], ['playback_1', 'playback_2'])
+  static SYSTEM_EFFECT = new SystemEffect('system', ['capture_1'], ['playback_1', 'playback_2'])
 
   static generate(data: any, pluginsData : any) {
     const manager = new BanksManager()

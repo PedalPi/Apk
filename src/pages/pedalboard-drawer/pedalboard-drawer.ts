@@ -81,9 +81,9 @@ export class PedalboardDrawerPage {
 
     this.effectService.delete(effect).subscribe(
       () => {
-        this.pedalboard.effects.splice(effectIndex, 1)
+        this.pedalboard.effects.splice(effectIndex, 1);
         this.pedalboard.removeConnectionsOf(effect);
-        this.savePedalboardData()
+        this.savePedalboardData();
       }
     );
   }

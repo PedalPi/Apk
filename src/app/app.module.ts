@@ -1,4 +1,7 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
 import { NgModule, ErrorHandler } from '@angular/core';
+
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
@@ -11,6 +14,7 @@ import { AboutPage } from '../pages/about/about';
 import { HomePage } from '../pages/home/home';
 import { BanksPage } from '../pages/banks/banks';
 import { ConfigurationsPage } from '../pages/configurations/configurations';
+import { ConnectionPage } from '../pages/connection/connection';
 import { PedalboardDrawerPage } from '../pages/pedalboard-drawer/pedalboard-drawer';
 import { PedalboardParametersPage } from '../pages/pedalboard-parameters/pedalboard-parameters';
 import { PedalboardsPage } from '../pages/pedalboards/pedalboards';
@@ -40,6 +44,14 @@ import { WebSocketService } from '../providers/websocket/web-socket-service';
 
 import { Navigator } from '../common/navigator';
 
+// Translate
+import {Http} from '@angular/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function createTranslateLoader(http: Http) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -49,6 +61,7 @@ import { Navigator } from '../common/navigator';
     HomePage,
     BanksPage,
     ConfigurationsPage,
+    ConnectionPage,
     PedalboardDrawerPage,
     PedalboardParametersPage,
     PedalboardsPage,
@@ -70,8 +83,18 @@ import { Navigator } from '../common/navigator';
     SrToggle,
   ],
   imports: [
+    BrowserModule,
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    HttpModule,
+    IonicStorageModule.forRoot(),
+
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [Http]
+      }
+    }),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -81,6 +104,7 @@ import { Navigator } from '../common/navigator';
     HomePage,
     BanksPage,
     ConfigurationsPage,
+    ConnectionPage,
     PedalboardDrawerPage,
     PedalboardParametersPage,
     PedalboardsPage,
@@ -102,7 +126,6 @@ import { Navigator } from '../common/navigator';
     SrToggle,
   ],
   providers: [
-    Storage,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataService,
     JsonService,

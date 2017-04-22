@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-navbar [color]="connectedColor">
+    <ion-title>{{'CONNECTION' | translate}}</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only navPop [hidden]="!connected">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="base-block">
+  <div class="center-block">
+
+    <!--
+    FIXME - Move to configurations.ts
+    <ion-navbar [color]="connectedColor">
+      <h3 ion-text color="light">Device info</h3>
+    </ion-navbar>
+
+    <ion-list hidden="true">
+      <ion-item inset padding>
+        <ion-label fixed>Device name</ion-label>
+        <ion-input type="text" value="" disabled></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Password</ion-label>
+        <ion-input type="password" disabled></ion-input>
+      </ion-item>
+    </ion-list>
+    -->
+
+    <ion-navbar [color]="connectedColor" id="connectionHeader">
+      <ion-list>
+        <ion-item id="connectionDiscoverMode">
+          <ion-label class="label">{{'DISCOVER_DEVICE_MODE' | translate}}</ion-label>
+
+          <ion-note item-right [attr.selected]="!autoSearch ? 'selected' : ''">{{'MANUAL' | translate}}</ion-note>
+          <ion-toggle [(ngModel)]="autoSearch" [disabled]="emulated"></ion-toggle>
+          <ion-note item-right [attr.selected]="autoSearch ? 'selected' : ''">{{'AUTO' | translate}}</ion-note>
+        </ion-item>
+      </ion-list>
+    </ion-navbar>
+
+    <div *ngIf="!autoSearch" padding>
+      <ion-item>
+        <ion-label floating primary>{{'DEVICE_IP' | translate}} *</ion-label>
+        <ion-input placeholder="pedalpi" [(ngModel)]="ipInput"></ion-input>
+        <button class="sameAddress" ion-button item-right (click)="sameAddress()">
+          {{'SAME_ADDRESS' | translate}}
+        </button>
+      </ion-item>
+
+      <ion-item id="input-observation">
+        * {{'MANUAL_IP_OBSERVATION' | translate}}
+      </ion-item>
+
+      <div padding>
+        <button ion-button full (click)="tryConnect()">{{'CONNECT' | translate}}</button>
+      </div>
+    </div>
+
+    <div *ngIf="autoSearch" padding class="autoSearch">
+      <div id="autosearch-title">
+        <h2>{{'DEVICES' | translate}}</h2>
+
+        <ion-spinner [hidden]='!finding'></ion-spinner>
+        <button ion-button (click)="startDiscover()" [hidden]="finding" color="dark" outline>
+          {{'DISCOVER' | translate}}
+        </button>
+      </div>
+
+      <ion-list>
+        <ion-item *ngFor="let device of devices" (click)="connect(device)">
+          <sr-icon icon="icons.svg#icon-raspberry"></sr-icon> {{device.name}}
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+</ion-content>

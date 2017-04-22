@@ -1,5 +1,5 @@
-<output [class]="status ? 'on' : 'off'">
-  <div class="hidden">{{status ? 'on' : 'off'}}</div>
+<output [class]="!status ? 'on' : 'off'">
+  <div class="hidden">{{!status ? 'on' : 'off'}}</div>
 </output>
 
 <img
@@ -7,4 +7,4 @@
   is="sr-footswitch"
   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
   (click)="onClick()"
-  [class]="status ? 'on' : 'off'" />
+  [class]="!status ? 'on' : 'off'" />
