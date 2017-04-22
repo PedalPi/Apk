@@ -12,11 +12,11 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <ion-list>
+<ion-content class="base-block">
+  <ion-list class="center-block">
     <button ion-item (click)="connection()">
       <ion-label>{{ 'DEVICE' | translate }}</ion-label>
-      <span item-right>http://pedalpi.local</span>
+      <span item-right>{{device}}</span>
     </button>
 
     <ion-item>
@@ -25,7 +25,7 @@
       <ion-select [(ngModel)]="language">
         <ion-option value="en">English</ion-option>
         <ion-option value="es">Espanõl</ion-option>
-        <ion-option value="pt-br">Português (BR)</ion-option>
+        <ion-option value="pt-BR">Português (BR)</ion-option>
       </ion-select>
     </ion-item>
   </ion-list>

@@ -13,6 +13,7 @@ import {BanksService} from '../../providers/json/banks-service';
 import {PluginService} from '../../providers/json/plugin-service';
 import {DataService} from '../../providers/data/data-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
+import {LanguageService} from '../../providers/lang/language';
 
 import {BanksManager} from '../../plugins-manager/banks-manager'
 import {LoadingController} from 'ionic-angular';
@@ -30,13 +31,17 @@ export class HomePage {
       private data : DataService,
       private ws : WebSocketService,
       private loadingCtrl : LoadingController,
-      translate: TranslateService) {
+      private translate: TranslateService) {
     // ws injected in the first page to start web socket connection
     ws.onConnectedListener = () => this.loadData();
     ws.onErrorListener = () => this.goToConfigurations();
 
-    // FIXME
-    translate.setDefaultLang(data.language == undefined ? 'en' : data.language);
+    this.translate.setDefaultLang(LanguageService.navigatorLanguage());
+    this.data.addOnReadyListener(() => this.loadLanguage());
+  }
+
+  private loadLanguage() {
+    this.translate.setDefaultLang(this.data.language);
   }
 
   ionViewWillLeave() {

@@ -1,19 +1,23 @@
-#connectionHeader {
-  ion-list {
-    margin-bottom: 0;
-  }
-
-  ion-label.label {
-    opacity: 1;
-  }
-
-  #connectionDiscoverMode {
-    background: none;
-    color: white;
-  }
-}
-
 page-connection {
+  ion-navbar {
+    h3 {
+      margin-left: 16px;
+    }
+    ion-list {
+      margin-bottom: 0 !important;
+    }
+
+    ion-label.label {
+      opacity: 1;
+    }
+
+    #connectionDiscoverMode {
+      background: none;
+      color: white;
+    }
+  }
+
+
   .autoSearch #autosearch-title {
     display: flex;
     justify-content: space-between;
@@ -37,5 +41,10 @@ page-connection {
 
   ion-item {
     vertical-align: middle;
+  }
+
+  #input-observation {
+    color: #999;
+    text-align: right;
   }
 }

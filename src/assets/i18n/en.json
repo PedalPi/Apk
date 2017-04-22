@@ -9,9 +9,9 @@
   "MANUAL": "Manual",
   "AUTO": "Auto",
 
-  "DEVICE_IP": "Device ip",
+  "DEVICE_IP": "Device IP or Name",
   "SAME_ADDRESS": "Same address",
-  "APPLY": "Apply",
+  "CONNECT": "Connect",
 
   "DEVICES": "Devices",
 
@@ -48,5 +48,6 @@
   "LANGUAGE": "Language",
   "DEVICE": "Device",
 
-  "IMAGES": "Images"
+  "IMAGES": "Images",
+  "MANUAL_IP_OBSERVATION": "Don't use \"http://\" or \"process port\""
 }

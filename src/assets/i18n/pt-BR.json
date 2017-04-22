@@ -9,9 +9,9 @@
   "MANUAL": "Manual",
   "AUTO": "Automático",
 
-  "DEVICE_IP": "IP do dispositivo",
+  "DEVICE_IP": "IP ou nome do dispositivo",
   "SAME_ADDRESS": "Mesmo endereço",
-  "APPLY": "Aplicar",
+  "CONNECT": "Connectar",
 
   "DEVICES": "dispositivos",
 
@@ -43,10 +43,11 @@
   "RENAME_PEDALBOARD": "Renomear pedalboard",
   "ERROR_REMOVE_UNIQUE_PEDALBOARD": "Um banco deve possuir ao menos <strong>um</strong> pedalboard",
 
-  "CONNECTION": "Connecção",
+  "CONNECTION": "Conexão",
   "DISCOVER": "buscar",
   "LANGUAGE": "Idioma",
   "DEVICE": "Dispositivo",
 
-  "IMAGES": "Imagens"
+  "IMAGES": "Imagens",
+  "MANUAL_IP_OBSERVATION": "Não insira \"http://\" ou \"número da porta do processo\""
 }

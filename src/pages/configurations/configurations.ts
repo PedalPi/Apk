@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {TranslateService} from '@ngx-translate/core';
 
+import {JsonService} from '../../providers/json/json-service';
 import {DataService} from '../../providers/data/data-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
 
@@ -17,7 +18,8 @@ export class ConfigurationsPage {
     private data : DataService,
     private nav : NavController,
     private ws : WebSocketService,
-    private translate: TranslateService) {}
+    private translate: TranslateService,
+    private jsonService : JsonService) {}
 
   get connectedColor() {
     return this.ws.connected ? "#08AE97" : "danger";
@@ -29,6 +31,10 @@ export class ConfigurationsPage {
 
   connection() {
     this.nav.push(ConnectionPage);
+  }
+
+  get device() {
+    return this.jsonService.webServer;
   }
 
   set language(language) {

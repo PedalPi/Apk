@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 
 import {Storage} from '@ionic/storage';
+import {LanguageService} from '../../providers/lang/language';
 
 
 @Injectable()
@@ -33,9 +34,8 @@ export class DataService {
   private async loadDatabase() {
     await this.storage.ready();
     this.configurations.lastDeviceConnected = await this.read(DataService.KEYS.LAST_DEVICE, 'http://pedalpi.local');
-    this.configurations.language = await this.read(DataService.KEYS.LANGUAGE, 'en');
+    this.configurations.language = await this.read(DataService.KEYS.LANGUAGE, LanguageService.navigatorLanguage());
 
-    console.log("loaded")
     this.onReadyListeners.forEach(listener => listener());
   }
 
@@ -68,7 +68,7 @@ export class DataService {
 
   set language(language : string) {
     this.storage.ready()
-        .then(() => this.write(DataService.KEYS.LAST_DEVICE, language));
+        .then(() => this.write(DataService.KEYS.LANGUAGE, language));
 
     this.configurations.language = language;
   }
@@ -85,5 +85,9 @@ export class DataService {
 
   private write(key : string, value : any) {
     return this.storage.set(key, value)
+  }
+
+  public ready() : Promise<any> {
+    return this.storage.ready();
   }
 }

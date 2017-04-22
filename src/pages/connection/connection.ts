@@ -15,7 +15,7 @@ import {Zeroconf, Device} from './zeroconf';
   templateUrl: 'connection.html'
 })
 export class ConnectionPage {
-  public ip : string;
+  public ipInput : string;
   public autoSearch : boolean;
   public devices : Array<any>;
 
@@ -29,7 +29,7 @@ export class ConnectionPage {
       private ref: ApplicationRef,
       private toastCtrl : ToastController,
       private jsonService : JsonService) {
-    this.ip = jsonService.webServer;
+    this.ipInput = jsonService.webServer.replace('http://', '').replace(':3000', '');
     this.autoSearch = !this.emulated;
 
     this.devices = [];
@@ -42,17 +42,13 @@ export class ConnectionPage {
     return this.ws.connected ? "#08AE97" : "danger";
   }
 
-  apply() {
-    this.setIp(this.ip);
-  }
-
-  private setIp(ip : string) {
-    this.ip = ip;
-    this.ws.tryConnect(WebSocketService.prepareUrl(ip));
+  tryConnect() {
+    let url = `http://${this.ipInput}:3000`;
+    this.ws.tryConnect(WebSocketService.prepareUrl(url));
   }
 
   sameAddress() {
-    this.ip = `http://${window.location.hostname}:3000`
+    this.ipInput = window.location.hostname;
   }
 
   get emulated() {
@@ -88,6 +84,8 @@ export class ConnectionPage {
     console.log('connect')
     this.zeroconf.stopDiscover();
     this.endDiscover();
-    this.setIp(`http://${device.address.ipv4}:${device.address.port}`);
+    this.ipInput = device.address.ipv4;
+    //this.setIp(`http://${device.address.ipv4}:${device.address.port}`);
+    this.tryConnect();
   }
 }
