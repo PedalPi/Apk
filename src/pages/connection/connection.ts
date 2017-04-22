@@ -38,8 +38,12 @@ export class ConnectionPage {
     this.zeroconf.onEndDiscoverListener = () => this.endDiscover();
   }
 
+  get connected() {
+    return this.ws.connected
+  }
+
   get connectedColor() {
-    return this.ws.connected ? "#08AE97" : "danger";
+    return this.connected ? "#08AE97" : "danger";
   }
 
   tryConnect() {
@@ -81,10 +85,10 @@ export class ConnectionPage {
   }
 
   connect(device : Device) {
-    console.log('connect')
     this.zeroconf.stopDiscover();
     this.endDiscover();
     this.ipInput = device.address.ipv4;
+    
     //this.setIp(`http://${device.address.ipv4}:${device.address.port}`);
     this.tryConnect();
   }

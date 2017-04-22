@@ -9,7 +9,7 @@
   "MANUAL": "Manual",
   "AUTO": "Auto",
 
-  "DEVICE_IP": "Device ip",
+  "DEVICE_IP": "IP or Name of Device",
   "SAME_ADDRESS": "Same address",
   "CONNECT": "Connect",
 
@@ -49,5 +49,9 @@
   "DEVICE": "Device",
 
   "IMAGES": "Images",
-  "MANUAL_IP_OBSERVATION": "Don't use \"http://\" or \"process port\""
+  "MANUAL_IP_OBSERVATION": "Don't use \"http://\" or \"process port\"",
+
+  "DEVICE_CONNECTED": "Device connected",
+  "TRYING_CONNECT": "Trying connect",
+  "CONNECTION_ERROR": "Connection error"
 }

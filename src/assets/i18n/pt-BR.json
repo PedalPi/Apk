@@ -13,7 +13,7 @@
   "SAME_ADDRESS": "Mesmo endereço",
   "CONNECT": "Connectar",
 
-  "DEVICES": "dispositivos",
+  "DEVICES": "Dispositivos",
 
   "PROJECT": "Projeto",
   "CREDITS": "Créditos",
@@ -49,5 +49,9 @@
   "DEVICE": "Dispositivo",
 
   "IMAGES": "Imagens",
-  "MANUAL_IP_OBSERVATION": "Não insira \"http://\" ou \"número da porta do processo\""
+  "MANUAL_IP_OBSERVATION": "Não insira \"http://\" ou \"número da porta do processo\"",
+
+  "DEVICE_CONNECTED": "Dispositivo conectado",
+  "TRYING_CONNECT": "Tentando estabelecer conexão",
+  "CONNECTION_ERROR": "Erro na conexão"
 }

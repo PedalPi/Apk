@@ -7,7 +7,7 @@ import {DataService} from '../../providers/data/data-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
 
 import {AboutPage} from '../about/about';
-import {ConnectionPage} from '../connection/connection';
+
 
 @Component({
   selector: 'page-configurations',
@@ -30,7 +30,7 @@ export class ConfigurationsPage {
   }
 
   connection() {
-    this.nav.push(ConnectionPage);
+    this.ws.view.showConnectionModal();
   }
 
   get device() {

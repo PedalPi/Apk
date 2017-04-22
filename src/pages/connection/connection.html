@@ -1,17 +1,25 @@
 <ion-header>
   <ion-navbar [color]="connectedColor">
     <ion-title>{{'CONNECTION' | translate}}</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only navPop [hidden]="!connected">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content class="base-block">
   <div class="center-block">
 
+    <!--
+    FIXME - Move to configurations.ts
     <ion-navbar [color]="connectedColor">
       <h3 ion-text color="light">Device info</h3>
     </ion-navbar>
 
-    <ion-list>
+    <ion-list hidden="true">
       <ion-item inset padding>
         <ion-label fixed>Device name</ion-label>
         <ion-input type="text" value="" disabled></ion-input>
@@ -22,6 +30,7 @@
         <ion-input type="password" disabled></ion-input>
       </ion-item>
     </ion-list>
+    -->
 
     <ion-navbar [color]="connectedColor" id="connectionHeader">
       <ion-list>
@@ -37,7 +46,7 @@
 
     <div *ngIf="!autoSearch" padding>
       <ion-item>
-        <ion-label primary>{{'DEVICE_IP' | translate}} *</ion-label>
+        <ion-label floating primary>{{'DEVICE_IP' | translate}} *</ion-label>
         <ion-input placeholder="pedalpi" [(ngModel)]="ipInput"></ion-input>
         <button class="sameAddress" ion-button item-right (click)="sameAddress()">
           {{'SAME_ADDRESS' | translate}}

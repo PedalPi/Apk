@@ -126,7 +126,6 @@ export function createTranslateLoader(http: Http) {
     SrToggle,
   ],
   providers: [
-    Storage,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataService,
     JsonService,

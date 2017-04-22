@@ -34,6 +34,8 @@ ionic serve -b -a
 
 ## Old versions
 
+Execute `ionic build browser --prod` for generate page
+
 * **Alpha 3**: (comming soon)
 * **Alpha 2**: (current)
 * **Alpha 1**: Web build not generated

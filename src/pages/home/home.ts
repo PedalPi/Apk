@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
+import {ToastController, LoadingController, ModalController, AlertController} from 'ionic-angular';
 
 import {TranslateService} from '@ngx-translate/core';
 
@@ -9,35 +10,38 @@ import {ConfigurationsPage} from '../configurations/configurations';
 
 import {JsonService} from '../../providers/json/json-service';
 import {CurrentService} from '../../providers/json/current-service';
-import {BanksService} from '../../providers/json/banks-service';
-import {PluginService} from '../../providers/json/plugin-service';
 import {DataService} from '../../providers/data/data-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
+import {ConnectionView} from '../../providers/websocket/connection-view';
 import {LanguageService} from '../../providers/lang/language';
-
-import {BanksManager} from '../../plugins-manager/banks-manager'
-import {LoadingController} from 'ionic-angular';
+import {ConnectionStatus} from '../../providers/websocket/web-socket-service';
 
 
 @Component({
   templateUrl: 'home.html',
 })
 export class HomePage {
-  public connected : boolean = false;
-
   constructor(
       private nav : NavController,
       private jsonService : JsonService,
       private data : DataService,
-      private ws : WebSocketService,
+      private ws : WebSocketService, // ws injected in the first page to start web socket connection
+      private translate: TranslateService,
       private loadingCtrl : LoadingController,
-      private translate: TranslateService) {
-    // ws injected in the first page to start web socket connection
-    ws.onConnectedListener = () => this.loadData();
-    ws.onErrorListener = () => this.goToConfigurations();
+      toastCtrl: ToastController,
+      modalCtrl: ModalController,
+      alertCtrl: AlertController) {
+
+    const view = new ConnectionView(loadingCtrl, toastCtrl, modalCtrl, data, jsonService, translate);
+    ws.view = view;
+    view.onDataLoaded = () => this.goToCurrent();
 
     this.translate.setDefaultLang(LanguageService.navigatorLanguage());
     this.data.addOnReadyListener(() => this.loadLanguage());
+  }
+
+  public get connected() {
+    return this.ws.connected;
   }
 
   private loadLanguage() {
@@ -50,31 +54,6 @@ export class HomePage {
 
   private get service() : CurrentService {
     return this.jsonService.current;
-  }
-
-  private get banksService() : BanksService {
-    return this.jsonService.banks;
-  }
-
-  private get pluginService() : PluginService {
-    return this.jsonService.plugin;
-  }
-
-  loadData() {
-    const loading = this.loadingCtrl.create({content: "Getting data"});
-    loading.present();
-
-    this.pluginService.getPlugins().subscribe(plugins => {
-      this.data.updatePlugins(plugins.plugins);
-
-      this.banksService.getBanks().subscribe(banksData => {
-        const plugins = this.data.remote.plugins;
-        this.data.remote.manager = BanksManager.generate(banksData, plugins);
-        this.connected = true;
-
-        loading.dismiss();
-      });
-    });
   }
 
   goToCurrent() {

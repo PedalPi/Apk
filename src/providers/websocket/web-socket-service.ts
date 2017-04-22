@@ -3,9 +3,10 @@ import {ApplicationRef} from '@angular/core';
 import {DataService} from "../data/data-service";
 import {Injectable} from '@angular/core';
 
-import {ToastController, LoadingController} from 'ionic-angular';
+import {ToastController} from 'ionic-angular';
 
 import {PedalPiMessageDecoder} from './pedalpi-message-decoder';
+import {ConnectionView} from './connection-view';
 
 
 export interface MessageDecoder {
@@ -13,41 +14,27 @@ export interface MessageDecoder {
   clearListeners();
 }
 
+export enum ConnectionStatus {
+  DISCONNECTED, TRYING_RECONNECT, CONNECTED
+}
+
 @Injectable()
 export class WebSocketService {
-  private data : DataService;
-  private ref: ApplicationRef;
-
   private connection : WebSocket;
 
-  public messageDecoder : any;
-
-  public onConnectedListener : any = () => {};
-  public onErrorListener : any = () => {};
-
   public forceReconnection : boolean;
-  private tryingReconnect : boolean;
-  private loading: any;
+  private _status : ConnectionStatus;
 
-  private loadingCtrl : LoadingController;
-  private toastCtrl : ToastController;
+  public messageDecoder : PedalPiMessageDecoder;
+  public onStatusChangedListener = status => {};
 
-  public connected : boolean;
+  public view : ConnectionView;
 
-  constructor(data : DataService, ref: ApplicationRef, loadingCtrl: LoadingController, toastCtrl : ToastController) {
-    this.connected = false;
-
-    this.loadingCtrl = loadingCtrl;
-    this.toastCtrl = toastCtrl;
+  constructor(private data : DataService) {
     this.forceReconnection = false;
-    this.tryingReconnect = false;
 
-    this.data = data;
-    this.ref = ref;
-
+    this.messageDecoder = new PedalPiMessageDecoder(data);
     data.addOnReadyListener(() => this.initializeConnection());
-    this.messageDecoder = new PedalPiMessageDecoder(this.data);
-    this.clearListeners();
   }
 
   private initializeConnection() {
@@ -55,27 +42,21 @@ export class WebSocketService {
   }
 
   public tryConnect(url) {
-    this.connect(url)
-        .then(() => this.onConnectedListener())
-        .catch(() => this.onErrorListener());
-  }
+    this.status = ConnectionStatus.TRYING_RECONNECT;
 
-  private connect(url) : Promise<any> {
-    return new Promise((resolve, reject) => {
-      if (this.connection)
-        this.connection.close();
+    if (this.connection != undefined)
+      this.connection.close();
 
-      RobustWebSocket.defaultOptions.shouldReconnect = () => 1500;
-      const connection = new RobustWebSocket(url);
+    RobustWebSocket.defaultOptions.shouldReconnect = () => 1500;
+    const connection = new RobustWebSocket(url);
 
-      connection.onmessage = m => this.onMessage(m.data);
+    connection.onmessage = m => this.onMessage(m.data);
 
-      connection.onopen = this.onConnectionOpen(resolve, url);
-      connection.onclose = this.onConnectionClose()
-      connection.onerror = this.onConnectionError(connection, reject);
+    connection.onopen = () => this.onConnectionOpen(url);
+    connection.onclose = () => this.onConnectionClose();
+    connection.onerror = error => this.onConnectionError(error, connection);
 
-      this.connection = connection;
-    });
+    this.connection = connection;
   }
 
   private onMessage(message) {
@@ -83,63 +64,57 @@ export class WebSocketService {
     this.messageDecoder.onMessage(message);
   }
 
-  private onConnectionOpen(resolve, url) {
-    return () => {
-      if (this.tryingReconnect)
-        this.loading.dismiss()
-
-      this.forceReconnection = true;
-      this.tryingReconnect = false;
-
-      this.showToast('Device connected');
-
-      this.connected = true;
-      this.data.lastDeviceConnected = url;
-      resolve();
-    }
+  private onConnectionOpen(url) {
+    this.status = ConnectionStatus.CONNECTED;
+    this.data.lastDeviceConnected = url;
   }
 
   private onConnectionClose() {
-    return () => {
-      this.connected = false;
+    this.status = ConnectionStatus.DISCONNECTED;
 
-      if (!this.forceReconnection || this.tryingReconnect)
-        return;
+    if (!this.forceReconnection || this.tryingReconnect)
+      return;
 
-      this.tryingReconnect = true;
-      this.loading = this.loadingCtrl.create({content: "Trying reconnect"});
-      this.loading.present();
-    }
+    this.status = ConnectionStatus.TRYING_RECONNECT;
   }
 
-  private onConnectionError(connection, reject) {
-    return (error) => {
-      console.log(error);
-      this.connected = false;
+  private onConnectionError(error, connection) {
+    console.log(error);
 
-      this.showToast('Connection error');
-
-      if (this.loading)
-        this.loading.dismiss();
-
-      connection.close();
-      reject();
-    }
-  }
-
-  private showToast(message, duration=3000) {
-    this.toastCtrl.create({
-      message: message,
-      duration: duration
-    }).present();
+    connection.close();
+    this.status = ConnectionStatus.DISCONNECTED;
   }
 
   static prepareUrl(url) {
     return `${url.replace("http", "ws")}/ws/`;
   }
 
+  get status() {
+    return this._status;
+  }
+
+  set status(newStatus : ConnectionStatus) {
+    if (this._status == newStatus)
+      return
+
+    this._status = newStatus;
+    this.onStatusChangedListener(newStatus);
+
+    if (this.view !== undefined)
+      this.view.onStatusChanged(newStatus);
+  }
+
+  get tryingReconnect() : boolean {
+    return this.status == ConnectionStatus.TRYING_RECONNECT;
+  }
+
+  get connected() {
+    return this.status == ConnectionStatus.CONNECTED;
+  }
+
   clearListeners() {
-    this.onErrorListener = () => {};
+    this.view.onDataLoaded = () => {};
+    this.onStatusChangedListener = status => {};
     this.messageDecoder.clearListeners();
   }
 }
