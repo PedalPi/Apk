@@ -1,9 +1,5 @@
-import {ApplicationRef} from '@angular/core';
-
 import {DataService} from "../data/data-service";
 import {Injectable} from '@angular/core';
-
-import {ToastController} from 'ionic-angular';
 
 import {PedalPiMessageDecoder} from './pedalpi-message-decoder';
 import {ConnectionView} from './connection-view';

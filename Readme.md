@@ -34,9 +34,11 @@ ionic serve -b -a
 
 ## Old versions
 
-Execute `ionic build browser --prod` for generate page
-
-* **Alpha 3**: (comming soon)
-* **Alpha 2**: (current)
+* **Alpha 3**: http://PedalPi.github.io/Apk
+* **Alpha 2**: http://PedalPi.github.io/Apk/old/alpha-2
 * **Alpha 1**: Web build not generated
 * **Alpha 0**: http://PedalPi.github.io/Apk/old/alpha-0
+
+### How to build
+
+Execute `npm run build --prod` for generate.
