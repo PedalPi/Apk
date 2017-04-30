@@ -47,4 +47,29 @@ page-connection {
     color: #999;
     text-align: right;
   }
+
+  [disabled] {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.5;
+    transition: opacity .30s ease-in-out;
+  }
+
+  #connection-status-bar .item-inner {
+    margin-left: 0;
+  }
+
+  @media(max-width: 420px) {
+    #connection-status-bar ion-icon {
+      display: none;
+    }
+
+    #connection-status-bar .item-inner {
+      margin-left: 0;
+    }
+
+    #connection-status-bar {
+      padding-left: 0;
+    }
+  }
 }

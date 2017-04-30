@@ -16,7 +16,6 @@ import {DataService} from "../data/data-service";
 
 @Injectable()
 export class JsonService {
-  private static DEFAULT_ADDRESS = 'http://localhost:3000';
   public static CURRENT_VERSION = 'v1';
   public static token = '';
 
@@ -45,7 +44,7 @@ export class JsonService {
   }
 
   public get webServer() {
-    return this.data.lastDeviceConnected ? JsonService.prepareUrl(this.data.lastDeviceConnected) : JsonService.DEFAULT_ADDRESS;
+    return JsonService.prepareUrl(this.data.lastDeviceConnected);
   }
 
   private static prepareUrl(url) : string {
