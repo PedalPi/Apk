@@ -28,15 +28,15 @@ export class PluginsCategoriesPresenter {
     return this.jsonService.plugin;
   }
 
-  public load(callback) {
+  public async refreshPlugins() {
     //https://github.com/mozilla/localForage
-    this.service.getPlugins().subscribe(
-      data => {
-        this.dataService.updatePlugins(data.plugins);
-        this.loadPlugins(data.plugins);
-        callback();
-      }
-    );
+    await this.service.refreshPlugins().toPromise();
+    let data = await this.service.getPlugins().toPromise();
+
+    this.dataService.updatePlugins(data.plugins);
+    this.loadPlugins(data.plugins);
+
+    return Promise.resolve();
   }
 
   private loadPlugins(plugins) {
