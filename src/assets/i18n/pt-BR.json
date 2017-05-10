@@ -57,5 +57,8 @@
   "CONNECTION_ERROR": "Erro na conexão",
 
   "NETWORK_INACTIVE": "A rede está desabilitada",
-  "MANAGE_NETWORK": "Configurações de rede"
+  "MANAGE_NETWORK": "Configurações de rede",
+
+  "TRANSLATIONS": "Traduções",
+  "TRANSLATIONS_THANKS": "Agradecimentos especiais àqueles que colaboraram na tradução deste aplicativo."
 }
