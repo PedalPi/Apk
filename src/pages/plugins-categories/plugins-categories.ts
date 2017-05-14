@@ -1,5 +1,7 @@
 import {Input, Component, ElementRef} from '@angular/core';
-import {LoadingController} from 'ionic-angular';
+import {LoadingController, AlertController} from 'ionic-angular';
+
+import {TranslateService} from '@ngx-translate/core';
 
 import {Fragment} from '../../common/fragment/fragment';
 import {FragmentNavigator} from '../../common/fragment/fragment-navigator';
@@ -9,6 +11,7 @@ import {DataService} from '../../providers/data/data-service';
 import {PluginsCategoriesPresenter} from './plugins-categories-presenter';
 import {PluginsListPage} from '../plugins-list/plugins-list';
 
+import {AlertBuilder} from '../../common/alert';
 
 @Component({
   selector: 'page-plugins-categories',
@@ -22,7 +25,9 @@ export class PluginsCategoriesPage implements Fragment {
       private element : ElementRef,
       jsonService : JsonService,
       dataService : DataService,
-      private loadingCtrl : LoadingController) {
+      private loadingCtrl : LoadingController,
+      public alert : AlertController,
+      private translate: TranslateService) {
     this.presenter = new PluginsCategoriesPresenter(jsonService, dataService);
   }
 
@@ -30,10 +35,24 @@ export class PluginsCategoriesPage implements Fragment {
     return this.presenter.categories;
   }
 
-  refresh() {
+  get alertBuilder() {
+    return new AlertBuilder(this.alert, this.translate);
+  }
+
+  async refresh() {
     const loading = this.loadingCtrl.create({content: "Getting plugins"});
     loading.present();
-    this.presenter.load(() => loading.dismiss());
+    try {
+      await this.presenter.refreshPlugins();
+    } catch (e) {
+      let builder = this.alertBuilder;
+      builder.title('ERROR')
+      builder.message(e.json()['error']);
+      builder.generate()
+             .present();
+    }
+
+    loading.dismiss()
   }
 
   categorySelected(category : string) {
