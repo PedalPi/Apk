@@ -39,13 +39,13 @@ export class PedalboardService {
     return this.rest.delete(url);
   }
 
-  swap(bank : any, pedalboardA : number, pedalboardB : number) {
-    let url = this.swapUrl(bank, pedalboardA, pedalboardB);
+  move(bank : any, fromIndex : number, toIndex : number) {
+    let url = this.moveUrl(bank, fromIndex, toIndex);
     return this.rest.put(url, {});
   }
 
-  private swapUrl(bank : any, pedalboardA : number, pedalboardB : number) : string {
-    let url = `/swap/pedalboard/bank/${bank.index}/pedalboard-a/${pedalboardA}/pedalboard-b/${pedalboardB}`;
+  private moveUrl(bank : any, fromIndex : number, toIndex : number) : string {
+    let url = `/move/bank/${bank.index}/pedalboard/${fromIndex}/to/${toIndex}`;
 
     return this.router.route(url);
   }

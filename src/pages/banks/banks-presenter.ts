@@ -37,7 +37,7 @@ export class BanksPresenter {
     return this.page.translate.get(text, data).toPromise();
   }
 
-  async requestSaveNewBank(name: string, callback : any = null) : Promise<Bank> {
+  async requestSaveNewBank(name: string) : Promise<Bank> {
     const bank = new Bank(name.trim());
     await this.validate(bank, this.banks);
 
