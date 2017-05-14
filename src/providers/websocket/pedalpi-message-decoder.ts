@@ -136,7 +136,8 @@ export class PedalPiMessageDecoder implements MessageDecoder {
       pedalboard = new PedalboardReader(systemEffect, plugins).read(message.value);
       pedalboard.bank = bank;
 
-      bank.pedalboards.push(pedalboard);
+      const pedalboardIndex = message.pedalboard;
+      bank.pedalboards.splice(pedalboardIndex, 0, pedalboard);
     }
 
     this.onNotificationPedalboard(updateType, pedalboard);
