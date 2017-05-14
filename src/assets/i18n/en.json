@@ -57,5 +57,8 @@
   "CONNECTION_ERROR": "Connection error",
 
   "NETWORK_INACTIVE": "The network has inactive",
-  "MANAGE_NETWORK": "Manage network"
+  "MANAGE_NETWORK": "Manage network",
+
+  "TRANSLATIONS": "Translations",
+  "TRANSLATIONS_THANKS": "Special thanks to those who assisted in the translation of this application."
 }
