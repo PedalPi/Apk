@@ -33,7 +33,7 @@ export class DataService {
 
   private async loadDatabase() {
     await this.storage.ready();
-    this.configurations.lastDeviceConnected = await this.read(DataService.KEYS.LAST_DEVICE, 'http://pedalpi.local');
+    this.configurations.lastDeviceConnected = await this.read(DataService.KEYS.LAST_DEVICE, 'ws://pedalpi.local/ws/');
     this.configurations.language = await this.read(DataService.KEYS.LANGUAGE, LanguageService.navigatorLanguage());
 
     this.onReadyListeners.forEach(listener => listener());
