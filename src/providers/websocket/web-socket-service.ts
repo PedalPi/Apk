@@ -61,8 +61,8 @@ export class WebSocketService {
   }
 
   private onConnectionOpen(url) {
+    this.data.lastDeviceConnected = url; // Need be first
     this.status = ConnectionStatus.CONNECTED;
-    this.data.lastDeviceConnected = url;
   }
 
   private onConnectionClose() {
