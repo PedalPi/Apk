@@ -7,10 +7,10 @@ node_js:
 sudo: required
 
 before_script:
-  - npm install -g ionic
+  - npm install -g ionic cordova
 
 install:
   - npm install
 
 script:
-  - npm run ionic:build --prod
+  - npm cordova run ionic:build --prod
