@@ -23,6 +23,9 @@
       <ion-label color="dark">{{ 'LANGUAGE' | translate }}</ion-label>
 
       <ion-select [(ngModel)]="language" [selectOptions]="selectOptions">
+        <ion-option value="de">
+          <span class="flag">🇩🇪</span> Deutsch
+        </ion-option>
         <ion-option value="en">
           <span class="flag">🇺🇸</span> English
         </ion-option>
