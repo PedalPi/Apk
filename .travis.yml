@@ -12,4 +12,4 @@ install:
   - npm install
 
 script:
-  - npm cordova run ionic:build --prod
+  - npm run ionic:build --prod
