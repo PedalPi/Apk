@@ -7,7 +7,7 @@ Manage your pedalboards in an app.
 ## Use
 
 * Online: http://PedalPi.github.io/Apk
-* Android: Comming soon (use `ionic run android -a -l -c` or `ionic build android`)
+* Android: Comming soon (use `ionic cordova run android -a -l -c` or `ionic cordova build android`)
 * iOS: Comming soon
 
 ## Screenshots
