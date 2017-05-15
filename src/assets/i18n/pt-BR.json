@@ -47,11 +47,15 @@
   "DISCOVER": "buscar",
   "LANGUAGE": "Idioma",
   "DEVICE": "Dispositivo",
+  "FINDING_DEVICES": "Buscando dispositivos",
 
   "IMAGES": "Imagens",
   "MANUAL_IP_OBSERVATION": "Não insira \"http://\" ou \"número da porta do processo\"",
 
   "DEVICE_CONNECTED": "Dispositivo conectado",
   "TRYING_CONNECT": "Tentando estabelecer conexão",
-  "CONNECTION_ERROR": "Erro na conexão"
+  "CONNECTION_ERROR": "Erro na conexão",
+
+  "NETWORK_INACTIVE": "A rede está desabilitada",
+  "MANAGE_NETWORK": "Configurações de rede"
 }

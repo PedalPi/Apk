@@ -124,7 +124,7 @@ class BanksContextMenu {
   generate(bank : Bank) {
     const contextMenu = new ContextMenu(bank.name, this.translate);
 
-    contextMenu.addItem('REORDER', () => this.reoder(bank));
+    //contextMenu.addItem('REORDER', () => this.reoder(bank));
     contextMenu.addItem('REMOVE', () => this.remove(bank));
     contextMenu.addItem('RENAME', () => this.rename(bank));
     //contextMenu.addItem('Copy to local', () => console.log('Cancel clicked'));
