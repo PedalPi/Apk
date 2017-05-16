@@ -1,4 +1,4 @@
-# Pedal Pi Apk - Alpha 3
+# Pedal Pi Apk - Beta 1
 
 [![Build Status](https://travis-ci.org/PedalPi/Apk.svg?branch=master)](https://travis-ci.org/PedalPi/Apk)
 
@@ -34,11 +34,12 @@ ionic serve -b -a
 
 ## Old versions
 
-* **Alpha 3**: http://PedalPi.github.io/Apk
+* **Beta 1**: http://PedalPi.github.io/Apk
+* **Alpha 3**: http://PedalPi.github.io/Apk/old/alpha-3
 * **Alpha 2**: http://PedalPi.github.io/Apk/old/alpha-2
 * **Alpha 1**: Web build not generated
 * **Alpha 0**: http://PedalPi.github.io/Apk/old/alpha-0
 
 ### How to build
 
-Execute `npm run build --prod` for generate.
+Execute `npm run ionic:build --prod` for generate.

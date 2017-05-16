@@ -47,18 +47,11 @@
   "DISCOVER": "discover",
   "LANGUAGE": "Language",
   "DEVICE": "Device",
-  "FINDING_DEVICES": "Finding devices",
 
   "IMAGES": "Images",
   "MANUAL_IP_OBSERVATION": "Don't use \"http://\" or \"process port\"",
 
   "DEVICE_CONNECTED": "Device connected",
   "TRYING_CONNECT": "Trying connect",
-  "CONNECTION_ERROR": "Connection error",
-
-  "NETWORK_INACTIVE": "The network has inactive",
-  "MANAGE_NETWORK": "Manage network",
-
-  "TRANSLATIONS": "Translations",
-  "TRANSLATIONS_THANKS": "Special thanks to those who assisted in the translation of this application."
+  "CONNECTION_ERROR": "Connection error"
 }
