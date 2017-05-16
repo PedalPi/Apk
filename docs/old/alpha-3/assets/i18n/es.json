@@ -1,0 +1,57 @@
+{
+  "HOME": "Home",
+  "CURRENT_PEDALBOARD": "Current Pedalboard",
+  "BANKS": "Banks",
+  "CONFIGURATIONS": "Configurations",
+
+  "ABOUT": "About",
+  "DISCOVER_DEVICE_MODE": "Discover device mode",
+  "MANUAL": "Manual",
+  "AUTO": "Auto",
+
+  "DEVICE_IP": "IP or Name of Device",
+  "SAME_ADDRESS": "Same address",
+  "CONNECT": "Connect",
+
+  "DEVICES": "Devices",
+
+  "PROJECT": "Project",
+  "CREDITS": "Credits",
+
+  "ICONS": "Icons",
+
+  "ALL": "All",
+  "ADD_EFFECTS_IN_THIS_PEDALBOARD": "Add effects in this pedalboard",
+
+  "RENAME": "Rename",
+  "REORDER": "Reorder",
+  "REMOVE": "Remove",
+
+  "NEW_BANK": "New bank",
+  "RENAME_BANK": "Rename bank",
+
+  "ERROR": "Error",
+  "DELETE": "Delete {{name}}",
+  "R_U_SURE": "R u sure?",
+  "ERROR_REMOVE_UNIQUE_BANK": "There must be at least one bank!",
+  "ERROR_BANK_NAME_EMPTY": "Bank name is empty",
+  "ERROR_BANK_SAME_NAME": "Exists another bank with same name of <strong>{{name}}</strong>",
+
+  "WARNING_BANK_REMOVED": "The bank <strong>{{name}}</strong> has been deleted",
+
+  "NEW_PEDALBOARD": "New pedalboard",
+  "RENAME_PEDALBOARD": "Rename pedalboard",
+  "ERROR_REMOVE_UNIQUE_PEDALBOARD": "A bank must have at least one pedalboard",
+
+  "CONNECTION": "Connection",
+  "DISCOVER": "discover",
+  "LANGUAGE": "Language",
+  "DEVICE": "Device",
+
+  "IMAGES": "Images",
+  "MANUAL_IP_OBSERVATION": "Don't use \"http://\" or \"process port\"",
+
+  "DEVICE_CONNECTED": "Device connected",
+  "TRYING_CONNECT": "Trying connect",
+  "CONNECTION_ERROR": "Connection error"
+}

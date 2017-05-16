@@ -1,0 +1,64 @@
+{
+  "HOME": "Home",
+  "CURRENT_PEDALBOARD": "Aktuelle Pedalboard",
+  "BANKS": "Banken",
+  "CONFIGURATIONS": "Einstellungen",
+
+  "ABOUT": "Über",
+  "DISCOVER_DEVICE_MODE": "Suchmodus für Geräte",
+  "MANUAL": "Manuell",
+  "AUTO": "Automatisch",
+
+  "DEVICE_IP": "IP oder Gerätenamen",
+  "SAME_ADDRESS": "gleiche Adresse",
+  "CONNECT": "Verbinden",
+
+  "DEVICES": "Geräte",
+
+  "PROJECT": "Projekt",
+  "CREDITS": "KREDITE",
+
+  "ICONS": "Ikonen",
+
+  "ALL": "Alle",
+  "ADD_EFFECTS_IN_THIS_PEDALBOARD": "Fügen Sie Effekte in dieser Pedalboard",
+
+  "RENAME": "Umbenennen",
+  "REORDER": "die Reihenfolge ändern",
+  "REMOVE": "Entfernen",
+
+  "NEW_BANK": "neue Bank",
+  "RENAME_BANK": "Bank umbenennen",
+
+  "ERROR": "Fehler",
+  "DELETE": "{{name}} Löschen",
+  "R_U_SURE": "Sind Sie sicher?",
+  "ERROR_REMOVE_UNIQUE_BANK": "Es muss mindestens eine Bank!",
+  "ERROR_BANK_NAME_EMPTY": "Der Name der Bank ist leer",
+  "ERROR_BANK_SAME_NAME": "Es gibt eine andere Bank mit dem gleichen Namen (<strong>{{name}}</strong>)",
+
+  "WARNING_BANK_REMOVED": "Bank <strong>{{name}}</strong> wurde entfernt",
+
+  "NEW_PEDALBOARD": "neue Pedalboard",
+  "RENAME_PEDALBOARD": "Pedalboard umbenennen",
+  "ERROR_REMOVE_UNIQUE_PEDALBOARD": "Eine Bank muss mindestens <strong>eine</strong> Pedalboard haben",
+
+  "CONNECTION": "Anschluss",
+  "DISCOVER": "Suchen",
+  "LANGUAGE": "Sprache",
+  "DEVICE": "Gerät",
+  "FINDING_DEVICES": "Geräte suchen",
+
+  "IMAGES": "Bilder",
+  "MANUAL_IP_OBSERVATION": "Legen Sie keine \"http://\" oder \"Prozess Portnummer\"",
+
+  "DEVICE_CONNECTED": "angeschlossene Gerät",
+  "TRYING_CONNECT": "Es wird eine Verbindung versucht",
+  "CONNECTION_ERROR": "Fehler in Verbindung",
+
+  "NETWORK_INACTIVE": "Das Netzwerk ist deaktiviert",
+  "MANAGE_NETWORK": "Netzwerkeinstellungen",
+
+  "TRANSLATIONS": "Übersetzungen",
+  "TRANSLATIONS_THANKS": "Besonderer Dank geht an diejenigen, die diese Anwendung übersetzt."
+}

@@ -1,57 +1,64 @@
 {
-  "HOME": "Home",
-  "CURRENT_PEDALBOARD": "Current Pedalboard",
-  "BANKS": "Banks",
-  "CONFIGURATIONS": "Configurations",
+  "HOME": "Inicio",
+  "CURRENT_PEDALBOARD": "Pedalboard actual",
+  "BANKS": "Bancos",
+  "CONFIGURATIONS": "Ajustes",
 
-  "ABOUT": "About",
-  "DISCOVER_DEVICE_MODE": "Discover device mode",
+  "ABOUT": "Acerca",
+  "DISCOVER_DEVICE_MODE": "Modo de búsqueda de dispositivos",
   "MANUAL": "Manual",
-  "AUTO": "Auto",
+  "AUTO": "Automático",
 
-  "DEVICE_IP": "IP or Name of Device",
-  "SAME_ADDRESS": "Same address",
-  "CONNECT": "Connect",
+  "DEVICE_IP": "IP o el nombre del dispositivo",
+  "SAME_ADDRESS": "Misma dirección",
+  "CONNECT": "Connectar",
 
-  "DEVICES": "Devices",
+  "DEVICES": "Dispositivos",
 
-  "PROJECT": "Project",
-  "CREDITS": "Credits",
+  "PROJECT": "Proyecto",
+  "CREDITS": "Créditos",
 
-  "ICONS": "Icons",
+  "ICONS": "Iconos",
 
-  "ALL": "All",
-  "ADD_EFFECTS_IN_THIS_PEDALBOARD": "Add effects in this pedalboard",
+  "ALL": "Todos",
+  "ADD_EFFECTS_IN_THIS_PEDALBOARD": "Añada efectos en este pedalboard",
 
-  "RENAME": "Rename",
-  "REORDER": "Reorder",
-  "REMOVE": "Remove",
+  "RENAME": "Cambiar nombre",
+  "REORDER": "Reordenar",
+  "REMOVE": "Eliminar",
 
-  "NEW_BANK": "New bank",
-  "RENAME_BANK": "Rename bank",
+  "NEW_BANK": "Nuevo Banco",
+  "RENAME_BANK": "Cambiar nombre del banco",
 
   "ERROR": "Error",
-  "DELETE": "Delete {{name}}",
-  "R_U_SURE": "R u sure?",
-  "ERROR_REMOVE_UNIQUE_BANK": "There must be at least one bank!",
-  "ERROR_BANK_NAME_EMPTY": "Bank name is empty",
-  "ERROR_BANK_SAME_NAME": "Exists another bank with same name of <strong>{{name}}</strong>",
+  "DELETE": "Eliminar {{name}}",
+  "R_U_SURE": "¿Seguro?",
+  "ERROR_REMOVE_UNIQUE_BANK": "Debe haber al menos un banco!",
+  "ERROR_BANK_NAME_EMPTY": "Nombre del banco está vacío",
+  "ERROR_BANK_SAME_NAME": "Existe otro banco con el mismo nombre (<strong>{{name}}</strong>)",
 
-  "WARNING_BANK_REMOVED": "The bank <strong>{{name}}</strong> has been deleted",
+  "WARNING_BANK_REMOVED": "El banco <strong>{{name}}</strong> se ha eliminado",
 
-  "NEW_PEDALBOARD": "New pedalboard",
-  "RENAME_PEDALBOARD": "Rename pedalboard",
-  "ERROR_REMOVE_UNIQUE_PEDALBOARD": "A bank must have at least one pedalboard",
+  "NEW_PEDALBOARD": "Nuevo pedalboard",
+  "RENAME_PEDALBOARD": "Cambiar nombre de pedalboard",
+  "ERROR_REMOVE_UNIQUE_PEDALBOARD": "Un banco debe tener al menos <strong>un</strong> pedalboard",
 
-  "CONNECTION": "Connection",
-  "DISCOVER": "discover",
-  "LANGUAGE": "Language",
-  "DEVICE": "Device",
+  "CONNECTION": "Conexión",
+  "DISCOVER": "Buscar",
+  "LANGUAGE": "Idioma",
+  "DEVICE": "Dispositivo",
+  "FINDING_DEVICES": "Buscando dispositivos",
 
-  "IMAGES": "Images",
-  "MANUAL_IP_OBSERVATION": "Don't use \"http://\" or \"process port\"",
+  "IMAGES": "Imágenes",
+  "MANUAL_IP_OBSERVATION": "No entre \"http://\" o \"numero de la puerta del proceso\"",
 
-  "DEVICE_CONNECTED": "Device connected",
-  "TRYING_CONNECT": "Trying connect",
-  "CONNECTION_ERROR": "Connection error"
+  "DEVICE_CONNECTED": "Dispositivo conectado",
+  "TRYING_CONNECT": "Intentando conectar",
+  "CONNECTION_ERROR": "Error en la conexión",
+
+  "NETWORK_INACTIVE": "La red está desactivada",
+  "MANAGE_NETWORK": "Configuración de red",
+
+  "TRANSLATIONS": "Traducciones",
+  "TRANSLATIONS_THANKS": "Agradecimientos especiales para aquellos que colaboraron en la traducción de esta aplicación."
 }

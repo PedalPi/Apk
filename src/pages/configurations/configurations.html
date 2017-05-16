@@ -22,12 +22,37 @@
     <ion-item>
       <ion-label color="dark">{{ 'LANGUAGE' | translate }}</ion-label>
 
-      <ion-select [(ngModel)]="language">
-        <ion-option value="en">English</ion-option>
-        <ion-option value="es">Espanõl</ion-option>
-        <ion-option value="pt-BR">Português (BR)</ion-option>
+      <ion-select [(ngModel)]="language" [selectOptions]="selectOptions">
+        <ion-option value="de">
+          <span class="flag">🇩🇪</span> Deutsch
+        </ion-option>
+        <ion-option value="en">
+          <span class="flag">🇺🇸</span> English
+        </ion-option>
+        <ion-option value="es">
+          <span class="flag">🇪🇸</span> Espanõl</ion-option>
+        <ion-option value="pt-BR">
+          <span class="flag">🇧🇷</span> Português (BR)
+        </ion-option>
       </ion-select>
     </ion-item>
   </ion-list>
 
+  <!--
+  <ion-navbar [color]="connectedColor">
+    <h3 ion-text color="light">Device info</h3>
+  </ion-navbar>
+
+  <ion-list hidden="true">
+    <ion-item inset padding>
+      <ion-label fixed>Device name</ion-label>
+      <ion-input type="text" value="" disabled></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>Password</ion-label>
+      <ion-input type="password" disabled></ion-input>
+    </ion-item>
+  </ion-list>
+  -->
 </ion-content>

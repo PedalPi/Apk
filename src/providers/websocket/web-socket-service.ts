@@ -4,6 +4,8 @@ import {Injectable} from '@angular/core';
 import {PedalPiMessageDecoder} from './pedalpi-message-decoder';
 import {ConnectionView} from './connection-view';
 
+import {ApplicationRef} from '@angular/core';
+
 
 export interface MessageDecoder {
   onMessage(message : any);
@@ -26,7 +28,7 @@ export class WebSocketService {
 
   public view : ConnectionView;
 
-  constructor(private data : DataService) {
+  constructor(private data : DataService, private ref : ApplicationRef) {
     this.forceReconnection = false;
 
     this.messageDecoder = new PedalPiMessageDecoder(data);
@@ -58,11 +60,12 @@ export class WebSocketService {
   private onMessage(message) {
     message = JSON.parse(message);
     this.messageDecoder.onMessage(message);
+    this.ref.tick();
   }
 
   private onConnectionOpen(url) {
+    this.data.lastDeviceConnected = url; // Need be first
     this.status = ConnectionStatus.CONNECTED;
-    this.data.lastDeviceConnected = url;
   }
 
   private onConnectionClose() {

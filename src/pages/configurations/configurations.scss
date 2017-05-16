@@ -1,2 +1,11 @@
-page-configurations {
+@font-face {
+    font-family: 'Noto-Emoji-Color-Light';
+    src: url('/assets/font/NotoColorEmoji-light.ttf');
+    src: url('/assets/font/NotoColorEmoji-light.ttf') format('truetype');
+}
+
+page-configurations ion-select,
+.flags-translate .alert-radio-label {
+  font-family: 'Noto-Emoji-Color-Light';
+  font-size: 1.2em;
 }

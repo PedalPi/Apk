@@ -21,6 +21,10 @@ export class ConfigurationsPage {
     private translate: TranslateService,
     private jsonService : JsonService) {}
 
+  selectOptions = {
+    cssClass: 'flags-translate'
+  };
+
   get connectedColor() {
     return this.ws.connected ? "#08AE97" : "danger";
   }

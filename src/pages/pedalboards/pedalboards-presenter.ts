@@ -57,7 +57,7 @@ export class PedalboardsPresenter {
     this.bank.pedalboards.splice(from, 1);
     this.bank.pedalboards.splice(to, 0, pedalboard);
 
-    this.service.swap(this.bank, from, to)
+    this.service.move(this.bank, from, to)
         .subscribe(() => {});
   }
 }

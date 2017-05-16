@@ -1,6 +1,6 @@
 import 'rxjs/add/operator/toPromise';
 
-import {AlertController, Alert, AlertOptions, AlertInputOptions} from 'ionic-angular';
+import {AlertController, Alert, AlertOptions} from 'ionic-angular';
 import {TranslateService} from '@ngx-translate/core';
 
 
@@ -54,7 +54,7 @@ export class AlertBuilder {
     this.json.buttons.push(button);
   }
 
-  addInput(input : AlertInputOptions) {
+  addInput(input) {
     this.json.inputs.push(input);
   }
 
