@@ -65,5 +65,6 @@
   "DEVICE_CONFIGURATIONS": "Configurações do dispositivo",
   "NAME": "Nome",
   "PASSWORD": "Senha",
-  "ADDRESS": "Endereço"
+  "ADDRESS": "Endereço",
+  "RENAME_DEVICE": "Renomear dispositivo"
 }

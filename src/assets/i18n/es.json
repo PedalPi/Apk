@@ -66,5 +66,6 @@
   "DEVICE_CONFIGURATIONS": "Ajustes de dispositivo",
   "NAME": "Nombre",
   "PASSWORD": "Contrasenã",
-  "ADDRESS": "Dirección"
+  "ADDRESS": "Dirección",
+  "RENAME_DEVICE": "Cambiar nombre de dipositivo"
 }

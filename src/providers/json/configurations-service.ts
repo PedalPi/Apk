@@ -18,4 +18,8 @@ export class ConfigurationsService {
   public getDeviceName() {
     return this.rest.get(this.url());
   }
+
+  public setDeviceName(deviceName : string) {
+    return this.rest.put(`${this.url()}/${deviceName}`);
+  }
 }
