@@ -60,5 +60,10 @@
   "MANAGE_NETWORK": "Manage network",
 
   "TRANSLATIONS": "Translations",
-  "TRANSLATIONS_THANKS": "Special thanks to those who assisted in the translation of this application."
+  "TRANSLATIONS_THANKS": "Special thanks to those who assisted in the translation of this application.",
+
+  "DEVICE_CONFIGURATIONS": "Device configurations",
+  "NAME": "Name",
+  "PASSWORD": "Password",
+  "ADDRESS": "Address",
 }

@@ -15,7 +15,8 @@ export class DataService {
 
   public remote : any = {
     manager: null,
-    plugins: null
+    plugins: null,
+    configurations: null
   };
 
   private configurations = {

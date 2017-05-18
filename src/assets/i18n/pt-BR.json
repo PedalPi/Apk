@@ -60,5 +60,10 @@
   "MANAGE_NETWORK": "Configurações de rede",
 
   "TRANSLATIONS": "Traduções",
-  "TRANSLATIONS_THANKS": "Agradecimentos especiais àqueles que colaboraram na tradução deste aplicativo."
+  "TRANSLATIONS_THANKS": "Agradecimentos especiais àqueles que colaboraram na tradução deste aplicativo.",
+
+  "DEVICE_CONFIGURATIONS": "Configurações do dispositivo",
+  "NAME": "Nome",
+  "PASSWORD": "Senha",
+  "ADDRESS": "Endereço"
 }

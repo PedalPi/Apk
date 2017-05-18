@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar [color]="connectedColor">
+    <ion-title>
+      {{'DEVICE_CONFIGURATIONS' | translate}}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="base-block">
+  <ion-list class="center-block">
+    <button ion-item (click)="changeDeviceName()">
+      <ion-label>{{ 'NAME' | translate }}</ion-label>
+      <span item-right>{{name}}</span>
+    </button>
+
+    <button ion-item (click)="changeDeviceName()" disabled="">
+      <ion-label>{{ 'PASSWORD' | translate }} <small>(not implemented)</small></ion-label>
+      <span item-right>**********</span>
+    </button>
+
+    <button ion-item (click)="connection()">
+      <ion-label>{{'ADDRESS' | translate }}</ion-label>
+      <span item-right>{{address}}</span>
+    </button>
+  </ion-list>
+</ion-content>
