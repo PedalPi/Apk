@@ -1,4 +1,4 @@
-# Pedal Pi Apk - Beta 1
+# Pedal Pi Apk - v0.6.0
 
 [![Build Status](https://travis-ci.org/PedalPi/Apk.svg?branch=master)](https://travis-ci.org/PedalPi/Apk)
 
@@ -34,11 +34,12 @@ ionic serve -b -a
 
 ## Old versions
 
-* **Beta 1**: http://PedalPi.github.io/Apk
-* **Alpha 3**: http://PedalPi.github.io/Apk/old/alpha-3
-* **Alpha 2**: http://PedalPi.github.io/Apk/old/alpha-2
-* **Alpha 1**: Web build not generated
-* **Alpha 0**: http://PedalPi.github.io/Apk/old/alpha-0
+* **v0.6.0**: http://PedalPi.github.io/Apk
+* **v0.5.0 Beta 1**: http://PedalPi.github.io/Apk
+* **v0.4.0 Alpha 3**: http://PedalPi.github.io/Apk/old/alpha-3
+* **v0.3.0 Alpha 2**: http://PedalPi.github.io/Apk/old/alpha-2
+* **v0.2.0 Alpha 1**: Web build not generated
+* **v0.1.0**: http://PedalPi.github.io/Apk/old/alpha-0
 
 ### How to build
 

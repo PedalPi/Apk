@@ -72,10 +72,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.5"
-     inkscape:cx="463.40307"
-     inkscape:cy="391.47743"
+     inkscape:cx="-54.59693"
+     inkscape:cy="-88.52257"
      inkscape:document-units="px"
-     inkscape:current-layer="g4318"
+     inkscape:current-layer="layer3"
      showgrid="false"
      inkscape:window-width="1366"
      inkscape:window-height="744"
@@ -97,66 +97,15 @@
   </metadata>
   <g
      inkscape:groupmode="layer"
-     id="layer2"
-     inkscape:label="Fundo"
-     style="display:inline"
-     transform="translate(0,-652.36216)">
-    <ellipse
-       style="fill:#27ae60;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.76400006;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path3340"
-       cx="199.11784"
-       cy="1375.2444"
-       rx="199.11784"
-       ry="199.11783" />
-  </g>
-  <g
-     inkscape:label="Camada 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-652.36216)">
-    <rect
-       style="fill:#2c3e50;fill-opacity:1"
-       id="rect4146"
-       width="220"
-       height="180"
-       x="88.928589"
-       y="1285.2444"
-       inkscape:transform-center-y="-78.791901" />
-    <circle
-       style="fill:#7f8c8d;fill-opacity:1;stroke:none;stroke-width:1.76400006;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path4148"
-       cx="143.85715"
-       cy="1426.5051"
-       r="20" />
-    <g
-       id="g4220"
-       transform="translate(0,522)">
-      <circle
-         inkscape:transform-center-y="-31.428571"
-         inkscape:transform-center-x="2.8571429"
-         r="20"
-         cy="904.50507"
-         cx="254.00002"
-         id="path4148-3"
-         style="fill:#7f8c8d;fill-opacity:1;stroke:none;stroke-width:1.76400006;stroke-miterlimit:4;stroke-dasharray:none" />
-    </g>
-    <rect
-       style="fill:#ecf0f1;fill-opacity:1;stroke:none;stroke-width:1.76400006;stroke-miterlimit:4;stroke-dasharray:none"
-       id="rect4240-7"
-       width="163.57143"
-       height="62.142857"
-       x="117.14288"
-       y="1311.8621" />
-  </g>
-  <g
-     inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="Camada 3"
-     style="display:inline" />
+     style="display:none"
+     sodipodi:insensitive="true" />
   <g
      inkscape:groupmode="layer"
      id="layer3"
-     inkscape:label="Camada 2">
+     inkscape:label="Camada 2"
+     style="display:inline">
     <rect
        style="fill:#34495e;fill-opacity:1"
        id="rect4146-5"
@@ -164,10 +113,14 @@
        height="400"
        x="0"
        y="2.4424907e-14"
-       inkscape:transform-center-y="-175.09307" />
+       inkscape:transform-center-y="-175.09307"
+       inkscape:export-xdpi="180"
+       inkscape:export-ydpi="180" />
     <g
        id="g4318"
-       transform="matrix(2.8027027,0,0,2.8027027,-1270.9687,-596.78774)">
+       transform="matrix(2.8027027,0,0,2.8027027,-1270.9687,-596.78774)"
+       inkscape:export-xdpi="180"
+       inkscape:export-ydpi="180">
       <circle
          r="51.416252"
          cy="284.29263"
@@ -180,12 +133,69 @@
          cx="591.25482"
          id="path4298"
          style="fill:#e74c3c;fill-opacity:1;stroke:none;stroke-width:1.76400006;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+  </g>
+  <g
+     inkscape:label="Camada 2 copiar"
+     id="g5405"
+     inkscape:groupmode="layer"
+     style="display:inline"
+     sodipodi:insensitive="true">
+    <g
+       transform="matrix(3.601375,0,0,3.601375,-728.03257,-993.8107)"
+       id="g5131"
+       style="display:inline;opacity:0.3;fill:#000000;fill-opacity:1">
+      <g
+         id="g5133"
+         style="display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.76400006;stroke-miterlimit:4;stroke-dasharray:none">
+        <path
+           inkscape:connector-curvature="0"
+           id="path5135"
+           d="m 277.87504,331.6741 c 0,11.04569 -8.95431,20 -20,20 l 70.71068,70.71068 c 11.04569,0 20,-8.95431 20,-20 z"
+           style="fill:#000000;fill-opacity:1" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path5137"
+           d="m 257.87504,351.6741 c -5.44719,0 -10.38576,-2.17767 -13.99262,-5.70991 l 70.71068,70.71068 c 3.60686,3.53224 8.54543,5.70991 13.99262,5.70991 z"
+           style="fill:#000000;fill-opacity:1" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path5139"
+           d="m 243.88242,345.96419 c -3.70705,-3.63036 -6.00738,-8.69159 -6.00738,-14.29009 l 70.71068,70.71068 c 0,5.5985 2.30033,10.65973 6.00738,14.29009 z"
+           style="fill:#000000;fill-opacity:1" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path5141"
+           d="m 237.87504,331.6741 c 0,-11.04569 10.57191,-20 20,-20 l 70.71068,70.71068 c -9.42809,0 -20,8.95431 -20,20 z"
+           style="fill:#000000;fill-opacity:1" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path5143"
+           d="m 257.87504,311.6741 c 4.89941,0 10.1077,2.41808 13.98077,6.29116 l 70.71068,70.71068 c -3.87308,-3.87308 -9.08137,-6.29116 -13.98077,-6.29116 z"
+           style="fill:#000000;fill-opacity:1" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path5145"
+           d="m 271.85581,317.96526 c 3.58001,3.58001 6.01923,8.40316 6.01923,13.70884 l 70.71068,70.71068 c 0,-5.30568 -2.43922,-10.12883 -6.01923,-13.70884 z"
+           style="fill:#000000;fill-opacity:1" />
+      </g>
+    </g>
+  </g>
+  <g
+     style="display:inline"
+     inkscape:label="Camada 2 copiar 1"
+     id="g5745"
+     inkscape:groupmode="layer"
+     sodipodi:insensitive="true">
+    <g
+       transform="matrix(2.8027027,0,0,2.8027027,-1270.9687,-596.78774)"
+       id="g5749">
       <circle
-         cy="284.79724"
-         cx="524.76892"
-         id="path4148-35-3"
+         r="25.682201"
          style="fill:#95a5a6;fill-opacity:1;stroke:none;stroke-width:1.76400006;stroke-miterlimit:4;stroke-dasharray:none"
-         r="25.682201" />
+         id="circle5755"
+         cx="524.76892"
+         cy="284.79724" />
     </g>
   </g>
 </svg>

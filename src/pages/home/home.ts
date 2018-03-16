@@ -17,6 +17,7 @@ import {LanguageService} from '../../providers/lang/language';
 
 
 @Component({
+  selector: 'page-home',
   templateUrl: 'home.html',
 })
 export class HomePage {
