@@ -1,5 +1,4 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule } from '@angular/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -92,7 +91,6 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    HttpModule, // FIXME REMOVE
     IonicStorageModule.forRoot(),
 
     HttpClientModule,

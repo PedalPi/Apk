@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 
 import {Rest} from './rest';
 import {Router} from './router';
@@ -32,7 +32,7 @@ export class JsonService {
   public current : CurrentService;
   public configurations : ConfigurationsService;
 
-  constructor(private data : DataService, http : Http) {
+  constructor(private data : DataService, http : HttpClient) {
     this.rest = new Rest(http);
     this.router = new Router(this);
 
