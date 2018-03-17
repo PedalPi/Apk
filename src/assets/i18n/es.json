@@ -60,5 +60,12 @@
   "MANAGE_NETWORK": "Configuración de red",
 
   "TRANSLATIONS": "Traducciones",
-  "TRANSLATIONS_THANKS": "Agradecimientos especiales para aquellos que colaboraron en la traducción de esta aplicación."
+  "TRANSLATIONS_THANKS": "Agradecimientos especiales para aquellos que colaboraron en la traducción de esta aplicación.",
+
+  "INCERTO": "-------------------------------------------------",
+  "DEVICE_CONFIGURATIONS": "Ajustes de dispositivo",
+  "NAME": "Nombre",
+  "PASSWORD": "Contrasenã",
+  "ADDRESS": "Dirección",
+  "RENAME_DEVICE": "Cambiar nombre de dipositivo"
 }

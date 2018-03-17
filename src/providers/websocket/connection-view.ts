@@ -8,6 +8,7 @@ import {DataService} from '../data/data-service';
 import {JsonService} from '../json/json-service';
 import {PluginService} from '../json/plugin-service';
 import {BanksService} from '../json/banks-service';
+import {ConfigurationsService} from '../json/configurations-service';
 
 import {BanksManager} from '../../plugins-manager/banks-manager'
 
@@ -82,6 +83,13 @@ export class ConnectionView {
     let banksData = await this.banksService.getBanks().toPromise();
     this.data.remote.manager = BanksManager.generate(banksData, plugins);
 
+    let configurations = await this.configurationsService.getDeviceName().toPromise();
+    this.data.remote.configurations = {
+      'device': {
+        'name': configurations.name
+      }
+    };
+
     loading.dismiss();
 
     this.onDataLoaded();
@@ -93,5 +101,9 @@ export class ConnectionView {
 
   private get pluginService() : PluginService {
     return this.jsonService.plugin;
+  }
+
+  private get configurationsService() : ConfigurationsService {
+    return this.jsonService.configurations;
   }
 }

@@ -1,11 +1,12 @@
-import {Http, Headers, RequestOptions} from '@angular/http';
+import {Headers, RequestOptions} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {JsonService} from './json-service';
 
 
 export class Rest {
-  private http : Http;
+  private http : HttpClient;
 
-  constructor(http : Http) {
+  constructor(http : HttpClient) {
     this.http = http;
   }
 
@@ -16,7 +17,7 @@ export class Rest {
   }
 
   private processResponse(res) {
-    return res.text().length == 0 ? res.text() : res.json();
+    return res;
   }
 
   get(url : string) {

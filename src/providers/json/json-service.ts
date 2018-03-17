@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 
 import {Rest} from './rest';
 import {Router} from './router';
@@ -11,8 +11,9 @@ import {ParamService} from './param-service';
 import {PluginService} from './plugin-service';
 import {CurrentService} from './current-service';
 
-import {DataService} from "../data/data-service";
+import {ConfigurationsService} from './configurations-service';
 
+import {DataService} from "../data/data-service";
 
 @Injectable()
 export class JsonService {
@@ -29,8 +30,9 @@ export class JsonService {
 
   public plugin : PluginService;
   public current : CurrentService;
+  public configurations : ConfigurationsService;
 
-  constructor(private data : DataService, http : Http) {
+  constructor(private data : DataService, http : HttpClient) {
     this.rest = new Rest(http);
     this.router = new Router(this);
 
@@ -41,6 +43,7 @@ export class JsonService {
 
     this.plugin = new PluginService(this.rest, this.router);
     this.current = new CurrentService(this.rest, this.router);
+    this.configurations = new ConfigurationsService(this.rest, this.router);
   }
 
   public get webServer() {
