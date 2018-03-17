@@ -7,7 +7,9 @@ Manage your pedalboards in an app.
 ## Use
 
 * Online: http://PedalPi.github.io/Apk
-* Android: Comming soon (use `ionic cordova run android -a -l -c` or `ionic cordova build android`)
+* Android: Comming soon
+  * use `ionic cordova run android -a -l -c` or `ionic cordova build android`
+  * If android 16 <= SDK < 28 then is necessary change `platforms/android/build.gradle` `defaultMinSdkVersion=19` => `defaultMinSdkVersion=16`
 * iOS: Comming soon
 
 ## Screenshots
