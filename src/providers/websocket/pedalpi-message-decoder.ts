@@ -58,7 +58,7 @@ export class PedalPiMessageDecoder implements MessageDecoder {
     if (type == 'TOKEN')
       JsonService.token = message.value;
 
-    if (JsonService.token == '')
+    if (JsonService.token == null)
       return;
 
     const updateType = this.updateType(message.updateType);

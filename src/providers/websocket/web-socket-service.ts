@@ -57,6 +57,10 @@ export class WebSocketService {
     this.connection = connection;
   }
 
+  public registerOnServer(token: string) {
+    this.connection.send(JSON.stringify({'register': token}));
+  }
+
   private onMessage(message) {
     message = JSON.parse(message);
     this.messageDecoder.onMessage(message);

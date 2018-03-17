@@ -1,5 +1,5 @@
 import {Headers, RequestOptions} from '@angular/http';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {JsonService} from './json-service';
 
 
@@ -11,9 +11,12 @@ export class Rest {
   }
 
   private get headers() : any {
-    const headers = new Headers();
-    headers.append('x-xsrf-token', JsonService.token);
-    return new RequestOptions({'headers' : headers});
+    let headers = new HttpHeaders();
+
+    if (JsonService.token != null)
+      headers = headers.set('Authorization', `bearer ${JsonService.token}`);
+
+    return {'headers': headers};
   }
 
   private processResponse(res) {
@@ -21,7 +24,7 @@ export class Rest {
   }
 
   get(url : string) {
-    return this.http.get(url)
+    return this.http.get(url, this.headers)
       .map(this.processResponse);
       //.catch(this.handleError);
   }
