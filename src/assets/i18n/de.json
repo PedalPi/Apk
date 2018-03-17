@@ -60,5 +60,12 @@
   "MANAGE_NETWORK": "Netzwerkeinstellungen",
 
   "TRANSLATIONS": "Übersetzungen",
-  "TRANSLATIONS_THANKS": "Besonderer Dank geht an diejenigen, die diese Anwendung übersetzt."
+  "TRANSLATIONS_THANKS": "Besonderer Dank geht an diejenigen, die diese Anwendung übersetzt.",
+
+  "INCERTO": "-------------------------------------------------",
+  "DEVICE_CONFIGURATIONS": "Geräteeinstellungen",
+  "NAME": "Name",
+  "PASSWORD": "Passwort",
+  "ADDRESS": "Adresse",
+  "RENAME_DEVICE": "Umbenennen Gerät"
 }

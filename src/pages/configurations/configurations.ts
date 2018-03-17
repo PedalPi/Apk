@@ -6,6 +6,8 @@ import {JsonService} from '../../providers/json/json-service';
 import {DataService} from '../../providers/data/data-service';
 import {WebSocketService} from '../../providers/websocket/web-socket-service';
 
+import {DeviceConfigurationsPage} from './device/device';
+
 import {AboutPage} from '../about/about';
 
 
@@ -25,6 +27,10 @@ export class ConfigurationsPage {
     cssClass: 'flags-translate'
   };
 
+  get configurations() {
+    return this.jsonService.configurations;
+  }
+
   get connectedColor() {
     return this.ws.connected ? "#08AE97" : "danger";
   }
@@ -33,11 +39,15 @@ export class ConfigurationsPage {
     this.nav.push(AboutPage);
   }
 
-  connection() {
-    this.ws.view.showConnectionModal();
+  goToDevice() {
+    this.nav.push(DeviceConfigurationsPage);
   }
 
-  get device() {
+  get deviceName() {
+    return this.data.remote.configurations.device.name;
+  }
+
+  get deviceAddress() {
     return this.jsonService.webServer;
   }
 
