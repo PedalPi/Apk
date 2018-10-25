@@ -46,3 +46,4 @@ ionic serve -b -a
 ### How to build
 
 Execute `npm run ionic:build --prod` for generate.
+Move to docs/

@@ -8,7 +8,7 @@
 importScripts('./build/sw-toolbox.js');
 
 self.toolbox.options.cache = {
-  name: 'ionic-cache'
+  name: 'pedalpi-apk'
 };
 
 // pre-cache our key assets
@@ -18,8 +18,13 @@ self.toolbox.precache(
     './build/vendor.js',
     './build/main.css',
     './build/polyfills.js',
+    './assets/i18n/de.json',
+    './assets/i18n/en.json',
+    './assets/i18n/es.json',
+    './assets/i18n/pt-BR.json',
+    './assets/font/NotoColorEmoji-light.ttf',
     'index.html',
-    'manifest.json'
+    'manifest.json',
   ]
 );
 
@@ -29,3 +34,4 @@ self.toolbox.router.any('/*', self.toolbox.fastest);
 // for any other requests go to the network, cache,
 // and then only use that cached resource if your user goes offline
 self.toolbox.router.default = self.toolbox.networkFirst;
+

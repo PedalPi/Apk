@@ -1,6 +1,6 @@
 {
-  "name": "PedalPi",
-  "short_name": "PedalPi",
+  "name": "Pedal Pi - Apk",
+  "short_name": "Pedal Pi",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{
@@ -8,6 +8,6 @@
     "sizes": "512x512",
     "type": "image/png"
   }],
-  "background_color": "#4e8ef7",
-  "theme_color": "#4e8ef7"
+  "background_color": "#068271",
+  "theme_color": "#068271"
 }

@@ -1,7 +1,7 @@
 {
   "name": "pedalpi-apk",
   "version": "0.6.0",
-  "author": "PedalPi",
+  "author": "Pedal Pi",
   "homepage": "https://github.com/PedalPi/",
   "private": true,
   "scripts": {
@@ -41,7 +41,7 @@
     "@types/d3": "^5.0.0",
     "typescript": "~2.6.2"
   },
-  "description": "PedalPi - Manage your pedalboards",
+  "description": "Pedal Pi - Manage your pedalboards",
   "cordova": {
     "plugins": {
       "cordova-plugin-network-information": {}
