@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 
 import {Rest} from './rest';
 import {Router} from './router';
+
+import {AuthService} from './auth-service';
 import {BanksService} from './banks-service';
 import {PedalboardService} from './pedalboard-service';
 import {EffectService} from './effect-service';
@@ -11,26 +13,30 @@ import {ParamService} from './param-service';
 import {PluginService} from './plugin-service';
 import {CurrentService} from './current-service';
 
-import {DataService} from "../data/data-service";
+import {ConfigurationsService} from './configurations-service';
 
+import {DataService} from "../data/data-service";
 
 @Injectable()
 export class JsonService {
   public static CURRENT_VERSION = 'v1';
-  public static token = '';
+  public static token : string = null;
 
   private rest : Rest;
   private router : Router;
 
-  public banks : BanksService;
-  public pedalboard : PedalboardService;
-  public effect : EffectService;
-  public param : ParamService;
+  public readonly auth : AuthService;
 
-  public plugin : PluginService;
-  public current : CurrentService;
+  public readonly banks : BanksService;
+  public readonly pedalboard : PedalboardService;
+  public readonly effect : EffectService;
+  public readonly param : ParamService;
 
-  constructor(private data : DataService, http : Http) {
+  public readonly plugin : PluginService;
+  public readonly current : CurrentService;
+  public readonly configurations : ConfigurationsService;
+
+  constructor(private data : DataService, http : HttpClient) {
     this.rest = new Rest(http);
     this.router = new Router(this);
 
@@ -41,6 +47,9 @@ export class JsonService {
 
     this.plugin = new PluginService(this.rest, this.router);
     this.current = new CurrentService(this.rest, this.router);
+    this.configurations = new ConfigurationsService(this.rest, this.router);
+
+    this.auth = new AuthService(this.rest, this.router);
   }
 
   public get webServer() {

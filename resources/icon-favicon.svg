@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="400"
+   height="400"
+   viewBox="0 0 400 400.00001"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="icon-favicon.svg"
+   inkscape:export-filename="/home/paulo/git/pedalpi-apk/resources/icon-favicon.png"
+   inkscape:export-xdpi="180"
+   inkscape:export-ydpi="180">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="marker4792"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path4794"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         transform="scale(0.8) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="marker4770"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path4772"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         transform="scale(0.8) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lstart"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path4500"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         transform="scale(0.8) translate(12.5,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.5"
+     inkscape:cx="-54.59693"
+     inkscape:cy="-88.52257"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer3"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="744"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     units="px" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="Camada 3"
+     style="display:none"
+     sodipodi:insensitive="true" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Camada 2"
+     style="display:inline">
+    <rect
+       style="fill:#34495e;fill-opacity:1"
+       id="rect4146-5"
+       width="400"
+       height="400"
+       x="0"
+       y="2.4424907e-14"
+       inkscape:transform-center-y="-175.09307"
+       inkscape:export-xdpi="180"
+       inkscape:export-ydpi="180" />
+    <g
+       id="g4318"
+       transform="matrix(2.8027027,0,0,2.8027027,-1270.9687,-596.78774)"
+       inkscape:export-xdpi="180"
+       inkscape:export-ydpi="180">
+      <circle
+         r="51.416252"
+         cy="284.29263"
+         cx="524.83936"
+         id="path4148-35"
+         style="fill:#7f8c8d;fill-opacity:1;stroke:none;stroke-width:1.76400006;stroke-miterlimit:4;stroke-dasharray:none" />
+      <circle
+         r="11.111678"
+         cy="217.8772"
+         cx="591.25482"
+         id="path4298"
+         style="fill:#e74c3c;fill-opacity:1;stroke:none;stroke-width:1.76400006;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+  </g>
+  <g
+     inkscape:label="Camada 2 copiar"
+     id="g5405"
+     inkscape:groupmode="layer"
+     style="display:inline"
+     sodipodi:insensitive="true">
+    <g
+       transform="matrix(3.601375,0,0,3.601375,-728.03257,-993.8107)"
+       id="g5131"
+       style="display:inline;opacity:0.3;fill:#000000;fill-opacity:1">
+      <g
+         id="g5133"
+         style="display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.76400006;stroke-miterlimit:4;stroke-dasharray:none">
+        <path
+           inkscape:connector-curvature="0"
+           id="path5135"
+           d="m 277.87504,331.6741 c 0,11.04569 -8.95431,20 -20,20 l 70.71068,70.71068 c 11.04569,0 20,-8.95431 20,-20 z"
+           style="fill:#000000;fill-opacity:1" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path5137"
+           d="m 257.87504,351.6741 c -5.44719,0 -10.38576,-2.17767 -13.99262,-5.70991 l 70.71068,70.71068 c 3.60686,3.53224 8.54543,5.70991 13.99262,5.70991 z"
+           style="fill:#000000;fill-opacity:1" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path5139"
+           d="m 243.88242,345.96419 c -3.70705,-3.63036 -6.00738,-8.69159 -6.00738,-14.29009 l 70.71068,70.71068 c 0,5.5985 2.30033,10.65973 6.00738,14.29009 z"
+           style="fill:#000000;fill-opacity:1" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path5141"
+           d="m 237.87504,331.6741 c 0,-11.04569 10.57191,-20 20,-20 l 70.71068,70.71068 c -9.42809,0 -20,8.95431 -20,20 z"
+           style="fill:#000000;fill-opacity:1" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path5143"
+           d="m 257.87504,311.6741 c 4.89941,0 10.1077,2.41808 13.98077,6.29116 l 70.71068,70.71068 c -3.87308,-3.87308 -9.08137,-6.29116 -13.98077,-6.29116 z"
+           style="fill:#000000;fill-opacity:1" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path5145"
+           d="m 271.85581,317.96526 c 3.58001,3.58001 6.01923,8.40316 6.01923,13.70884 l 70.71068,70.71068 c 0,-5.30568 -2.43922,-10.12883 -6.01923,-13.70884 z"
+           style="fill:#000000;fill-opacity:1" />
+      </g>
+    </g>
+  </g>
+  <g
+     style="display:inline"
+     inkscape:label="Camada 2 copiar 1"
+     id="g5745"
+     inkscape:groupmode="layer"
+     sodipodi:insensitive="true">
+    <g
+       transform="matrix(2.8027027,0,0,2.8027027,-1270.9687,-596.78774)"
+       id="g5749">
+      <circle
+         r="25.682201"
+         style="fill:#95a5a6;fill-opacity:1;stroke:none;stroke-width:1.76400006;stroke-miterlimit:4;stroke-dasharray:none"
+         id="circle5755"
+         cx="524.76892"
+         cy="284.79724" />
+    </g>
+  </g>
+</svg>

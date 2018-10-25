@@ -17,6 +17,7 @@ import {LanguageService} from '../../providers/lang/language';
 
 
 @Component({
+  selector: 'page-home',
   templateUrl: 'home.html',
 })
 export class HomePage {
@@ -31,7 +32,7 @@ export class HomePage {
       modalCtrl: ModalController,
       alertCtrl: AlertController) {
 
-    const view = new ConnectionView(loadingCtrl, toastCtrl, modalCtrl, data, jsonService, translate);
+    const view = new ConnectionView(loadingCtrl, toastCtrl, modalCtrl, data, jsonService, translate, ws);
     ws.view = view;
     view.onDataLoaded = () => this.prepareGoToCurrent();
 

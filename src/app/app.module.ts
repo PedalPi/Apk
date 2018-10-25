@@ -1,8 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule } from '@angular/http';
-import { NgModule, ErrorHandler } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { IonicStorageModule } from '@ionic/storage'
@@ -15,6 +14,7 @@ import { HomePage } from '../pages/home/home';
 import { BanksPage } from '../pages/banks/banks';
 import { ConfigurationsPage } from '../pages/configurations/configurations';
 import { ConnectionPage } from '../pages/connection/connection';
+import { DeviceConfigurationsPage } from '../pages/configurations/device/device';
 import { PedalboardDrawerPage } from '../pages/pedalboard-drawer/pedalboard-drawer';
 import { PedalboardParametersPage } from '../pages/pedalboard-parameters/pedalboard-parameters';
 import { PedalboardsPage } from '../pages/pedalboards/pedalboards';
@@ -45,7 +45,7 @@ import { WebSocketService } from '../providers/websocket/web-socket-service';
 import { Navigator } from '../common/navigator';
 
 // Translate
-import { Http } from '@angular/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -54,7 +54,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Network } from '@ionic-native/network';
 
-export function createTranslateLoader(http: Http) {
+export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
@@ -67,6 +67,7 @@ export function createTranslateLoader(http: Http) {
     BanksPage,
     ConfigurationsPage,
     ConnectionPage,
+    DeviceConfigurationsPage,
     PedalboardDrawerPage,
     PedalboardParametersPage,
     PedalboardsPage,
@@ -90,14 +91,14 @@ export function createTranslateLoader(http: Http) {
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    HttpModule,
     IonicStorageModule.forRoot(),
 
+    HttpClientModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: (createTranslateLoader),
-        deps: [Http]
+        deps: [HttpClient]
       }
     }),
   ],
@@ -110,6 +111,7 @@ export function createTranslateLoader(http: Http) {
     BanksPage,
     ConfigurationsPage,
     ConnectionPage,
+    DeviceConfigurationsPage,
     PedalboardDrawerPage,
     PedalboardParametersPage,
     PedalboardsPage,

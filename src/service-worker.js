@@ -1,5 +1,5 @@
 /**
- * Check out https://googlechrome.github.io/sw-toolbox/docs/master/index.html for
+ * Check out https://googlechromelabs.github.io/sw-toolbox/ for
  * more info on how to use sw-toolbox to custom configure your service worker.
  */
 
@@ -8,23 +8,30 @@
 importScripts('./build/sw-toolbox.js');
 
 self.toolbox.options.cache = {
-  name: 'ionic-cache'
+  name: 'pedalpi-apk'
 };
 
 // pre-cache our key assets
 self.toolbox.precache(
   [
     './build/main.js',
+    './build/vendor.js',
     './build/main.css',
     './build/polyfills.js',
+    './assets/i18n/de.json',
+    './assets/i18n/en.json',
+    './assets/i18n/es.json',
+    './assets/i18n/pt-BR.json',
+    './assets/font/NotoColorEmoji-light.ttf',
     'index.html',
-    'manifest.json'
+    'manifest.json',
   ]
 );
 
 // dynamically cache any other local assets
-self.toolbox.router.any('/*', self.toolbox.cacheFirst);
+self.toolbox.router.any('/*', self.toolbox.fastest);
 
 // for any other requests go to the network, cache,
 // and then only use that cached resource if your user goes offline
 self.toolbox.router.default = self.toolbox.networkFirst;
+

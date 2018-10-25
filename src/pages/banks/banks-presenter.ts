@@ -84,7 +84,7 @@ export class BanksPresenter {
   requestDeleteBank(bank : any) : void {
     const deleteBank = () => this.banks.splice(this.banks.indexOf(bank), 1);
 
-    this.service.delete(bank).subscribe(deleteBank);
+    this.service.remove(bank).subscribe(deleteBank);
   }
 
   reorderItems(from, to) : void {

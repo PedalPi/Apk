@@ -1,53 +1,41 @@
 import {Rest} from './rest';
 import {Router} from './router';
 
+import {JsonBaseService} from './json-base-service'
+
 import {Bank} from '../../plugins-manager/model/bank';
 
 
-export class BanksService {
-  private rest : Rest;
-  private router : Router;
+export class BanksService extends JsonBaseService {
 
   constructor(rest : Rest, router : Router) {
-    this.rest = rest;
-    this.router = router;
-  }
-
-  private urlAll() : string {
-    return this.router.route('/banks');
+    super(rest, router);
   }
 
   private url(index? : number) : string {
-    let url = index != undefined ? `/bank/${index}` : '/bank';
-    return this.router.route(url);
+    return index != undefined ? `/bank/${index}` : '/bank';
   }
 
   getBanks() {
-    return this.rest.get(this.urlAll());
+    return this.get('/banks');
   }
 
   saveNew(bank : Bank) {
-    return this.rest.post(this.url(), bank.json());
+    return this.post(this.url(), bank.json());
   }
 
   update(bank : Bank) {
     let url = this.url(bank.index);
-    return this.rest.put(url, bank.json());
+    return this.put(url, bank.json());
   }
 
-  delete(bank : Bank) {
+  remove(bank : Bank) {
     let url = this.url(bank.index);
-    return this.rest.delete(url);
+    return this.delete(url);
   }
 
   swap(bankA : Bank, bankB : Bank) {
-    let url = this.swapUrl(bankA.index, bankB.index);
-    return this.rest.put(url, {});
-  }
-
-  private swapUrl(bankA : number, bankB : number) : string {
-    let url = `/swap/bank-a/${bankA}/bank-b/${bankB}`;
-
-    return this.router.route(url);
+    const url = `/swap/bank-a/${bankA}/bank-b/${bankB}`;
+    return this.put(url);
   }
 }

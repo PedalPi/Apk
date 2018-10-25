@@ -1,13 +1,11 @@
 import {ToastController, LoadingController, ModalController} from 'ionic-angular';
 import {TranslateService} from '@ngx-translate/core';
 
-import {ConnectionStatus} from './web-socket-service';
+import {ConnectionStatus, WebSocketService} from './web-socket-service';
 import {ConnectionPage} from '../../pages/connection/connection';
 import {DataService} from '../data/data-service';
 
 import {JsonService} from '../json/json-service';
-import {PluginService} from '../json/plugin-service';
-import {BanksService} from '../json/banks-service';
 
 import {BanksManager} from '../../plugins-manager/banks-manager'
 
@@ -23,8 +21,9 @@ export class ConnectionView {
       private toastCtrl : ToastController,
       private modalCtrl: ModalController,
       private data : DataService,
-      private jsonService: JsonService,
-      private translate: TranslateService) {
+      private json: JsonService,
+      private translate: TranslateService,
+      private ws: WebSocketService) {
     this.loadingCtrl = loadingCtrl;
     this.toastCtrl = toastCtrl;
 
@@ -46,6 +45,7 @@ export class ConnectionView {
         this.showConnectionModal();
     }
   }
+  
 
   private async showToast(message, duration=3000) {
     message = await this.translate.get(message).toPromise();
@@ -69,29 +69,31 @@ export class ConnectionView {
       this.modal.dismiss();
   }
 
-
-
   private async getData() {
     const loading = this.loadingCtrl.create({content: "Getting data"});
     loading.present();
 
-    let pluginsData = await this.pluginService.getPlugins().toPromise();
+    let response = await this.json.auth.auth("pedal pi", "pedal pi").toPromise();
+    JsonService.token = response["token"];
+
+    this.ws.registerOnServer(JsonService.token)
+
+    let pluginsData = await this.json.plugin.getPlugins().toPromise();
     const plugins = pluginsData.plugins;
     this.data.updatePlugins(plugins);
 
-    let banksData = await this.banksService.getBanks().toPromise();
+    let banksData = await this.json.banks.getBanks().toPromise();
     this.data.remote.manager = BanksManager.generate(banksData, plugins);
+
+    let configurations = await this.json.configurations.getDeviceName().toPromise();
+    this.data.remote.configurations = {
+      'device': {
+        'name': configurations.name
+      }
+    };
 
     loading.dismiss();
 
     this.onDataLoaded();
-  }
-
-  private get banksService() : BanksService {
-    return this.jsonService.banks;
-  }
-
-  private get pluginService() : PluginService {
-    return this.jsonService.plugin;
   }
 }
